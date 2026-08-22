@@ -181,9 +181,11 @@ def generate_html(lang="tr"):
         lay_title = "Halk Diliyle Açıklama: " if is_tr else "Lay Summary: "
         lay_box = f"<div id='{abs_id}' class='hidden mt-4 p-4 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 leading-relaxed shadow-sm'><strong class='text-slate-800'>{lay_title}</strong>{lay_summary}</div>" if lay_summary else ""
 
+        init_style = 'style="display: none;"' if idx > 5 else ''
+
         card = f"""
                 <!-- {idx}. {title} -->
-                <div class="pub-item {cat_class} border border-slate-200 rounded-xl p-6 bg-warmBg hover:shadow-md transition">
+                <div class="pub-item {cat_class} border border-slate-200 rounded-xl p-6 bg-warmBg hover:shadow-md transition" {init_style}>
                     <div class="flex flex-wrap items-start justify-between gap-2">
                         <span class="text-xs font-semibold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">{badge}</span>
                     </div>
@@ -518,9 +520,9 @@ def generate_html(lang="tr"):
                     <a href="#publications" class="hover:text-academic-700 transition">{ui['nav_publications']}</a>
                     <a href="#projects" class="hover:text-academic-700 transition">{ui['nav_projects']}</a>
                     <a href="#teaching" class="hover:text-academic-700 transition">{ui['nav_teaching']}</a>
+                    <a href="#articles" class="hover:text-academic-700 transition">{ui['nav_articles']}</a>
                     <a href="#presentations" class="hover:text-academic-700 transition font-semibold text-academic-700">{ui['nav_presentations']}</a>
                     <a href="#tools" class="hover:text-academic-700 transition font-semibold text-purple-700">{ui['nav_tools']}</a>
-                    <a href="#articles" class="hover:text-academic-700 transition">{ui['nav_articles']}</a>
                     <a href="#podcasts" class="hover:text-academic-700 transition">{ui['nav_podcasts']}</a>
                 </nav>
 
@@ -557,9 +559,9 @@ def generate_html(lang="tr"):
             <a href="#publications" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">{ui['nav_publications']}</a>
             <a href="#projects" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">{ui['nav_projects']}</a>
             <a href="#teaching" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">{ui['nav_teaching']}</a>
+            <a href="#articles" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">{ui['nav_articles']}</a>
             <a href="#presentations" class="mobile-nav-link block py-2 text-academic-700 font-semibold">{ui['nav_presentations']}</a>
             <a href="#tools" class="mobile-nav-link block py-2 text-purple-700 font-semibold">{ui['nav_tools']}</a>
-            <a href="#articles" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">{ui['nav_articles']}</a>
             <a href="#podcasts" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">{ui['nav_podcasts']}</a>
             <a href="mailto:canerozyildirim@akdeniz.edu.tr" class="mobile-nav-link block text-center bg-academic-700 text-white py-2.5 rounded-md font-semibold">{ui['contact_btn']}</a>
         </div>
@@ -1075,41 +1077,7 @@ def generate_html(lang="tr"):
         </div>
     </section>
 
-    <!-- 6. PRESENTATIONS SECTION -->
-    <section id="presentations" class="py-16 bg-white border-b academic-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
-                <div>
-                    <span class="text-xs font-semibold text-accent uppercase tracking-widest">{'Akademik Sunumlar & Eğitim Materyalleri' if is_tr else 'Academic Slides & Teaching Materials'}</span>
-                    <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{ui['nav_presentations']}</h2>
-                    <p class="text-sm text-slate-600 mt-1">{'Konferans, sempozyum, çalıştay ve derslerimde sunduğum sunum slaytları:' if is_tr else 'Selected slides presented at conferences, symposia, workshops, and lectures:'}</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {"".join(pres_html)}
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. TOOLS SECTION -->
-    <section id="tools" class="py-16 bg-warmBg border-b academic-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
-                <div>
-                    <span class="text-xs font-semibold text-purple-700 uppercase tracking-widest">{'Hesaplamalı Çözümler & Yazılımlar' if is_tr else 'Computational Solutions & Software'}</span>
-                    <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{ui['nav_tools']}</h2>
-                    <p class="text-sm text-slate-600 mt-1">{'Geliştirdiğim hesaplayıcılar, veri analiz araçları ve simülasyonlar:' if is_tr else 'Interactive calculators, data analysis tools, and computational simulations:'}</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {"".join(tools_html)}
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. ARTICLES SECTION -->
+    <!-- 6. ARTICLES SECTION -->
     <section id="articles" class="py-16 bg-white border-b academic-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
@@ -1129,6 +1097,40 @@ def generate_html(lang="tr"):
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {"".join(articles_html)}
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. PRESENTATIONS SECTION -->
+    <section id="presentations" class="py-16 bg-warmBg border-b academic-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                <div>
+                    <span class="text-xs font-semibold text-accent uppercase tracking-widest">{'Akademik Sunumlar & Eğitim Materyalleri' if is_tr else 'Academic Slides & Teaching Materials'}</span>
+                    <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{ui['nav_presentations']}</h2>
+                    <p class="text-sm text-slate-600 mt-1">{'Konferans, sempozyum, çalıştay ve derslerimde sunduğum sunum slaytları:' if is_tr else 'Selected slides presented at conferences, symposia, workshops, and lectures:'}</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {"".join(pres_html)}
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. TOOLS SECTION -->
+    <section id="tools" class="py-16 bg-white border-b academic-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                <div>
+                    <span class="text-xs font-semibold text-purple-700 uppercase tracking-widest">{'Hesaplamalı Çözümler & Yazılımlar' if is_tr else 'Computational Solutions & Software'}</span>
+                    <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{ui['nav_tools']}</h2>
+                    <p class="text-sm text-slate-600 mt-1">{'Geliştirdiğim hesaplayıcılar, veri analiz araçları ve simülasyonlar:' if is_tr else 'Interactive calculators, data analysis tools, and computational simulations:'}</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {"".join(tools_html)}
             </div>
         </div>
     </section>
@@ -1179,9 +1181,9 @@ def generate_html(lang="tr"):
                 <a href="#publications" class="hover:text-white transition">{ui['nav_publications']}</a>
                 <a href="#projects" class="hover:text-white transition">{ui['nav_projects']}</a>
                 <a href="#teaching" class="hover:text-white transition">{ui['nav_teaching']}</a>
+                <a href="#articles" class="hover:text-white transition text-amber-400">{ui['nav_articles']}</a>
                 <a href="#presentations" class="hover:text-white transition">{ui['nav_presentations']}</a>
                 <a href="#tools" class="hover:text-white transition text-purple-400">{ui['nav_tools']}</a>
-                <a href="#articles" class="hover:text-white transition text-amber-400">{ui['nav_articles']}</a>
                 <a href="#podcasts" class="hover:text-white transition text-emerald-400">{ui['nav_podcasts']}</a>
             </div>
         </div>
