@@ -1,0 +1,64 @@
+{
+  "template_folder": "_templates",
+  "enable_folder_templates": true,
+  "folder_templates": [
+    {
+      "folder": "content/tr/publications",
+      "template": "_templates/tpl-publication.md"
+    },
+    {
+      "folder": "content/en/publications",
+      "template": "_templates/tpl-publication.md"
+    },
+    {
+      "folder": "content/tr/presentations",
+      "template": "_templates/tpl-presentation.md"
+    },
+    {
+      "folder": "content/en/presentations",
+      "template": "_templates/tpl-presentation.md"
+    },
+    {
+      "folder": "content/tr/tools",
+      "template": "_templates/tpl-tool.md"
+    },
+    {
+      "folder": "content/en/tools",
+      "template": "_templates/tpl-tool.md"
+    },
+    {
+      "folder": "content/tr/articles",
+      "template": "_templates/tpl-article.md"
+    },
+    {
+      "folder": "content/en/articles",
+      "template": "_templates/tpl-article.md"
+    },
+    {
+      "folder": "content/tr/podcasts",
+      "template": "_templates/tpl-podcast.md"
+    },
+    {
+      "folder": "content/en/podcasts",
+      "template": "_templates/tpl-podcast.md"
+    },
+    {
+      "folder": "content/tr/projects",
+      "template": "_templates/tpl-project.md"
+    },
+    {
+      "folder": "content/en/projects",
+      "template": "_templates/tpl-project.md"
+    },
+    {
+      "folder": "content/tr/teaching",
+      "template": "_templates/tpl-teaching.md"
+    },
+    {
+      "folder": "content/en/teaching",
+      "template": "_templates/tpl-teaching.md"
+    }
+  ],
+  "trigger_on_file_creation": true,
+  "auto_jump_to_cursor": true
+}
