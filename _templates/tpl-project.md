@@ -1,13 +1,16 @@
 ---
-title: ""
+title: "Proje Başlığı"
 type: "project"
-status: "ongoing" # ongoing | planned | completed
-funding_body: ""
-role: "Principal Investigator / Researcher / WG Member"
-start_date: 2026-01
-end_date: 2028-12
-featured: true
-external_link: ""
+badge: "Dünya Bankası Destekli Proje" # Dünya Bankası | Sağlık Bakanlığı | BAP | COST CA23110
+funder: "Dünya Bankası"
+scope: "Uluslararası / Ulusal"
+role: "Araştırmacı / Proje Yürütücüsü"
+date: "2024-2026"
+url: "https://www.cost.eu"
+summary: "Projenin amacı, kapsamı, araştırma metodolojisi ve hedeflenen çıktılar."
 draft: false
-lang: "tr"
+lang: "tr" # tr | en
+order: 1
 ---
+
+Proje detayları, ortak kurumlar ve yayınlanan raporlar.

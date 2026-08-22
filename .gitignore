@@ -1,0 +1,8 @@
+.DS_Store
+*.swp
+*~
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+__pycache__/
+*.pyc

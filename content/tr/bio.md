@@ -1,27 +1,28 @@
 ---
-title: "Biyografi"
-name: "Doç. Dr. Alexandra Reed"
-title_academic: "Doç. Dr."
-field: "Klinik Sinirbilim & Biyoistatistik"
-institution: "İstanbul Araştırma Üniversitesi & Mayo Clinic Fellow"
-orcid: "0000-0002-1825-0097"
-google_scholar: "https://scholar.google.com"
-github: "https://github.com"
-linkedin: "https://linkedin.com"
+name: "Dr. Caner ÖZYILDIRIM"
+title: "Beslenme ve Diyetetik Akademisyeni"
+institution: "Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi"
+department: "Beslenme ve Diyetetik Bölümü • Antalya, Türkiye"
+orcid: "0000-0001-8227-9575"
+avesis_url: "https://avesis.akdeniz.edu.tr"
+scholar_url: "https://scholar.google.com"
+email: "canerozyildirim@akdeniz.edu.tr"
+github: "https://github.com/drcanerozy"
+instagram: "https://instagram.com"
+youtube: "https://youtube.com"
 twitter: "https://x.com"
-lang: "tr"
+linkedin: "https://linkedin.com"
+tagline: "Akademik Profil & Araştırma Vizyonu"
+heading: "Metabolik Esneklik, Yağ Dokusu Disfonksiyonu ve Kardiyometabolik Bozukluklarda Biyoistatistiksel Modelleme"
+meta_description: "Dr. Caner ÖZYILDIRIM - Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü. Metabolik Esneklik, Yağ Dokusu Disfonksiyonu, Biyoistatistik ve Diyet Müdahaleleri."
 ---
 
-# Akademik Yolculuk & Hikaye
+<p>
+Beslenme ve Diyetetik alanında doktora derecemi Kasım 2024'te <strong>Ankara Üniversitesi Sağlık Bilimleri Enstitüsü</strong>'nde 
+<em>"Non-Alkolik Yağlı Karaciğer Hastalığı (NAFLD) Şiddetine Göre Diyetle İlişkili Risk Faktörlerinin Değerlendirilmesi"</em> başlıklı tezimle tamamladım.
+</p>
 
-## Nörodejeneratif Süreçlerde Erken Teşhis ve Biyoistatistiksel Modelleme Üzerine Bir Bilim Yolculuğu
-
-Kariyerim boyunca klinik tıp ile veri bilimi arasındaki köprüyü kurmaya odaklandım. Doktora çalışmalarımı Hacettepe Üniversitesi’nde tamamladıktan sonra Mayo Clinic Nörolojik Bilimler Departmanı'nda post-doktora araştırmacısı olarak biyobelirteç analitiği üzerine çalıştım.
-
-Şu anda laboratuvarımda, yapay zeka destekli görüntüleme algoritmalarıyla Alzheimer ve Parkinson vakalarının pre-klinik safhada tespitine yönelik uluslararası konsorsiyum projelerini yürütüyorum. Aynı zamanda lisansüstü düzeyde *"Klinik Araştırma Metodolojisi"* ve *"Biyoistatistik"* dersleri vermekteyim.
-
-### Başlıca Metrikler
-- **42+** Uluslararası Yayın (SCI/SSCI)
-- **1,850+** Atıf Sayısı (h-endeksi: 22)
-- **₺12M+** Ar-Ge Proje Bütçesi
-- **14.5k** Substack & Podcast Takipçisi
+<p>
+Çalışmalarım; yaşam boyu kardiyometabolik bozukluklar, pediyatrik ve yetişkin obezite tanı modelleri (Triponderal Kütle İndeksi, BMI z-skoru), aralıklı oruç (Intermittent Fasting), zaman kısıtlı beslenme (TRE), ultra-işlenmiş gıdalar (UPF) ve kardiyometabolik risk belirteçleri (zonulin, total antioksidan kapasite, oksidatif stres) üzerine odaklanmaktadır. 
+<strong>R programlama dili</strong> ile çok değişkenli istatistiksel modelleme yapmakta, <strong>Yapay Zeka (AI) & LLM</strong> araçlarını biyoveri analitiğine entegre etmekte, <strong>Deney Hayvanları Kullanım Sertifikası</strong> ile translasyonel araştırmalar yürütmekte ve <strong>COST Action CA23110 (INFLAMomx)</strong> bünyesinde çoklu omiks (multi-omics) veri entegrasyonuna katkı sağlamaktayım.
+</p>
