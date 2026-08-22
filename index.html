@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doç. Dr. Alexandra Reed | Akademik Portföy & Araştırma Laboratuvarı</title>
+    <meta name="description" content="Doç. Dr. Alexandra Reed - Klinik Sinirbilim, Biyoistatistik ve Yapay Zeka Destekli Erken Teşhis Araştırmaları.">
+    <meta property="og:title" content="Doç. Dr. Alexandra Reed | Akademik Portföy">
+    <meta property="og:description" content="Klinik Sinirbilim, Biyoistatistik & Araştırma Laboratuvarı">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display for Academic Elegance + Inter for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        academic: {
+                            50: '#f4f6f8',
+                            100: '#e5e9ef',
+                            200: '#cbd4e1',
+                            700: '#2b4c6f', // Primary Slate Blue
+                            800: '#1e3854',
+                            900: '#0f1f31',
+                        },
+                        warmBg: '#fbfaf8',
+                        accent: '#c5a059', // Muted Gold Accent
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fbfaf8;
+            color: #2d3748;
+        }
+        .glass-header {
+            background: rgba(251, 250, 248, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .academic-border {
+            border-color: rgba(43, 76, 111, 0.12);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd4e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2b4c6f;
+        }
+        /* Toast animation */
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(10px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+        .toast-active {
+            animation: fadeInOut 3s ease forwards;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-academic-700 selection:text-white">
+
+    <!-- Toast Notification for Copy / Actions -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-academic-900 text-white px-5 py-3 rounded-xl shadow-2xl border border-academic-700 flex items-center space-x-3 text-sm">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toast-message">BibTeX alıntısı panoya kopyalandı!</span>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 glass-header border-b academic-border transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-academic-700 text-white flex items-center justify-center font-serif font-bold text-xl shadow-sm">
+                        AR
+                    </div>
+                    <div>
+                        <a href="#" class="font-serif font-bold text-xl text-academic-900 tracking-tight hover:text-academic-700 transition">Doç. Dr. Alexandra Reed</a>
+                        <p class="text-xs text-slate-500 font-medium">Klinik Sinirbilim & Biyoistatistik</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-6 text-sm font-medium text-slate-700">
+                    <a href="#about" class="hover:text-academic-700 transition">Hakkımda</a>
+                    <a href="#publications" class="hover:text-academic-700 transition">Yayınlar</a>
+                    <a href="#projects" class="hover:text-academic-700 transition">Proje & Araştırma</a>
+                    <a href="#collaborations" class="hover:text-academic-700 transition">İşbirlikleri</a>
+                    <a href="#teaching" class="hover:text-academic-700 transition">Dersler & Klinik</a>
+                    <a href="#media" class="hover:text-academic-700 transition">Blog & Podcast</a>
+                </nav>
+
+                <!-- Substack Subscribe Quick CTA -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <a href="#substack-subscribe" class="inline-flex items-center space-x-2 bg-academic-700 hover:bg-academic-800 text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-sm transition transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Bültene Katıl</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" aria-label="Menüyü Aç" class="lg:hidden text-slate-700 text-xl focus:outline-none p-2">
+                    <i id="menu-icon" class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden border-b academic-border bg-white px-4 pt-2 pb-6 space-y-3 text-sm shadow-lg">
+            <a href="#about" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">Hakkımda</a>
+            <a href="#publications" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">Yayınlar</a>
+            <a href="#projects" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">Proje & Araştırma</a>
+            <a href="#collaborations" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">Uluslararası İşbirlikleri</a>
+            <a href="#teaching" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">Dersler & Klinik</a>
+            <a href="#media" class="mobile-nav-link block py-2 text-slate-700 hover:text-academic-700 font-medium">Blog & Podcast</a>
+            <a href="#substack-subscribe" class="mobile-nav-link block text-center bg-academic-700 text-white py-2.5 rounded-md font-semibold">Substack Bültenine Abone Ol</a>
+        </div>
+    </header>
+
+    <!-- HERO / NARRATIVE CV SECTION -->
+    <section id="about" class="py-16 md:py-24 border-b academic-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Profile Image & Academic Links Column -->
+                <div class="lg:col-span-4 flex flex-col items-center text-center">
+                    <div class="relative mb-6">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" 
+                             alt="Doç. Dr. Alexandra Reed" 
+                             class="w-56 h-56 md:w-64 md:h-64 object-cover rounded-2xl shadow-xl border-4 border-white ring-1 ring-slate-200">
+                        <span class="absolute bottom-3 right-3 bg-emerald-500 text-white p-2 rounded-full text-xs shadow-md" title="Aktif Araştırmacı / Klinik Görevde">
+                            <i class="fa-solid fa-check"></i>
+                        </span>
+                    </div>
+
+                    <h2 class="text-2xl font-serif font-bold text-academic-900">Doç. Dr. Alexandra Reed</h2>
+                    <p class="text-sm text-slate-600 mt-1">İstanbul Araştırma Üniversitesi & Mayo Clinic Fellow</p>
+                    
+                    <!-- ORCID / Academic Badges / CV -->
+                    <div class="flex flex-wrap justify-center gap-2 mt-4 text-xs font-medium">
+                        <a href="https://orcid.org" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md border border-slate-200 flex items-center space-x-1 transition">
+                            <i class="fa-brands fa-orcid text-emerald-600"></i>
+                            <span>0000-0002-1825-0097</span>
+                        </a>
+                        <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md border border-slate-200 flex items-center space-x-1 transition">
+                            <i class="fa-solid fa-graduation-cap text-blue-600"></i>
+                            <span>Google Scholar</span>
+                        </a>
+                        <a href="CV_Ozyildirim.pdf" target="_blank" class="bg-academic-50 hover:bg-academic-100 text-academic-700 px-3 py-1.5 rounded-md border border-academic-200 flex items-center space-x-1 transition">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <span>Özgeçmiş (CV)</span>
+                        </a>
+                    </div>
+
+                    <!-- Social & GitHub Links -->
+                    <div class="flex space-x-4 mt-6 text-slate-600 text-lg">
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="hover:text-academic-700 transition" title="GitHub Deposu"><i class="fa-brands fa-github"></i></a>
+                        <a href="#media" class="hover:text-academic-700 transition" title="Substack Bülteni"><i class="fa-solid fa-bookmark"></i></a>
+                        <a href="#media" class="hover:text-academic-700 transition" title="Spotify Podcast"><i class="fa-brands fa-spotify"></i></a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-academic-700 transition" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="hover:text-academic-700 transition" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Academic Narrative Bio -->
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="inline-flex items-center space-x-2 bg-academic-50 text-academic-700 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                        <i class="fa-solid fa-feather-pointed"></i>
+                        <span>Akademik Yolculuk & Hikaye</span>
+                    </div>
+
+                    <h1 class="text-3xl md:text-4xl font-serif font-bold text-academic-900 leading-tight">
+                        Nörodejeneratif Süreçlerde Erken Teşhis ve Biyoistatistiksel Modelleme Üzerine Bir Bilim Yolculuğu
+                    </h1>
+
+                    <p class="text-slate-700 leading-relaxed text-base">
+                        Kariyerim boyunca klinik tıp ile veri bilimi arasındaki köprüyü kurmaya odaklandım. 
+                        Doktora çalışmalarımı Hacettepe Üniversitesi’nde tamamladıktan sonra Mayo Clinic Nörolojik Bilimler Departmanı'nda 
+                        post-doktora araştırmacısı olarak biyobelirteç analitiği üzerine çalıştım.
+                    </p>
+
+                    <p class="text-slate-700 leading-relaxed text-base">
+                        Şu anda laboratuvarımda, yapay zeka destekli görüntüleme algoritmalarıyla Alzheimer ve Parkinson vakalarının 
+                        pre-klinik safhada tespitine yönelik uluslararası konsorsiyum projelerini yürütüyorum. Aynı zamanda lisansüstü düzeyde 
+                        <em>"Klinik Araştırma Metodolojisi"</em> ve <em>"Biyoistatistik"</em> dersleri vermekteyim.
+                    </p>
+
+                    <!-- Key Metrics Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t academic-border">
+                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
+                            <div class="text-2xl font-serif font-bold text-academic-700">42+</div>
+                            <div class="text-xs text-slate-500 font-medium">Uluslararası Yayın (SCI/SSCI)</div>
+                        </div>
+                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
+                            <div class="text-2xl font-serif font-bold text-academic-700">1,850+</div>
+                            <div class="text-xs text-slate-500 font-medium">Atıf Sayısı (h-endeksi: 22)</div>
+                        </div>
+                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
+                            <div class="text-2xl font-serif font-bold text-academic-700">₺12M+</div>
+                            <div class="text-xs text-slate-500 font-medium">Ar-Ge Proje Bütçesi</div>
+                        </div>
+                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
+                            <div class="text-2xl font-serif font-bold text-academic-700">14.5k</div>
+                            <div class="text-xs text-slate-500 font-medium">Substack & Podcast Takipçisi</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PUBLICATIONS SECTION -->
+    <section id="publications" class="py-16 bg-white border-b academic-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+                <div>
+                    <span class="text-xs font-semibold text-accent uppercase tracking-widest">Bibliyografya & Makaleler</span>
+                    <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">Hakemli Yayınlar</h2>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="mt-4 md:mt-0 flex flex-wrap gap-2 text-xs font-medium" id="pub-filters">
+                    <button data-filter="all" class="pub-filter-btn active bg-academic-700 text-white px-3.5 py-2 rounded-lg transition shadow-sm">Tümü</button>
+                    <button data-filter="clinical" class="pub-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3.5 py-2 rounded-lg transition">Klinik Araştırmalar</button>
+                    <button data-filter="methodology" class="pub-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3.5 py-2 rounded-lg transition">Biyoistatistik & Yapay Zeka</button>
+                    <button data-filter="review" class="pub-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3.5 py-2 rounded-lg transition">Derlemeler & Kitaplar</button>
+                </div>
+            </div>
+
+            <!-- Publications List -->
+            <div class="space-y-6" id="publications-container">
+
+                <!-- Pub Item 1 -->
+                <div class="pub-item clinical border border-slate-200 rounded-xl p-6 bg-warmBg hover:shadow-md transition">
+                    <div class="flex flex-wrap items-start justify-between gap-2">
+                        <span class="text-xs font-semibold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">Nature Neuroscience (2025)</span>
+                        <span class="text-xs text-slate-500 font-mono">DOI: 10.1038/s41593-025-0182-x</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-academic-900 mt-3 font-serif">
+                        Early Biometrical Indicators of Synaptic Degeneration in Prodromal Alzheimer's Disease: A Multi-Center Longitudinal Study
+                    </h3>
+                    <p class="text-sm text-slate-600 mt-2">
+                        <strong class="text-slate-800">Reed, A.</strong>, Chen, H., Novak, E., & Arslan, K.
+                    </p>
+                    <p class="text-xs text-slate-500 mt-3 line-clamp-2">
+                        Özet: Bu çalışma, 1,200 hastadan oluşan 5 yıllık takip verisini analiz ederek beyin omurilik sıvısındaki tau protein kinetiklerinin erken tespitteki hassasiyetini matematiksel modellerle ortaya koymaktadır.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-3 text-xs">
+                        <a href="CV_Ozyildirim.pdf" target="_blank" class="inline-flex items-center space-x-1 text-academic-700 font-semibold hover:underline">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>Makale PDF</span>
+                        </a>
+                        <button onclick="toggleAbstract('abs-1')" class="inline-flex items-center space-x-1 text-slate-600 hover:text-academic-700 transition">
+                            <i class="fa-solid fa-align-left"></i>
+                            <span>Halk İçin Özet (Lay Summary)</span>
+                        </button>
+                        <button onclick="copyBibtex('bib-1')" class="inline-flex items-center space-x-1 text-slate-600 hover:text-academic-700 transition">
+                            <i class="fa-solid fa-quote-right"></i>
+                            <span>BibTeX Al</span>
+                        </button>
+                    </div>
+                    <!-- Lay summary content -->
+                    <div id="abs-1" class="hidden mt-4 p-4 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 leading-relaxed shadow-sm transition-all duration-300">
+                        <strong class="text-slate-800">Halk Diliyle Açıklama:</strong> Bu makalede karmaşık biyokimyasal testler yerine, hastaların henüz unutkanlık yaşamadan önceki hafif hafıza değişimlerini tespit eden yeni bir matematiksel model geliştirdik. Bu model sayesinde tedaviye çok daha erken başlanabilecek.
+                    </div>
+                </div>
+
+                <!-- Pub Item 2 -->
+                <div class="pub-item methodology border border-slate-200 rounded-xl p-6 bg-warmBg hover:shadow-md transition">
+                    <div class="flex flex-wrap items-start justify-between gap-2">
+                        <span class="text-xs font-semibold bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full">Journal of Biostatistics & Data Science (2024)</span>
+                        <span class="text-xs text-slate-500 font-mono">DOI: 10.1016/j.jbiostat.2024.08.012</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-academic-900 mt-3 font-serif">
+                        High-Dimensional Survival Analysis in Sparse Clinical Datasets Using Bayesian Neural Networks
+                    </h3>
+                    <p class="text-sm text-slate-600 mt-2">
+                        Yılmaz, M., <strong class="text-slate-800">Reed, A.</strong>, & Schmidt, U.
+                    </p>
+                    <p class="text-xs text-slate-500 mt-3">
+                        Özet: Eksik ve küçük hasta örneklemine sahip tıp verilerinde hayatta kalma analizlerinin tutarlılığını artırmak amacıyla Bayesian Derin Öğrenme algoritması önerilmiştir. GitHub'da R ve Python kod paketi açık kaynak olarak sunulmuştur.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-3 text-xs">
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-academic-700 font-semibold hover:underline">
+                            <i class="fa-brands fa-github"></i>
+                            <span>R/Python Kod Deposu</span>
+                        </a>
+                        <a href="#" class="inline-flex items-center space-x-1 text-slate-600 hover:text-academic-700 transition">
+                            <i class="fa-solid fa-database"></i>
+                            <span>Açık Veri Seti</span>
+                        </a>
+                        <button onclick="copyBibtex('bib-2')" class="inline-flex items-center space-x-1 text-slate-600 hover:text-academic-700 transition">
+                            <i class="fa-solid fa-quote-right"></i>
+                            <span>BibTeX Al</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pub Item 3 -->
+                <div class="pub-item review border border-slate-200 rounded-xl p-6 bg-warmBg hover:shadow-md transition">
+                    <div class="flex flex-wrap items-start justify-between gap-2">
+                        <span class="text-xs font-semibold bg-purple-100 text-purple-800 px-2.5 py-1 rounded-full">Oxford University Press (Book Chapter - 2023)</span>
+                        <span class="text-xs text-slate-500 font-mono">ISBN: 978-0-19-887123-1</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-academic-900 mt-3 font-serif">
+                        Ethical Frameworks in Clinical AI: Balancing Predictive Accuracy with Physician Autonomy
+                    </h3>
+                    <p class="text-sm text-slate-600 mt-2">
+                        <strong class="text-slate-800">Reed, A.</strong>
+                    </p>
+                    <p class="text-xs text-slate-500 mt-3">
+                        Özet: Tıbbi karar destek sistemlerinde yapay zekanın hekim otonomisi ve klinik etik ilkeleriyle uyumu üzerine kapsamlı bir kuramsal çerçeve ve kılavuz.
+                    </p>
+                    <div class="mt-4 flex flex-wrap gap-3 text-xs">
+                        <a href="#" class="inline-flex items-center space-x-1 text-academic-700 font-semibold hover:underline">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>Kitap Bölümü Detayı</span>
+                        </a>
+                        <button onclick="copyBibtex('bib-3')" class="inline-flex items-center space-x-1 text-slate-600 hover:text-academic-700 transition">
+                            <i class="fa-solid fa-quote-right"></i>
+                            <span>BibTeX Al</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS & ONGOING RESEARCH SECTION -->
+    <section id="projects" class="py-16 border-b academic-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <span class="text-xs font-semibold text-accent uppercase tracking-widest">Aktif Laboratuvar & Fonlar</span>
+            <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1 mb-8">Devam Eden Çalışmalar & Projeler</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Project 1 -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full flex items-center">
+                                <i class="fa-solid fa-spinner fa-spin mr-1.5 text-[11px]"></i> TÜBİTAK 1001 Destekli
+                            </span>
+                            <span class="text-xs font-mono text-slate-400 font-medium">2024 - 2027</span>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-academic-900">
+                            NeuroPredict-TR: Türkiye Popülasyonunda Erken Demans Belirteçlerinin Yapay Zeka ile Haritalanması
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                            Proje Yürütücüsü olduğum bu çalışmada 12 farklı üniversite hastanesiyle ortaklaşa multi-modal MRI ve kan biyobelirteç verileri toplanmaktadır.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                        <span class="text-slate-600 font-medium">Bütçe: ₺4.8M</span>
+                        <a href="#" class="text-academic-700 font-semibold hover:underline flex items-center space-x-1">
+                            <span>Laboratuvar Protokolü</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">
+                                Horizon Europe Konsorsiyumu
+                            </span>
+                            <span class="text-xs font-mono text-slate-400 font-medium">2023 - 2026</span>
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-academic-900">
+                            EU-CogniNet: Federated Learning in Clinical Brain Imaging
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                            Hasta gizliliğini koruyarak sınır ötesi veri paylaşımı yapmadan yapay zeka modellerinin eğitilmesini sağlayan federasyon öğrenme mimarisinin klinik validasyonu.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                        <span class="text-slate-600 font-medium">İşbirliği: 8 Avrupa Ülkesi</span>
+                        <a href="#" class="text-academic-700 font-semibold hover:underline flex items-center space-x-1">
+                            <span>Proje Sayfası</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- GLOBAL COLLABORATIONS SECTION -->
+    <section id="collaborations" class="py-16 bg-white border-b academic-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-semibold text-accent uppercase tracking-widest">Küresel Bilim Ağı</span>
+                <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">Uluslararası İşbirlikleri</h2>
+                <p class="text-sm text-slate-600 mt-2">
+                    Dünyanın önde gelen araştırma merkezleriyle yürütülen ortak yayın, hasta kohortu ve araştırmacı değişim programları.
+                </p>
+            </div>
+
+            <!-- Partner Logos & Institutions Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="p-5 border border-slate-200 rounded-xl text-center bg-warmBg hover:border-academic-700 hover:shadow-sm transition">
+                    <div class="text-2xl text-academic-700 mb-2"><i class="fa-solid fa-university"></i></div>
+                    <h4 class="font-bold text-slate-800 text-sm">Mayo Clinic</h4>
+                    <p class="text-xs text-slate-500 mt-1">Rochester, ABD</p>
+                    <span class="inline-block mt-3 text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">Biyobelirteç Ortaklığı</span>
+                </div>
+
+                <div class="p-5 border border-slate-200 rounded-xl text-center bg-warmBg hover:border-academic-700 hover:shadow-sm transition">
+                    <div class="text-2xl text-academic-700 mb-2"><i class="fa-solid fa-building-columns"></i></div>
+                    <h4 class="font-bold text-slate-800 text-sm">Charité Universitätsmedizin</h4>
+                    <p class="text-xs text-slate-500 mt-1">Berlin, Almanya</p>
+                    <span class="inline-block mt-3 text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">Klinik AI Konsorsiyumu</span>
+                </div>
+
+                <div class="p-5 border border-slate-200 rounded-xl text-center bg-warmBg hover:border-academic-700 hover:shadow-sm transition">
+                    <div class="text-2xl text-academic-700 mb-2"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <h4 class="font-bold text-slate-800 text-sm">University of Oxford</h4>
+                    <p class="text-xs text-slate-500 mt-1">Oxford, İngiltere</p>
+                    <span class="inline-block mt-3 text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">Metodoloji Grubu</span>
+                </div>
+
+                <div class="p-5 border border-slate-200 rounded-xl text-center bg-warmBg hover:border-academic-700 hover:shadow-sm transition">
+                    <div class="text-2xl text-academic-700 mb-2"><i class="fa-solid fa-microscope"></i></div>
+                    <h4 class="font-bold text-slate-800 text-sm">Karolinska Institutet</h4>
+                    <p class="text-xs text-slate-500 mt-1">Stockholm, İsveç</p>
+                    <span class="inline-block mt-3 text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-medium">Nöro-Görüntüleme Kohortu</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEACHING & CLINICAL PRACTICES SECTION -->
+    <section id="teaching" class="py-16 border-b academic-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Teaching / Syllabi -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold text-accent uppercase tracking-widest">Pedagoji & Akademi</span>
+                        <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">Verdiğim Dersler</h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-academic-200 transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">NEUR-502 (Lisansüstü)</span>
+                                    <h3 class="font-bold text-slate-800 text-base mt-1">İleri Klinik Araştırma Metodolojisi & Biyoistatistik</h3>
+                                </div>
+                                <a href="CV_Ozyildirim.pdf" target="_blank" class="text-xs text-slate-500 hover:text-academic-700 underline font-medium">Ders İzlencesi (PDF)</a>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-2">R dili ile veri temizleme, regresyon modelleri ve hipotez testleri simülasyonları.</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-academic-200 transition">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">MED-401 (Tıp Fakültesi)</span>
+                                    <h3 class="font-bold text-slate-800 text-base mt-1">Klinik Nöroloji ve Bilişsel Bozukluklar</h3>
+                                </div>
+                                <a href="CV_Ozyildirim.pdf" target="_blank" class="text-xs text-slate-500 hover:text-academic-700 underline font-medium">Ders İzlencesi (PDF)</a>
+                            </div>
+                            <p class="text-xs text-slate-600 mt-2">Hasta başı muayene pratikleri, EEG okuma atölyeleri ve etik olgu tartışmaları.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clinical Practices & Student Activities Showcase -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold text-accent uppercase tracking-widest">Saha & Uygulama</span>
+                        <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">İyi Klinik Uygulamalar & Etkinlikler</h2>
+                    </div>
+
+                    <!-- Gallery / Card Feature -->
+                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800" 
+                             alt="Klinik Simülasyon Atölyesi" 
+                             class="w-full h-48 object-cover">
+                        <div class="p-5">
+                            <span class="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">İnteraktif Öğrenci Simülasyonu</span>
+                            <h3 class="font-serif font-bold text-lg text-academic-900 mt-2">Multidisipiner Vaka Konseyi Atölyeleri</h3>
+                            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                                Tıp ve Mühendislik öğrencilerimizi bir araya getirerek gerçek klinik vakalar üzerinden yapay zeka kararlarının güvenilirliğini tartıştığımız aylık interaktif paneller.
+                            </p>
+                            <div class="mt-4 flex items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-100">
+                                <span><i class="fa-solid fa-users mr-1"></i> 120+ Öğrenci Katılımı</span>
+                                <a href="#" class="text-academic-700 font-semibold hover:underline">Fotoğraflar & Vaka Notları &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MEDIA HUB: SUBSTACK BLOG & PODCAST PLAYER SECTION -->
+    <section id="media" class="py-16 bg-academic-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-semibold text-accent uppercase tracking-widest">Bilim İletişimi & Kamusal Yayınlar</span>
+                <h2 class="text-3xl font-serif font-bold text-white mt-1">Substack Blog & Podcast Kanalları</h2>
+                <p class="text-slate-300 text-sm mt-2">
+                    Akademik makalelerin ötesinde; bilimsel düşünce, popüler sinirbilim ve veri dünyasından haftalık içerikler.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Substack Blog & Newsletter Embed Simulation -->
+                <div class="lg:col-span-6 bg-slate-800/80 border border-slate-700 rounded-2xl p-6 sm:p-8 backdrop-blur-sm">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-xl">
+                            <i class="fa-solid fa-bookmark"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-serif font-bold text-xl text-white">NöroLog: Bilim & Veri Bülteni</h3>
+                            <p class="text-xs text-slate-400">Substack'te her Pazar 12,000+ okuyucuya ulaşır</p>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-slate-300 mb-6 leading-relaxed">
+                        En son nöroloji makalelerinin sadeleştirilmiş özetleri, akademide kalmanın püf noktaları ve açık bilim araçları e-posta kutunuzda.
+                    </p>
+
+                    <!-- Latest Articles List -->
+                    <div class="space-y-3 mb-6">
+                        <a href="https://substack.com" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition">
+                            <div class="text-xs text-amber-400 font-semibold">Son Bülten • 3 Gün Önce</div>
+                            <div class="text-sm font-medium text-white">Yapay Zeka Beyin Taramalarını Nasıl Okuyor? Dürüst Bir İnceleme</div>
+                        </a>
+                        <a href="https://substack.com" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-slate-700/50 hover:bg-slate-700 transition">
+                            <div class="text-xs text-amber-400 font-semibold">Bülten #48</div>
+                            <div class="text-sm font-medium text-white">Akademik Makale Yazarken R ve Markdown Kullanma Rehberi</div>
+                        </a>
+                    </div>
+
+                    <!-- Substack Subscribe Form -->
+                    <div id="substack-subscribe" class="bg-slate-900/90 p-4 rounded-xl border border-slate-700">
+                        <form id="subscribe-form" onsubmit="handleSubscribe(event)" class="space-y-3">
+                            <label for="email" class="block text-xs font-medium text-slate-300">E-posta Adresinizle Ücretsiz Abone Olun</label>
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input type="email" id="email" required placeholder="ornek@universite.edu.tr" 
+                                       class="bg-slate-800 text-white text-sm px-4 py-2.5 rounded-lg border border-slate-600 focus:outline-none focus:border-amber-400 flex-grow transition">
+                                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-lg transition whitespace-nowrap">
+                                    Abone Ol
+                                </button>
+                            </div>
+                            <p id="sub-msg" class="text-xs text-emerald-400 hidden mt-2 flex items-center space-x-1">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Teşekkürler! Substack onay e-postası gönderildi.</span>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Custom Interactive Podcast Audio Player -->
+                <div class="lg:col-span-6 bg-slate-800/80 border border-slate-700 rounded-2xl p-6 sm:p-8 backdrop-blur-sm">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-xl">
+                            <i class="fa-solid fa-podcast"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-serif font-bold text-xl text-white">Beyin ve Metot Podcast</h3>
+                            <p class="text-xs text-slate-400">Spotify & Apple Podcasts & Substack Audio</p>
+                        </div>
+                    </div>
+
+                    <!-- Player Widget -->
+                    <div class="bg-slate-900 p-5 rounded-xl border border-slate-700 mt-4">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div id="current-ep-badge" class="w-14 h-14 rounded-lg bg-academic-700 flex-shrink-0 flex items-center justify-center text-amber-400 font-serif font-bold text-xl shadow">
+                                EP.14
+                            </div>
+                            <div class="overflow-hidden">
+                                <span class="text-[10px] uppercase tracking-wider text-emerald-400 font-bold flex items-center space-x-1">
+                                    <span id="live-indicator" class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                                    <span id="player-status-text">Yayında</span>
+                                </span>
+                                <h4 id="current-ep-title" class="text-sm font-bold text-white truncate">Bölüm #14: Biyoistatistikte Sık Yapılan 5 Ölümcül Hata</h4>
+                                <p id="current-ep-guest" class="text-xs text-slate-400">Konuk: Prof. Dr. Ahmet Yılmaz</p>
+                            </div>
+                        </div>
+
+                        <!-- Audio Progress Bar with Click-to-Seek -->
+                        <div class="space-y-1">
+                            <div id="progress-bar-container" onclick="seekAudio(event)" class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden cursor-pointer relative group">
+                                <div id="audio-progress" class="bg-amber-400 h-full w-[33%] transition-all duration-150"></div>
+                            </div>
+                            <div class="flex justify-between text-[10px] text-slate-400 font-mono">
+                                <span id="current-time">12:45</span>
+                                <span id="total-duration">38:10</span>
+                            </div>
+                        </div>
+
+                        <!-- Player Controls -->
+                        <div class="flex items-center justify-center space-x-6 mt-4">
+                            <button onclick="prevEpisode()" class="text-slate-400 hover:text-white transition" title="Önceki Bölüm">
+                                <i class="fa-solid fa-backward-step text-lg"></i>
+                            </button>
+                            <button id="play-btn" onclick="togglePlay()" class="w-12 h-12 rounded-full bg-amber-400 hover:bg-amber-500 text-slate-950 flex items-center justify-center text-lg shadow-lg transition transform hover:scale-105" title="Oynat / Duraklat">
+                                <i id="play-icon" class="fa-solid fa-play ml-0.5"></i>
+                            </button>
+                            <button onclick="nextEpisode()" class="text-slate-400 hover:text-white transition" title="Sonraki Bölüm">
+                                <i class="fa-solid fa-forward-step text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Episode Playlist Selector -->
+                    <div class="mt-4 space-y-2">
+                        <span class="text-xs font-semibold text-slate-400">Diğer Bölümler</span>
+                        
+                        <button onclick="selectEpisode(0)" 
+                                id="ep-btn-0"
+                                class="episode-item w-full text-left p-2.5 rounded-lg bg-slate-700/60 border border-amber-400/40 flex justify-between items-center text-xs text-white transition">
+                            <span class="truncate">EP.14 - Biyoistatistikte Sık Yapılan 5 Ölümcül Hata</span>
+                            <span class="text-slate-400 text-[10px] font-mono">38 dk</span>
+                        </button>
+
+                        <button onclick="selectEpisode(1)" 
+                                id="ep-btn-1"
+                                class="episode-item w-full text-left p-2.5 rounded-lg bg-slate-900/50 hover:bg-slate-700/50 border border-slate-700/50 flex justify-between items-center text-xs text-slate-300 transition">
+                            <span class="truncate">EP.13 - Alzheimer Tedavisinde Yeni Biyobelirteçler</span>
+                            <span class="text-slate-500 text-[10px] font-mono">28 dk</span>
+                        </button>
+
+                        <button onclick="selectEpisode(2)" 
+                                id="ep-btn-2"
+                                class="episode-item w-full text-left p-2.5 rounded-lg bg-slate-900/50 hover:bg-slate-700/50 border border-slate-700/50 flex justify-between items-center text-xs text-slate-300 transition">
+                            <span class="truncate">EP.12 - Akademide Kalmak mı Sanayiye Geçmek mi?</span>
+                            <span class="text-slate-500 text-[10px] font-mono">42 dk</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-academic-900 text-slate-400 py-12 border-t border-slate-800 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <p class="font-serif text-white font-bold text-base">Doç. Dr. Alexandra Reed</p>
+                <p class="text-slate-400 mt-1">© 2026 Bütün Hakları Saklıdır. GitHub Pages & Akademik Web Mimarisi.</p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-6">
+                <a href="#about" class="hover:text-white transition">Hakkımda</a>
+                <a href="#publications" class="hover:text-white transition">Yayınlar</a>
+                <a href="#projects" class="hover:text-white transition">Projeler</a>
+                <a href="#teaching" class="hover:text-white transition">Dersler</a>
+                <a href="#media" class="hover:text-white transition">Substack & Podcast</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. Mobile Menu Toggle ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        mobileBtn.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            if (isHidden) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
+        });
+
+        // Close mobile menu on clicking any navigation link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // --- 2. Publication Filtering Logic ---
+        const filterBtns = document.querySelectorAll('.pub-filter-btn');
+        const pubItems = document.querySelectorAll('.pub-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('active', 'bg-academic-700', 'text-white', 'shadow-sm');
+                    b.classList.add('bg-slate-100', 'text-slate-700');
+                });
+                
+                btn.classList.add('active', 'bg-academic-700', 'text-white', 'shadow-sm');
+                btn.classList.remove('bg-slate-100', 'text-slate-700');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                pubItems.forEach(item => {
+                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // --- 3. Toggle Abstract / Lay Summary ---
+        function toggleAbstract(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.toggle('hidden');
+            }
+        }
+
+        // --- 4. BibTeX Database & Toast Notification ---
+        const bibtexEntries = {
+            'bib-1': `@article{reed2025early,
+  title={Early Biometrical Indicators of Synaptic Degeneration in Prodromal Alzheimer's Disease: A Multi-Center Longitudinal Study},
+  author={Reed, Alexandra and Chen, H. and Novak, E. and Arslan, K.},
+  journal={Nature Neuroscience},
+  volume={28},
+  number={3},
+  pages={342--355},
+  year={2025},
+  doi={10.1038/s41593-025-0182-x}
+}`,
+            'bib-2': `@article{yilmaz2024survival,
+  title={High-Dimensional Survival Analysis in Sparse Clinical Datasets Using Bayesian Neural Networks},
+  author={Y{\\i}lmaz, M. and Reed, Alexandra and Schmidt, U.},
+  journal={Journal of Biostatistics \\& Data Science},
+  volume={14},
+  pages={102--119},
+  year={2024},
+  doi={10.1016/j.jbiostat.2024.08.012}
+}`,
+            'bib-3': `@incollection{reed2023ethical,
+  title={Ethical Frameworks in Clinical AI: Balancing Predictive Accuracy with Physician Autonomy},
+  author={Reed, Alexandra},
+  booktitle={Ethics in Autonomous Healthcare Systems},
+  publisher={Oxford University Press},
+  year={2023},
+  isbn={978-0-19-887123-1}
+}`
+        };
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-message');
+            msgEl.innerText = message;
+            toast.classList.remove('hidden');
+            toast.classList.add('toast-active');
+            
+            setTimeout(() => {
+                toast.classList.remove('toast-active');
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        function copyBibtex(id) {
+            const text = bibtexEntries[id] || bibtexEntries['bib-1'];
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("BibTeX alıntısı panoya kopyalandı!");
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            tempInput.style.position = "fixed";
+            tempInput.style.left = "-9999px";
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand("copy");
+                showToast("BibTeX alıntısı panoya kopyalandı!");
+            } catch (err) {
+                alert("BibTeX içeriği:\n\n" + text);
+            }
+            document.body.removeChild(tempInput);
+        }
+
+        // --- 5. Substack Subscribe Form Simulation ---
+        function handleSubscribe(e) {
+            e.preventDefault();
+            const msg = document.getElementById('sub-msg');
+            msg.classList.remove('hidden');
+            document.getElementById('email').value = '';
+            showToast("Substack bültenine kaydınız alındı!");
+        }
+
+        // --- 6. Podcast Audio Player System ---
+        const episodes = [
+            {
+                badge: "EP.14",
+                title: "Bölüm #14: Biyoistatistikte Sık Yapılan 5 Ölümcül Hata",
+                guest: "Konuk: Prof. Dr. Ahmet Yılmaz",
+                durationSeconds: 2290, // 38:10
+                currentSeconds: 765    // 12:45
+            },
+            {
+                badge: "EP.13",
+                title: "Bölüm #13: Alzheimer Tedavisinde Yeni Biyobelirteçler",
+                guest: "Dr. Alexandra Reed (Solo Anlatım)",
+                durationSeconds: 1680, // 28:00
+                currentSeconds: 240    // 04:00
+            },
+            {
+                badge: "EP.12",
+                title: "Bölüm #12: Akademide Kalmak mı Sanayiye Geçmek mi?",
+                guest: "Konuk: Dr. Selin Aksoy",
+                durationSeconds: 2520, // 42:00
+                currentSeconds: 510    // 08:30
+            }
+        ];
+
+        let currentEpIndex = 0;
+        let isPlaying = false;
+        let playInterval = null;
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updatePlayerUI() {
+            const ep = episodes[currentEpIndex];
+            document.getElementById('current-ep-badge').innerText = ep.badge;
+            document.getElementById('current-ep-title').innerText = ep.title;
+            document.getElementById('current-ep-guest').innerText = ep.guest;
+            document.getElementById('current-time').innerText = formatTime(ep.currentSeconds);
+            document.getElementById('total-duration').innerText = formatTime(ep.durationSeconds);
+            
+            const progressPercent = (ep.currentSeconds / ep.durationSeconds) * 100;
+            document.getElementById('audio-progress').style.width = `${progressPercent}%`;
+
+            // Update playlist styles
+            episodes.forEach((_, idx) => {
+                const btn = document.getElementById(`ep-btn-${idx}`);
+                if (btn) {
+                    if (idx === currentEpIndex) {
+                        btn.className = "episode-item w-full text-left p-2.5 rounded-lg bg-slate-700/60 border border-amber-400/50 flex justify-between items-center text-xs text-white transition";
+                    } else {
+                        btn.className = "episode-item w-full text-left p-2.5 rounded-lg bg-slate-900/50 hover:bg-slate-700/50 border border-slate-700/50 flex justify-between items-center text-xs text-slate-300 transition";
+                    }
+                }
+            });
+        }
+
+        function togglePlay() {
+            const playIcon = document.getElementById('play-icon');
+            const statusText = document.getElementById('player-status-text');
+
+            if (!isPlaying) {
+                isPlaying = true;
+                playIcon.classList.remove('fa-play', 'ml-0.5');
+                playIcon.classList.add('fa-pause');
+                statusText.innerText = "Oynatılıyor";
+
+                playInterval = setInterval(() => {
+                    const ep = episodes[currentEpIndex];
+                    if (ep.currentSeconds < ep.durationSeconds) {
+                        ep.currentSeconds += 1;
+                        updatePlayerUI();
+                    } else {
+                        nextEpisode();
+                    }
+                }, 1000);
+            } else {
+                isPlaying = false;
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play', 'ml-0.5');
+                statusText.innerText = "Duraklatıldı";
+                clearInterval(playInterval);
+            }
+        }
+
+        function selectEpisode(index) {
+            currentEpIndex = index;
+            updatePlayerUI();
+            if (!isPlaying) {
+                togglePlay();
+            }
+        }
+
+        function nextEpisode() {
+            currentEpIndex = (currentEpIndex + 1) % episodes.length;
+            updatePlayerUI();
+            if (isPlaying) {
+                clearInterval(playInterval);
+                isPlaying = false;
+                togglePlay();
+            }
+        }
+
+        function prevEpisode() {
+            currentEpIndex = (currentEpIndex - 1 + episodes.length) % episodes.length;
+            updatePlayerUI();
+            if (isPlaying) {
+                clearInterval(playInterval);
+                isPlaying = false;
+                togglePlay();
+            }
+        }
+
+        function seekAudio(e) {
+            const container = document.getElementById('progress-bar-container');
+            const rect = container.getBoundingClientRect();
+            const clickPosition = (e.clientX - rect.left) / rect.width;
+            const ep = episodes[currentEpIndex];
+            ep.currentSeconds = Math.floor(clickPosition * ep.durationSeconds);
+            updatePlayerUI();
+        }
+
+        // Initialize UI on load
+        updatePlayerUI();
+    </script>
+</body>
+</html>
