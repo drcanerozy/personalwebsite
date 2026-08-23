@@ -1,28 +1,17 @@
-# Akademik Portföy & Araştırma Laboratuvarı Web Sitesi
+# Dr. Caner ÖZYILDIRIM — Akademik Portföy & Kişisel Web Sitesi
 
-Bu depo, **Doç. Dr. Alexandra Reed**'in akademik çalışmalarını, hakemli yayınlarını, araştırma projelerini, ders içeriklerini, Substack bültenini ve interaktif podcast çalarını sergileyen modern, tam fonksiyonel ve GitHub Pages uyumlu akademik web sitesini içerir.
+Bu depo, **Dr. Caner ÖZYILDIRIM**'ın akademik çalışmalarını, hakemli yayınlarını, araştırma projelerini, ders içeriklerini, bülten ve podcast yayınlarını sergileyen çok dilli (TR/EN), Obsidian uyumlu ve GitHub Pages üzerinde yayınlanan modern akademik web sitesinin kaynak kodlarını içerir.
+
+🌐 **Canlı Web Sitesi (Türkçe):** [drcanerozy.github.io/personalwebsite](https://drcanerozy.github.io/personalwebsite/)  
+🇬🇧 **Live Website (English):** [drcanerozy.github.io/personalwebsite/en/](https://drcanerozy.github.io/personalwebsite/en/)
 
 ---
 
-## 🚀 Hızlı Başlangıç & GitHub Pages Yayını
+## 🔬 Araştırma Alanları & Akademik Profil
 
-Bu web sitesi herhangi bir derleme (build) adımı gerektirmeyen **saf ve optimize edilmiş HTML5 + Tailwind CSS + JavaScript** mimarisine sahiptir. Doğrudan GitHub Pages üzerinde yayınlanabilir.
-
-### 1. Adım: GitHub Deposu Oluşturma ve Yükleme
-```bash
-git init
-git add .
-git commit -m "feat: ilk akademik portföy sürümü"
-git branch -M main
-git remote add origin https://github.com/KULLANICI_ADINIZ/academic-portfolio.git
-git push -u origin main
-```
-
-### 2. Adım: GitHub Pages'i Etkinleştirme
-1. GitHub reponuzda **Settings** > **Pages** menüsüne gidin.
-2. **Build and deployment** > **Source** kısmından **GitHub Actions** veya **Deploy from a branch** seçeneğini seçin.
-3. Branch olarak `main` ve `/ (root)` seçin, **Save** butonuna tıklayın.
-4. Birkaç saniye içinde siteniz `https://KULLANICI_ADINIZ.github.io/academic-portfolio` adresinde canlıya geçecektir.
+- **Kurum:** Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi, Beslenme ve Diyetetik Bölümü
+- **Odak Alanları:** Metabolik Esneklik, Yağ Dokusu Disfonksiyonu, NAFLD / MASLD, Biyoistatistiksel Modelleme (R), Zaman Kısıtlı Beslenme (TRE) ve Çoklu Omiks (COST Action CA23110 - INFLAMomx).
+- **ORCID:** [0000-0001-8227-9575](https://orcid.org/0000-0001-8227-9575)
 
 ---
 
@@ -30,55 +19,74 @@ git push -u origin main
 
 ```
 .
-├── index.html                   # Ana web sayfası (GitHub Pages giriş noktası)
-├── akademik_portf_y_ve_medya_merkezi.html # Orijinal tasarım taslağı
-├── CV_Ozyildirim.pdf            # Akademik Özgeçmiş dosyası
-├── .nojekyll                    # GitHub Pages Jekyll atlama dosyası
-├── .github/
-│   └── workflows/
-│       └── deploy.yml           # Otomatik GitHub Pages dağıtım iş akışı
-├── _templates/                  # Obsidian / Markdown içerik şablonları
-│   ├── tpl-publication.md       # Yayın şablonu
-│   ├── tpl-tool.md              # 3D / İnteraktif araç şablonu
-│   ├── tpl-lecture-slide.md     # Sunum & ders şablonu
-│   ├── tpl-reproducible-code.md # R & Analiz kod şablonu
-│   ├── tpl-project.md           # Proje şablonu
-│   └── tpl-post-podcast.md      # Bülten & Podcast şablonu
-├── assets/                      # Medya ve statik dosyalar
-│   ├── images/
-│   ├── pdfs/
-│   └── audio/
-└── content/                     # Çok dilli içerik havuzu
-    ├── tr/ (bio.md, yayinlar, projeler, vb.)
-    └── en/ (bio.md, publications, projects, vb.)
+├── index.html                   # Türkçe Ana Sayfa (GitHub Pages root)
+├── en/                          # İngilizce Sayfa
+│   └── index.html               # İngilizce Ana Sayfa
+├── content/                     # Markdown İçerik Havuzu (Obsidian ile düzenlenir)
+│   ├── tr/                      # Türkçe İçerikler
+│   │   ├── bio.md               # Akademik Biyografi ve Profil
+│   │   ├── yayinlar/            # Bilimsel Makaleler & Bildiriler
+│   │   ├── projeler/            # Araştırma Projeleri & COST Aksiyonları
+│   │   ├── lab-araclari/        # İnteraktif Araçlar & Hesaplayıcılar
+│   │   ├── acik-dersler/        # Ders Notları & Sunumlar
+│   │   ├── tekrarlanabilir-kod/ # R Kodları & Analiz Modelleri
+│   │   └── bulten-podcast/      # Bülten Yazıları & Podcast Bölümleri
+│   └── en/                      # İngilizce İçerikler
+│       ├── bio.md
+│       ├── publications/
+│       ├── projects/
+│       ├── interactive-tools/
+│       ├── open-teaching/
+│       ├── reproducible-hub/
+│       └── writing-podcast/
+├── _templates/                  # Obsidian YAML İçerik Şablonları
+├── assets/                      # Medya Dosyaları
+│   ├── pdfs/                    # Açık erişim PDF'ler, ders materyalleri
+│   ├── images/                  # Görseller ve grafikler
+│   └── audio/                   # Podcast ses dosyaları
+├── build.py                     # Markdown -> HTML Derleme Betiği
+└── CV_Ozyildirim.pdf            # Akademik Özgeçmiş Dosyası
 ```
 
 ---
 
-## ✨ Öne Çıkan Özellikler & Fonksiyonlar
+## ✨ Öne Çıkan Özellikler
 
-1. **Akademik Anlatı & Özgeçmiş (Narrative CV)**:
-   - ORCID, Google Scholar, CV indirme bağlantıları ve metrik kartları (Yayın, Atıf, Fon, Takipçi).
-2. **Dinamik Yayın Filtreleme**:
-   - Makaleleri *Tümü*, *Klinik Araştırmalar*, *Biyoistatistik & Yapay Zeka*, *Derlemeler* kategorilerine göre anlık filtreleme.
-3. **BibTeX & Halk İçin Özet (Lay Summary)**:
-   - Tek tıkla BibTeX alıntısını panoya kopyalama ve modern bildirim (Toast) sistemi.
-   - Bilimsel makaleler için genişleyebilir / daralabilir sade dille özet kutuları.
-4. **İnteraktif Podcast & Medya Çalar**:
-   - Oynat / Duraklat, bölüm seçimi (EP.14, EP.13, EP.12), canlı ilerleme çubuğu, tıklanabilir zaman sarma (seek bar).
-5. **Substack Bülten Entegrasyonu**:
-   - Anlık doğrulama ve bildirim sunan e-posta abonelik simülasyonu.
-6. **Mobil & Tablet Tam Uyumluluğu**:
-   - Akıcı mobil navigasyon menüsü, modern cam efekti (glassmorphism) üst çubuk.
+1. **Çift Dilli Mimari (TR / EN):**
+   - Tek tıkla Türkçe ve İngilizce dilleri arasında geçiş.
+2. **Obsidian Entegrasyonu:**
+   - Tüm içerikler `content/` klasörü altındaki standart Markdown (`.md`) dosyalarından yönetilir. Obsidian veya herhangi bir metin editörüyle içerik eklendiğinde `python3 build.py` çalıştırılarak siteler anında güncellenir.
+3. **Akademik Anlatı & Özgeçmiş:**
+   - ORCID, Google Scholar, AVESİS ve güncel metrikler.
+4. **Dinamik Yayın & Proje Filtreleme:**
+   - Makaleleri ve projeleri araştırma kategorilerine göre anlık filtreleme.
+   - Tek tıkla BibTeX kopyalama ve halka yönelik sade dil özeti (Lay Summary) kutuları.
+5. **İnteraktif Medya & Podcast:**
+   - Dahili ses çalar ve bülten entegrasyonu.
+6. **Modern Tasarım:**
+   - Tailwind CSS ile optimize edilmiş, mobil uyumlu ve yüksek performanslı saf HTML mimarisi.
 
 ---
 
-## 🛠️ Yerel Önizleme
+## 🛠️ Yerel Geliştirme ve Güncelleme
 
-Projeyi yerel makinenizde test etmek için:
+### 1. İçerikleri Güncelleme ve Derleme
+Markdown içeriklerini değiştirdikten sonra web sayfalarını derlemek için:
 
 ```bash
-# Python ile:
-python3 -m http.server 8000
-# Ardından tarayıcınızda http://localhost:8000 adresini açın.
+python3 build.py
 ```
+
+### 2. Yerel Önizleme
+```bash
+python3 -m http.server 8000
+# Tarayıcınızda http://localhost:8000 adresini açın.
+```
+
+### 3. Değişiklikleri Yayına Alma
+```bash
+git add .
+git commit -m "feat: yeni icerik guncellemesi"
+git push origin main
+```
+GitHub Pages birkaç saniye içinde sitenizi otomatik olarak güncelleyecektir.
