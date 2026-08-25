@@ -15,9 +15,6 @@ lang: "tr"
 order: 3
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-Dijital çağda beslenme alanı, bilgi kirliliğinin ve sansasyonel haberlerin en yoğun yaşandığı disiplinlerin başında gelmektedir. Bu ders, geleceğin sağlık profesyonellerine hem medya okuryazarlığı kazandırmayı hem de kanıta dayalı bilimi halka anlaşılır biçimde aktaracak birer bilim iletişimcisi olmalarını hedefler.
-
 ## 📢 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **Sosyal Medya İletişim Kılavuzu & Broşür Tasarımı (2024-2025 Güz):** Öğrencilerimiz, meslektaşlarına ve topluma rehberlik edecek kanıta dayalı sosyal medya kullanım kılavuzları ve bilgilendirici broşürler üretmiştir.
 - **Dezenformasyon ve Mit Avcılığı:** Viral beslenme videoları ve haberleri sınıfta bilimsel literatür eşliğinde analiz edilir, doğruluk kontrolü (fact-checking) yapılır.

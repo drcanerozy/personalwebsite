@@ -15,9 +15,6 @@ lang: "tr"
 order: 2
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-Bireylerin ve toplumların besin seçimlerini yalnızca biyolojik ihtiyaçlar değil; psikolojik, kültürel, sosyal normlar ve çevresel faktörler şekillendirir. Bu ders, öğrencilere insan ve yeme ilişkisine çok boyutlu bir biyopsikososyal mercekten bakma yetkinliği kazandırır.
-
 ## 🧠 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **Psikometrik Ölçek Analizleri:** EAT-26, ORTO-15 ve DEBQ ölçekleri üzerinden danışan değerlendirme simülasyonları.
 - **Ağırlık Stigması ve Medya Analizi:** Kilo ayrımcılığının bireyler üzerindeki psikososyal etkileri ve etiketleyici dilden arındırılmış iletişim pratikleri.

@@ -1334,6 +1334,7 @@ def render_markdown_body(text):
                 in_ul = True
             c = ls[2:]
             c = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-slate-900">\1</strong>', c)
+            c = re.sub(r'\*(.*?)\*', r'<em>\1</em>', c)
             c = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-semibold underline hover:text-academic-900">\1</a>', c)
             html.append(f'  <li>{c}</li>')
         elif re.match(r'^\d+\.\s', ls):
@@ -1371,11 +1372,7 @@ def generate_single_course_html(course, lang="tr"):
     icon = course.get("icon", "fa-graduation-cap")
     summary = course.get("summary", "")
     topics = course.get("topics", "")
-    classroom = course.get("classroom_practices", "")
-    lab = course.get("lab_ai_practice", "")
-    seminars = course.get("student_seminars", "")
     notebooklm = course.get("notebooklm_url", "")
-    outcomes = course.get("learning_outcomes", "")
     syllabus = course.get("syllabus_url", "")
     body_md = course.get("body", "")
     body_html = render_markdown_body(body_md)
@@ -1383,57 +1380,27 @@ def generate_single_course_html(course, lang="tr"):
     asset_prefix = "../" if is_tr else "../../"
     home_url = "../" if is_tr else "../../en/"
     
-    topics_box = f"""
-    <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm mb-6">
-        <h3 class="text-base font-bold text-academic-900 flex items-center mb-3">
-            <i class="fa-solid fa-bullseye text-accent mr-2"></i> {'Dersin Temel Konuları' if is_tr else 'Core Topics'}
-        </h3>
-        <p class="text-sm text-slate-700 leading-relaxed">{topics}</p>
-    </div>""" if topics else ""
-    
-    practices_box = f"""
-    <div class="bg-amber-50/50 rounded-xl border border-amber-200 p-6 shadow-sm mb-6">
-        <h3 class="text-base font-bold text-amber-900 flex items-center mb-3">
-            <i class="fa-solid fa-lightbulb text-amber-600 mr-2"></i> {'Sınıf İçi Uygulamalar & AI Simülasyonları' if is_tr else 'Classroom Practices & AI Simulations'}
-        </h3>
-        <p class="text-sm text-amber-950 leading-relaxed">{classroom or lab}</p>
-    </div>""" if (classroom or lab) else ""
-    
-    seminars_box = f"""
-    <div class="bg-slate-50 rounded-xl border border-slate-200 p-6 shadow-sm mb-6">
-        <h3 class="text-base font-bold text-slate-900 flex items-center mb-3">
-            <i class="fa-solid fa-microphone-lines text-academic-700 mr-2"></i> {'Öğrenci Seminerleri & Sunumlar' if is_tr else 'Student Seminars & Presentations'}
-        </h3>
-        <p class="text-sm text-slate-700 leading-relaxed">{seminars}</p>
-    </div>""" if seminars else ""
-    
-    outcomes_box = f"""
-    <div class="bg-emerald-50/50 rounded-xl border border-emerald-200 p-6 shadow-sm mb-6">
-        <h3 class="text-base font-bold text-emerald-900 flex items-center mb-3">
-            <i class="fa-solid fa-rocket text-emerald-600 mr-2"></i> {'Öğrenme Kazanımları' if is_tr else 'Learning Outcomes'}
-        </h3>
-        <p class="text-sm text-emerald-950 leading-relaxed">{outcomes}</p>
-    </div>""" if outcomes else ""
-    
-    notebook_btn = f"""
-    <div class="my-6 p-5 bg-purple-50 rounded-xl border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-            <h4 class="font-bold text-purple-900 text-sm flex items-center">
-                <i class="fa-solid fa-robot mr-2 text-purple-700"></i> {'Yapay Zeka Destekli Ders Not Defteri' if is_tr else 'AI-Powered Digital Study Notebook'}
-            </h4>
-            <p class="text-xs text-purple-800 mt-1">{'Google NotebookLM ile ders materyallerini interaktif sorgulayabilir ve sesli özetler dinleyebilirsiniz.' if is_tr else 'Query course literature interactively and generate audio overviews via Google NotebookLM.'}</p>
-        </div>
-        <a href="{notebooklm}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg transition shadow-sm whitespace-nowrap">
-            <span>{"NotebookLM'i Aç" if is_tr else "Open NotebookLM"}</span>
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
-    </div>""" if notebooklm else ""
-    
+    notebook_box = f"""
+        <div class="p-5 bg-purple-50 rounded-xl border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+                <h3 class="font-bold text-purple-900 text-sm flex items-center">
+                    <i class="fa-solid fa-robot mr-2 text-purple-700"></i> {"Bu dersin bir dijital not defteri var!" if is_tr else "This course has an interactive AI digital notebook!"}
+                </h3>
+                <p class="text-xs text-purple-800 mt-1 leading-relaxed">
+                    {"Google NotebookLM tabanlı bu interaktif not defteri ile ders kaynaklarını ve bilimsel literatürü yapay zeka ile doğrudan sorgulayabilir, soru sorabilir ve sesli özetler dinleyebilirsiniz." if is_tr else "Query course literature interactively, ask questions, and listen to audio overviews powered by Google NotebookLM."}
+                </p>
+            </div>
+            <a href="{notebooklm}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg transition shadow-sm whitespace-nowrap">
+                <span>{"NotebookLM'i Aç" if is_tr else "Open NotebookLM"}</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+        </div>""" if notebooklm else ""
+        
     syllabus_btn = f"""
-    <a href="{asset_prefix}{syllabus}" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition shadow-sm">
-        <i class="fa-solid fa-file-pdf"></i>
-        <span>{'Ders İzlencesi (PDF İndir)' if is_tr else 'Download Syllabus (PDF)'}</span>
-    </a>""" if syllabus else ""
+        <a href="{asset_prefix}{syllabus}" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition shadow-sm">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>{'Ders İzlencesi (PDF İndir)' if is_tr else 'Download Syllabus (PDF)'}</span>
+        </a>""" if syllabus else ""
 
     html = f"""<!DOCTYPE html>
 <html lang="{'tr' if is_tr else 'en'}" class="scroll-smooth">
@@ -1493,33 +1460,36 @@ def generate_single_course_html(course, lang="tr"):
             <p class="text-xs text-slate-500 mt-2">{'Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi • Beslenme ve Diyetetik Bölümü' if is_tr else 'Akdeniz University Faculty of Health Sciences • Department of Nutrition and Dietetics'}</p>
         </div>
 
-        <!-- Summary Box -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm mb-8">
-            <h3 class="text-xs font-bold text-accent uppercase tracking-widest mb-2">{'Dersin Genel Vizyonu' if is_tr else 'Course Overview'}</h3>
-            <p class="text-base text-slate-700 leading-relaxed font-serif">{summary}</p>
+        <!-- Unified Single Card Container -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm space-y-6">
             
-            <div class="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-4">
-                {notebook_btn}
-                {syllabus_btn}
+            <!-- 1. Dersin Amacı, Vizyonu & Temel Konular -->
+            <div>
+                <h2 class="text-xs font-bold text-accent uppercase tracking-widest mb-3 flex items-center">
+                    <i class="fa-solid fa-compass mr-2 text-accent"></i> {'Dersin Amacı ve Vizyonu' if is_tr else 'Course Purpose & Vision'}
+                </h2>
+                <p class="text-base text-slate-800 leading-relaxed font-serif mb-4">{summary}</p>
+                {f'<div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs text-slate-700 leading-relaxed"><strong class="text-slate-900">🎯 {"İşlenen Temel Konular:" if is_tr else "Core Topics Covered:"}</strong> {topics}</div>' if topics else ''}
             </div>
+
+            <!-- 2. Mor Renkli Dijital Not Defteri Kutusu (Varsa) -->
+            {notebook_box}
+
+            <!-- 3. Bu Dersi Nasıl İşliyoruz? & Sınıf İçi Deneyim -->
+            {f'<div class="pt-6 border-t border-slate-100">' + body_html + '</div>' if body_html else ''}
+
+            <!-- 4. Alt Kısım: Ders İzlencesi (PDF) Butonu (Varsa) -->
+            {f'<div class="pt-4 border-t border-slate-100 flex items-center justify-between">{syllabus_btn}</div>' if syllabus else ''}
+            
         </div>
 
-        <!-- Topics & Classroom Highlights -->
-        {topics_box}
-        {practices_box}
-        {seminars_box}
-        {outcomes_box}
-
-        <!-- Full Body Notes -->
-        {f'<div class="bg-white rounded-xl border border-slate-200 p-6 md:p-8 shadow-sm mt-8">' + body_html + '</div>' if body_html else ''}
-
         <!-- Bottom Back Button -->
-        <div class="mt-12 pt-6 border-t border-slate-200 flex justify-between items-center">
-            <a href="{home_url}#teaching" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold text-sm transition">
+        <div class="mt-8 flex justify-between items-center text-xs">
+            <a href="{home_url}#teaching" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold transition">
                 <i class="fa-solid fa-arrow-left"></i>
-                <span>{'Tüm Derslerime Göz At' if is_tr else 'View All Courses'}</span>
+                <span>{'← Tüm Derslerime Göz At' if is_tr else '← View All Courses'}</span>
             </a>
-            <a href="{home_url}" class="text-xs text-slate-500 hover:text-academic-700">Dr. Caner ÖZYILDIRIM</a>
+            <span class="text-slate-400">Dr. Caner ÖZYILDIRIM</span>
         </div>
     </main>
 

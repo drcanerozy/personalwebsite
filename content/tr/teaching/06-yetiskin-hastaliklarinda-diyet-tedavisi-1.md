@@ -15,9 +15,6 @@ lang: "tr"
 order: 6
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-Klinik diyetisyenliğin kalbini oluşturan tıbbi beslenme tedavisinde, teorik bilginin pratik vaka yönetimi ve karar verme süreçlerine dönüştürülmesini sağlar.
-
 ## 🩺 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **🌿 Akdeniz & DASH Diyet Tasarım Atölyesi (2025-2026 Güz):** Öğrencilerimiz kardiyovasküler ve hipertansiyon vakalarında sadece kalori kısıtlaması değil; Akdeniz ve DASH modellerinin porsiyonlama kriterlerini, yerel mutfak uyarlamalarını ve mikro besin ögesi dengelerini analitik olarak modellemiştir.
 - **Vaka Bazlı Nutrisyonel Bakım Süreci (NCP):** Gerçek hasta laboratuvar bulguları üzerinden adım adım beslenme tanısı koyma (PES cümlesi) ve tıbbi beslenme reçetesi hazırlama.

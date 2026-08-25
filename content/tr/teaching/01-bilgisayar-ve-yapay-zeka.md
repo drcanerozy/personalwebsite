@@ -15,9 +15,6 @@ lang: "tr"
 order: 1
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-Bu ders, beslenme ve diyetetik lisans öğrencilerimizin yapay zeka ve bilgisayar teknolojilerini meslek hayatlarında nasıl verimli, güvenli ve etik bir şekilde kullanabileceklerini öğretmeyi amaçlar. Teorik anlatımlardan ziyade, bir diyetisyenin günlük pratiğinde işini kolaylaştıracak bol uygulamalı bir deneyim sunar.
-
 ## 💻 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Bol Uygulama
 - **Yapay Zekanın Beslenmeye Etkisi:** Beslenme bilimindeki en güncel teknolojik gelişmeler ve geleceğin diyetisyenlik vizyonu.
 - **Bol Uygulamalı Vaka ve Diyet Analizi:** Yapay zeka destekli araçlarla menü optimizasyonu, besin değişimleri ve vaka senaryoları üzerinde pratik yapma.

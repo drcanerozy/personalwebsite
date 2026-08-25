@@ -17,9 +17,6 @@ lang: "tr"
 order: 5
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-İmmün sistem, vücudun homeostasisini sağlayan en karmaşık ağlardan biridir. Besin ögeleri bu sistemin hem yapıtaşlarını hem de düzenleyici sinyal moleküllerini oluşturur. Bu ders, immünoloji ile beslenme bilimini moleküler düzeyde bir araya getirir.
-
 ## 🛡️ Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **🤖 Yapay Zeka Destekli Dijital Not Defteri (NotebookLM):** Dersin sorumlu öğretim elemanı tarafından hazırlanan [Google NotebookLM İmmünonütrisyon Not Defteri](https://notebooklm.google.com/notebook/885c2912-167d-4ec1-b891-b6480e7b6a8f).
 - **🏆 Bölüm İçi Beslenme ve Diyetetik Bilgi Yarışması (2025-2026 Bahar):** Bölüm öğrencileri arasında rekabetçi, eğlenceli ve öğretici bilgi yarışması etkinliği.

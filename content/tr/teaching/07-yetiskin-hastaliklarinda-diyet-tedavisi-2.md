@@ -15,9 +15,6 @@ lang: "tr"
 order: 7
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-Kronik ve organ yetmezliği gelişmiş karmaşık hasta gruplarında, metabolik stresi azaltan, doku yıkımını önleyen ve yaşam kalitesini artıran ileri klinik beslenme stratejilerinin kazandırılmasıdır.
-
 ## 🏥 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **🤖 GLP-1 İlaçları ve Yapay Zekalı Vaka Simülasyonu (2025-2026 Bahar):** GLP-1 agonisti tedavisi alan hastalarda gastrointestinal semptom yönetimi, kas kütlesinin korunması (sarkopenik obezite önleme) ve protein/enerji hedeflerinin yapay zeka simülasyonları ile modellenmesi.
 - **Kritik Organ Yetmezliği Vaka Yönetimi:** Kanser kaşeksisi, kronik böbrek hastalığı ve karaciğer sirozunda çok değişkenli biyokimyasal takip ve vaka çözümü.

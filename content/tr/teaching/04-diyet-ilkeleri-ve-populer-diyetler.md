@@ -17,9 +17,6 @@ lang: "tr"
 order: 4
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-Kilo yönetimi ve popüler diyet akımları, toplumda en çok talep gören ancak en çok yanlış bilginin dolaştığı alanlardır. Bu ders; enerji metabolizması temelleri üzerinden popüler diyetleri tarafsız, bilimsel ve fizyolojik kanıtlarla ele alır.
-
 ## 🥗 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **🤖 Yapay Zeka Destekli Dijital Not Defteri (NotebookLM):** Dersin sorumlu öğretim elemanı tarafından hazırlanan ve öğrencilerin güncel kanıtlara interaktif eriştiği [Google NotebookLM Dijital Not Defteri](https://notebooklm.google.com/notebook/4a584344-d100-4e89-8273-7ebdac842a8b).
 - **🎙️ Eleştirel Beyin Fırtınası & Öğrenci Podcastleri (2024-2025 Güz):**

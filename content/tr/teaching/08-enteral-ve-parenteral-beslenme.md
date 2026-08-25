@@ -15,9 +15,6 @@ lang: "tr"
 order: 8
 ---
 
-## 🎯 Dersin Amacı ve Vizyonu
-Ağır klinik ve yoğun bakım koşullarında hastaların hayatta kalımını ve iyileşme hızını doğrudan etkileyen enteral ve parenteral beslenme (klinik nütrisyon) yönetiminin tüm inceliklerini kapsar.
-
 ## 💉 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **🤖 Yapay Zeka Destekli Kompleks Vaka Simülasyonu (2025-2026 Bahar):** Öğrencilerimizin karmaşık klinik tablolarda hızlı ve doğru karar verme yetkinliği kazanmaları, kanıta dayalı tıp (ESPEN) ilkelerini simüle ortamda deneyimlemeleri sağlanmıştır.
 - **📑 Gerçek Vaka Raporları Analizi ve Savunması (2024-2025 Bahar):** Uluslararası literatürden derlenen gerçek hasta vaka raporları öğrencilere verilmiş; öğrenciler kendi klinik nütrisyon çözümlerini hazırlayıp sınıfta sunmuş ve rehberlerle karşılaştırmıştır.
