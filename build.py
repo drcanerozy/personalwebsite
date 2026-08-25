@@ -147,6 +147,19 @@ def generate_html(lang="tr"):
         "asset_prefix": "" if is_tr else "../"
     }
 
+    # Avatar resolution
+    avatar_src = bio_data.get("avatar_url", "")
+    if avatar_src:
+        avatar_img = f"{ui['asset_prefix']}{avatar_src}" if not avatar_src.startswith("http") else avatar_src
+    elif (Path("assets/images/profile.jpg")).exists():
+        avatar_img = f"{ui['asset_prefix']}assets/images/profile.jpg"
+    elif (Path("assets/images/avatar.jpg")).exists():
+        avatar_img = f"{ui['asset_prefix']}assets/images/avatar.jpg"
+    elif (Path("assets/images/profile.png")).exists():
+        avatar_img = f"{ui['asset_prefix']}assets/images/profile.png"
+    else:
+        avatar_img = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600"
+
     # Helper for rendering publications HTML
     pubs_html = []
     bibtex_dict = {}
@@ -257,6 +270,82 @@ def generate_html(lang="tr"):
                     </p>
                     <span class="mt-4 text-xs font-semibold text-academic-700">Obsidian _templates &rarr;</span>
                 </div>""")
+
+    # Helper for Teaching HTML
+    teaching_cards_html = []
+    for idx, course in enumerate(teaching, 1):
+        det_id = f"course-det-{idx}"
+        icon_id = f"course-icon-{idx}"
+        c_title = course.get("title", f"Course {idx}")
+        c_code = course.get("code", "")
+        c_badge = course.get("badge", "Lisans Modülü" if is_tr else "Undergraduate")
+        c_semester = course.get("semester", "")
+        badge_text = f"{c_code} • {c_badge}" if c_code else c_badge
+        if c_semester:
+            badge_text += f" ({c_semester})"
+        c_icon = course.get("icon", "fa-graduation-cap")
+        c_summary = course.get("summary", "")
+        c_topics = course.get("topics", "")
+        c_lab = course.get("lab_ai_practice", "")
+        c_classroom = course.get("classroom_practices", "")
+        c_seminars = course.get("student_seminars", "")
+        c_notebooklm = course.get("notebooklm_url", "")
+        c_outcomes = course.get("learning_outcomes", "")
+        c_syllabus = course.get("syllabus_url", "")
+        
+        detail_blocks = []
+        if c_topics:
+            detail_blocks.append(f"<p><strong>🎯 {'Ana Konular:' if is_tr else 'Core Topics:'}</strong> {c_topics}</p>")
+        if c_classroom:
+            detail_blocks.append(f"<p><strong>💡 {'Sınıf İçi Uygulamalar & AI:' if is_tr else 'Classroom Practice & AI:'}</strong> {c_classroom}</p>")
+        elif c_lab:
+            detail_blocks.append(f"<p><strong>💡 {'Pratik & Uygulama:' if is_tr else 'Practice & Lab:'}</strong> {c_lab}</p>")
+        if c_seminars:
+            detail_blocks.append(f"<p><strong>🎤 {'Öğrenci Seminerleri & Sunumlar:' if is_tr else 'Student Seminars & Presentations:'}</strong> {c_seminars}</p>")
+        if c_outcomes:
+            detail_blocks.append(f"<p><strong>🚀 {'Kazanımlar:' if is_tr else 'Outcomes:'}</strong> {c_outcomes}</p>")
+        if c_notebooklm:
+            detail_blocks.append(f"<p class='pt-2'><a href='{c_notebooklm}' target='_blank' rel='noopener noreferrer' class='inline-flex items-center space-x-1.5 px-3 py-1 bg-purple-50 text-purple-700 hover:bg-purple-100 rounded-lg text-xs font-semibold border border-purple-200 transition'><i class='fa-solid fa-robot'></i><span>{'Yapay Zeka Destekli Ders Notları (NotebookLM)' if is_tr else 'AI Interactive Notebook (NotebookLM)'} &rarr;</span></a></p>")
+        if c_syllabus:
+            detail_blocks.append(f"<p class='pt-2'><a href='{ui['asset_prefix']}{c_syllabus}' target='_blank' class='inline-flex items-center space-x-1 text-academic-700 font-semibold hover:underline'><i class='fa-solid fa-file-pdf'></i><span>{'Ders İzlencesi (PDF)' if is_tr else 'Syllabus (PDF)'}</span></a></p>")
+            
+        details_inner = "\n                            ".join(detail_blocks)
+        
+        c_filename = course.get("_filename", f"course-{idx}.md")
+        slug = c_filename.replace(".md", "")
+        course_url = f"{ui['asset_prefix']}dersler/{slug}.html" if is_tr else f"{ui['asset_prefix']}courses/{slug}.html"
+        
+        card = f"""
+                <!-- Course {idx}: {c_title} -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-academic-700 transition flex flex-col justify-between overflow-hidden">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{badge_text}</span>
+                            <i class="fa-solid {c_icon} text-academic-700 text-lg"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base mt-3">
+                            <a href="{course_url}" class="hover:text-academic-700 transition flex items-center justify-between group">
+                                <span>{c_title}</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-academic-700 transition ml-2"></i>
+                            </a>
+                        </h3>
+                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                            {c_summary}
+                        </p>
+                    </div>
+                    <div class="border-t border-slate-100 bg-warmBg p-5">
+                        <button onclick="toggleCourseDetails('{det_id}', '{icon_id}')" class="w-full flex items-center justify-between text-xs font-bold text-academic-700 hover:text-academic-900 transition">
+                            <span>{'Ders İçeriği & Detaylar' if is_tr else 'Course Details & Highlights'}</span>
+                            <i id="{icon_id}" class="fa-solid fa-chevron-down text-[11px] transition-transform duration-200"></i>
+                        </button>
+                        <div id="{det_id}" class="hidden mt-3 text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
+                            {details_inner}
+                        </div>
+                    </div>
+                </div>"""
+        teaching_cards_html.append(card)
+
+    teaching_section_cards = "\n".join(teaching_cards_html)
 
     # Helper for Tools HTML
     tools_html = []
@@ -575,7 +664,7 @@ def generate_html(lang="tr"):
                 <!-- Profile Image & Badges Column -->
                 <div class="lg:col-span-4 flex flex-col items-center text-center">
                     <div class="relative mb-6">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" 
+                        <img src="{avatar_img}" 
                              alt="Dr. Caner ÖZYILDIRIM" 
                              class="w-56 h-56 md:w-64 md:h-64 object-cover rounded-2xl shadow-xl border-4 border-white ring-1 ring-slate-200">
                         <span class="absolute bottom-3 right-3 bg-emerald-500 text-white p-2 rounded-full text-xs shadow-md" title="Aktif Araştırmacı">
@@ -934,145 +1023,7 @@ def generate_html(lang="tr"):
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Course 1 -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-academic-700 transition flex flex-col justify-between overflow-hidden">
-                    <div class="p-5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{'Lisans Modülü' if is_tr else 'Undergraduate'}</span>
-                            <i class="fa-solid fa-laptop-code text-academic-700 text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 text-base mt-3">{'Beslenme ve Diyetetikte Bilgisayar ve Yapay Zeka Uygulamaları' if is_tr else 'Computer and AI Applications in Nutrition & Dietetics'}</h3>
-                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                            {'R programlama dili ile biyoistatistiksel veri analizi, veri görselleştirme, yapay zeka ve hesaplamalı yöntemler.' if is_tr else 'Biostatistical data analysis with R programming, ggplot2 visualization, AI, and computational nutrition methodology.'}
-                        </p>
-                    </div>
-                    <div class="border-t border-slate-100 bg-warmBg p-5">
-                        <button onclick="toggleCourseDetails('course-det-1', 'course-icon-1')" class="w-full flex items-center justify-between text-xs font-bold text-academic-700 hover:text-academic-900 transition">
-                            <span>{'Ders İçeriği & Laboratuvar Uygulamaları' if is_tr else 'Course Details & Lab Practice'}</span>
-                            <i id="course-icon-1" class="fa-solid fa-chevron-down text-[11px] transition-transform duration-200"></i>
-                        </button>
-                        <div id="course-det-1" class="hidden mt-3 text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
-                            <p><strong>🎯 {'Ana Konular:' if is_tr else 'Core Topics:'}</strong> {'R ve RStudio ortamı, tidyverse ile veri manipülasyonu, ggplot2 bilimsel grafik üretimi.' if is_tr else 'R/RStudio environment, tidyverse data wrangling, scientific publication figures with ggplot2.'}</p>
-                            <p><strong>💻 {'AI & Uygulamalar:' if is_tr else 'AI & Applications:'}</strong> {'Besin tüketim verileri, regresyon modelleri, literatür sentezinde Büyük Dil Modelleri (LLM).' if is_tr else 'Dietary records analysis, multivariable models, Large Language Models (LLM) for literature synthesis.'}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 2 -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-academic-700 transition flex flex-col justify-between overflow-hidden">
-                    <div class="p-5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{'Lisans Modülü' if is_tr else 'Undergraduate'}</span>
-                            <i class="fa-solid fa-shield-virus text-academic-700 text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 text-base mt-3">{'İmmün Sistem ve İmmünonütrisyon' if is_tr else 'Immune System and Immunonutrition'}</h3>
-                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                            {'Bağışıklık mekanizmaları, besin ögesi-immün sistem etkileşimleri ve enflamatuar hastalıklarda immünonütrisyon.' if is_tr else 'Immunological pathways, nutrient-immune interactions, microbiota modulation, and therapeutic immunonutrition protocols.'}
-                        </p>
-                    </div>
-                    <div class="border-t border-slate-100 bg-warmBg p-5">
-                        <button onclick="toggleCourseDetails('course-det-2', 'course-icon-2')" class="w-full flex items-center justify-between text-xs font-bold text-academic-700 hover:text-academic-900 transition">
-                            <span>{'Ders İçeriği & Klinik Yaklaşımlar' if is_tr else 'Course Details & Clinical Approaches'}</span>
-                            <i id="course-icon-2" class="fa-solid fa-chevron-down text-[11px] transition-transform duration-200"></i>
-                        </button>
-                        <div id="course-det-2" class="hidden mt-3 text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
-                            <p><strong>🎯 {'Ana Konular:' if is_tr else 'Core Topics:'}</strong> {'Doğuştan ve edinsel bağışıklık, sitokin salınımı, bağırsak epitel bariyeri ve mukoza bağışıklığı.' if is_tr else 'Innate/adaptive immunity, cytokine responses, gut barrier integrity, and mucosal immunology.'}</p>
-                            <p><strong>💊 {'Bileşenler:' if is_tr else 'Components:'}</strong> {'Glutamin, arjinin, omega-3, nükleotidler, çinko, D vitamini ve probiyotikler.' if is_tr else 'Glutamine, arginine, omega-3 fatty acids, nucleotides, zinc, vitamin D, and probiotics.'}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 3 -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-academic-700 transition flex flex-col justify-between overflow-hidden">
-                    <div class="p-5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{'Lisans Modülü' if is_tr else 'Undergraduate'}</span>
-                            <i class="fa-solid fa-notes-medical text-academic-700 text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 text-base mt-3">{'Yetişkin Hastalıklarında Tıbbi Beslenme Tedavisi' if is_tr else 'Medical Nutrition Therapy in Adult Diseases'}</h3>
-                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                            {'Kardiyometabolik hastalıklar, diyabet, obezite ve karaciğer yağlanmasında patofizyoloji ve klinik diyet tedavisi.' if is_tr else 'Pathophysiology and evidence-based clinical diet therapy in diabetes, obesity, CVD, and liver diseases.'}
-                        </p>
-                    </div>
-                    <div class="border-t border-slate-100 bg-warmBg p-5">
-                        <button onclick="toggleCourseDetails('course-det-3', 'course-icon-3')" class="w-full flex items-center justify-between text-xs font-bold text-academic-700 hover:text-academic-900 transition">
-                            <span>{'Ders İçeriği & Vaka Yönetimi' if is_tr else 'Course Details & Case Studies'}</span>
-                            <i id="course-icon-3" class="fa-solid fa-chevron-down text-[11px] transition-transform duration-200"></i>
-                        </button>
-                        <div id="course-det-3" class="hidden mt-3 text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
-                            <p><strong>🎯 {'Ana Konular:' if is_tr else 'Core Topics:'}</strong> {'Tip 2 Diyabet, karbonhidrat sayımı, koroner arter hastalıkları, NAFLD/MASLD ve böbrek hastalıkları.' if is_tr else 'Type 2 Diabetes, carbohydrate counting, dyslipidemia, NAFLD/MASLD, and renal nutrition therapy.'}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 4 -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-academic-700 transition flex flex-col justify-between overflow-hidden">
-                    <div class="p-5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{'Lisans Modülü' if is_tr else 'Undergraduate'}</span>
-                            <i class="fa-solid fa-utensils text-academic-700 text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 text-base mt-3">{'Beslenme İlkeleri ve Popüler Diyetler' if is_tr else 'Principles of Nutrition and Popular Diets'}</h3>
-                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                            {'Enerji dengesi, ketojenik diyet, aralıklı oruç (IF/TRE) ve popüler akımların fizyolojik analizi.' if is_tr else 'Energy expenditure calculations, ketogenic diets, Intermittent Fasting (IF/TRE), and popular dietary regimens.'}
-                        </p>
-                    </div>
-                    <div class="border-t border-slate-100 bg-warmBg p-5">
-                        <button onclick="toggleCourseDetails('course-det-4', 'course-icon-4')" class="w-full flex items-center justify-between text-xs font-bold text-academic-700 hover:text-academic-900 transition">
-                            <span>{'Ders İçeriği & Bilimsel Değerlendirme' if is_tr else 'Course Details & Scientific Evidence'}</span>
-                            <i id="course-icon-4" class="fa-solid fa-chevron-down text-[11px] transition-transform duration-200"></i>
-                        </button>
-                        <div id="course-det-4" class="hidden mt-3 text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
-                            <p><strong>🎯 {'Ana Konular:' if is_tr else 'Core Topics:'}</strong> {'Intermittent Fasting (16:8, TRE), Ketojenik Diyet, Akdeniz Diyeti ve randomize kontrollü çalışma analizleri.' if is_tr else 'Intermittent fasting protocols, ketogenic diet models, Mediterranean diet, and RCT meta-analysis.'}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 5 -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-academic-700 transition flex flex-col justify-between overflow-hidden">
-                    <div class="p-5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{'Lisans Modülü' if is_tr else 'Undergraduate'}</span>
-                            <i class="fa-solid fa-brain text-academic-700 text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 text-base mt-3">{'Beslenmenin Psikososyal Yönleri' if is_tr else 'Psychosocial Aspects of Nutrition'}</h3>
-                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                            {'Yeme tutumları, ortoreksiya nevroza, duygusal yeme ve beslenme psikolojisi dinamikleri.' if is_tr else 'Eating attitudes, orthorexia nervosa, emotional eating, body image, and behavioral nutrition.'}
-                        </p>
-                    </div>
-                    <div class="border-t border-slate-100 bg-warmBg p-5">
-                        <button onclick="toggleCourseDetails('course-det-5', 'course-icon-5')" class="w-full flex items-center justify-between text-xs font-bold text-academic-700 hover:text-academic-900 transition">
-                            <span>{'Ders İçeriği & Psikometrik Ölçümler' if is_tr else 'Course Details & Psychometrics'}</span>
-                            <i id="course-icon-5" class="fa-solid fa-chevron-down text-[11px] transition-transform duration-200"></i>
-                        </button>
-                        <div id="course-det-5" class="hidden mt-3 text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
-                            <p><strong>🎯 {'Ana Konular:' if is_tr else 'Core Topics:'}</strong> {'EAT-26, ORTO-15 ölçekleri, duygusal yeme skorlamaları ve psikometrik analizler.' if is_tr else 'EAT-26, ORTO-15 inventories, DEBQ emotional eating scales, and psychometric screening.'}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 6 -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:border-academic-700 transition flex flex-col justify-between overflow-hidden">
-                    <div class="p-5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[11px] font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{'Lisans Modülü' if is_tr else 'Undergraduate'}</span>
-                            <i class="fa-solid fa-bullhorn text-academic-700 text-lg"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 text-base mt-3">{'Beslenme ve Medya & Danışmanlık' if is_tr else 'Nutrition, Media & Counseling'}</h3>
-                        <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                            {'Medya okuryazarlığı, beslenme iletişimi, bilimsel bilginin topluma aktarımı ve klinik süpervizyon.' if is_tr else 'Media literacy, nutrition communication, translating evidence to public, and clinical supervision.'}
-                        </p>
-                    </div>
-                    <div class="border-t border-slate-100 bg-warmBg p-5">
-                        <button onclick="toggleCourseDetails('course-det-6', 'course-icon-6')" class="w-full flex items-center justify-between text-xs font-bold text-academic-700 hover:text-academic-900 transition">
-                            <span>{'Ders İçeriği & İletişim Stratejileri' if is_tr else 'Course Details & Communication'}</span>
-                            <i id="course-icon-6" class="fa-solid fa-chevron-down text-[11px] transition-transform duration-200"></i>
-                        </button>
-                        <div id="course-det-6" class="hidden mt-3 text-xs text-slate-600 space-y-2 border-t border-slate-200 pt-3">
-                            <p><strong>🎯 {'Ana Konular:' if is_tr else 'Core Topics:'}</strong> {'Dezenformasyon analizi, bilimsel podcast kurgusu, kanıta dayalı blog yazımı.' if is_tr else 'Combating nutritional disinformation, scientific podcast design, and evidence-based blogging.'}</p>
-                        </div>
-                    </div>
-                </div>
+{teaching_section_cards}
             </div>
         </div>
     </section>
@@ -1358,6 +1309,231 @@ def generate_html(lang="tr"):
 </html>"""
     return html
 
+
+def render_markdown_body(text):
+    if not text:
+        return ""
+    lines = text.strip().splitlines()
+    html = []
+    in_ul = False
+    in_ol = False
+    
+    for l in lines:
+        ls = l.strip()
+        if ls.startswith("## "):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            html.append(f'<h2 class="text-xl font-bold font-serif text-academic-900 mt-8 mb-4 border-b border-slate-200 pb-2">{ls[3:]}</h2>')
+        elif ls.startswith("### "):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            html.append(f'<h3 class="text-lg font-bold text-slate-900 mt-6 mb-2">{ls[4:]}</h3>')
+        elif ls.startswith("- "):
+            if not in_ul:
+                html.append('<ul class="list-disc list-inside space-y-2 text-sm text-slate-700 my-3 leading-relaxed">')
+                in_ul = True
+            c = ls[2:]
+            c = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-slate-900">\1</strong>', c)
+            c = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-semibold underline hover:text-academic-900">\1</a>', c)
+            html.append(f'  <li>{c}</li>')
+        elif re.match(r'^\d+\.\s', ls):
+            if not in_ol:
+                html.append('<ol class="list-decimal list-inside space-y-2 text-sm text-slate-700 my-3 leading-relaxed">')
+                in_ol = True
+            c = re.sub(r'^\d+\.\s', '', ls)
+            c = re.sub(r'\*(.*?)\*', r'<em>\1</em>', c)
+            c = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-slate-900">\1</strong>', c)
+            c = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-semibold underline hover:text-academic-900">\1</a>', c)
+            html.append(f'  <li>{c}</li>')
+        elif ls:
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            c = re.sub(r'\*\*(.*?)\*\*', r'<strong class="text-slate-900">\1</strong>', ls)
+            c = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-semibold underline hover:text-academic-900">\1</a>', c)
+            html.append(f'<p class="text-sm text-slate-700 my-3 leading-relaxed">{c}</p>')
+        else:
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            
+    if in_ul: html.append("</ul>")
+    if in_ol: html.append("</ol>")
+    return "\n".join(html)
+
+def generate_single_course_html(course, lang="tr"):
+    is_tr = (lang == "tr")
+    title = course.get("title", "Ders")
+    code = course.get("code", "")
+    badge = course.get("badge", "Lisans Modülü" if is_tr else "Undergraduate")
+    semester = course.get("semester", "")
+    badge_str = f"{code} • {badge}" if code else badge
+    if semester:
+        badge_str += f" ({semester})"
+    icon = course.get("icon", "fa-graduation-cap")
+    summary = course.get("summary", "")
+    topics = course.get("topics", "")
+    classroom = course.get("classroom_practices", "")
+    lab = course.get("lab_ai_practice", "")
+    seminars = course.get("student_seminars", "")
+    notebooklm = course.get("notebooklm_url", "")
+    outcomes = course.get("learning_outcomes", "")
+    syllabus = course.get("syllabus_url", "")
+    body_md = course.get("body", "")
+    body_html = render_markdown_body(body_md)
+    
+    asset_prefix = "../" if is_tr else "../../"
+    home_url = "../" if is_tr else "../../en/"
+    
+    topics_box = f"""
+    <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm mb-6">
+        <h3 class="text-base font-bold text-academic-900 flex items-center mb-3">
+            <i class="fa-solid fa-bullseye text-accent mr-2"></i> {'Dersin Temel Konuları' if is_tr else 'Core Topics'}
+        </h3>
+        <p class="text-sm text-slate-700 leading-relaxed">{topics}</p>
+    </div>""" if topics else ""
+    
+    practices_box = f"""
+    <div class="bg-amber-50/50 rounded-xl border border-amber-200 p-6 shadow-sm mb-6">
+        <h3 class="text-base font-bold text-amber-900 flex items-center mb-3">
+            <i class="fa-solid fa-lightbulb text-amber-600 mr-2"></i> {'Sınıf İçi Uygulamalar & AI Simülasyonları' if is_tr else 'Classroom Practices & AI Simulations'}
+        </h3>
+        <p class="text-sm text-amber-950 leading-relaxed">{classroom or lab}</p>
+    </div>""" if (classroom or lab) else ""
+    
+    seminars_box = f"""
+    <div class="bg-slate-50 rounded-xl border border-slate-200 p-6 shadow-sm mb-6">
+        <h3 class="text-base font-bold text-slate-900 flex items-center mb-3">
+            <i class="fa-solid fa-microphone-lines text-academic-700 mr-2"></i> {'Öğrenci Seminerleri & Sunumlar' if is_tr else 'Student Seminars & Presentations'}
+        </h3>
+        <p class="text-sm text-slate-700 leading-relaxed">{seminars}</p>
+    </div>""" if seminars else ""
+    
+    outcomes_box = f"""
+    <div class="bg-emerald-50/50 rounded-xl border border-emerald-200 p-6 shadow-sm mb-6">
+        <h3 class="text-base font-bold text-emerald-900 flex items-center mb-3">
+            <i class="fa-solid fa-rocket text-emerald-600 mr-2"></i> {'Öğrenme Kazanımları' if is_tr else 'Learning Outcomes'}
+        </h3>
+        <p class="text-sm text-emerald-950 leading-relaxed">{outcomes}</p>
+    </div>""" if outcomes else ""
+    
+    notebook_btn = f"""
+    <div class="my-6 p-5 bg-purple-50 rounded-xl border border-purple-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+            <h4 class="font-bold text-purple-900 text-sm flex items-center">
+                <i class="fa-solid fa-robot mr-2 text-purple-700"></i> {'Yapay Zeka Destekli Ders Not Defteri' if is_tr else 'AI-Powered Digital Study Notebook'}
+            </h4>
+            <p class="text-xs text-purple-800 mt-1">{'Google NotebookLM ile ders materyallerini interaktif sorgulayabilir ve sesli özetler dinleyebilirsiniz.' if is_tr else 'Query course literature interactively and generate audio overviews via Google NotebookLM.'}</p>
+        </div>
+        <a href="{notebooklm}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-lg transition shadow-sm whitespace-nowrap">
+            <span>{"NotebookLM'i Aç" if is_tr else "Open NotebookLM"}</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </a>
+    </div>""" if notebooklm else ""
+    
+    syllabus_btn = f"""
+    <a href="{asset_prefix}{syllabus}" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition shadow-sm">
+        <i class="fa-solid fa-file-pdf"></i>
+        <span>{'Ders İzlencesi (PDF İndir)' if is_tr else 'Download Syllabus (PDF)'}</span>
+    </a>""" if syllabus else ""
+
+    html = f"""<!DOCTYPE html>
+<html lang="{'tr' if is_tr else 'en'}" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} | Dr. Caner ÖZYILDIRIM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {{
+            theme: {{
+                extend: {{
+                    colors: {{
+                        academic: {{ 50: '#f4f6f8', 100: '#e5eaf0', 700: '#1b365d', 800: '#132744', 900: '#0b172a' }},
+                        accent: '#8b263e',
+                        warmBg: '#fcfbf9'
+                    }},
+                    fontFamily: {{
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                        display: ['Cinzel', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }}
+                }}
+            }}
+        }}
+    </script>
+</head>
+<body class="bg-warmBg text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+    
+    <!-- Top Navigation Bar -->
+    <header class="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="{home_url}#teaching" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold text-sm transition">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>{'← Dersler Listesine Dön' if is_tr else '← Back to Courses'}</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <a href="{home_url}" class="text-xs font-semibold text-slate-600 hover:text-academic-700 transition">{'Ana Sayfa' if is_tr else 'Home'}</a>
+                <span class="text-xs font-bold text-academic-700 bg-academic-50 px-2.5 py-1 rounded">{badge_str}</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Course Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
+        
+        <!-- Header / Title -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-3 mb-3">
+                <span class="text-xs font-bold text-academic-700 bg-academic-100 px-3 py-1 rounded-full">{badge_str}</span>
+                <i class="fa-solid {icon} text-academic-700 text-xl"></i>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-serif font-bold text-academic-900 leading-tight">{title}</h1>
+            <p class="text-xs text-slate-500 mt-2">{'Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi • Beslenme ve Diyetetik Bölümü' if is_tr else 'Akdeniz University Faculty of Health Sciences • Department of Nutrition and Dietetics'}</p>
+        </div>
+
+        <!-- Summary Box -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm mb-8">
+            <h3 class="text-xs font-bold text-accent uppercase tracking-widest mb-2">{'Dersin Genel Vizyonu' if is_tr else 'Course Overview'}</h3>
+            <p class="text-base text-slate-700 leading-relaxed font-serif">{summary}</p>
+            
+            <div class="mt-6 pt-6 border-t border-slate-100 flex flex-wrap items-center gap-4">
+                {notebook_btn}
+                {syllabus_btn}
+            </div>
+        </div>
+
+        <!-- Topics & Classroom Highlights -->
+        {topics_box}
+        {practices_box}
+        {seminars_box}
+        {outcomes_box}
+
+        <!-- Full Body Notes -->
+        {f'<div class="bg-white rounded-xl border border-slate-200 p-6 md:p-8 shadow-sm mt-8">' + body_html + '</div>' if body_html else ''}
+
+        <!-- Bottom Back Button -->
+        <div class="mt-12 pt-6 border-t border-slate-200 flex justify-between items-center">
+            <a href="{home_url}#teaching" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold text-sm transition">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>{'Tüm Derslerime Göz At' if is_tr else 'View All Courses'}</span>
+            </a>
+            <a href="{home_url}" class="text-xs text-slate-500 hover:text-academic-700">Dr. Caner ÖZYILDIRIM</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-academic-900 text-slate-400 py-8 border-t border-academic-800 text-center text-xs mt-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>© 2026 Dr. Caner ÖZYILDIRIM. {'Bütün Hakları Saklıdır.' if is_tr else 'All Rights Reserved.'}</p>
+        </div>
+    </footer>
+
+</body>
+</html>"""
+    return html
+
 def main():
     print("🚀 Building Academic Website...")
     
@@ -1367,13 +1543,35 @@ def main():
         f.write(tr_html)
     print("  ✅ Turkish site compiled: index.html")
     
-    # 2. Build EN site -> en/index.html
+    # 2. Build TR course pages -> dersler/*.html
+    tr_teaching = load_section_items(CONTENT_DIR / "tr", "teaching")
+    dersler_dir = BASE_DIR / "dersler"
+    dersler_dir.mkdir(exist_ok=True)
+    for c in tr_teaching:
+        fname = c.get("_filename", "course.md").replace(".md", ".html")
+        chtml = generate_single_course_html(c, "tr")
+        with open(dersler_dir / fname, "w", encoding="utf-8") as f:
+            f.write(chtml)
+    print(f"  ✅ {len(tr_teaching)} Turkish course detail pages generated in dersler/")
+    
+    # 3. Build EN site -> en/index.html
     en_dir = BASE_DIR / "en"
     en_dir.mkdir(exist_ok=True)
     en_html = generate_html("en")
     with open(en_dir / "index.html", "w", encoding="utf-8") as f:
         f.write(en_html)
     print("  ✅ English site compiled: en/index.html")
+    
+    # 4. Build EN course pages -> en/courses/*.html
+    en_teaching = load_section_items(CONTENT_DIR / "en", "teaching")
+    en_courses_dir = en_dir / "courses"
+    en_courses_dir.mkdir(exist_ok=True)
+    for c in en_teaching:
+        fname = c.get("_filename", "course.md").replace(".md", ".html")
+        chtml = generate_single_course_html(c, "en")
+        with open(en_courses_dir / fname, "w", encoding="utf-8") as f:
+            f.write(chtml)
+    print(f"  ✅ {len(en_teaching)} English course detail pages generated in en/courses/")
     
     print("🎉 All bilingual sites compiled successfully from Obsidian markdown!")
 
