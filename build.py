@@ -807,7 +807,7 @@ def generate_html(lang="tr"):
                         <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="hover:text-red-600 transition p-1" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
                         <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
                         <a href="#articles" class="hover:text-amber-600 transition p-1" title="Yazılar & Blog"><i class="fa-solid fa-newspaper"></i></a>
-                        <a href="#podcasts" class="hover:text-emerald-500 transition p-1" title="Spotify Podcast"><i class="fa-brands fa-spotify"></i></a>
+                        <a href="https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-500 transition p-1" title="Spotify Podcast (Konsantre Podcast)"><i class="fa-brands fa-spotify"></i></a>
                         <a href="#podcasts" class="hover:text-purple-500 transition p-1" title="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
                         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition p-1" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
                         <a href="https://github.com/drcanerozy" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="GitHub"><i class="fa-brands fa-github"></i></a>
@@ -1125,7 +1125,7 @@ def generate_html(lang="tr"):
                 </div>
 
                 <div class="mt-6 md:mt-0 flex flex-wrap gap-2.5 text-xs font-medium">
-                    <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="bg-emerald-950/90 hover:bg-emerald-900 text-emerald-400 border border-emerald-700/60 px-4 py-2.5 rounded-xl flex items-center space-x-2 transition shadow-sm" title="Spotify">
+                    <a href="https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab" target="_blank" rel="noopener noreferrer" class="bg-emerald-950/90 hover:bg-emerald-900 text-emerald-400 border border-emerald-700/60 px-4 py-2.5 rounded-xl flex items-center space-x-2 transition shadow-sm" title="Spotify">
                         <i class="fa-brands fa-spotify text-base"></i>
                         <span>Spotify</span>
                     </a>
