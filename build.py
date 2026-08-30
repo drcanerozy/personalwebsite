@@ -77,8 +77,25 @@ def read_md_file(file_path):
 
 def load_section_items(lang_dir, section_name):
     folder = lang_dir / section_name
-    if not folder.exists():
-        return []
+    if not folder.exists() or not any(folder.glob("*.md")):
+        aliases = {
+            "projects": "projeler",
+            "projeler": "projects",
+            "publications": "yayinlar",
+            "yayinlar": "publications",
+            "teaching": "acik-dersler",
+            "tools": "lab-araclari",
+            "articles": "bulten-podcast",
+            "podcasts": "bulten-podcast"
+        }
+        if section_name in aliases:
+            alt_folder = lang_dir / aliases[section_name]
+            if alt_folder.exists() and any(alt_folder.glob("*.md")):
+                folder = alt_folder
+            elif not folder.exists():
+                return []
+        elif not folder.exists():
+            return []
     
     items = []
     for md_file in sorted(folder.glob("*.md")):
@@ -219,6 +236,92 @@ def generate_html(lang="tr"):
                     {lay_box}
                 </div>"""
         pubs_html.append(card)
+
+    # Helper for Projects HTML
+    projects_html = []
+    for prj in projects:
+        p_badge = prj.get("badge", "Proje" if is_tr else "Project")
+        p_badge_color = prj.get("badge_color", "blue")
+        p_icon = prj.get("icon", "fa-diagram-project" if "cost" in p_badge.lower() else "fa-flask")
+        p_title = prj.get("title", "")
+        p_summary = prj.get("summary", prj.get("body", ""))
+        p_contribution = prj.get("contribution", "")
+        p_role = prj.get("role", "")
+        p_wg = prj.get("working_groups", "")
+        p_funder = prj.get("funder", "")
+        p_scope = prj.get("scope", "")
+        p_date = prj.get("date", "")
+        p_active = prj.get("active_status", "")
+        p_url = prj.get("url", "")
+        p_label = prj.get("link_label", "")
+        
+        # Color styling for badge
+        if "amber" in p_badge_color or "ca24166" in p_badge.lower():
+            badge_style = "bg-amber-100 text-amber-900 border border-amber-200"
+        elif "emerald" in p_badge_color or "green" in p_badge_color or "ca23110" in p_badge.lower():
+            badge_style = "bg-emerald-100 text-emerald-900 border border-emerald-200"
+        elif "purple" in p_badge_color or "bap" in p_badge.lower():
+            badge_style = "bg-purple-100 text-purple-900 border border-purple-200"
+        else:
+            badge_style = "bg-blue-100 text-blue-900 border border-blue-200"
+            
+        # Role and Working Groups block
+        role_block = ""
+        if p_role or p_wg or p_active:
+            role_parts = []
+            if p_role:
+                role_parts.append(f"<span class='font-semibold text-slate-800'>{'Görev:' if is_tr else 'Role:'}</span> {p_role}")
+            if p_wg:
+                role_parts.append(f"<span class='font-semibold text-slate-800'>{'Çalışma Grupları:' if is_tr else 'Working Groups:'}</span> {p_wg}")
+            if p_active:
+                role_parts.append(f"<span class='inline-block text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60 mt-1'>{p_active}</span>")
+            role_block = f"<div class='mt-3 p-3 bg-slate-50/80 rounded-lg border border-slate-200/70 text-xs text-slate-600 space-y-1.5'>{'<br>'.join(role_parts)}</div>"
+            
+        # Contribution block
+        contrib_block = ""
+        if p_contribution:
+            contrib_block = f"<div class='mt-3 p-3.5 bg-amber-50/60 rounded-lg border border-amber-200/70 text-xs text-slate-700 leading-relaxed'><strong class='text-amber-950 flex items-center mb-1 font-serif'><i class='fa-solid fa-bullseye text-amber-700 mr-1.5'></i> {'Akademik Katkımız ve Odak Alanımız:' if is_tr else 'Academic Contribution & Focus:'}</strong> {p_contribution}</div>"
+
+        # Footer info & button
+        footer_info = p_funder if p_funder else (p_scope if p_scope else "")
+        if p_url:
+            if p_url.startswith("http"):
+                target_attr = "target='_blank' rel='noopener noreferrer'"
+                btn_url = p_url
+                btn_label = p_label or ("COST Aksiyon Portalı" if is_tr else "COST Action Portal")
+            else:
+                target_attr = "target='_blank'"
+                btn_url = f"{ui['asset_prefix']}{p_url}"
+                btn_label = p_label or ("Detaylar (CV PDF)" if is_tr else "Details (CV PDF)")
+            action_btn = f"<a href='{btn_url}' {target_attr} class='text-academic-700 font-semibold hover:underline flex items-center space-x-1'><span>{btn_label}</span> <i class='fa-solid fa-arrow-up-right-from-square text-[10px] ml-1'></i></a>"
+        else:
+            action_btn = ""
+
+        card = f"""
+                <!-- Project: {p_title} -->
+                <div class="bg-warmBg rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-academic-700 transition">
+                    <div>
+                        <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
+                            <span class="text-xs font-bold px-3 py-1 rounded-full flex items-center {badge_style}">
+                                <i class="fa-solid {p_icon} mr-1.5 text-[11px]"></i> {p_badge}
+                            </span>
+                            {f'<span class="text-xs text-slate-400 font-mono">{p_date}</span>' if p_date else ''}
+                        </div>
+                        <h3 class="text-xl font-serif font-bold text-academic-900">
+                            {p_title}
+                        </h3>
+                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                            {p_summary}
+                        </p>
+                        {role_block}
+                        {contrib_block}
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center gap-2 text-xs">
+                        <span class="text-slate-600 font-medium">{footer_info}</span>
+                        {action_btn}
+                    </div>
+                </div>"""
+        projects_html.append(card)
 
     # Helper for Presentations HTML
     pres_html = []
@@ -737,12 +840,12 @@ def generate_html(lang="tr"):
                             <div class="text-xs text-slate-500 font-medium">{'Akademik Kitap Bölümü' if is_tr else 'Academic Book Chapters'}</div>
                         </div>
                         <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
-                            <div class="text-2xl font-serif font-bold text-academic-700">3</div>
+                            <div class="text-2xl font-serif font-bold text-academic-700">{len(projects) if projects else 5}</div>
                             <div class="text-xs text-slate-500 font-medium">{'Uluslararası / Ulusal Proje' if is_tr else 'International / National Projects'}</div>
                         </div>
                         <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
-                            <div class="text-2xl font-serif font-bold text-academic-700">CA23110</div>
-                            <div class="text-xs text-slate-500 font-medium">{'COST INFLAMomx Üyesi' if is_tr else 'COST INFLAMomx Member'}</div>
+                            <div class="text-2xl font-serif font-bold text-academic-700">2 COST</div>
+                            <div class="text-xs text-slate-500 font-medium">{'CA24166 & CA23110 Üyesi' if is_tr else 'CA24166 & CA23110 Member'}</div>
                         </div>
                     </div>
                 </div>
@@ -858,10 +961,17 @@ def generate_html(lang="tr"):
                             </div>
                             <div>
                                 <strong class="text-academic-700 flex items-center space-x-1.5">
-                                    <i class="fa-solid fa-network-wired text-emerald-600"></i>
-                                    <span>COST Action CA23110 (INFLAMomx):</span>
+                                    <i class="fa-solid fa-network-wired text-amber-600"></i>
+                                    <span>COST Action CA24166 (INFLAMomx):</span>
                                 </strong>
-                                <p class="text-slate-600 mt-0.5">{'Metabolik enflamasyon ve multi-omics veri entegrasyonu çalışma grubu üyeliği.' if is_tr else 'Working group member on multi-omics data integration in metabolic inflammation.'}</p>
+                                <p class="text-slate-600 mt-0.5">{'Çalışma Grubu Üyesi (WG1, WG3, WG4) — Çoklu omiks entegrasyonu ve inflamatuar yaşlanma (2025–2029).' if is_tr else 'Working Group Member (WG1, WG3, WG4) — Multi-omics integration and inflammaging (2025–2029).'}</p>
+                            </div>
+                            <div>
+                                <strong class="text-academic-700 flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-network-wired text-emerald-600"></i>
+                                    <span>COST Action CA23110 (INFOGUT):</span>
+                                </strong>
+                                <p class="text-slate-600 mt-0.5">{'Çalışma Grubu Üyesi (WG3, WG4, WG5) — İn vitro kolon modelleri ve bağırsak mikrobiyotası etkileşimleri (2024–2028).' if is_tr else 'Working Group Member (WG3, WG4, WG5) — In vitro colon models simulating gut microbiota (2024–2028).'}</p>
                             </div>
                             <div>
                                 <strong class="text-academic-700 flex items-center space-x-1.5">
@@ -914,101 +1024,19 @@ def generate_html(lang="tr"):
     <!-- 4. PROJECTS SECTION -->
     <section id="projects" class="py-16 bg-white border-b academic-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <span class="text-xs font-semibold text-accent uppercase tracking-widest">{'Bilimsel Araştırma & İşbirlikleri' if is_tr else 'Scientific Research & Collaborations'}</span>
-            <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1 mb-8">{ui['nav_projects']}</h2>
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+                <div>
+                    <span class="text-xs font-semibold text-accent uppercase tracking-widest">{'Bilimsel Araştırma & İşbirlikleri' if is_tr else 'Scientific Research & Collaborations'}</span>
+                    <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{ui['nav_projects']}</h2>
+                </div>
+                <div class="mt-3 md:mt-0 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                    <span class="bg-amber-100 text-amber-900 px-2.5 py-1 rounded-full font-semibold border border-amber-200 flex items-center"><i class="fa-solid fa-diagram-project mr-1.5"></i> COST CA24166 (INFLAMomx)</span>
+                    <span class="bg-emerald-100 text-emerald-900 px-2.5 py-1 rounded-full font-semibold border border-emerald-200 flex items-center"><i class="fa-solid fa-diagram-project mr-1.5"></i> COST CA23110 (INFOGUT)</span>
+                </div>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- World Bank -->
-                <div class="bg-warmBg rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xs font-bold bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center">
-                                <i class="fa-solid fa-globe mr-1.5 text-[11px]"></i> {'Dünya Bankası Destekli Proje' if is_tr else 'World Bank Supported Project'}
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-serif font-bold text-academic-900">
-                            {'Otizm Spektrum Bozukluğu ve Zihinsel Özel Gereksinimli Bireylerde Bireysel Beslenme Danışmanlığı Modeli' if is_tr else 'Individual Nutrition Counseling Model in Children with Autism Spectrum Disorder and Intellectual Disabilities'}
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                            {'Özel gereksinimli bireylerde hizmet kapasitesinin güçlendirilmesi, aile temelli beslenme danışmanlığı modelinin geliştirilmesi ve beslenme kalitesinin artırılması.' if is_tr else 'Strengthening service capacity, developing family-based nutrition counseling protocols, and enhancing dietary quality for individuals with special needs.'}
-                        </p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-xs">
-                        <span class="text-slate-600 font-medium">{'Fon: Dünya Bankası' if is_tr else 'Funding: World Bank'}</span>
-                        <a href="{ui['asset_prefix']}CV_Ozyildirim.pdf" target="_blank" class="text-academic-700 font-semibold hover:underline flex items-center space-x-1">
-                            <span>{'Detaylar' if is_tr else 'Details'} &rarr;</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Ministry of Health -->
-                <div class="bg-warmBg rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">
-                                <i class="fa-solid fa-hand-holding-medical mr-1.5 text-[11px]"></i> {'T.C. Sağlık Bakanlığı Projesi' if is_tr else 'Republic of Turkey Ministry of Health Project'}
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-serif font-bold text-academic-900">
-                            {'Otizm ve Zihinsel Özel Gereksinimli Bireylerde Ulusal Beslenme Araştırması' if is_tr else 'National Nutritional Survey in Individuals with Autism and Special Healthcare Needs'}
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                            {'Sağlık Bakanlığı koordinasyonunda özel gereksinimli çocukların beslenme durumunun, büyüme parametrelerinin ve diyet ihtiyaçlarının haritalanması.' if is_tr else 'Mapping nutritional status, anthropometric growth indicators, and dietary needs of children with special needs across national centers.'}
-                        </p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-xs">
-                        <span class="text-slate-600 font-medium">{'Kapsam: Ulusal Proje' if is_tr else 'Scope: National Project'}</span>
-                        <a href="{ui['asset_prefix']}CV_Ozyildirim.pdf" target="_blank" class="text-academic-700 font-semibold hover:underline flex items-center space-x-1">
-                            <span>{'Detaylar' if is_tr else 'Details'} &rarr;</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- BAP -->
-                <div class="bg-warmBg rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xs font-bold bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-                                <i class="fa-solid fa-flask mr-1.5 text-[11px]"></i> {'Üniversite Bilimsel Araştırma Projesi (BAP)' if is_tr else 'University Scientific Research Project (BAP)'}
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-serif font-bold text-academic-900">
-                            {'Koroner Arter Hastalarında Zonulin, Oksidatif Stres ve Beslenme İlişkisi' if is_tr else 'Relationship Between Zonulin, Oxidative Stress and Diet in Coronary Artery Disease'}
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                            {'İlk kez koroner arter hastalığı tanısı alan bireylerde bağırsak geçirgenliği belirteci zonulin, total antioksidan kapasite (TAC), total oksidatif stres seviyesi (TOS) ve diyet örüntülerinin incelenmesi.' if is_tr else 'Evaluating intestinal permeability marker zonulin, total antioxidant capacity (TAC), total oxidant status (TOS) and dietary patterns in CAD patients.'}
-                        </p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-xs">
-                        <span class="text-slate-600 font-medium">{'Alan: Biyobelirteç Analitiği' if is_tr else 'Field: Biomarker Analytics'}</span>
-                        <a href="{ui['asset_prefix']}CV_Ozyildirim.pdf" target="_blank" class="text-academic-700 font-semibold hover:underline flex items-center space-x-1">
-                            <span>{'Detaylar' if is_tr else 'Details'} &rarr;</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- COST Action CA23110 -->
-                <div class="bg-warmBg rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xs font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-full">
-                                <i class="fa-solid fa-diagram-project mr-1.5 text-[11px]"></i> COST Action CA23110 (European Union)
-                            </span>
-                        </div>
-                        <h3 class="text-xl font-serif font-bold text-academic-900">
-                            INFLAMomx: Multi-Omics Data Integration in Metabolic Inflammation
-                        </h3>
-                        <p class="text-sm text-slate-600 mt-3 leading-relaxed">
-                            {'Metabolik enflamasyon ve klinik fenotiplerde multi-omiks verilerin entegrasyonu, biyobelirteç keşfi ve biyoinformatik modelleme üzerine Avrupa konsorsiyumu çalışma grubu üyeliği.' if is_tr else 'European consortium working group member on integrating multi-omics datasets, biomarker discovery, and bioinformatics modeling in metabolic inflammation.'}
-                        </p>
-                    </div>
-                    <div class="mt-6 pt-4 border-t border-slate-200 flex justify-between items-center text-xs">
-                        <span class="text-slate-600 font-medium">Network: COST CA23110</span>
-                        <a href="https://www.cost.eu" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-semibold hover:underline flex items-center space-x-1">
-                            <span>{'COST Portalı' if is_tr else 'COST Portal'} &rarr;</span>
-                        </a>
-                    </div>
-                </div>
+                {"".join(projects_html)}
             </div>
         </div>
     </section>

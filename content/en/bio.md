@@ -24,5 +24,5 @@ I completed my Ph.D. in Nutrition and Dietetics in November 2024 at <strong>Anka
 
 <p>
 My research focuses on lifespan cardiometabolic disorders, pediatric and adult obesity diagnostic metrics (Triponderal Mass Index, BMI z-scores), intermittent fasting (IF), time-restricted eating (TRE), ultra-processed foods (UPF), and systemic biomarkers (zonulin, total antioxidant capacity, oxidative stress). 
-I employ <strong>R programming</strong> for multivariable biostatistical modeling, integrate <strong>Artificial Intelligence (AI) & LLM</strong> frameworks into biomedical data analytics, hold the <strong>Laboratory Animal Care & Use Accreditation</strong> for translational research, and actively contribute to <strong>COST Action CA23110 (INFLAMomx)</strong> focusing on multi-omics data integration in metabolic inflammation.
+I employ <strong>R programming</strong> for multivariable biostatistical modeling, integrate <strong>Artificial Intelligence (AI) & LLM</strong> frameworks into biomedical data analytics, hold the <strong>Laboratory Animal Care & Use Accreditation</strong> for translational research, and actively contribute to European research networks as a Working Group Member in <strong>COST Action CA24166 (INFLAMomx)</strong> and <strong>COST Action CA23110 (INFOGUT)</strong>.
 </p>

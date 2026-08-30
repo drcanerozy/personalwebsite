@@ -10,7 +10,7 @@ Bu depo, **Dr. Caner ÖZYILDIRIM**'ın akademik çalışmalarını, hakemli yay�
 ## 🔬 Araştırma Alanları & Akademik Profil
 
 - **Kurum:** Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi, Beslenme ve Diyetetik Bölümü
-- **Odak Alanları:** Metabolik Esneklik, Yağ Dokusu Disfonksiyonu, NAFLD / MASLD, Biyoistatistiksel Modelleme (R), Zaman Kısıtlı Beslenme (TRE) ve Çoklu Omiks (COST Action CA23110 - INFLAMomx).
+- **Odak Alanları:** Metabolik Esneklik, Yağ Dokusu Disfonksiyonu, NAFLD / MASLD, Biyoistatistiksel Modelleme (R), Zaman Kısıtlı Beslenme (TRE), Çoklu Omiks (COST Action CA24166 - INFLAMomx) ve İn Vitro Bağırsak Modelleri (COST Action CA23110 - INFOGUT).
 - **ORCID:** [0000-0001-8227-9575](https://orcid.org/0000-0001-8227-9575)
 
 ---

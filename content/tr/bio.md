@@ -24,5 +24,5 @@ Beslenme ve Diyetetik alanında doktora derecemi Kasım 2024'te <strong>Ankara �
 
 <p>
 Çalışmalarım; yaşam boyu kardiyometabolik bozukluklar, pediyatrik ve yetişkin obezite tanı modelleri (Triponderal Kütle İndeksi, BMI z-skoru), aralıklı oruç (Intermittent Fasting), zaman kısıtlı beslenme (TRE), ultra-işlenmiş gıdalar (UPF) ve kardiyometabolik risk belirteçleri (zonulin, total antioksidan kapasite, oksidatif stres) üzerine odaklanmaktadır. 
-<strong>R programlama dili</strong> ile çok değişkenli istatistiksel modelleme yapmakta, <strong>Yapay Zeka (AI) & LLM</strong> araçlarını biyoveri analitiğine entegre etmekte, <strong>Deney Hayvanları Kullanım Sertifikası</strong> ile translasyonel araştırmalar yürütmekte ve <strong>COST Action CA23110 (INFLAMomx)</strong> bünyesinde çoklu omiks (multi-omics) veri entegrasyonuna katkı sağlamaktayım.
+<strong>R programlama dili</strong> ile çok değişkenli istatistiksel modelleme yapmakta, <strong>Yapay Zeka (AI) & LLM</strong> araçlarını biyoveri analitiğine entegre etmekte, <strong>Deney Hayvanları Kullanım Sertifikası</strong> ile translasyonel araştırmalar yürütmekte ve <strong>COST Action CA24166 (INFLAMomx)</strong> ile <strong>COST Action CA23110 (INFOGUT)</strong> bünyesinde çoklu omiks ve in vitro bağırsak modelleri çalışma gruplarına aktif katkı sağlamaktayım.
 </p>
