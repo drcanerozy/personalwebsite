@@ -8,11 +8,85 @@ Zero external dependencies (pure Python 3 standard library).
 import os
 import re
 import glob
+import urllib.request
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.resolve()
 CONTENT_DIR = BASE_DIR / "content"
 TEMPLATES_DIR = BASE_DIR / "_templates"
+
+def fetch_substack_rss():
+    """
+    Fetches and parses the latest articles directly from Substack RSS feed (https://drcaner.substack.com/feed).
+    Falls back gracefully if network is unavailable.
+    """
+    url = "https://drcaner.substack.com/feed"
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Mozilla/5.0 (AcademicWebsiteBuilder/1.0)"}
+        )
+        with urllib.request.urlopen(req, timeout=4) as response:
+            xml_data = response.read()
+        root = ET.fromstring(xml_data)
+        
+        feed_articles = []
+        for item in root.findall(".//item"):
+            title = item.findtext("title", "").strip()
+            link = item.findtext("link", "").strip()
+            pub_date = item.findtext("pubDate", "").strip()
+            description = item.findtext("description", "").strip()
+            
+            # Extract date
+            date_str = ""
+            if pub_date:
+                try:
+                    parts = pub_date.split()
+                    if len(parts) >= 4:
+                        month_map = {
+                            "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04",
+                            "May": "05", "Jun": "06", "Jul": "07", "Aug": "08",
+                            "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12"
+                        }
+                        day = parts[1].zfill(2)
+                        mon = month_map.get(parts[2], "01")
+                        year = parts[3]
+                        date_str = f"{year}-{mon}-{day}"
+                except Exception:
+                    date_str = pub_date[:10]
+            
+            # Extract cover image
+            image_url = ""
+            enclosure = item.find("enclosure")
+            if enclosure is not None and enclosure.get("url"):
+                image_url = enclosure.get("url")
+            
+            if not image_url:
+                content_elem = item.find("{http://purl.org/rss/1.0/modules/content/}encoded")
+                if content_elem is not None and content_elem.text:
+                    img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content_elem.text)
+                    if img_match:
+                        image_url = img_match.group(1)
+            
+            # Clean description for abstract summary
+            clean_desc = re.sub(r'<[^>]+>', '', description).strip()
+            if len(clean_desc) > 230:
+                clean_desc = clean_desc[:227] + "..."
+            
+            feed_articles.append({
+                "title": title,
+                "url": link,
+                "date": date_str,
+                "summary": clean_desc,
+                "image_url": image_url,
+                "badge": "Substack",
+                "read_time": "6-8 dk",
+                "draft": False
+            })
+        return feed_articles
+    except Exception:
+        return []
 
 def parse_frontmatter(content):
     """Simple, robust YAML frontmatter parser without external dependencies."""
@@ -85,7 +159,8 @@ def load_section_items(lang_dir, section_name):
             "yayinlar": "publications",
             "teaching": "acik-dersler",
             "tools": "lab-araclari",
-            "articles": "bulten-podcast",
+            "articles": "yazilar",
+            "yazilar": "articles",
             "podcasts": "bulten-podcast"
         }
         if section_name in aliases:
@@ -93,20 +168,34 @@ def load_section_items(lang_dir, section_name):
             if alt_folder.exists() and any(alt_folder.glob("*.md")):
                 folder = alt_folder
             elif not folder.exists():
-                return []
+                folder = None
         elif not folder.exists():
-            return []
+            folder = None
     
     items = []
-    for md_file in sorted(folder.glob("*.md")):
-        data, body = read_md_file(md_file)
-        if not data.get("draft", False):
-            data["body"] = body
-            data["_filename"] = md_file.name
-            items.append(data)
+    if folder and folder.exists():
+        for md_file in sorted(folder.glob("*.md")):
+            data, body = read_md_file(md_file)
+            if not data.get("draft", False):
+                data["body"] = body
+                data["_filename"] = md_file.name
+                items.append(data)
+                
+    # Substack RSS auto-discovery for articles
+    if section_name in ["articles", "yazilar"]:
+        existing_urls = {item.get("url", "").split("?")[0] for item in items if item.get("url")}
+        rss_articles = fetch_substack_rss()
+        for r_art in rss_articles:
+            base_url = r_art.get("url", "").split("?")[0]
+            if base_url and base_url not in existing_urls:
+                items.append(r_art)
+                existing_urls.add(base_url)
             
-    # Sort items if order or date exists
-    items.sort(key=lambda x: (x.get("order", 999), str(x.get("date", "")), str(x.get("year", ""))), reverse=False)
+    # Sort items
+    if section_name in ["articles", "yazilar"]:
+        items.sort(key=lambda x: (x.get("order", 999), str(x.get("date", ""))), reverse=False)
+    else:
+        items.sort(key=lambda x: (x.get("order", 999), str(x.get("date", "")), str(x.get("year", ""))), reverse=False)
     return items
 
 def generate_html(lang="tr"):
@@ -502,53 +591,76 @@ def generate_html(lang="tr"):
                     <span class="mt-4 text-xs font-semibold text-purple-700">Obsidian _templates &rarr;</span>
                 </div>""")
 
-    # Helper for Articles HTML
+    # Helper for Articles HTML (Substack Showcase Cards)
     articles_html = []
     for art in articles:
-        a_badge = art.get("badge", "[Kategori]")
+        a_badge = art.get("badge", "Substack" if is_tr else "Substack")
         a_date = art.get("date", "[Tarih]")
         a_title = art.get("title", "[Yazı Başlığı]")
         a_desc = art.get("summary", art.get("body", "[Yazı Özeti]"))
-        a_time = art.get("read_time", "5 dk" if is_tr else "5 min")
-        a_url = art.get("url", "https://substack.com")
+        a_time = art.get("read_time", "6 dk" if is_tr else "6 min")
+        a_url = art.get("url", "https://drcaner.substack.com")
+        a_img = art.get("image_url", "")
         
-        card = f"""
-                <article class="bg-warmBg rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md hover:border-academic-700 transition group">
-                    <div>
+        if a_img:
+            img_block = f"""
+                    <div class="h-44 sm:h-48 w-full overflow-hidden relative bg-slate-100 border-b border-slate-100">
+                        <img src="{a_img}" alt="{a_title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 text-[11px] font-bold bg-white/95 backdrop-blur-md text-amber-900 border border-amber-200/80 px-2.5 py-0.5 rounded-full shadow-sm">{a_badge}</span>
+                    </div>"""
+            content_padding = "p-6"
+            meta_header = f'<div class="text-xs text-slate-400 font-mono mb-2 flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i>{a_date}</div>'
+        else:
+            img_block = ""
+            content_padding = "p-6"
+            meta_header = f"""
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-[11px] font-bold bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full">{a_badge}</span>
                             <span class="text-xs text-slate-400 font-mono">{a_date}</span>
+                        </div>"""
+
+        read_btn_label = "Substack'te Oku & Abone Ol" if is_tr else "Read & Subscribe"
+
+        card = f"""
+                <article class="bg-warmBg rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg hover:border-amber-400/80 transition-all duration-300 group">
+                    <div>
+                        {img_block}
+                        <div class="{content_padding}">
+                            {meta_header}
+                            <h3 class="font-serif font-bold text-lg text-academic-900 group-hover:text-amber-700 transition leading-snug">
+                                <a href="{a_url}" target="_blank" rel="noopener noreferrer">
+                                    {a_title}
+                                </a>
+                            </h3>
+                            <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                                {a_desc}
+                            </p>
                         </div>
-                        <h3 class="font-serif font-bold text-lg text-academic-900 group-hover:text-academic-700 transition">
-                            <a href="{a_url}" target="_blank" rel="noopener noreferrer">
-                                {a_title}
-                            </a>
-                        </h3>
-                        <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
-                            {a_desc}
-                        </p>
                     </div>
-                    <div class="mt-5 pt-4 border-t border-slate-200 flex justify-between items-center text-xs text-slate-500">
-                        <span class="flex items-center"><i class="fa-regular fa-clock mr-1"></i> {a_time}</span>
-                        <a href="{a_url}" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-semibold group-hover:underline flex items-center space-x-1">
-                            <span>{ui['read_more_btn']}</span>
-                            <span>&rarr;</span>
+                    <div class="px-6 pb-5 pt-3.5 border-t border-slate-200/70 flex justify-between items-center text-xs bg-white/40">
+                        <span class="flex items-center text-slate-500 font-medium"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> {a_time}</span>
+                        <a href="{a_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 text-amber-900 hover:text-white font-bold bg-amber-100 hover:bg-[#FF6719] px-3 py-1.5 rounded-lg transition shadow-xs">
+                            <span>{read_btn_label}</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
                         </a>
                     </div>
                 </article>"""
         articles_html.append(card)
 
     articles_html.append(f"""
-                <article class="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col justify-center items-center text-center bg-slate-50/50 hover:bg-slate-100/60 transition">
-                    <div class="w-10 h-10 rounded-full bg-academic-100 text-academic-700 flex items-center justify-center mb-3">
-                        <i class="fa-solid fa-plus text-base"></i>
+                <div class="border-2 border-dashed border-amber-200/80 rounded-2xl p-6 flex flex-col justify-center items-center text-center bg-amber-50/20 hover:bg-amber-50/50 transition">
+                    <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-3 shadow-xs">
+                        <svg class="w-6 h-6 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
                     </div>
-                    <h3 class="font-serif font-bold text-base text-slate-800">{"[Yeni Yazı Ekleyin]" if is_tr else "[Add New Article]"}</h3>
-                    <p class="text-xs text-slate-500 mt-1 max-w-xs">
-                        {"Substack veya blog yazılarınızı Obsidian notları olarak yönetebilirsiniz." if is_tr else "Manage your Substack or blog posts as Obsidian notes."}
+                    <h3 class="font-serif font-bold text-base text-slate-800">{"Tüm Bülten Arşivi" if is_tr else "Full Newsletter Archive"}</h3>
+                    <p class="text-xs text-slate-500 mt-1.5 max-w-xs leading-relaxed">
+                        {"Tüm güncel ve geçmiş yazı dizilerine Substack bültenim üzerinden ulaşabilirsiniz." if is_tr else "Access all past and current articles directly on my Substack publication."}
                     </p>
-                    <span class="mt-4 text-xs font-semibold text-academic-700">Obsidian _templates &rarr;</span>
-                </article>""")
+                    <a href="https://drcaner.substack.com" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center space-x-1.5 text-xs font-semibold text-amber-900 bg-white hover:bg-amber-100 border border-amber-300 px-3.5 py-1.5 rounded-lg transition shadow-xs">
+                        <span>{"Substack'e Git" if is_tr else "Visit Substack"}</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>""")
 
     # Helper for Podcasts HTML
     podcasts_html = []
@@ -794,11 +906,11 @@ def generate_html(lang="tr"):
                             <i class="fa-brands fa-orcid text-emerald-600 text-sm"></i>
                             <span>0000-0001-8227-9575</span>
                         </a>
-                        <a href="https://avesis.akdeniz.edu.tr" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md border border-slate-200 flex items-center space-x-1.5 transition shadow-sm" title="Akdeniz AVESİS">
+                        <a href="{bio_data.get('avesis_url', 'https://avesis.akdeniz.edu.tr/canerozyildirim')}" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md border border-slate-200 flex items-center space-x-1.5 transition shadow-sm" title="Akdeniz AVESİS">
                             <i class="fa-solid fa-building-columns text-academic-700 text-sm"></i>
                             <span>Akdeniz AVESİS</span>
                         </a>
-                        <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md border border-slate-200 flex items-center space-x-1.5 transition shadow-sm" title="Google Scholar">
+                        <a href="{bio_data.get('scholar_url', 'https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr')}" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md border border-slate-200 flex items-center space-x-1.5 transition shadow-sm" title="Google Scholar">
                             <i class="fa-solid fa-graduation-cap text-blue-600 text-sm"></i>
                             <span>Google Scholar</span>
                         </a>
@@ -812,13 +924,11 @@ def generate_html(lang="tr"):
                     <div class="flex flex-wrap justify-center items-center gap-3 mt-6 text-slate-600 text-lg">
                         <a href="mailto:{bio_data.get('email', 'canerozyildirim@akdeniz.edu.tr')}" class="hover:text-academic-700 transition p-1" title="E-posta"><i class="fa-solid fa-envelope"></i></a>
                         <a href="{bio_data.get('instagram', 'https://www.instagram.com/canerozy/')}" target="_blank" rel="noopener noreferrer" class="hover:text-pink-600 transition p-1" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="{bio_data.get('youtube', 'https://youtube.com')}" target="_blank" rel="noopener noreferrer" class="hover:text-red-600 transition p-1" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
                         <a href="{bio_data.get('twitter', 'https://x.com/CanerOzy')}" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
                         <a href="{bio_data.get('substack', 'https://drcaner.substack.com')}" target="_blank" rel="noopener noreferrer" class="hover:text-amber-600 transition p-1" title="Substack (Yazılar & Blog)"><i class="fa-solid fa-newspaper"></i></a>
                         <a href="{bio_data.get('spotify', 'https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f')}" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-500 transition p-1" title="Spotify Podcast (Konsantre Podcast)"><i class="fa-brands fa-spotify"></i></a>
                         <a href="#podcasts" class="hover:text-purple-500 transition p-1" title="Podcastler"><i class="fa-solid fa-podcast"></i></a>
                         <a href="{bio_data.get('linkedin', 'https://www.linkedin.com/in/caner-ozyildirim-35345b228')}" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition p-1" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                        <a href="{bio_data.get('github', 'https://github.com/drcanerozy')}" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="GitHub"><i class="fa-brands fa-github"></i></a>
                     </div>
                 </div>
 
@@ -1067,7 +1177,7 @@ def generate_html(lang="tr"):
     <!-- 6. ARTICLES SECTION -->
     <section id="articles" class="py-16 bg-white border-b academic-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
                 <div>
                     <span class="text-xs font-semibold text-accent uppercase tracking-widest">{'Düşünceler, Denemeler & Analizler' if is_tr else 'Thoughts, Essays & Analysis'}</span>
                     <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{ui['nav_articles']}</h2>
@@ -1075,10 +1185,35 @@ def generate_html(lang="tr"):
                 </div>
 
                 <div class="mt-4 md:mt-0">
-                    <a href="https://drcaner.substack.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 text-xs font-semibold text-academic-700 hover:text-academic-900 bg-academic-50 hover:bg-academic-100 px-4 py-2 rounded-lg border border-academic-200 transition">
-                        <i class="fa-solid fa-rss"></i>
+                    <a href="https://drcaner.substack.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 text-xs font-semibold text-amber-900 hover:text-amber-950 bg-amber-50 hover:bg-amber-100 px-4 py-2 rounded-xl border border-amber-200 transition">
+                        <svg class="w-3.5 h-3.5 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
                         <span>{'Tüm Yazılar (Substack)' if is_tr else 'All Articles (Substack)'} &rarr;</span>
                     </a>
+                </div>
+            </div>
+
+            <!-- Substack Newsletter Subscribe Box -->
+            <div class="mb-10 bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-transparent border border-amber-200/80 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
+                <div class="space-y-2 max-w-2xl text-center md:text-left">
+                    <div class="inline-flex items-center space-x-2 text-[11px] font-bold uppercase tracking-wider text-amber-900 bg-amber-100/90 px-2.5 py-0.5 rounded-full">
+                        <svg class="w-3 h-3 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                        <span>{'Substack Bülteni' if is_tr else 'Substack Newsletter'}</span>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-serif font-bold text-slate-900">
+                        {'Yeni Bilimsel Yazıları E-Postanızda Okuyun' if is_tr else 'Get New Scientific Articles in Your Inbox'}
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        {'Metabolizma, obezite farmakoterapisi, ultra-işlenmiş gıdalar ve kanıta dayalı beslenme üzerine kaleme aldığım derinlemesine derleme ve yazılara ücretsiz abone olun.' if is_tr else 'Subscribe for free to receive in-depth essays on metabolism, incretin therapies, ultra-processed foods, and evidence-based nutrition.'}
+                    </p>
+                </div>
+                <div class="w-full md:w-auto flex-shrink-0">
+                    <form action="https://drcaner.substack.com/subscribe" method="get" target="_blank" class="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
+                        <input type="email" name="email" required placeholder="{'E-posta adresiniz...' if is_tr else 'Your email address...'}" class="px-4 py-2.5 text-xs bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-xs w-full sm:w-64">
+                        <button type="submit" class="bg-[#FF6719] hover:bg-[#e05912] text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center space-x-2 whitespace-nowrap">
+                            <span>{'Ücretsiz Abone Ol' if is_tr else 'Subscribe Free'}</span>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
 

@@ -6,6 +6,7 @@ date: "2026-09-09"
 read_time: "6 min"
 url: "https://drcaner.substack.com/p/glp-1-kullanrken-tok-hissetmeniz"
 summary: "Rapid appetite suppression under GLP-1 therapies creates covert risks of micronutrient deficiency and sarcopenia. Real-world cohort findings on lean mass retention, iron kinetics, and clinical dietary prioritization."
+image_url: "https://substackcdn.com/image/fetch/$s_!3kFJ!,w_848,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4ec7be5d-cffc-4f99-9068-f030d557155a_2760x1464.heic"
 order: 2
 draft: false
 lang: "en"
