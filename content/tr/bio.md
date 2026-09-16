@@ -13,17 +13,19 @@ twitter: "https://x.com/CanerOzy"
 linkedin: "https://www.linkedin.com/in/caner-ozyildirim-35345b228"
 substack: "https://drcaner.substack.com"
 spotify: "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f"
-tagline: "Akademik Profil & Araştırma Vizyonu"
-heading: "Metabolik Esneklik, Yağ Dokusu Disfonksiyonu ve Kardiyometabolik Bozukluklarda Biyoistatistiksel Modelleme"
-meta_description: "Dr. Caner ÖZYILDIRIM - Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü. Metabolik Esneklik, Yağ Dokusu Disfonksiyonu, Biyoistatistik ve Diyet Müdahaleleri."
+tagline: "Akademik Profil & Vizyon"
+heading: "Beslenme Örüntüleri, Metabolik Sağlık, Biyoistatistik ve Yapay Zeka"
+meta_description: "Dr. Caner ÖZYILDIRIM - Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü. Beslenme Örüntüleri, Obezite, Biyoistatistik, Veri Görselleştirme ve Yapay Zeka."
 ---
 
 <p>
-Beslenme ve Diyetetik alanında doktora derecemi Kasım 2024'te <strong>Ankara Üniversitesi Sağlık Bilimleri Enstitüsü</strong>'nde 
-<em>"Non-Alkolik Yağlı Karaciğer Hastalığı (NAFLD) Şiddetine Göre Diyetle İlişkili Risk Faktörlerinin Değerlendirilmesi"</em> başlıklı tezimle tamamladım.
+Beslenme ve diyetetik alanında multidisipliner yayınlar üretsem de akademik odağımın merkezinde; <strong>beslenme örüntüleri ve diyet müdahalelerinin başta obezite olmak üzere kronik hastalıklarla olan karmaşık ilişkisi</strong> yer alıyor. Özellikle <strong>aralıklı açlık</strong> ve <strong>ultra-işlenmiş besinlerin</strong> metabolik etkileri, araştırmalarımda derinleştiğim ana başlıkları oluşturuyor.
 </p>
 
 <p>
-Çalışmalarım; yaşam boyu kardiyometabolik bozukluklar, pediyatrik ve yetişkin obezite tanı modelleri (Triponderal Kütle İndeksi, BMI z-skoru), aralıklı oruç (Intermittent Fasting), zaman kısıtlı beslenme (TRE), ultra-işlenmiş gıdalar (UPF) ve kardiyometabolik risk belirteçleri (zonulin, total antioksidan kapasite, oksidatif stres) üzerine odaklanmaktadır. 
-<strong>R programlama dili</strong> ile çok değişkenli istatistiksel modelleme yapmakta, <strong>Yapay Zeka (AI) & LLM</strong> araçlarını biyoveri analitiğine entegre etmekte, <strong>Deney Hayvanları Kullanım Sertifikası</strong> ile translasyonel araştırmalar yürütmekte ve <strong>COST Action CA24166 (INFLAMomx)</strong> ile <strong>COST Action CA23110 (INFOGUT)</strong> bünyesinde çoklu omiks ve in vitro bağırsak modelleri çalışma gruplarına aktif katkı sağlamaktayım.
+Bilimsel üretim süreçlerimde <strong>biyoistatistik ve veri görselleştirme</strong> benim için sadece birer analiz aracı değil, verinin arkasındaki biyolojik hikayeyi keşfetme tutkusudur. Araştırma ve klinik karar alma süreçlerinde <strong>yapay zeka teknolojilerini</strong> aktif olarak kullanıyor; akademik ekosistemde bu araçların yetkin kullanımını teşvik ediyor ve lisans düzeyinde bizzat öğretiyorum.
+</p>
+
+<p>
+Laboratuvar ve veri analitiğindeki varlığımın ötesinde, en büyük önceliklerimden biri amfide ve klinikte <strong>sorgulayan, merak eden ve kanıta dayalı düşünen nitelikli diyetisyenler yetiştirmektir.</strong>
 </p>

@@ -13,17 +13,19 @@ twitter: "https://x.com/CanerOzy"
 linkedin: "https://www.linkedin.com/in/caner-ozyildirim-35345b228"
 substack: "https://drcaner.substack.com"
 spotify: "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f"
-tagline: "Academic Profile & Research Vision"
-heading: "Metabolic Flexibility, Adipose Dysfunction, and Biostatistical Modeling in Cardiometabolic Disorders"
-meta_description: "Dr. Caner ÖZYILDIRIM - Akdeniz University Department of Nutrition and Dietetics. Metabolic Flexibility, Adipose Dysfunction, Biostatistics, and Dietary Interventions."
+tagline: "Academic Profile & Vision"
+heading: "Dietary Patterns, Metabolic Health, Biostatistics, and Artificial Intelligence"
+meta_description: "Dr. Caner ÖZYILDIRIM - Akdeniz University Department of Nutrition and Dietetics. Dietary Patterns, Obesity, Biostatistics, Data Visualization, and Artificial Intelligence."
 ---
 
 <p>
-I completed my Ph.D. in Nutrition and Dietetics in November 2024 at <strong>Ankara University Graduate School of Health Sciences</strong> with my doctoral dissertation titled 
-<em>"Evaluation of Diet-Related Risk Factors According to the Severity of Non-Alcoholic Fatty Liver Disease (NAFLD)"</em>.
+While my academic work spans various intersections of nutritional science, my primary research focus centers on <strong>how dietary patterns and nutritional interventions modulate chronic diseases, particularly obesity</strong>. Within this spectrum, <strong>intermittent fasting</strong> and <strong>ultra-processed foods</strong> represent the core topics I delve into.
 </p>
 
 <p>
-My research focuses on lifespan cardiometabolic disorders, pediatric and adult obesity diagnostic metrics (Triponderal Mass Index, BMI z-scores), intermittent fasting (IF), time-restricted eating (TRE), ultra-processed foods (UPF), and systemic biomarkers (zonulin, total antioxidant capacity, oxidative stress). 
-I employ <strong>R programming</strong> for multivariable biostatistical modeling, integrate <strong>Artificial Intelligence (AI) & LLM</strong> frameworks into biomedical data analytics, hold the <strong>Laboratory Animal Care & Use Accreditation</strong> for translational research, and actively contribute to European research networks as a Working Group Member in <strong>COST Action CA24166 (INFLAMomx)</strong> and <strong>COST Action CA23110 (INFOGUT)</strong>.
+In my scientific workflow, <strong>biostatistics and data visualization</strong> are not just analytical tools, but a true passion for uncovering the biological story hidden behind data. I actively integrate <strong>artificial intelligence technologies</strong> into research and clinical thinking—advocating, practicing, and teaching these tools at the undergraduate level.
+</p>
+
+<p>
+Beyond research and data analytics, one of my highest priorities is in the lecture hall and clinic: <strong>inspiring scientific curiosity and training high-caliber, evidence-based dietitians.</strong>
 </p>
