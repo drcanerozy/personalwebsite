@@ -171,12 +171,16 @@ def generate_html(lang="tr"):
     avatar_src = bio_data.get("avatar_url", "")
     if avatar_src:
         avatar_img = f"{ui['asset_prefix']}{avatar_src}" if not avatar_src.startswith("http") else avatar_src
+    elif (Path("assets/images/profil.jpg")).exists():
+        avatar_img = f"{ui['asset_prefix']}assets/images/profil.jpg"
     elif (Path("assets/images/profile.jpg")).exists():
         avatar_img = f"{ui['asset_prefix']}assets/images/profile.jpg"
     elif (Path("assets/images/avatar.jpg")).exists():
         avatar_img = f"{ui['asset_prefix']}assets/images/avatar.jpg"
     elif (Path("assets/images/profile.png")).exists():
         avatar_img = f"{ui['asset_prefix']}assets/images/profile.png"
+    elif (Path("profil.jpg")).exists():
+        avatar_img = f"{ui['asset_prefix']}profil.jpg"
     else:
         avatar_img = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600"
 
@@ -806,15 +810,15 @@ def generate_html(lang="tr"):
 
                     <!-- Social Icons -->
                     <div class="flex flex-wrap justify-center items-center gap-3 mt-6 text-slate-600 text-lg">
-                        <a href="mailto:canerozyildirim@akdeniz.edu.tr" class="hover:text-academic-700 transition p-1" title="E-posta"><i class="fa-solid fa-envelope"></i></a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-pink-600 transition p-1" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="hover:text-red-600 transition p-1" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-                        <a href="#articles" class="hover:text-amber-600 transition p-1" title="Yazılar & Blog"><i class="fa-solid fa-newspaper"></i></a>
-                        <a href="https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-500 transition p-1" title="Spotify Podcast (Konsantre Podcast)"><i class="fa-brands fa-spotify"></i></a>
-                        <a href="#podcasts" class="hover:text-purple-500 transition p-1" title="Apple Podcasts"><i class="fa-solid fa-podcast"></i></a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition p-1" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                        <a href="https://github.com/drcanerozy" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="mailto:{bio_data.get('email', 'canerozyildirim@akdeniz.edu.tr')}" class="hover:text-academic-700 transition p-1" title="E-posta"><i class="fa-solid fa-envelope"></i></a>
+                        <a href="{bio_data.get('instagram', 'https://www.instagram.com/canerozy/')}" target="_blank" rel="noopener noreferrer" class="hover:text-pink-600 transition p-1" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="{bio_data.get('youtube', 'https://youtube.com')}" target="_blank" rel="noopener noreferrer" class="hover:text-red-600 transition p-1" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="{bio_data.get('twitter', 'https://x.com/CanerOzy')}" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="{bio_data.get('substack', 'https://drcaner.substack.com')}" target="_blank" rel="noopener noreferrer" class="hover:text-amber-600 transition p-1" title="Substack (Yazılar & Blog)"><i class="fa-solid fa-newspaper"></i></a>
+                        <a href="{bio_data.get('spotify', 'https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f')}" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-500 transition p-1" title="Spotify Podcast (Konsantre Podcast)"><i class="fa-brands fa-spotify"></i></a>
+                        <a href="#podcasts" class="hover:text-purple-500 transition p-1" title="Podcastler"><i class="fa-solid fa-podcast"></i></a>
+                        <a href="{bio_data.get('linkedin', 'https://www.linkedin.com/in/caner-ozyildirim-35345b228')}" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition p-1" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="{bio_data.get('github', 'https://github.com/drcanerozy')}" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 transition p-1" title="GitHub"><i class="fa-brands fa-github"></i></a>
                     </div>
                 </div>
 
@@ -1071,7 +1075,7 @@ def generate_html(lang="tr"):
                 </div>
 
                 <div class="mt-4 md:mt-0">
-                    <a href="https://substack.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 text-xs font-semibold text-academic-700 hover:text-academic-900 bg-academic-50 hover:bg-academic-100 px-4 py-2 rounded-lg border border-academic-200 transition">
+                    <a href="https://drcaner.substack.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 text-xs font-semibold text-academic-700 hover:text-academic-900 bg-academic-50 hover:bg-academic-100 px-4 py-2 rounded-lg border border-academic-200 transition">
                         <i class="fa-solid fa-rss"></i>
                         <span>{'Tüm Yazılar (Substack)' if is_tr else 'All Articles (Substack)'} &rarr;</span>
                     </a>
