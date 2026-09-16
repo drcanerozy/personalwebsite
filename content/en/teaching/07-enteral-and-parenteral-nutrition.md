@@ -12,7 +12,7 @@ classroom_practices: "AI-powered complex case simulations for clinical decision-
 learning_outcomes: "Select optimal artificial feeding routes and formulations tailored to clinical status, anticipate and prevent metabolic complications in simulated case models."
 draft: false
 lang: "en"
-order: 8
+order: 7
 ---
 
 ## 🎯 Course Objectives & Vision

@@ -14,7 +14,7 @@ linkedin: "https://www.linkedin.com/in/caner-ozyildirim-35345b228"
 substack: "https://drcaner.substack.com"
 spotify: "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f"
 tagline: "Academic Profile & Vision"
-heading: "Dietary Patterns, Metabolic Health, Biostatistics, and Artificial Intelligence"
+heading: "A Brief Summary of My Scientific Journey"
 meta_description: "Dr. Caner ÖZYILDIRIM - Akdeniz University Department of Nutrition and Dietetics. Dietary Patterns, Obesity, Biostatistics, Data Visualization, and Artificial Intelligence."
 ---
 

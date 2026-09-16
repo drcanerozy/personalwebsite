@@ -12,7 +12,7 @@ classroom_practices: "Kompleks klinik tablolarda karar verme yetkinliği kazand�
 learning_outcomes: "Hastanın klinik tablosuna göre doğru yapay beslenme yolunu ve ürününü belirleyebilme, yapay zeka araçlarıyla desteklenen vaka modellerinde komplikasyonları öngörüp yönetebilme."
 draft: false
 lang: "tr"
-order: 8
+order: 7
 ---
 
 ## 💉 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar

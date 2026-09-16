@@ -214,6 +214,7 @@ def generate_html(lang="tr"):
     tools = load_section_items(lang_dir, "tools")
     articles = load_section_items(lang_dir, "articles")
     podcasts = load_section_items(lang_dir, "podcasts")
+    podcasts = list(reversed(podcasts))
     
     # UI Texts
     ui = {
@@ -457,17 +458,14 @@ def generate_html(lang="tr"):
                 </div>"""
         pres_html.append(card)
 
-    # Template card for presentation
-    pres_html.append(f"""
-                <div class="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col justify-center items-center text-center bg-slate-50/50 hover:bg-slate-100/60 transition">
-                    <div class="w-10 h-10 rounded-full bg-academic-100 text-academic-700 flex items-center justify-center mb-3">
-                        <i class="fa-solid fa-file-circle-plus text-base"></i>
+    if not pres_html:
+        empty_pres_msg = "Yakında konferans ve ders sunumları buraya eklenecektir." if is_tr else "Conference and lecture slides will be added here soon."
+        pres_html.append(f"""
+                <div class="col-span-full py-12 px-6 rounded-2xl bg-white border border-slate-200 text-center flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center mb-3">
+                        <i class="fa-solid fa-person-chalkboard text-lg"></i>
                     </div>
-                    <h3 class="font-serif font-bold text-base text-slate-800">{"[Yeni Sunum Ekleyin]" if is_tr else "[Add New Presentation]"}</h3>
-                    <p class="text-xs text-slate-500 mt-1 max-w-xs">
-                        {"Obsidian'dan yeni bir sunum notu oluşturarak buraya anında slayt ekleyebilirsiniz." if is_tr else "Create a new presentation note in Obsidian to add slides here instantly."}
-                    </p>
-                    <span class="mt-4 text-xs font-semibold text-academic-700">Obsidian _templates &rarr;</span>
+                    <p class="text-sm text-slate-600 font-medium">{empty_pres_msg}</p>
                 </div>""")
 
     # Helper for Teaching HTML
@@ -476,12 +474,9 @@ def generate_html(lang="tr"):
         det_id = f"course-det-{idx}"
         icon_id = f"course-icon-{idx}"
         c_title = course.get("title", f"Course {idx}")
-        c_code = course.get("code", "")
         c_badge = course.get("badge", "Lisans Modülü" if is_tr else "Undergraduate")
         c_semester = course.get("semester", "")
-        badge_text = f"{c_code} • {c_badge}" if c_code else c_badge
-        if c_semester:
-            badge_text += f" ({c_semester})"
+        badge_text = f"{c_badge} ({c_semester})" if c_semester else c_badge
         c_icon = course.get("icon", "fa-graduation-cap")
         c_summary = course.get("summary", "")
         c_topics = course.get("topics", "")
@@ -579,16 +574,14 @@ def generate_html(lang="tr"):
                 </div>"""
         tools_html.append(card)
 
-    tools_html.append(f"""
-                <div class="border-2 border-dashed border-purple-200 rounded-xl p-6 flex flex-col justify-center items-center text-center bg-white/50 hover:bg-white transition">
-                    <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center mb-3">
-                        <i class="fa-solid fa-plus text-base"></i>
+    if not tools_html:
+        empty_tools_msg = "Yakında interaktif hesaplama ve analiz araçları buraya eklenecektir." if is_tr else "Interactive calculation and analysis tools will be added here soon."
+        tools_html.append(f"""
+                <div class="col-span-full py-12 px-6 rounded-2xl bg-white border border-slate-200 text-center flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 rounded-full bg-purple-50 text-purple-700 flex items-center justify-center mb-3">
+                        <i class="fa-solid fa-code text-lg"></i>
                     </div>
-                    <h3 class="font-serif font-bold text-base text-slate-800">{"[Yeni Araç Ekleyin]" if is_tr else "[Add New Tool]"}</h3>
-                    <p class="text-xs text-slate-500 mt-1 max-w-xs">
-                        {"R Shiny, Streamlit veya Web tabanlı hesaplayıcılarınızı Obsidian üzerinden ekleyebilirsiniz." if is_tr else "Add your R Shiny, Streamlit, or web calculators via Obsidian."}
-                    </p>
-                    <span class="mt-4 text-xs font-semibold text-purple-700">Obsidian _templates &rarr;</span>
+                    <p class="text-sm text-slate-600 font-medium">{empty_tools_msg}</p>
                 </div>""")
 
     # Helper for Articles HTML (Substack Showcase Cards)
@@ -648,7 +641,7 @@ def generate_html(lang="tr"):
         articles_html.append(card)
 
     articles_html.append(f"""
-                <div class="border-2 border-dashed border-amber-200/80 rounded-2xl p-6 flex flex-col justify-center items-center text-center bg-amber-50/20 hover:bg-amber-50/50 transition">
+                <div class="bg-warmBg rounded-2xl border border-slate-200 p-6 flex flex-col justify-center items-center text-center hover:shadow-md hover:border-amber-400/80 transition">
                     <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-3 shadow-xs">
                         <svg class="w-6 h-6 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
                     </div>
@@ -656,7 +649,7 @@ def generate_html(lang="tr"):
                     <p class="text-xs text-slate-500 mt-1.5 max-w-xs leading-relaxed">
                         {"Tüm güncel ve geçmiş yazı dizilerine Substack bültenim üzerinden ulaşabilirsiniz." if is_tr else "Access all past and current articles directly on my Substack publication."}
                     </p>
-                    <a href="https://drcaner.substack.com" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center space-x-1.5 text-xs font-semibold text-amber-900 bg-white hover:bg-amber-100 border border-amber-300 px-3.5 py-1.5 rounded-lg transition shadow-xs">
+                    <a href="https://drcaner.substack.com" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center space-x-1.5 text-xs font-semibold text-amber-900 bg-white hover:bg-[#FF6719] hover:text-white border border-amber-300 px-3.5 py-1.5 rounded-lg transition shadow-xs">
                         <span>{"Substack'e Git" if is_tr else "Visit Substack"}</span>
                         <span>&rarr;</span>
                     </a>
@@ -671,7 +664,7 @@ def generate_html(lang="tr"):
         p_title = pod.get("title", "[Bölüm Başlığı]")
         p_desc = pod.get("summary", pod.get("body", "[Bölüm Özeti]"))
         p_url = pod.get("spotify_url", pod.get("url", "https://open.spotify.com"))
-        init_style = 'style="display: none;"' if idx > 3 else ''
+        init_style = 'style="display: none;"' if idx > 6 else ''
         
         card = f"""
                 <div class="pod-item bg-warmBg rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md hover:border-emerald-600 transition group" {init_style}>
@@ -698,16 +691,14 @@ def generate_html(lang="tr"):
                 </div>"""
         podcasts_html.append(card)
 
-    podcasts_html.append(f"""
-                <div class="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col justify-center items-center text-center bg-slate-50/50 hover:bg-slate-100/60 transition">
-                    <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
-                        <i class="fa-solid fa-microphone text-base"></i>
+    if not podcasts_html:
+        empty_pod_msg = "Yakında yeni podcast bölümleri buraya eklenecektir." if is_tr else "New podcast episodes will be added here soon."
+        podcasts_html.append(f"""
+                <div class="col-span-full py-12 px-6 rounded-2xl bg-white border border-slate-200 text-center flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mb-3">
+                        <i class="fa-solid fa-microphone text-lg"></i>
                     </div>
-                    <h3 class="font-serif font-bold text-base text-slate-800">{"[Yeni Bölüm Ekleyin]" if is_tr else "[Add New Episode]"}</h3>
-                    <p class="text-xs text-slate-500 mt-1 max-w-xs">
-                        {"Yeni podcast bölümlerinizi Obsidian üzerinden ekleyebilirsiniz." if is_tr else "Add new podcast episodes directly via Obsidian."}
-                    </p>
-                    <span class="mt-4 text-xs font-semibold text-emerald-700">Obsidian _templates &rarr;</span>
+                    <p class="text-sm text-slate-600 font-medium">{empty_pod_msg}</p>
                 </div>""")
 
     # Format BibTeX dictionary for JS
@@ -945,26 +936,6 @@ def generate_html(lang="tr"):
 
                     <div class="text-slate-700 leading-relaxed text-base space-y-4">
                         {bio_body}
-                    </div>
-
-                    <!-- Key Metrics Grid -->
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t academic-border">
-                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
-                            <div class="text-2xl font-serif font-bold text-academic-700">13</div>
-                            <div class="text-xs text-slate-500 font-medium">{'Hakemli Makale (10 SCI/SCI-E)' if is_tr else 'Peer-Reviewed Articles (10 SCI/SCI-E)'}</div>
-                        </div>
-                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
-                            <div class="text-2xl font-serif font-bold text-academic-700">4</div>
-                            <div class="text-xs text-slate-500 font-medium">{'Akademik Kitap Bölümü' if is_tr else 'Academic Book Chapters'}</div>
-                        </div>
-                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
-                            <div class="text-2xl font-serif font-bold text-academic-700">{len(projects) if projects else 5}</div>
-                            <div class="text-xs text-slate-500 font-medium">{'Uluslararası / Ulusal Proje' if is_tr else 'International / National Projects'}</div>
-                        </div>
-                        <div class="p-3 bg-white rounded-lg border border-slate-100 shadow-sm hover:border-academic-200 transition">
-                            <div class="text-2xl font-serif font-bold text-academic-700">2 COST</div>
-                            <div class="text-xs text-slate-500 font-medium">{'CA24166 & CA23110 Üyesi' if is_tr else 'CA24166 & CA23110 Member'}</div>
-                        </div>
                     </div>
                 </div>
 
@@ -1275,10 +1246,6 @@ def generate_html(lang="tr"):
                     <a href="https://podcasts.apple.com" target="_blank" rel="noopener noreferrer" class="bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 px-4 py-2.5 rounded-xl flex items-center space-x-2 transition shadow-sm font-semibold" title="Apple Podcasts">
                         <i class="fa-solid fa-podcast text-base text-purple-600"></i>
                         <span>Apple Podcasts</span>
-                    </a>
-                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="bg-red-50 hover:bg-red-100 text-red-800 border border-red-200 px-4 py-2.5 rounded-xl flex items-center space-x-2 transition shadow-sm font-semibold" title="YouTube">
-                        <i class="fa-brands fa-youtube text-base text-red-600"></i>
-                        <span>YouTube</span>
                     </a>
                 </div>
             </div>
@@ -1631,12 +1598,9 @@ def render_markdown_body(text):
 def generate_single_course_html(course, lang="tr"):
     is_tr = (lang == "tr")
     title = course.get("title", "Ders")
-    code = course.get("code", "")
     badge = course.get("badge", "Lisans Modülü" if is_tr else "Undergraduate")
     semester = course.get("semester", "")
-    badge_str = f"{code} • {badge}" if code else badge
-    if semester:
-        badge_str += f" ({semester})"
+    badge_str = f"{badge} ({semester})" if semester else badge
     icon = course.get("icon", "fa-graduation-cap")
     summary = course.get("summary", "")
     topics = course.get("topics", "")

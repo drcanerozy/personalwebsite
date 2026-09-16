@@ -14,7 +14,7 @@ linkedin: "https://www.linkedin.com/in/caner-ozyildirim-35345b228"
 substack: "https://drcaner.substack.com"
 spotify: "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab?si=cc2b552b6c984f7f"
 tagline: "Akademik Profil & Vizyon"
-heading: "Beslenme Örüntüleri, Metabolik Sağlık, Biyoistatistik ve Yapay Zeka"
+heading: "Bilimsel Yaşantımın Kısa Bir Özeti"
 meta_description: "Dr. Caner ÖZYILDIRIM - Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü. Beslenme Örüntüleri, Obezite, Biyoistatistik, Veri Görselleştirme ve Yapay Zeka."
 ---
 
