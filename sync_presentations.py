@@ -6,8 +6,8 @@ Dr. Caner ÖZYILDIRIM Website Suite
 This script:
 1. Copies all simulation files and image assets directly from the Obsidian Vault to slides/assets/.
 2. Reads HTML presentation files directly from the Obsidian Vault.
-3. Applies AES-256-GCM + PBKDF2 encryption to slides 11+ (keeping first 10 slides as public preview).
-4. Integrates the Web Crypto API decryption engine with flexible candidate matching, student lock modal, and Table of Contents jump interceptor.
+3. Applies AES-256 encryption to slides 11+ (keeping first 10 slides as public preview).
+4. Integrates the universal CryptoJS AES decryption engine with flexible candidate matching, student lock modal, and Table of Contents jump interceptor.
 5. Updates website markdown entries and compiles the website.
 """
 
@@ -54,54 +54,36 @@ def sync_assets():
         shutil.copy2(faculty_logo, dest_logo)
         print("  ✅ Fakülte logosu kopyalandı.")
 
-def encrypt_aes_gcm(plaintext: str, password: str) -> dict:
-    """Encrypts plaintext with PBKDF2 + AES-256-GCM (Web Crypto API compatible)."""
-    salt = os.urandom(16)
-    iv = os.urandom(12)
-    iterations = 100000
-
-    try:
-        from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-        key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, iterations, dklen=32)
-        aesgcm = AESGCM(key)
-        cipher_bytes = aesgcm.encrypt(iv, plaintext.encode('utf-8'), None)
-        return {
-            "salt": base64.b64encode(salt).decode('utf-8'),
-            "iv": base64.b64encode(iv).decode('utf-8'),
-            "ciphertext": base64.b64encode(cipher_bytes).decode('utf-8'),
-            "iterations": iterations
-        }
-    except ImportError:
-        node_script = """
-const crypto = require('crypto');
+def encrypt_aes_payload(plaintext: str, password: str) -> str:
+    """Encrypts plaintext with AES-256 via CryptoJS in Node.js."""
+    node_script = """
+const CryptoJS = require('crypto-js');
 const input = JSON.parse(process.argv[1]);
-const salt = Buffer.from(input.salt, 'base64');
-const iv = Buffer.from(input.iv, 'base64');
-const key = crypto.pbkdf2Sync(input.password, salt, input.iterations, 32, 'sha256');
-const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
-let encrypted = cipher.update(input.plaintext, 'utf8');
-encrypted = Buffer.concat([encrypted, cipher.final(), cipher.getAuthTag()]);
-console.log(JSON.stringify({
-    salt: input.salt,
-    iv: input.iv,
-    ciphertext: encrypted.toString('base64'),
-    iterations: input.iterations
-}));
+const ciphertext = CryptoJS.AES.encrypt(input.plaintext, input.password).toString();
+console.log(ciphertext);
 """
-        payload = {
-            "salt": base64.b64encode(salt).decode('utf-8'),
-            "iv": base64.b64encode(iv).decode('utf-8'),
-            "plaintext": plaintext,
-            "password": password,
-            "iterations": iterations
-        }
-        res = subprocess.run(
-            ["node", "-e", node_script, json.dumps(payload)],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        return json.loads(res.stdout.strip())
+    payload = {
+        "plaintext": plaintext,
+        "password": password
+    }
+    res = subprocess.run(
+        ["node", "-e", node_script, json.dumps(payload)],
+        capture_output=True,
+        text=True,
+        check=True
+    )
+    return res.stdout.strip()
+
+# Read minified crypto-js library to inline into slides
+CRYPTO_JS_FILE = SLIDES_ASSETS_DIR / "crypto-js.min.js"
+if not CRYPTO_JS_FILE.exists():
+    # Fallback to local node_modules
+    local_cjs = BASE_DIR / "node_modules/crypto-js/crypto-js.js"
+    if local_cjs.exists():
+        shutil.copy2(local_cjs, CRYPTO_JS_FILE)
+
+with open(CRYPTO_JS_FILE, "r", encoding="utf-8") as f:
+    CRYPTO_JS_MIN_CODE = f.read()
 
 # Shared Modal and Crypto CSS / HTML
 LOCK_MODAL_HTML = """
@@ -186,12 +168,8 @@ def sync_konu1_obezite():
         }
         public_slides[9] = preview_slide
 
-    # Encrypt locked slides
-    encrypted_payload = encrypt_aes_gcm(json.dumps(locked_slides), DEFAULT_PASSWORD)
-    encrypted_payload["totalSlides"] = total_slides
-    encrypted_payload["publicSlideCount"] = public_count
-    encrypted_payload["lockedSlideCount"] = len(locked_slides)
-    encrypted_payload["presId"] = "konu1_obezite_tedavisi"
+    # Encrypt locked slides with AES-256 via CryptoJS
+    ciphertext = encrypt_aes_payload(json.dumps(locked_slides, ensure_ascii=False), DEFAULT_PASSWORD)
 
     # Build new public SLIDES string
     new_public_slides_str = json.dumps(public_slides, indent=2, ensure_ascii=False)
@@ -219,32 +197,35 @@ def sync_konu1_obezite():
   if(allSlideEls[current] && current !== idx) allSlideEls[current].classList.remove('active');"""
     new_html = new_html.replace(go_orig, go_patched)
 
-    # Client-side script
-    payload_json = json.dumps(encrypted_payload, indent=2)
+    # Client-side script with inlined CryptoJS
     client_crypto_script = """
-<!-- AES-256-GCM ENCRYPTED STUDENT PAYLOAD -->
-<script id="encrypted-payload-data" type="application/json">
-""" + payload_json + """
+<!-- INLINED ZERO-DEPENDENCY CRYPTOJS ENGINE -->
+<script>
+""" + CRYPTO_JS_MIN_CODE + """
+</script>
+
+<!-- AES-256 ENCRYPTED STUDENT PAYLOAD -->
+<script id="encrypted-payload-data" type="text/plain">
+""" + ciphertext + """
 </script>
 
 """ + LOCK_MODAL_HTML + """
 
 <script>
-/* ================= STUDENT LOCK & WEB CRYPTO API ENGINE ================= */
+/* ================= STUDENT LOCK & CRYPTOJS DECRYPTION ENGINE ================= */
 const PRES_ID = "konu1_obezite_tedavisi";
 const PUBLIC_SLIDE_COUNT = """ + str(public_count) + """;
 const TOTAL_SLIDES_COUNT = """ + str(total_slides) + """;
 let isUnlocked = false;
 let pendingTargetSlide = null;
-let encryptedPayload = null;
+let encryptedPayloadCiphertext = "";
 
 document.addEventListener('DOMContentLoaded', () => {
   const scriptTag = document.getElementById('encrypted-payload-data');
   if(scriptTag) {
-    try { encryptedPayload = JSON.parse(scriptTag.textContent); } catch(e){}
+    encryptedPayloadCiphertext = scriptTag.textContent.trim();
   }
   checkSessionUnlock();
-  // Ensure slide 0 is active on load
   go(0);
 });
 
@@ -270,39 +251,16 @@ function getPasswordCandidates(inputStr) {
   return Array.from(set);
 }
 
-async function decryptWithCandidate(cand) {
-  const saltBytes = Uint8Array.from(atob(encryptedPayload.salt), c => c.charCodeAt(0));
-  const ivBytes = Uint8Array.from(atob(encryptedPayload.iv), c => c.charCodeAt(0));
-  const cipherBytes = Uint8Array.from(atob(encryptedPayload.ciphertext), c => c.charCodeAt(0));
-  const iterations = encryptedPayload.iterations || 100000;
-
-  const enc = new TextEncoder();
-  const baseKey = await window.crypto.subtle.importKey(
-    "raw", enc.encode(cand), { name: "PBKDF2" }, false, ["deriveKey"]
-  );
-  const derivedKey = await window.crypto.subtle.deriveKey(
-    { name: "PBKDF2", salt: saltBytes, iterations: iterations, hash: "SHA-256" },
-    baseKey, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
-  );
-  const decryptedBuf = await window.crypto.subtle.decrypt(
-    { name: "AES-GCM", iv: ivBytes }, derivedKey, cipherBytes
-  );
-  return new TextDecoder("utf-8").decode(decryptedBuf);
-}
-
-async function decryptPayload(passwordInput) {
-  if (!encryptedPayload) return null;
+function decryptPayload(ciphertext, passwordInput) {
   const candidates = getPasswordCandidates(passwordInput);
-  let lastErr = null;
   for (const cand of candidates) {
     try {
-      const res = await decryptWithCandidate(cand);
-      if (res) return res;
-    } catch(err) {
-      lastErr = err;
-    }
+      const bytes = CryptoJS.AES.decrypt(ciphertext, cand);
+      const dec = bytes.toString(CryptoJS.enc.Utf8);
+      if (dec && dec.length > 0) return dec;
+    } catch(e) {}
   }
-  throw lastErr || new Error("Şifre çözülemedi.");
+  throw new Error("Şifre çözülemedi.");
 }
 
 async function handleUnlockSubmit(e) {
@@ -320,7 +278,7 @@ async function handleUnlockSubmit(e) {
 
   let decryptedJson = null;
   try {
-    decryptedJson = await decryptPayload(password);
+    decryptedJson = decryptPayload(encryptedPayloadCiphertext, password);
   } catch(authErr) {
     console.error("Şifre çözme hatası:", authErr);
     errorEl.textContent = '⚠️ Hatalı şifre! Lütfen ders izlencesindeki şifrenizi kontrol ediniz.';
@@ -463,31 +421,34 @@ addSlide('🛑 Önizleme Sınırı', 'Önizleme Sonu (Slayt 10)', 'Önizleme Son
 """
         public_head = public_head + preview_reg
 
-        # Encrypt locked JS registration script ONLY
-        encrypted_payload = encrypt_aes_gcm(locked_js, DEFAULT_PASSWORD)
-        encrypted_payload["presId"] = "obezite_uygulama_hafta1"
-        payload_json = json.dumps(encrypted_payload, indent=2)
+        # Encrypt locked JS registration script ONLY with AES-256 via CryptoJS
+        ciphertext = encrypt_aes_payload(locked_js, DEFAULT_PASSWORD)
 
         client_crypto_script = """
-<!-- AES-256-GCM ENCRYPTED STUDENT PAYLOAD -->
-<script id="encrypted-payload-data-uygulama" type="application/json">
-""" + payload_json + """
+<!-- INLINED ZERO-DEPENDENCY CRYPTOJS ENGINE -->
+<script>
+""" + CRYPTO_JS_MIN_CODE + """
+</script>
+
+<!-- AES-256 ENCRYPTED STUDENT PAYLOAD -->
+<script id="encrypted-payload-data-uygulama" type="text/plain">
+""" + ciphertext + """
 </script>
 
 """ + LOCK_MODAL_HTML + """
 
 <script>
-/* ================= STUDENT LOCK & WEB CRYPTO API ENGINE ================= */
+/* ================= STUDENT LOCK & CRYPTOJS DECRYPTION ENGINE ================= */
 const PRES_ID = "obezite_uygulama_hafta1";
 const PUBLIC_SLIDE_COUNT = 10;
 let isUnlocked = false;
 let pendingTargetSlide = null;
-let encryptedPayload = null;
+let encryptedPayloadCiphertext = "";
 
 document.addEventListener('DOMContentLoaded', () => {
   const scriptTag = document.getElementById('encrypted-payload-data-uygulama');
   if(scriptTag) {
-    try { encryptedPayload = JSON.parse(scriptTag.textContent); } catch(e){}
+    encryptedPayloadCiphertext = scriptTag.textContent.trim();
   }
   checkSessionUnlock();
 });
@@ -514,39 +475,16 @@ function getPasswordCandidates(inputStr) {
   return Array.from(set);
 }
 
-async function decryptWithCandidate(cand) {
-  const saltBytes = Uint8Array.from(atob(encryptedPayload.salt), c => c.charCodeAt(0));
-  const ivBytes = Uint8Array.from(atob(encryptedPayload.iv), c => c.charCodeAt(0));
-  const cipherBytes = Uint8Array.from(atob(encryptedPayload.ciphertext), c => c.charCodeAt(0));
-  const iterations = encryptedPayload.iterations || 100000;
-
-  const enc = new TextEncoder();
-  const baseKey = await window.crypto.subtle.importKey(
-    "raw", enc.encode(cand), { name: "PBKDF2" }, false, ["deriveKey"]
-  );
-  const derivedKey = await window.crypto.subtle.deriveKey(
-    { name: "PBKDF2", salt: saltBytes, iterations: iterations, hash: "SHA-256" },
-    baseKey, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
-  );
-  const decryptedBuf = await window.crypto.subtle.decrypt(
-    { name: "AES-GCM", iv: ivBytes }, derivedKey, cipherBytes
-  );
-  return new TextDecoder("utf-8").decode(decryptedBuf);
-}
-
-async function decryptPayload(passwordInput) {
-  if (!encryptedPayload) return null;
+function decryptPayload(ciphertext, passwordInput) {
   const candidates = getPasswordCandidates(passwordInput);
-  let lastErr = null;
   for (const cand of candidates) {
     try {
-      const res = await decryptWithCandidate(cand);
-      if (res) return res;
-    } catch(err) {
-      lastErr = err;
-    }
+      const bytes = CryptoJS.AES.decrypt(ciphertext, cand);
+      const dec = bytes.toString(CryptoJS.enc.Utf8);
+      if (dec && dec.length > 0) return dec;
+    } catch(e) {}
   }
-  throw lastErr || new Error("Şifre çözülemedi.");
+  throw new Error("Şifre çözülemedi.");
 }
 
 async function handleUnlockSubmit(e) {
@@ -564,7 +502,7 @@ async function handleUnlockSubmit(e) {
 
   let decryptedJs = null;
   try {
-    decryptedJs = await decryptPayload(password);
+    decryptedJs = decryptPayload(encryptedPayloadCiphertext, password);
   } catch(authErr) {
     console.error("Şifre çözme hatası:", authErr);
     errorEl.textContent = '⚠️ Hatalı şifre! Lütfen ders izlencesindeki şifrenizi kontrol ediniz.';
