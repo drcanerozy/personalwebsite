@@ -111,7 +111,7 @@ LOCK_MODAL_HTML = """
     <button onclick="closeLockModal()" style="position:absolute; top:16px; right:16px; background:none; border:none; color:#94a3b8; font-size:20px; cursor:pointer; padding:4px 8px; border-radius:8px;">✕</button>
     <div style="width:64px; height:64px; border-radius:18px; background:rgba(217,119,6,0.15); border:1px solid rgba(217,119,6,0.3); color:#fbbf24; display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 16px;">🔒</div>
     <h3 style="font-size:20px; font-weight:700; margin:0 0 8px; color:#ffffff;">Öğrenci Kilit Ekranı</h3>
-    <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin:0 0 24px;">İlk 10 slayt önizleme olarak açıktır. 11. slayttan sonraki tüm bölümler, vaka soruları ve klinik analizler AES-256 ile şifrelenmiştir. Devam etmek için ders şifrenizi giriniz.</p>
+    <p style="font-size:13px; color:#94a3b8; line-height:1.6; margin:0 0 24px;">10 slaytlık önizleme tamamlanmıştır. Devamını görüntülemek için lütfen ders şifrenizi giriniz.</p>
     <form onsubmit="handleUnlockSubmit(event)" style="display:flex; flex-direction:column; gap:16px;">
       <div style="text-align:left;">
         <label for="student-password-input" style="display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#cbd5e1; margin-bottom:6px;">Ders Şifresi:</label>
@@ -180,9 +180,9 @@ def sync_konu1_obezite():
         preview_slide = {
             "type": "prompt",
             "sec": 0,
-            "tag": "🛑 1. Bölüm / Önizleme Sonu (Slayt 10)",
-            "q": "İlk 10 slaytlık açık önizleme bölümü tamamlandı. 2. Bölüm (Etiyoloji ve Risk Faktörleri), 3. Bölüm (Patogenez), 4. Bölüm (Tanı ve Evreleme), Medikal/Cerrahi Tedavi ve Klinik Vaka Analizleri AES-256 ile şifrelenmiştir.",
-            "note": "İleri slaytlara geçmek veya İçindekiler tablosundan herhangi bir konuya atlamak için ders şifrenizi giriniz."
+            "tag": "🛑 Önizleme Sonu (Slayt 10)",
+            "q": "10 slaytlık önizleme tamamlanmıştır.",
+            "note": "Devamını görüntülemek için ders şifresi girilmesi gerekmektedir."
         }
         public_slides[9] = preview_slide
 
@@ -431,8 +431,8 @@ def sync_obezite_uygulama():
 
         # Add preview end slide registration to public head
         preview_reg = """
-addSlide('🛑 Önizleme Sınırı', '1. Bölüm / Önizleme Sonu (Slayt 10)', 'Önizleme Sonu',
-  slideIntro('🔒', 'İleri Modüller Şifrelidir', 'İlk 10 slaytlık açık önizleme bölümü tamamlandı. Modül 2 Değişim Listeleri, Modül 3 Makro Dağılımı ve İnteraktif Vaka Hesaplama Simülatörleri AES-256 ile şifrelenmiştir. Devam etmek veya listeden atlamak için ders şifrenizi giriniz.'));
+addSlide('🛑 Önizleme Sınırı', 'Önizleme Sonu (Slayt 10)', 'Önizleme Sonu',
+  slideIntro('🔒', '10 Slaytlık Önizleme Tamamlanmıştır', 'Devamını görüntülemek için ders şifresi girilmesi gerekmektedir.'));
 """
         public_head = public_head + preview_reg
 
