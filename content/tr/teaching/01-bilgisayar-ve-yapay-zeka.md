@@ -21,3 +21,8 @@ order: 1
 - **Danışan Eğitimi ve İçerik Tasarımı:** Yapay zekadan faydalanarak danışanlara yönelik anlaşılır bilgilendirme notları, tarif kartları ve eğitim materyalleri üretme.
 - **Akademik Literatür Tarama:** Güncel bilimsel kanıtlara hızlı ve doğru ulaşmak için dijital araştırma araçlarını kullanma.
 - **Etik, Doğruluk ve Güvenilirlik:** Yapay zekanın ürettiği bilgilerin beslenme bilimi süzgecinden geçirilmesi ve mesleki sorumluluk sınırları.
+
+## 📊 İnteraktif Ders Sunumu & Öğrenci Önizlemesi
+Bu dersin 20 slaytlık interaktif web sunumuna aşağıdaki bağlantıdan erişebilirsiniz. **İlk 10 slayt açık önizleme** olarak sunulmakta, 11. slayttan itibaren vaka analizleri ve simülatörler **AES-256-GCM** öğrenci şifresiyle korunmaktadır.
+
+👉 [**BES 200: İnteraktif Ders Sunumunu Tam Ekran Aç (HTML)**](../slides/01-bilgisayar-ve-yapay-zeka.html) *(Öğrenci Kilit Ekranı Korumalı)*

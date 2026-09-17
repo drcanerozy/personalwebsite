@@ -19,3 +19,9 @@ order: 6
 - **🌿 Mediterranean & DASH Diet Workshop:** Analytical diet modeling beyond caloric restriction, accounting for portion dynamics and local biodiversity.
 - **🤖 GLP-1 Therapy & AI Case Simulations:** Modeling gastrointestinal symptom management, lean mass preservation, and precision macronutrient targets via AI-assisted simulations.
 - **Nutrition Care Process (NCP):** Formulating evidence-based PES diagnoses, carbohydrate counting, and tailored clinical diet prescriptions.
+
+## 📊 Interactive Lecture Slides & Student Lock Screen
+Access the live interactive web presentations via the links below. The **first 10 slides are public preview**, while slides 11+ are encrypted with **AES-256-GCM** and unlocked with the course password.
+
+- 👉 [**Topic 1: Obesity & Medical Nutrition Therapy (185 Slides - Live)**](../../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Protected)*
+- 👉 [**Week 1 Practice: Diet & Body Composition (59+ Slides - Live)**](../../slides/02-obezite-uygulama.html) *(🔒 AES-256 Protected)*

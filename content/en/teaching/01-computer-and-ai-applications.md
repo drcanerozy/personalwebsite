@@ -17,3 +17,8 @@ order: 1
 
 ## 🎯 Course Objectives & Vision
 Designed for undergraduate dietetics students to explore how modern digital tools and AI can enhance clinical workflows, client education, and evidence-based nutrition practice through interactive hands-on learning.
+
+## 📊 Interactive Lecture Slides & Student Preview
+Access the 20-slide interactive web presentation via the link below. The **first 10 slides are public preview**, while slides 11+ are encrypted with **AES-256-GCM** and unlocked with the course password.
+
+👉 [**Open BES 200 Interactive Lecture Slides (HTML)**](../../slides/01-bilgisayar-ve-yapay-zeka.html) *(Student Lock Screen Protected)*

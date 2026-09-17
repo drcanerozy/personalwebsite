@@ -429,7 +429,11 @@ def generate_html(lang="tr"):
         p_desc = pres.get("summary", pres.get("body", "[Sunum Açıklaması]"))
         p_slides = pres.get("slide_count", "[Slayt Sayısı]")
         p_live = pres.get("html_url", "")
-        p_dl = pres.get("download_url", f"{ui['asset_prefix']}CV_Ozyildirim.pdf")
+        if p_live and not p_live.startswith("http") and not is_tr and not p_live.startswith("../"):
+            p_live = f"../{p_live}"
+        p_dl = pres.get("download_url", "")
+        if p_dl and not p_dl.startswith("http") and not is_tr and not p_dl.startswith("../"):
+            p_dl = f"../{p_dl}"
         
         live_btn = f"<a href='{p_live}' target='_blank' class='text-emerald-700 font-semibold hover:underline flex items-center space-x-1'><i class='fa-solid fa-play'></i><span>{ui['live_slide_btn']}</span></a>" if p_live else ""
         dl_btn = f"<a href='{p_dl}' target='_blank' class='text-academic-700 font-semibold hover:underline flex items-center space-x-1'><i class='fa-solid fa-download'></i><span>{ui['download_slide_btn']}</span></a>" if p_dl else ""

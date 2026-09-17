@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="tr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BES 200: Beslenme ve Diyetetikte Bilgisayar ve Yapay Zeka Uygulamaları | Dr. Caner ÖZYILDIRIM</title>
+    <meta name="description" content="Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi - Beslenme ve Diyetetikte Yapay Zeka Uygulamaları İnteraktif Ders Sunumu.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        academic: {
+                            50: '#f4f6f8',
+                            100: '#e5eaf0',
+                            600: '#23487a',
+                            700: '#1b365d',
+                            800: '#132744',
+                            900: '#0b172a'
+                        },
+                        accent: '#8b263e',
+                        warmBg: '#fcfbf9'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif'],
+                        display: ['Cinzel', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            transform: scale(0.99);
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
+        }
+        .slide-content-card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(8px);
+        }
+        @keyframes modalShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .shake-animation {
+            animation: modalShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        /* Custom scrollbar for drawer */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-800 font-sans antialiased h-full flex flex-col justify-between select-none overflow-hidden" id="slide-app">
+
+    <!-- TOP CONTROL & STATUS BAR -->
+    <header class="bg-academic-900/95 text-white border-b border-academic-800 h-14 px-4 sm:px-6 flex items-center justify-between z-30 shrink-0 select-none">
+        <div class="flex items-center space-x-3 sm:space-x-4">
+            <a href="../#teaching" class="text-slate-300 hover:text-white transition flex items-center space-x-1.5 text-xs font-semibold bg-academic-800/80 hover:bg-academic-700 px-3 py-1.5 rounded-lg border border-academic-700/60" title="Ders sayfasına dön">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span class="hidden md:inline">Ders Sayfasına Dön</span>
+            </a>
+            <div class="h-4 w-px bg-slate-700 hidden sm:block"></div>
+            <div class="flex items-center space-x-2">
+                <span class="text-xs font-bold text-amber-400 bg-amber-950/80 border border-amber-800/60 px-2 py-0.5 rounded font-mono">BES 200</span>
+                <span class="text-xs font-medium text-slate-200 hidden lg:inline truncate max-w-md">Beslenme ve Diyetetikte Yapay Zeka Uygulamaları</span>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2 sm:space-x-3">
+            <!-- Slide Counter -->
+            <div class="flex items-center space-x-1.5 bg-academic-800/90 border border-slate-700/60 px-3 py-1 rounded-lg text-xs font-mono">
+                <span class="text-slate-400">Slayt:</span>
+                <span id="current-slide-num" class="font-bold text-white">1</span>
+                <span class="text-slate-500">/</span>
+                <span id="total-slide-num" class="text-slate-300">10</span>
+                <span id="preview-tag" class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.2 rounded ml-1 font-sans font-medium">Önizleme</span>
+            </div>
+
+            <!-- Lock / Access Status Indicator -->
+            <button id="auth-status-btn" onclick="openLockModal()" class="flex items-center space-x-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer" title="Şifre Girişi Yap">
+                <i id="auth-status-icon" class="fa-solid fa-lock text-xs"></i>
+                <span id="auth-status-text" class="hidden sm:inline">Kilitli Modül</span>
+            </button>
+
+            <!-- Slides Overview Drawer Button -->
+            <button onclick="toggleOverviewDrawer()" class="p-2 text-slate-300 hover:text-white hover:bg-academic-800 rounded-lg transition text-xs" title="Slayt Listesi & İçindekiler (O tuşu)">
+                <i class="fa-solid fa-table-cells-large"></i>
+            </button>
+
+            <!-- Fullscreen Button -->
+            <button onclick="toggleFullScreen()" class="p-2 text-slate-300 hover:text-white hover:bg-academic-800 rounded-lg transition text-xs" title="Tam Ekran (F tuşu)">
+                <i id="fullscreen-icon" class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN PRESENTATION STAGE -->
+    <main class="relative flex-grow flex items-center justify-center p-2 sm:p-4 md:p-6 bg-gradient-to-br from-slate-900 via-academic-950 to-slate-900 overflow-hidden">
+        
+        <!-- Presentation Container -->
+        <div id="presentation-deck" class="w-full max-w-6xl aspect-[16/10] sm:aspect-[16/9.5] max-h-[88vh] bg-warmBg rounded-2xl shadow-2xl border border-slate-700/50 flex flex-col justify-between overflow-hidden relative">
+
+            <!-- SLIDE 1: Title & Course Intro -->
+            <section class="slide active flex-col justify-between p-8 sm:p-12 h-full bg-gradient-to-br from-white via-warmBg to-academic-50" data-slide-index="0">
+                <div class="flex justify-between items-start border-b border-slate-200 pb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-academic-700 text-white flex items-center justify-center shadow">
+                            <i class="fa-solid fa-laptop-code text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-accent uppercase tracking-wider">Akdeniz Üniversitesi SBF</span>
+                            <p class="text-xs text-slate-500">Beslenme ve Diyetetik Bölümü • Lisans Dersi</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-academic-700 bg-academic-100 px-3 py-1 rounded-full font-mono">Modül 1: Temeller</span>
+                </div>
+
+                <div class="my-auto py-6 max-w-3xl">
+                    <div class="inline-flex items-center space-x-2 bg-amber-50 border border-amber-200 text-amber-900 px-3 py-1 rounded-full text-xs font-semibold mb-4">
+                        <i class="fa-solid fa-sparkles text-amber-600"></i>
+                        <span>İnteraktif Akademik Sunum Platformu</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-academic-900 leading-tight">
+                        Beslenme ve Diyetetikte Bilgisayar & Yapay Zeka
+                    </h1>
+                    <p class="text-base sm:text-lg text-slate-600 font-serif mt-4 leading-relaxed">
+                        Klinik karar destek sistemleri, büyük veri analizi, dijital besin veri tabanları ve geleceğin akıllı diyetisyenlik vizyonu.
+                    </p>
+                </div>
+
+                <div class="pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center text-xs text-slate-500 gap-2">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-user-tie text-academic-700"></i>
+                        <span class="font-semibold text-slate-700">Dr. Caner ÖZYILDIRIM</span>
+                    </div>
+                    <div class="flex items-center space-x-4 text-slate-400">
+                        <span><i class="fa-regular fa-keyboard mr-1"></i> İlerlemek için: Sağ Ok / Boşluk</span>
+                        <span><i class="fa-solid fa-shield-halved text-emerald-600 mr-1"></i> AES-256 Korumalı</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: Ders İzlencesi ve Öğrenme Hedefleri -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="1">
+                <div>
+                    <div class="flex items-center space-x-2 text-xs font-bold text-accent uppercase tracking-widest mb-2">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>Ders Mimarisi</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900">Ders İzlencesi & Temel Öğrenme Hedefleri</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+                    <div class="bg-academic-50/70 border border-academic-100 p-5 rounded-xl">
+                        <div class="w-8 h-8 rounded-lg bg-academic-700 text-white flex items-center justify-center text-sm font-bold mb-3">1</div>
+                        <h3 class="font-bold text-slate-900 text-sm mb-1.5">Temel Kavramlar & Dijital Araçlar</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Besin veri tabanları (USDA, TürKomp), API yapıları ve yapay zeka arama motorları ile literatür tarama.</p>
+                        <span class="inline-block mt-3 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Açık Önizleme</span>
+                    </div>
+                    <div class="bg-amber-50/70 border border-amber-200 p-5 rounded-xl">
+                        <div class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center text-sm font-bold mb-3">2</div>
+                        <h3 class="font-bold text-slate-900 text-sm mb-1.5">Klinik Karar Destek & NLP</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Danışan anamnezlerinin analizi, prompt mühendisliği ve menü optimizasyon algoritmaları.</p>
+                        <span class="inline-block mt-3 text-[11px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded"><i class="fa-solid fa-lock text-[9px] mr-1"></i>Şifreli Modül</span>
+                    </div>
+                    <div class="bg-rose-50/70 border border-rose-200 p-5 rounded-xl">
+                        <div class="w-8 h-8 rounded-lg bg-rose-700 text-white flex items-center justify-center text-sm font-bold mb-3">3</div>
+                        <h3 class="font-bold text-slate-900 text-sm mb-1.5">Vaka Analizleri & Etik Sınırlar</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed">Gerçek klinik senaryolar, interaktif hesaplayıcılar, halüsinasyon denetimi ve mesleki etik.</p>
+                        <span class="inline-block mt-3 text-[11px] font-bold text-rose-800 bg-rose-100 px-2 py-0.5 rounded"><i class="fa-solid fa-lock text-[9px] mr-1"></i>Şifreli Modül</span>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-3 flex justify-between">
+                    <span>Hedef: Diyetisyenlik pratiğinde yapay zekayı kanıta dayalı ve etik kullanabilme yetisi.</span>
+                    <span class="font-mono">Slayt 2 / 10</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: Beslenme Biliminde Dijital Devrim -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="2">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Tarihsel Perspektif</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Beslenme Biliminde Dijital Devrim: Nereden Nereye?</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-auto">
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+                        <div class="text-xs font-bold text-slate-400 font-mono">1980 - 2000</div>
+                        <h4 class="font-bold text-slate-900 text-sm mt-1">Statik Tablolar</h4>
+                        <p class="text-xs text-slate-600 mt-2">Basılı besin bileşim cetvelleri, kağıt tüketim kayıtları ve elle yapılan enerji hesapları.</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50">
+                        <div class="text-xs font-bold text-slate-400 font-mono">2000 - 2015</div>
+                        <h4 class="font-bold text-slate-900 text-sm mt-1">Masaüstü Yazılımlar</h4>
+                        <p class="text-xs text-slate-600 mt-2">BEBİS, ESHA gibi yerel veri tabanları; standart diyet listesi şablonları.</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-academic-300 bg-academic-50/60">
+                        <div class="text-xs font-bold text-academic-700 font-mono">2015 - 2023</div>
+                        <h4 class="font-bold text-academic-900 text-sm mt-1">Mobil & Bulut Çağı</h4>
+                        <p class="text-xs text-slate-600 mt-2">MyFitnessPal, mobil danışan takip panelleri, akıllı tartı senkronizasyonları.</p>
+                    </div>
+                    <div class="p-4 rounded-xl border-2 border-academic-700 bg-academic-900 text-white shadow-md">
+                        <div class="text-xs font-bold text-amber-400 font-mono">2023+ Günümüz</div>
+                        <h4 class="font-bold text-white text-sm mt-1">Üretken Yapay Zeka</h4>
+                        <p class="text-xs text-slate-300 mt-2">LLM'ler, multimodal görüntü tanıma, çoklu omiks entegrasyonu ve dinamik karar destek.</p>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-academic-50 rounded-lg text-xs text-academic-800 border border-academic-200 flex items-center space-x-2">
+                    <i class="fa-solid fa-lightbulb text-amber-600 text-sm"></i>
+                    <span><strong>Akademik Not:</strong> Yapay zeka diyetisyenin yerini almayacak; ancak yapay zekayı etkin kullanan diyetisyenler diğerlerinin önüne geçecektir.</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: Yapay Zekanın Temel Kavramları -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="3">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Temel Terminoloji</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Yapay Zeka Terminolojisi: Diyetisyenin Sözlüğü</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-auto">
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg flex space-x-4">
+                        <div class="text-2xl text-academic-700"><i class="fa-solid fa-brain"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm">Makine Öğrenmesi (Machine Learning)</h3>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Büyük beslenme kohort verilerinden (örn. NHANES, UK Biobank) örüntü çıkararak insülin direnci veya obezite riskini önceden tahmin eden algoritmalar.</p>
+                        </div>
+                    </div>
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg flex space-x-4">
+                        <div class="text-2xl text-indigo-700"><i class="fa-solid fa-comments"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm">Büyük Dil Modelleri (LLMs)</h3>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Danışanın besin günlüğündeki serbest metinleri yapılandırılmış besin ve makro ögelerine dönüştüren üretken modeller (GPT-4o, Claude 3.5, Gemini 1.5 Pro).</p>
+                        </div>
+                    </div>
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg flex space-x-4">
+                        <div class="text-2xl text-emerald-700"><i class="fa-solid fa-camera"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm">Bilgisayarlı Görü (Computer Vision)</h3>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Tabak fotoğraflarından yemek türünü, porsiyon hacmini (3D derinlik tahmini) ve yaklaşık kalori miktarını hesaplayan algoritmalar.</p>
+                        </div>
+                    </div>
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg flex space-x-4">
+                        <div class="text-2xl text-amber-700"><i class="fa-solid fa-diagram-project"></i></div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-sm">Klinik Karar Destek Sistemleri (CDSS)</h3>
+                            <p class="text-xs text-slate-600 mt-1 leading-relaxed">Laboratuvar bulguları (ör. HbA1c, GFR, lipid profili) ve ilaç etkileşimlerini harmanlayarak diyetisyene klinik öneriler sunan sistemler.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 4 / 10</div>
+            </section>
+
+            <!-- SLIDE 5: Dijital Besin Veri Tabanları ve API'ler -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="4">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Veri Altyapısı</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Dijital Besin Veri Tabanları & API Mimarisi</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+                    <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl">
+                        <div class="flex items-center space-x-2 text-academic-700 font-bold text-sm mb-2">
+                            <i class="fa-solid fa-database"></i>
+                            <span>TürKomp & Ulusal Veriler</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">TÜBİTAK MAM tarafından geliştirilen Türkiye Besin Bileşim Veri Tabanı. Yerel pişirme ve işleme yöntemlerine ait mikronütrient değerleri.</p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl">
+                        <div class="flex items-center space-x-2 text-academic-700 font-bold text-sm mb-2">
+                            <i class="fa-solid fa-server"></i>
+                            <span>USDA FoodData Central API</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">350.000+ gıdanın tam amino asit, yağ asidi ve mineral profilini JSON formatında sunan küresel standart RESTful API.</p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl">
+                        <div class="flex items-center space-x-2 text-academic-700 font-bold text-sm mb-2">
+                            <i class="fa-solid fa-code"></i>
+                            <span>Open Food Facts</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">3 milyon+ paketli ürünün barkod tabanlı katkı maddeleri, alerjen uyarıları ve Nutri-Score veritabanı.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 text-slate-200 p-3 rounded-lg text-xs font-mono">
+                    <span class="text-emerald-400">GET</span> https://api.nal.usda.gov/fdc/v1/food/170379?api_key=DEMO_KEY <span class="text-slate-400">-> { "description": "Broccoli, raw", "nutrients": [...] }</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Görüntü İşleme ile Porsiyon Tanıma -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="5">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Yapay Görme</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Görüntü İşleme ile Tabak Analizi & Porsiyonlama</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto items-center">
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-7 h-7 rounded-full bg-academic-100 text-academic-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Semantik Segmentasyon</h4>
+                                <p class="text-xs text-slate-600">Tabaktaki farklı besin ögelerini (et, pilav, salata) piksel düzeyinde sınırlandırıp sınıflandırma.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-7 h-7 rounded-full bg-academic-100 text-academic-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">3B Hacim ve Derinlik Kestirimi</h4>
+                                <p class="text-xs text-slate-600">Tekil 2D fotoğraftan gölge, referans çatal/madeni para veya derinlik sensörü ile hacim (cm³) hesaplama.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-7 h-7 rounded-full bg-academic-100 text-academic-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Yoğunluk (Density) Çarpanı</h4>
+                                <p class="text-xs text-slate-600">Hacmi gramaj değerine dönüştürmek için besine özel yoğunluk katsayısı ile çarpım ($Gram = Hacim \times \rho$).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 p-5 rounded-2xl text-center">
+                        <div class="inline-block p-4 bg-white rounded-xl shadow-sm border border-slate-100 mb-3">
+                            <i class="fa-solid fa-utensils text-3xl text-academic-700"></i>
+                        </div>
+                        <h4 class="font-bold text-xs text-slate-800">Klinik Hata Payı Değerlendirmesi</h4>
+                        <p class="text-xs text-slate-500 mt-1 max-w-xs mx-auto">Güncel literatürde akıllı görüntü analizi ile porsiyon sapma oranı %12-18 arasındadır; bu oran bireysel hatırlama anketlerine kıyasla (%35-45 sapma) belirgin şekilde üstündür.</p>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 6 / 10</div>
+            </section>
+
+            <!-- SLIDE 7: NLP ile Anamnez Analizi -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="6">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Klinik NLP</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Doğal Dil İşleme ile Danışan Anamnez Analizi</h2>
+                </div>
+
+                <div class="space-y-4 my-auto">
+                    <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                        <div class="flex items-center space-x-2 text-xs font-bold text-slate-600 mb-1">
+                            <i class="fa-solid fa-user-pen"></i>
+                            <span>Danışanın Serbest Metin Girişi (Ham Veri):</span>
+                        </div>
+                        <p class="text-xs text-slate-800 italic bg-white p-3 rounded border border-slate-100 font-serif">
+                            "Sabah 1 dilim beyaz ekmek üzerine biraz ezine peyniri ve 5-6 zeytin yedim. Öğleden sonra canım tatlı çekti 1 kutu soğuk çay ve çikolatalı gofret aldım. Akşam annemin yaptığı kıymalı mercimek ve bol marullu salata vardı."
+                        </p>
+                    </div>
+
+                    <div class="flex justify-center text-academic-700">
+                        <i class="fa-solid fa-arrow-down text-lg"></i>
+                    </div>
+
+                    <div class="p-4 bg-academic-50 border border-academic-200 rounded-xl">
+                        <div class="flex items-center justify-between text-xs font-bold text-academic-900 mb-1">
+                            <span class="flex items-center space-x-1.5"><i class="fa-solid fa-robot"></i><span>Yapay Zeka Yapılandırılmış Çıktısı (JSON / Besin Değişimleri):</span></span>
+                            <span class="text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded font-mono">Doğruluk: %94</span>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono text-slate-700 mt-2">
+                            <div class="bg-white p-2 rounded border border-academic-100">🍞 1 Ekmek Değ.</div>
+                            <div class="bg-white p-2 rounded border border-academic-100">🧀 1 Yağlı Peynir</div>
+                            <div class="bg-white p-2 rounded border border-academic-100">🫒 1 Yağ Değişimi</div>
+                            <div class="bg-white p-2 rounded border border-academic-100">🍫 42g İlave Şeker</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 7 / 10</div>
+            </section>
+
+            <!-- SLIDE 8: Bilimsel Literatür Taramada Yapay Zeka -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="7">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Kanıta Dayalı Diyetisyenlik</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Bilimsel Literatür Taramada AI Motorları</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+                    <div class="border border-slate-200 p-5 rounded-xl bg-warmBg hover:border-academic-600 transition">
+                        <div class="flex items-center space-x-2 text-indigo-700 font-bold text-sm mb-2">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span>Elicit.com</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">200 milyon+ akademik makalede semantik arama yapar. Randomize kontrollü çalışmaların (RCT) örneklem büyüklüğünü ve bulgularını tablo halinde özetler.</p>
+                    </div>
+                    <div class="border border-slate-200 p-5 rounded-xl bg-warmBg hover:border-academic-600 transition">
+                        <div class="flex items-center space-x-2 text-emerald-700 font-bold text-sm mb-2">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            <span>Consensus.app</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">"Aralıklı oruç kas kaybına neden olur mu?" gibi klinik sorulara literatürdeki kanıt uzlaşma yüzdesi (Consensus Meter) ile yanıt verir.</p>
+                    </div>
+                    <div class="border border-slate-200 p-5 rounded-xl bg-warmBg hover:border-academic-600 transition">
+                        <div class="flex items-center space-x-2 text-rose-700 font-bold text-sm mb-2">
+                            <i class="fa-solid fa-book-medical"></i>
+                            <span>PubMed / BioC API</span>
+                        </div>
+                        <p class="text-xs text-slate-600 leading-relaxed">MeSH terimleri üzerinden tam metin biyomedikal makaleleri tarayıp meta-analiz özetleri çıkaran açık akademik veri arayüzü.</p>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 flex items-center space-x-2">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+                    <span><strong>Önemli Kural:</strong> Yapay zekanın sağladığı makale atıfları her zaman orijinal DOI / PubMed bağlantısından doğrulanmalıdır (Halüsinasyon Riski).</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: Prompt Mühendisliği: Klinik Prompt Tasarımı -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="8">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest">Klinik Prompt</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Diyetisyenler İçin 5 Adımlı Prompt Mimarisi</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 my-auto text-xs">
+                    <div class="bg-academic-50 border border-academic-100 p-3.5 rounded-xl">
+                        <span class="font-bold text-academic-700 font-mono block mb-1">1. ROL</span>
+                        <p class="text-slate-600 text-[11px]">"Klinik bariatrik cerrahi alanında 10 yıl deneyimli uzman diyetisyen gibi davran."</p>
+                    </div>
+                    <div class="bg-academic-50 border border-academic-100 p-3.5 rounded-xl">
+                        <span class="font-bold text-academic-700 font-mono block mb-1">2. BAĞLAM</span>
+                        <p class="text-slate-600 text-[11px]">"42 yaşında, Sleeve Gastrektomi sonrası 3. haftasında olan, bulantısı bulunan kadın danışan."</p>
+                    </div>
+                    <div class="bg-academic-50 border border-academic-100 p-3.5 rounded-xl">
+                        <span class="font-bold text-academic-700 font-mono block mb-1">3. GÖREV</span>
+                        <p class="text-slate-600 text-[11px]">"Günde 60g protein sağlayacak püre aşaması 3 günlük örnek menü hazırla."</p>
+                    </div>
+                    <div class="bg-academic-50 border border-academic-100 p-3.5 rounded-xl">
+                        <span class="font-bold text-academic-700 font-mono block mb-1">4. KISITLAR</span>
+                        <p class="text-slate-600 text-[11px]">"Laktozsuz süt ürünleri kullan, basit şeker içermesin, porsiyon 100ml'yi geçmesin."</p>
+                    </div>
+                    <div class="bg-academic-50 border border-academic-100 p-3.5 rounded-xl">
+                        <span class="font-bold text-academic-700 font-mono block mb-1">5. FORMAT</span>
+                        <p class="text-slate-600 text-[11px]">"Çıktıyı saat, besin, gramaj ve protein (g) sütunlarından oluşan Markdown tablosu yap."</p>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 9 / 10</div>
+            </section>
+
+            <!-- SLIDE 10: PUBLIC PREVIEW BARRIER (Slide 10 / Preview End) -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-gradient-to-br from-slate-900 via-academic-950 to-slate-900 text-white" data-slide-index="9">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center space-x-1.5">
+                        <i class="fa-solid fa-eye"></i>
+                        <span>Önizleme Sınırı (Slayt 10 / 10)</span>
+                    </span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Genel Erişime Açık Kısım Tamamlandı</span>
+                </div>
+
+                <div class="my-auto text-center max-w-2xl mx-auto py-4">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl mx-auto mb-4 shadow-lg">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-white mb-3">
+                        İleri Modüller & Vaka Çalışmaları Şifrelidir
+                    </h2>
+                    <p class="text-sm text-slate-300 leading-relaxed font-sans mb-6">
+                        Bu dersin sonraki bölümleri (<strong class="text-amber-300">Modül 2, Modül 3, İnteraktif Klinik Vaka Soruları, Enerji & Makro Simülatörü ve Sınav Yönergeleri</strong>) AES-256-GCM ile şifrelenmiştir.
+                    </p>
+                    <button onclick="openLockModal()" class="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold px-6 py-3 rounded-xl shadow-lg transition transform hover:scale-105 cursor-pointer">
+                        <i class="fa-solid fa-key"></i>
+                        <span>Öğrenci Şifresini Gir & Kilitleri Aç</span>
+                    </button>
+                    <p class="text-[11px] text-slate-400 mt-3">
+                        * Şifreniz ders izlencesinde ve OBS duyuru panosunda paylaşılmıştır.
+                    </p>
+                </div>
+
+                <div class="border-t border-slate-800 pt-3 flex justify-between items-center text-xs text-slate-400 font-mono">
+                    <span>İlk 10 Slayt Önizlemesi Tamamlandı</span>
+                    <span>AES-256 Web Crypto API</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 11 (ENCRYPTED): Modül 2: Kişiselleştirilmiş Beslenmede Tahmine Dayalı Modeller -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="10">
+                <div>
+                    <span class="text-xs font-bold text-amber-600 uppercase tracking-widest"><i class="fa-solid fa-unlock mr-1"></i>Modül 2: İleri Düzey Analizler</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Kişiselleştirilmiş Beslenmede Tahmine Dayalı Modeller</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg">
+                        <div class="text-academic-700 font-bold text-sm mb-2"><i class="fa-solid fa-dna mr-2"></i>Nutrigenomik Entegrasyon</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">FTO, PPARG, TCF7L2 polimorfizmlerine göre karbonhidrat ve yağ metabolizması yanıtının makine öğrenmesiyle modellenmesi.</p>
+                    </div>
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg">
+                        <div class="text-academic-700 font-bold text-sm mb-2"><i class="fa-solid fa-bacteria mr-2"></i>Mikrobiyota & SCFA Profili</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">16S rRNA dizileme verilerinden Firmicutes/Bacteroidetes oranı ve bütirat üretim potansiyelinin tahminlenmesi.</p>
+                    </div>
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg">
+                        <div class="text-academic-700 font-bold text-sm mb-2"><i class="fa-solid fa-heart-pulse mr-2"></i>Sürekli Glikoz Takibi (CGM)</div>
+                        <p class="text-xs text-slate-600 leading-relaxed">Yemek sonrası glisemik yanıtın (PPGR) gradient boosting algoritmaları ile kişiye özel simüle edilmesi.</p>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono flex justify-between">
+                    <span>Modül 2: Kişiselleştirilmiş Beslenme</span>
+                    <span>Slayt 11</span>
+                </div>
+            </section>
+
+            <!-- SLIDE 12 (ENCRYPTED): Klinik Vaka 1: Tip 2 Diyabet ve GLP-1 Direnci -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="11">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest"><i class="fa-solid fa-user-doctor mr-1"></i>Klinik Vaka İncelemesi</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Vaka 1: Tip 2 Diyabet & İnsülin Direncinde Menü Optimizasyonu</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto text-xs">
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-2">
+                        <h4 class="font-bold text-academic-900 text-sm border-b pb-1">📋 Hasta Profili & Bulgular:</h4>
+                        <ul class="space-y-1.5 text-slate-700">
+                            <li>• <strong>Yaş / Cinsiyet:</strong> 54 Yaş, Erkek</li>
+                            <li>• <strong>BKİ / Bel Çevresi:</strong> 33.8 kg/m² (Obez I), 108 cm</li>
+                            <li>• <strong>Açlık Kan Şekeri / HbA1c:</strong> 156 mg/dL, %8.4</li>
+                            <li>• <strong>HOMA-IR:</strong> 4.6 (Yüksek Direnç)</li>
+                            <li>• <strong>Mevcut Diyet Alışkanlığı:</strong> Yüksek glisemik indeksli karbonhidrat ağırlıklı, düzensiz öğünler.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-academic-50 border border-academic-200 p-4 rounded-xl space-y-2">
+                        <h4 class="font-bold text-academic-900 text-sm border-b pb-1">🤖 AI Karar Destek Çıktısı:</h4>
+                        <ul class="space-y-1.5 text-slate-700">
+                            <li>• <strong>Enerji Hedefi:</strong> 1850 kcal/gün (500 kcal açık)</li>
+                            <li>• <strong>Makro Dağılımı:</strong> %40 Karb, %25 Protein (1.2g/kg), %35 Sağlıklı Yağ</li>
+                            <li>• <strong>Lif & Dirençli Nişasta:</strong> >35g/gün (GLP-1 sekresyonunu endojen uyarım hedefli)</li>
+                            <li>• <strong>Glisemik Yük:</strong> Günlük GL < 70 hedefli besin eşleştirmeleri</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 12</div>
+            </section>
+
+            <!-- SLIDE 13 (ENCRYPTED): İnteraktif Vaka Sorusu 1 -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="12">
+                <div>
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest"><i class="fa-solid fa-circle-question mr-1"></i>İnteraktif Sınıf Sorusu</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Klinik Karar Sınavı: Soru 1</h2>
+                </div>
+
+                <div class="my-auto max-w-3xl">
+                    <p class="text-sm sm:text-base font-serif text-slate-800 mb-5 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        Vaka 1'deki hastanın menü optimizasyonunda, yapay zeka karar destek sistemi yemek sonrası glisemik dalgalanmayı en aza indirmek için ilk sırada hangi besin eşleştirmesini önermelidir?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs" id="quiz-options-1">
+                        <button onclick="checkQuiz(1, 'A', false)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">A</span>
+                            <span>Tam buğday ekmeği + Reçel + Meyve Suyu</span>
+                        </button>
+                        <button onclick="checkQuiz(1, 'B', true)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">B</span>
+                            <span>Yulaf ezmesi + Chia Tohumu + Yoğurt + Ceviz</span>
+                        </button>
+                        <button onclick="checkQuiz(1, 'C', false)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">C</span>
+                            <span>Pirinç lapası + Haşlanmış Patates + Ayran</span>
+                        </button>
+                        <button onclick="checkQuiz(1, 'D', false)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">D</span>
+                            <span>Mısır gevreği + Yağsız Süt + Muz</span>
+                        </button>
+                    </div>
+
+                    <div id="quiz-feedback-1" class="hidden mt-4 p-3.5 rounded-xl text-xs"></div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 13</div>
+            </section>
+
+            <!-- SLIDE 14 (ENCRYPTED): İnteraktif Klinik Araç: Enerji ve Makro Hesaplayıcı -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="13">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest"><i class="fa-solid fa-calculator mr-1"></i>Uygulamalı Simülatör</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">İnteraktif Enerji & Makro Besin Simülatörü</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto">
+                    <!-- Calculator Inputs -->
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-3 text-xs">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-600 font-bold mb-1">Cinsiyet:</label>
+                                <select id="calc-gender" onchange="calcNutrition()" class="w-full border border-slate-300 rounded p-1.5 bg-white">
+                                    <option value="female">Kadın</option>
+                                    <option value="male" selected>Erkek</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-slate-600 font-bold mb-1">Yaş (yıl):</label>
+                                <input type="number" id="calc-age" value="30" oninput="calcNutrition()" class="w-full border border-slate-300 rounded p-1.5 bg-white">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-slate-600 font-bold mb-1">Kilo (kg):</label>
+                                <input type="number" id="calc-weight" value="75" oninput="calcNutrition()" class="w-full border border-slate-300 rounded p-1.5 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-slate-600 font-bold mb-1">Boy (cm):</label>
+                                <input type="number" id="calc-height" value="178" oninput="calcNutrition()" class="w-full border border-slate-300 rounded p-1.5 bg-white">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-slate-600 font-bold mb-1">Fiziksel Aktivite Faktörü (PAL):</label>
+                            <select id="calc-pal" onchange="calcNutrition()" class="w-full border border-slate-300 rounded p-1.5 bg-white">
+                                <option value="1.2">Sedanter / Masa Başı (1.2)</option>
+                                <option value="1.375" selected>Hafif Aktif (1.375)</option>
+                                <option value="1.55">Orta Düzey Aktif (1.55)</option>
+                                <option value="1.725">Ağır Egzersiz / Sporcu (1.725)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Results Output -->
+                    <div class="bg-academic-900 text-white p-5 rounded-xl flex flex-col justify-between">
+                        <div>
+                            <div class="text-xs text-slate-400 font-mono uppercase tracking-wider mb-2">Mifflin-St Jeor Formülü Sonuçları:</div>
+                            <div class="flex justify-between items-baseline mb-3">
+                                <span class="text-sm text-slate-300">Bazal Metabolizma (BMR):</span>
+                                <span id="res-bmr" class="text-lg font-mono font-bold text-amber-400">1720 kcal</span>
+                            </div>
+                            <div class="flex justify-between items-baseline mb-4 border-b border-slate-700 pb-3">
+                                <span class="text-sm text-slate-300">Günlük Toplam Harcama (TDEE):</span>
+                                <span id="res-tdee" class="text-2xl font-mono font-bold text-emerald-400">2365 kcal</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                                <div class="bg-slate-800 p-2 rounded">
+                                    <span class="block text-slate-400 text-[10px]">Karb (%50)</span>
+                                    <span id="res-carb" class="font-bold text-blue-300">295 g</span>
+                                </div>
+                                <div class="bg-slate-800 p-2 rounded">
+                                    <span class="block text-slate-400 text-[10px]">Protein (%20)</span>
+                                    <span id="res-prot" class="font-bold text-rose-300">118 g</span>
+                                </div>
+                                <div class="bg-slate-800 p-2 rounded">
+                                    <span class="block text-slate-400 text-[10px]">Yağ (%30)</span>
+                                    <span id="res-fat" class="font-bold text-amber-300">78 g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-3">* Klinik pratiklerde hedef kalori belirlenirken hastalık durumuna göre bu bazal referans katsayıları modifiye edilir.</p>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 14</div>
+            </section>
+
+            <!-- SLIDE 15 (ENCRYPTED): Modül 3: Otomatik Menü Planlama ve Lineer Programlama -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="14">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest"><i class="fa-solid fa-unlock mr-1"></i>Modül 3: Algoritmik Menü Planlama</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Lineer Programlama ile Otomatik Menü Optimizasyonu</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto text-xs">
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg space-y-2">
+                        <h4 class="font-bold text-academic-900 text-sm">Amaç Fonksiyonu (Objective Function)</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            Matematiksel olarak maliyeti veya karbon ayak izini en aza indirirken, danışanın lezzet tercihlerini maksimize eden formülasyon:
+                        </p>
+                        <div class="p-3 bg-slate-900 text-emerald-400 font-mono rounded text-[11px]">
+                            Min Z = ∑ (Maliyet_i × Miktar_i)
+                        </div>
+                    </div>
+                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg space-y-2">
+                        <h4 class="font-bold text-academic-900 text-sm">Kısıt Matrisi (Constraint Matrix)</h4>
+                        <p class="text-slate-600 leading-relaxed">
+                            Diyetisyenin belirlediği alt ve üst besin ögesi sınırları:
+                        </p>
+                        <ul class="space-y-1 text-slate-700">
+                            <li>• $\text{Enerji} \in [1800, 2000] \text{ kcal}$</li>
+                            <li>• $\text{Sodyum} \le 2000 \text{ mg}$</li>
+                            <li>• $\text{Doymuş Yağ} \le 7\% \text{ Toplam Enerji}$</li>
+                            <li>• $\text{Çeşitlilik Katsayısı} \ge 12 \text{ farklı besin}$</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 15</div>
+            </section>
+
+            <!-- SLIDE 16 (ENCRYPTED): Klinik Vaka 2: Renal Yetmezlik Kısıtları -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="15">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest"><i class="fa-solid fa-user-doctor mr-1"></i>Klinik Vaka İncelemesi</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Vaka 2: Kronik Böbrek Yetmezliği (Evre 4) & Potasyum-Fosfor Dengesi</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-auto text-xs">
+                    <div class="bg-rose-50 border border-rose-200 p-4 rounded-xl space-y-2">
+                        <h4 class="font-bold text-rose-950 text-sm border-b border-rose-200 pb-1">⚠️ Kritik Klinik Kısıtlar:</h4>
+                        <ul class="space-y-1.5 text-slate-800">
+                            <li>• <strong>GFR:</strong> 22 mL/dk/1.73 m² (Prediyaliz)</li>
+                            <li>• <strong>Serum Potasyumu:</strong> 5.4 mEq/L (Hiperkalemi riski)</li>
+                            <li>• <strong>Serum Fosforu:</strong> 5.1 mg/dL</li>
+                            <li>• <strong>Protein Sınırı:</strong> 0.6 - 0.8 g/kg/gün (Yüksek biyolojik değerli)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-2">
+                        <h4 class="font-bold text-academic-900 text-sm border-b pb-1">🛡️ AI Filtreleme Kuralları:</h4>
+                        <ul class="space-y-1.5 text-slate-700">
+                            <li>• <strong>Potasyum Kısıtlaması:</strong> Kuruyemişler, kurutulmuş meyveler, patates ve muz algoritmik olarak listeden çıkarılır.</li>
+                            <li>• <strong>Pişirme Yöntemi Entegrasyonu:</strong> Sebzeler için haşlama-süzme (leaching) katsayısı uygulanır.</li>
+                            <li>• <strong>İnorganik Fosfor Uyarısı:</strong> Paketli ürünlerdeki fosfat katkı maddeleri (E338-E343) taranır.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 16</div>
+            </section>
+
+            <!-- SLIDE 17 (ENCRYPTED): Yapay Zeka Etiği & Halüsinasyon Riskleri -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="16">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest"><i class="fa-solid fa-shield-cat mr-1"></i>Etik & Güvenlik</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Yapay Zeka Etiği, Halüsinasyon Riskleri & Yasal Sorumluluk</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+                    <div class="p-4 rounded-xl border border-rose-200 bg-rose-50">
+                        <div class="text-rose-800 font-bold text-xs mb-1.5"><i class="fa-solid fa-triangle-exclamation mr-1.5"></i>Halüsinasyon (Uydurma Veri)</div>
+                        <p class="text-xs text-slate-700 leading-relaxed">Dil modelleri var olmayan bir besin takviyesi veya bilimsel makale referansı üretebilir. Diyetisyen her kaynağı teyit etmekle yükümlüdür.</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-amber-200 bg-amber-50">
+                        <div class="text-amber-800 font-bold text-xs mb-1.5"><i class="fa-solid fa-user-shield mr-1.5"></i>KVKK & Hasta Mahremiyeti</div>
+                        <p class="text-xs text-slate-700 leading-relaxed">Danışanların ad-soyad, TC kimlik ve kişisel sağlık verileri anonimleştirilmeden üçüncü taraf ticari AI API'lerine gönderilemez.</p>
+                    </div>
+                    <div class="p-4 rounded-xl border border-academic-200 bg-academic-50">
+                        <div class="text-academic-800 font-bold text-xs mb-1.5"><i class="fa-solid fa-gavel mr-1.5"></i>Nihai Tıbbi Sorumluluk</div>
+                        <p class="text-xs text-slate-700 leading-relaxed">Yapay zeka sadece bir araçtır; verilen beslenme tedavisinin klinik ve yasal sorumluluğu münhasıran lisanslı diyetisyene aittir.</p>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 17</div>
+            </section>
+
+            <!-- SLIDE 18 (ENCRYPTED): İnteraktif Soru 2: Güvenilirlik Denetimi -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="17">
+                <div>
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-widest"><i class="fa-solid fa-circle-question mr-1"></i>İnteraktif Sınıf Sorusu</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Klinik Karar Sınavı: Soru 2</h2>
+                </div>
+
+                <div class="my-auto max-w-3xl">
+                    <p class="text-sm sm:text-base font-serif text-slate-800 mb-5 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        Bir yapay zeka aracına hamile bir danışan için A vitamini desteği planlaması sorulduğunda, model günde 15.000 IU retinol takviyesi önermiştir. Diyetisyenin buradaki doğru klinik yaklaşımı ne olmalıdır?
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs" id="quiz-options-2">
+                        <button onclick="checkQuiz(2, 'A', false)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">A</span>
+                            <span>Modelin önerisini onaylayıp reçeteye eklemek.</span>
+                        </button>
+                        <button onclick="checkQuiz(2, 'B', true)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">B</span>
+                            <span>Yüksek doz preforme A vitamininin teratojenik (fetal anomali) riskini bilerek çıktıyı reddetmek ve beta-karoten kaynaklarını önermek.</span>
+                        </button>
+                        <button onclick="checkQuiz(2, 'C', false)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">C</span>
+                            <span>Dozu ikiye bölüp sabah-akşam almasını söylemek.</span>
+                        </button>
+                        <button onclick="checkQuiz(2, 'D', false)" class="quiz-btn p-3.5 rounded-xl border border-slate-200 text-left hover:bg-slate-50 transition flex items-center space-x-3">
+                            <span class="w-6 h-6 rounded-full bg-slate-200 text-slate-800 font-bold flex items-center justify-center shrink-0">D</span>
+                            <span>Soruyu farklı bir yapay zeka modeline sormadan değiştirmemek.</span>
+                        </button>
+                    </div>
+
+                    <div id="quiz-feedback-2" class="hidden mt-4 p-3.5 rounded-xl text-xs"></div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 18</div>
+            </section>
+
+            <!-- SLIDE 19 (ENCRYPTED): Dönem Sonu Proje ve Laboratuvar Yönergeleri -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-white" data-slide-index="18">
+                <div>
+                    <span class="text-xs font-bold text-accent uppercase tracking-widest"><i class="fa-solid fa-graduation-cap mr-1"></i>Dönem Sonu Projesi</span>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mt-1">Dönem Sonu Proje & Laboratuvar Uygulama Yönergesi</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-auto text-xs">
+                    <div class="p-4 rounded-xl border border-slate-200 bg-warmBg space-y-2">
+                        <h4 class="font-bold text-academic-900 text-sm">📌 Proje Kapsamı:</h4>
+                        <ul class="space-y-1.5 text-slate-700">
+                            <li>• Seçilen bir klinik patolojiye (örn. Çölyak, PCOS, Gut) yönelik yapay zeka destekli 7 günlük akıllı menü motoru tasarlanması.</li>
+                            <li>• En az 3 farklı LLM'in klinik prompt çıktılarının karşılaştırmalı hata analizi tablosu.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-200 bg-warmBg space-y-2">
+                        <h4 class="font-bold text-academic-900 text-sm">📅 Teslim & Değerlendirme Kriterleri:</h4>
+                        <ul class="space-y-1.5 text-slate-700">
+                            <li>• <strong>Son Teslim Tarihi:</strong> Final sınavı haftası (OBS üzerinden).</li>
+                            <li>• <strong>Değerlendirme:</strong> %40 Kanıta dayalı besin doğruluğu, %30 Prompt tasarımı, %30 Etik ve sınırlılık analizi.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 border-t border-slate-100 pt-2 font-mono">Slayt 19</div>
+            </section>
+
+            <!-- SLIDE 20 (ENCRYPTED): Teşekkür & Tartışma / İletişim -->
+            <section class="slide flex-col justify-between p-8 sm:p-12 h-full bg-gradient-to-br from-academic-900 to-slate-900 text-white" data-slide-index="19">
+                <div class="flex justify-between items-center border-b border-academic-800 pb-4">
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">Ders Sonu</span>
+                    <span class="text-xs font-mono text-slate-400">Dr. Caner ÖZYILDIRIM</span>
+                </div>
+
+                <div class="my-auto max-w-2xl">
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mb-4">
+                        Teşekkürler & Soru - Cevap
+                    </h2>
+                    <p class="text-sm text-slate-300 font-serif leading-relaxed mb-6">
+                        "Teknoloji ne kadar ilerlerse ilerlesin, empatinin, klinik sezgilerin ve insan dokunuşunun yerini hiçbir algoritma dolduramaz."
+                    </p>
+                    <div class="space-y-2 text-xs text-slate-300 font-mono">
+                        <div><i class="fa-solid fa-envelope text-amber-400 w-5"></i> canerozy@gmail.com</div>
+                        <div><i class="fa-solid fa-globe text-amber-400 w-5"></i> canerozy.com</div>
+                        <div><i class="fa-solid fa-building-columns text-amber-400 w-5"></i> Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi</div>
+                    </div>
+                </div>
+
+                <div class="border-t border-academic-800 pt-3 flex justify-between items-center text-xs text-slate-400 font-mono">
+                    <span>BES 200 • Başarılar Dilerim</span>
+                    <span>Slayt 20 / 20</span>
+                </div>
+            </section>
+
+        </div> <!-- end-deck -->
+
+        <!-- PREV / NEXT FLOATING ARROW BUTTONS -->
+        <button onclick="prevSlide()" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 hover:bg-academic-700 text-white border border-slate-700 flex items-center justify-center transition shadow-lg z-20 cursor-pointer" title="Önceki Slayt (Sol Ok)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button onclick="nextSlide()" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 hover:bg-academic-700 text-white border border-slate-700 flex items-center justify-center transition shadow-lg z-20 cursor-pointer" title="Sonraki Slayt (Sağ Ok)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+    </main>
+
+    <!-- BOTTOM PROGRESS BAR & CONTROLS -->
+    <footer class="bg-academic-900/95 text-slate-400 border-t border-academic-800 h-12 px-4 sm:px-6 flex items-center justify-between z-30 shrink-0 select-none text-xs">
+        <div class="flex items-center space-x-2">
+            <span class="text-slate-400 hidden sm:inline">İlerleme:</span>
+            <div class="w-28 sm:w-48 h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                <div id="slide-progress" class="h-full bg-gradient-to-r from-academic-600 to-amber-500 transition-all duration-300" style="width: 10%;"></div>
+            </div>
+            <span id="progress-percent" class="font-mono text-[11px] text-slate-300 ml-1">10%</span>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <span class="hidden md:inline text-[11px] text-slate-400">
+                <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-300">Space</kbd> / 
+                <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-300">←</kbd> <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-300">→</kbd> Gezinme
+            </span>
+            <span class="text-slate-600">|</span>
+            <span class="text-[11px] text-slate-400">Dr. Caner ÖZYILDIRIM</span>
+        </div>
+    </footer>
+
+    <!-- SLIDES OVERVIEW DRAWER (DRAWER MODAL) -->
+    <div id="overview-drawer" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex-col justify-end sm:justify-center items-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+            <div class="p-4 border-b border-slate-800 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-table-cells-large text-amber-400"></i>
+                    <h3 class="font-bold text-white text-sm">Sunum İçindekiler Tablosu & Slaytlar</h3>
+                </div>
+                <button onclick="toggleOverviewDrawer()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div id="overview-grid" class="p-6 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- STUDENT PASSWORD LOCK MODAL -->
+    <div id="student-lock-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div id="modal-card" class="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-md p-6 sm:p-8 shadow-2xl relative text-center">
+            
+            <button onclick="closeLockModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-lg transition" title="Kapat">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl mx-auto mb-4 shadow-inner">
+                <i id="lock-modal-icon" class="fa-solid fa-lock"></i>
+            </div>
+
+            <h3 class="text-xl font-serif font-bold text-white mb-2">Öğrenci Kilit Ekranı</h3>
+            <p class="text-xs text-slate-300 leading-relaxed mb-6 font-sans">
+                Bu dersin ileri modülleri, vaka soruları ve interaktif simülatörleri AES-256 ile şifrelenmiştir. Devam etmek için ders şifrenizi giriniz.
+            </p>
+
+            <form onsubmit="handleUnlockSubmit(event)" class="space-y-4">
+                <div class="relative text-left">
+                    <label for="student-password-input" class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">
+                        Ders Şifresi:
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="student-password-input" placeholder="Şifrenizi yazınız..." autocomplete="current-password" required
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 pr-10 font-mono transition">
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200">
+                            <i id="eye-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="unlock-error-msg" class="hidden text-xs text-rose-400 bg-rose-950/60 border border-rose-800/80 rounded-xl p-2.5 text-center font-medium">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Hatalı şifre! Lütfen kontrol ediniz.
+                </div>
+
+                <button type="submit" id="unlock-submit-btn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold py-3 rounded-xl shadow-lg transition flex items-center justify-center space-x-2 cursor-pointer">
+                    <i class="fa-solid fa-unlock"></i>
+                    <span>Şifreyi Çöz & Devam Et</span>
+                </button>
+            </form>
+
+            <div class="mt-5 pt-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-shield-halved text-emerald-500"></i>
+                <span>Tarayıcıda Web Crypto API ile çözülür.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRESENTATION & CRYPTO ENGINE SCRIPT -->
+    <script>
+        const PRESENTATION_ID = "bes_200_yapay_zeka";
+        let currentSlideIndex = 0;
+        let isUnlocked = false;
+        let totalSlides = 10;
+        let publicSlideCount = 10;
+        let encryptedPayload = null;
+
+        // Initialize presentation on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initPresentation();
+            checkSessionUnlock();
+            setupKeyboardAndTouch();
+            updateUI();
+        });
+
+        function initPresentation() {
+            // Read encrypted payload script if available
+            const payloadScript = document.getElementById('encrypted-payload-data');
+            if (payloadScript) {
+                try {
+                    encryptedPayload = JSON.parse(payloadScript.textContent);
+                    if (encryptedPayload.totalSlides) {
+                        totalSlides = encryptedPayload.totalSlides;
+                    }
+                    if (encryptedPayload.publicSlideCount) {
+                        publicSlideCount = encryptedPayload.publicSlideCount;
+                    }
+                } catch (e) {
+                    console.error("Payload ayrıştırma hatası:", e);
+                }
+            } else {
+                // If master unencrypted file, calculate slides from DOM
+                const domSlides = document.querySelectorAll('#presentation-deck > .slide');
+                totalSlides = domSlides.length;
+                if (totalSlides > 10) {
+                    isUnlocked = true;
+                }
+            }
+        }
+
+        // Web Crypto API Decryption (PBKDF2 SHA-256 -> AES-256-GCM)
+        async function decryptPayload(password) {
+            if (!encryptedPayload) return null;
+
+            const saltBytes = Uint8Array.from(atob(encryptedPayload.salt), c => c.charCodeAt(0));
+            const ivBytes = Uint8Array.from(atob(encryptedPayload.iv), c => c.charCodeAt(0));
+            const cipherBytes = Uint8Array.from(atob(encryptedPayload.ciphertext), c => c.charCodeAt(0));
+            const iterations = encryptedPayload.iterations || 100000;
+
+            const enc = new TextEncoder();
+            const baseKey = await window.crypto.subtle.importKey(
+                "raw",
+                enc.encode(password),
+                { name: "PBKDF2" },
+                false,
+                ["deriveKey"]
+            );
+
+            const derivedKey = await window.crypto.subtle.deriveKey(
+                {
+                    name: "PBKDF2",
+                    salt: saltBytes,
+                    iterations: iterations,
+                    hash: "SHA-256"
+                },
+                baseKey,
+                { name: "AES-GCM", length: 256 },
+                false,
+                ["decrypt"]
+            );
+
+            const decryptedBuf = await window.crypto.subtle.decrypt(
+                {
+                    name: "AES-GCM",
+                    iv: ivBytes
+                },
+                derivedKey,
+                cipherBytes
+            );
+
+            const dec = new TextDecoder("utf-8");
+            return dec.decode(decryptedBuf);
+        }
+
+        async function handleUnlockSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('student-password-input');
+            const password = input.value.trim();
+            const errorEl = document.getElementById('unlock-error-msg');
+            const submitBtn = document.getElementById('unlock-submit-btn');
+            const modalCard = document.getElementById('modal-card');
+
+            if (!password) return;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Şifre Çözülüyor...`;
+            errorEl.classList.add('hidden');
+
+            try {
+                if (encryptedPayload) {
+                    const decryptedHtml = await decryptPayload(password);
+                    applyDecryptedSlides(decryptedHtml);
+                    sessionStorage.setItem('unlocked_pres_' + PRESENTATION_ID, decryptedHtml);
+                } else {
+                    // Already in master mode
+                    isUnlocked = true;
+                }
+
+                isUnlocked = true;
+                closeLockModal();
+                showToast("🔓 Tebrikler! Tüm modüller başarıyla açıldı.", "success");
+                updateUI();
+                
+                // Advance to slide 11 (index 10)
+                goToSlide(publicSlideCount);
+
+            } catch (err) {
+                console.error("Çözme hatası:", err);
+                errorEl.classList.remove('hidden');
+                modalCard.classList.remove('shake-animation');
+                void modalCard.offsetWidth; // trigger reflow
+                modalCard.classList.add('shake-animation');
+                input.focus();
+                input.select();
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-unlock"></i> <span>Şifreyi Çöz & Devam Et</span>`;
+            }
+        }
+
+        function checkSessionUnlock() {
+            const cached = sessionStorage.getItem('unlocked_pres_' + PRESENTATION_ID);
+            if (cached && encryptedPayload) {
+                try {
+                    applyDecryptedSlides(cached);
+                    isUnlocked = true;
+                    updateUI();
+                } catch (e) {
+                    console.error("SessionStorage yükleme hatası:", e);
+                }
+            }
+        }
+
+        function applyDecryptedSlides(html) {
+            const deck = document.getElementById('presentation-deck');
+            
+            // Remove any previously appended unlocked slides to avoid duplicates
+            const existingUnlocked = deck.querySelectorAll('.slide[data-unlocked="true"]');
+            existingUnlocked.forEach(el => el.remove());
+
+            // Create temporary container
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            const newSlides = temp.querySelectorAll('.slide');
+
+            newSlides.forEach(s => {
+                s.setAttribute('data-unlocked', 'true');
+                deck.appendChild(s);
+            });
+
+            isUnlocked = true;
+            totalSlides = document.querySelectorAll('#presentation-deck > .slide').length;
+        }
+
+        function updateUI() {
+            const slides = document.querySelectorAll('#presentation-deck > .slide');
+            const totalAvailable = slides.length;
+
+            slides.forEach((slide, idx) => {
+                if (idx === currentSlideIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+
+            document.getElementById('current-slide-num').textContent = currentSlideIndex + 1;
+            document.getElementById('total-slide-num').textContent = isUnlocked ? totalAvailable : (encryptedPayload ? encryptedPayload.totalSlides : totalAvailable);
+
+            const previewTag = document.getElementById('preview-tag');
+            const authBtn = document.getElementById('auth-status-btn');
+            const authIcon = document.getElementById('auth-status-icon');
+            const authText = document.getElementById('auth-status-text');
+
+            if (isUnlocked) {
+                previewTag.classList.add('hidden');
+                authBtn.className = "flex items-center space-x-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3 py-1 rounded-lg text-xs font-semibold cursor-default";
+                authIcon.className = "fa-solid fa-unlock text-xs";
+                authText.textContent = "Tam Erişim";
+                authBtn.onclick = null;
+            } else {
+                previewTag.classList.remove('hidden');
+                authBtn.className = "flex items-center space-x-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer";
+                authIcon.className = "fa-solid fa-lock text-xs";
+                authText.textContent = "Kilitli Modül";
+                authBtn.onclick = openLockModal;
+            }
+
+            // Update progress bar
+            const pct = Math.round(((currentSlideIndex + 1) / (isUnlocked ? totalAvailable : totalSlides)) * 100);
+            document.getElementById('slide-progress').style.width = pct + '%';
+            document.getElementById('progress-percent').textContent = pct + '%';
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('#presentation-deck > .slide');
+            if (currentSlideIndex < slides.length - 1) {
+                currentSlideIndex++;
+                updateUI();
+            } else if (!isUnlocked && currentSlideIndex >= publicSlideCount - 1) {
+                // Trigger lock modal when attempting to pass preview limit
+                openLockModal();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                updateUI();
+            }
+        }
+
+        function goToSlide(index) {
+            const slides = document.querySelectorAll('#presentation-deck > .slide');
+            if (index < slides.length) {
+                currentSlideIndex = index;
+                updateUI();
+            } else if (!isUnlocked) {
+                openLockModal();
+            }
+        }
+
+        function openLockModal() {
+            if (isUnlocked) return;
+            const modal = document.getElementById('student-lock-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                document.getElementById('student-password-input').focus();
+            }, 100);
+        }
+
+        function closeLockModal() {
+            const modal = document.getElementById('student-lock-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('unlock-error-msg').classList.add('hidden');
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('student-password-input');
+            const icon = document.getElementById('eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        function toggleOverviewDrawer() {
+            const drawer = document.getElementById('overview-drawer');
+            if (drawer.classList.contains('hidden')) {
+                // Populate overview items
+                const grid = document.getElementById('overview-grid');
+                grid.innerHTML = '';
+                const slides = document.querySelectorAll('#presentation-deck > .slide');
+                const maxCount = isUnlocked ? slides.length : (encryptedPayload ? encryptedPayload.totalSlides : slides.length);
+
+                for (let i = 0; i < maxCount; i++) {
+                    const isAvailable = i < slides.length;
+                    const card = document.createElement('div');
+                    card.className = `p-3 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${
+                        i === currentSlideIndex 
+                            ? 'bg-academic-700 text-white border-academic-500 shadow-md' 
+                            : isAvailable 
+                                ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700' 
+                                : 'bg-slate-900/50 text-slate-500 border-slate-800'
+                    }`;
+
+                    let title = `Slayt ${i + 1}`;
+                    if (isAvailable) {
+                        const h = slides[i].querySelector('h1, h2, h3');
+                        if (h) title = h.textContent.trim().substring(0, 32) + (h.textContent.length > 32 ? '...' : '');
+                    } else {
+                        title = `🔒 Kilitli Slayt ${i + 1}`;
+                    }
+
+                    card.innerHTML = `
+                        <div>
+                            <span class="text-[10px] font-mono opacity-60 block">#${i + 1}</span>
+                            <span class="font-semibold text-xs mt-1 block">${title}</span>
+                        </div>
+                        <div class="mt-2 text-[10px] opacity-70">
+                            ${isAvailable ? '<i class="fa-solid fa-check text-emerald-400"></i> Açık' : '<i class="fa-solid fa-lock text-amber-400"></i> Şifreli'}
+                        </div>
+                    `;
+
+                    card.onclick = () => {
+                        drawer.classList.add('hidden');
+                        drawer.classList.remove('flex');
+                        if (isAvailable) {
+                            goToSlide(i);
+                        } else {
+                            openLockModal();
+                        }
+                    };
+
+                    grid.appendChild(card);
+                }
+
+                drawer.classList.remove('hidden');
+                drawer.classList.add('flex');
+            } else {
+                drawer.classList.add('hidden');
+                drawer.classList.remove('flex');
+            }
+        }
+
+        function toggleFullScreen() {
+            const icon = document.getElementById('fullscreen-icon');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => console.log(err));
+                icon.className = 'fa-solid fa-compress';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    icon.className = 'fa-solid fa-expand';
+                }
+            }
+        }
+
+        function setupKeyboardAndTouch() {
+            // Keyboard controls
+            window.addEventListener('keydown', (e) => {
+                // If typing in input, ignore slide keys
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    if (e.key === 'Escape') closeLockModal();
+                    return;
+                }
+
+                switch (e.key) {
+                    case 'ArrowRight':
+                    case ' ':
+                    case 'PageDown':
+                        e.preventDefault();
+                        nextSlide();
+                        break;
+                    case 'ArrowLeft':
+                    case 'Backspace':
+                    case 'PageUp':
+                        e.preventDefault();
+                        prevSlide();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        goToSlide(0);
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        const slides = document.querySelectorAll('#presentation-deck > .slide');
+                        goToSlide(slides.length - 1);
+                        break;
+                    case 'f':
+                    case 'F':
+                        e.preventDefault();
+                        toggleFullScreen();
+                        break;
+                    case 'o':
+                    case 'O':
+                    case 'm':
+                    case 'M':
+                        e.preventDefault();
+                        toggleOverviewDrawer();
+                        break;
+                    case 'Escape':
+                        closeLockModal();
+                        document.getElementById('overview-drawer').classList.add('hidden');
+                        break;
+                }
+            });
+
+            // Touch swipe support
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const deck = document.getElementById('slide-app');
+
+            deck.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            deck.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+
+            function handleSwipe() {
+                const diff = touchEndX - touchStartX;
+                if (Math.abs(diff) > 50) {
+                    if (diff < 0) nextSlide();
+                    else prevSlide();
+                }
+            }
+        }
+
+        // Quiz Question Interaction Helper
+        function checkQuiz(qNum, selectedOption, isCorrect) {
+            const container = document.getElementById('quiz-options-' + qNum);
+            const feedback = document.getElementById('quiz-feedback-' + qNum);
+            const buttons = container.querySelectorAll('.quiz-btn');
+
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                btn.classList.remove('hover:bg-slate-50');
+            });
+
+            feedback.classList.remove('hidden');
+            if (isCorrect) {
+                feedback.className = 'mt-4 p-3.5 rounded-xl text-xs bg-emerald-50 text-emerald-900 border border-emerald-200';
+                feedback.innerHTML = `<strong class="text-emerald-800"><i class="fa-solid fa-circle-check mr-1"></i> Doğru Cevap!</strong> Yulaf ezmesi, chia tohumu ve yoğurt kombinasyonu yüksek çözünür lif (beta-glukan), protein ve sağlıklı yağlar içererek gastrik boşalmayı geciktirir ve postprandiyal glukoz piklerini belirgin oranda düzleştirir.`;
+            } else {
+                feedback.className = 'mt-4 p-3.5 rounded-xl text-xs bg-rose-50 text-rose-900 border border-rose-200';
+                feedback.innerHTML = `<strong class="text-rose-800"><i class="fa-solid fa-circle-xmark mr-1"></i> Yanlış Seçenek!</strong> Seçtiğiniz opsiyon yüksek glisemik indeksli veya basit şeker içeriğine sahiptir. Doğru yanıt: <strong>B seçeneğidir</strong> (Yüksek lif, protein ve sağlıklı yağ dengesi).`;
+            }
+        }
+
+        // Calorie & Macro Simulator Helper
+        function calcNutrition() {
+            const gender = document.getElementById('calc-gender').value;
+            const age = parseFloat(document.getElementById('calc-age').value) || 30;
+            const weight = parseFloat(document.getElementById('calc-weight').value) || 70;
+            const height = parseFloat(document.getElementById('calc-height').value) || 175;
+            const pal = parseFloat(document.getElementById('calc-pal').value) || 1.375;
+
+            // Mifflin-St Jeor
+            let bmr = (10 * weight) + (6.25 * height) - (5 * age);
+            if (gender === 'male') {
+                bmr += 5;
+            } else {
+                bmr -= 161;
+            }
+
+            const tdee = Math.round(bmr * pal);
+            const carbGrams = Math.round((tdee * 0.50) / 4);
+            const protGrams = Math.round((tdee * 0.20) / 4);
+            const fatGrams = Math.round((tdee * 0.30) / 9);
+
+            document.getElementById('res-bmr').textContent = Math.round(bmr) + ' kcal';
+            document.getElementById('res-tdee').textContent = tdee + ' kcal';
+            document.getElementById('res-carb').textContent = carbGrams + ' g';
+            document.getElementById('res-prot').textContent = protGrams + ' g';
+            document.getElementById('res-fat').textContent = fatGrams + ' g';
+        }
+
+        // Toast notification helper
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-16 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-xl text-xs font-semibold text-white shadow-2xl z-50 flex items-center space-x-2 transition transform duration-300 ${
+                type === 'success' ? 'bg-emerald-600' : 'bg-slate-800'
+            }`;
+            toast.innerHTML = `<span>${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
