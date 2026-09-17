@@ -302,11 +302,7 @@ def generate_html(lang="tr"):
             bibtex_dict[pid] = bibtex
 
         doi_btn = f"<a href='{doi_url}' target='_blank' rel='noopener noreferrer' class='inline-flex items-center space-x-1 text-academic-700 font-semibold hover:underline'><i class='fa-solid fa-arrow-up-right-from-square'></i><span>{link_label}</span></a>" if doi_url else ""
-        lay_btn = f"<button onclick=\"toggleAbstract('{abs_id}')\" class='inline-flex items-center space-x-1 text-slate-600 hover:text-academic-700 transition'><i class='fa-solid fa-align-left'></i><span>{ui['lay_summary_btn']}</span></button>" if lay_summary else ""
         bib_btn = f"<button onclick=\"copyBibtex('{pid}')\" class='inline-flex items-center space-x-1 text-slate-600 hover:text-academic-700 transition'><i class='fa-solid fa-quote-right'></i><span>{ui['bibtex_btn']}</span></button>" if bibtex else ""
-        
-        lay_title = "Halk Diliyle Açıklama: " if is_tr else "Lay Summary: "
-        lay_box = f"<div id='{abs_id}' class='hidden mt-4 p-4 bg-white border border-slate-200 rounded-lg text-xs text-slate-600 leading-relaxed shadow-sm'><strong class='text-slate-800'>{lay_title}</strong>{lay_summary}</div>" if lay_summary else ""
 
         init_style = 'style="display: none;"' if idx > 5 else ''
 
@@ -327,10 +323,8 @@ def generate_html(lang="tr"):
                     </p>
                     <div class="mt-4 flex flex-wrap gap-3 text-xs">
                         {doi_btn}
-                        {lay_btn}
                         {bib_btn}
                     </div>
-                    {lay_box}
                 </div>"""
         pubs_html.append(card)
 
@@ -374,11 +368,6 @@ def generate_html(lang="tr"):
                 role_parts.append(f"<span class='inline-block text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60 mt-1'>{p_active}</span>")
             role_block = f"<div class='mt-3 p-3 bg-slate-50/80 rounded-lg border border-slate-200/70 text-xs text-slate-600 space-y-1.5'>{'<br>'.join(role_parts)}</div>"
             
-        # Contribution block
-        contrib_block = ""
-        if p_contribution:
-            contrib_block = f"<div class='mt-3 p-3.5 bg-amber-50/60 rounded-lg border border-amber-200/70 text-xs text-slate-700 leading-relaxed'><strong class='text-amber-950 flex items-center mb-1 font-serif'><i class='fa-solid fa-bullseye text-amber-700 mr-1.5'></i> {'Akademik Katkımız ve Odak Alanımız:' if is_tr else 'Academic Contribution & Focus:'}</strong> {p_contribution}</div>"
-
         # Footer info & button
         footer_info = p_funder if p_funder else (p_scope if p_scope else "")
         if p_url:
@@ -411,7 +400,6 @@ def generate_html(lang="tr"):
                             {p_summary}
                         </p>
                         {role_block}
-                        {contrib_block}
                     </div>
                     <div class="mt-6 pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center gap-2 text-xs">
                         <span class="text-slate-600 font-medium">{footer_info}</span>
@@ -1165,7 +1153,7 @@ def generate_html(lang="tr"):
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mb-10">
                 <span class="text-xs font-semibold text-accent uppercase tracking-widest">{'Pedagoji & Eğitim Faaliyetleri' if is_tr else 'Pedagogy & Teaching'}</span>
-                <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{'Verdiğim Lisans Dersleri' if is_tr else 'Undergraduate Courses'}</h2>
+                <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{'Sorumlusu Olduğum Dersler' if is_tr else 'Courses Taught'}</h2>
                 <p class="text-sm text-slate-600 mt-1">{'Akdeniz Üniversitesi Sağlık Bilimleri Fakültesi Beslenme ve Diyetetik Bölümü bünyesinde yürütülen dersler:' if is_tr else 'Courses taught at Akdeniz University Faculty of Health Sciences, Department of Nutrition and Dietetics:'}</p>
             </div>
 
@@ -1231,7 +1219,6 @@ def generate_html(lang="tr"):
                 <div>
                     <span class="text-xs font-semibold text-accent uppercase tracking-widest">{'Akademik Sunumlar & Eğitim Materyalleri' if is_tr else 'Academic Slides & Teaching Materials'}</span>
                     <h2 class="text-3xl font-serif font-bold text-academic-900 mt-1">{ui['nav_presentations']}</h2>
-                    <p class="text-sm text-slate-600 mt-1">{'Konferans, sempozyum, çalıştay ve derslerimde sunduğum sunum slaytları:' if is_tr else 'Selected slides presented at conferences, symposia, workshops, and lectures:'}</p>
                 </div>
             </div>
 
@@ -1273,7 +1260,7 @@ def generate_html(lang="tr"):
                         <i class="fa-brands fa-spotify text-base text-emerald-600"></i>
                         <span>Spotify</span>
                     </a>
-                    <a href="https://podcasts.apple.com" target="_blank" rel="noopener noreferrer" class="bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 px-4 py-2.5 rounded-xl flex items-center space-x-2 transition shadow-sm font-semibold" title="Apple Podcasts">
+                    <a href="https://podcasts.apple.com/tr/podcast/konsantre-podcast/id1629598808?l=tr" target="_blank" rel="noopener noreferrer" class="bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 px-4 py-2.5 rounded-xl flex items-center space-x-2 transition shadow-sm font-semibold" title="Apple Podcasts - Konsantre Podcast">
                         <i class="fa-solid fa-podcast text-base text-purple-600"></i>
                         <span>Apple Podcasts</span>
                     </a>
