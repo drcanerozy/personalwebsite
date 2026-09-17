@@ -1080,11 +1080,11 @@ def generate_html(lang="tr"):
                     </div>
                 </div>
 
-                <!-- Academic Appointments & Credentials -->
+                <!-- Academic Appointments -->
                 <div class="space-y-6">
                     <h3 class="text-xl font-serif font-bold text-academic-900 flex items-center space-x-2">
                         <i class="fa-solid fa-briefcase text-academic-700"></i>
-                        <span>{'Akademik Görevler & Yetkinlikler' if is_tr else 'Positions & Competencies'}</span>
+                        <span>{'Akademik Görevler' if is_tr else 'Academic Positions'}</span>
                     </h3>
 
                     <!-- Appointment -->
@@ -1100,52 +1100,6 @@ def generate_html(lang="tr"):
                         <p class="text-xs text-slate-700 mt-3 leading-relaxed">
                             {'Klinik ve epidemiyolojik araştırmalar yürütme, biyoistatistiksel modelleme, lisans dersleri anlatımı ve lisans bitirme tezleri danışmanlığı.' if is_tr else 'Conducting clinical and epidemiological research, biostatistical modeling, undergraduate teaching, and mentoring bachelor theses.'}
                         </p>
-                    </div>
-
-                    <!-- Certifications & AI -->
-                    <div class="p-5 rounded-xl border border-slate-200 bg-warmBg space-y-3">
-                        <h4 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
-                            <i class="fa-solid fa-award text-amber-500"></i>
-                            <span>{'Ağlar, Akreditasyonlar & Yetkinlikler' if is_tr else 'Networks, Accreditations & Skills'}</span>
-                        </h4>
-                        
-                        <div class="pt-2 border-t border-slate-200 space-y-3 text-xs text-slate-700">
-                            <div>
-                                <strong class="text-academic-700 flex items-center space-x-1.5">
-                                    <i class="fa-solid fa-robot text-purple-600"></i>
-                                    <span>{'Yapay Zeka (AI) & LLM Yetkinliği:' if is_tr else 'Artificial Intelligence (AI) & LLMs:'}</span>
-                                </strong>
-                                <p class="text-slate-600 mt-0.5">{'Büyük Dil Modelleri (LLM), hesaplamalı beslenme, literatür sentezi ve veri madenciliği.' if is_tr else 'Large Language Models (LLMs), computational nutrition, literature synthesis, and data mining.'}</p>
-                            </div>
-                            <div>
-                                <strong class="text-academic-700 flex items-center space-x-1.5">
-                                    <i class="fa-solid fa-chart-line text-blue-600"></i>
-                                    <span>{'Biyoistatistik & R Programlama:' if is_tr else 'Biostatistics & R Programming:'}</span>
-                                </strong>
-                                <p class="text-slate-600 mt-0.5">{'Çok değişkenli modelleme, sağkalım analizleri, ggplot2 veri görselleştirme.' if is_tr else 'Multivariable modeling, survival analysis, publication-grade ggplot2 visualization.'}</p>
-                            </div>
-                            <div>
-                                <strong class="text-academic-700 flex items-center space-x-1.5">
-                                    <i class="fa-solid fa-network-wired text-amber-600"></i>
-                                    <span>COST Action CA24166 (INFLAMomx):</span>
-                                </strong>
-                                <p class="text-slate-600 mt-0.5">{'Çalışma Grubu Üyesi (WG1, WG3, WG4) — Çoklu omiks entegrasyonu ve inflamatuar yaşlanma (2025–2029).' if is_tr else 'Working Group Member (WG1, WG3, WG4) — Multi-omics integration and inflammaging (2025–2029).'}</p>
-                            </div>
-                            <div>
-                                <strong class="text-academic-700 flex items-center space-x-1.5">
-                                    <i class="fa-solid fa-network-wired text-emerald-600"></i>
-                                    <span>COST Action CA23110 (INFOGUT):</span>
-                                </strong>
-                                <p class="text-slate-600 mt-0.5">{'Çalışma Grubu Üyesi (WG3, WG4, WG5) — İn vitro kolon modelleri ve bağırsak mikrobiyotası etkileşimleri (2024–2028).' if is_tr else 'Working Group Member (WG3, WG4, WG5) — In vitro colon models simulating gut microbiota (2024–2028).'}</p>
-                            </div>
-                            <div>
-                                <strong class="text-academic-700 flex items-center space-x-1.5">
-                                    <i class="fa-solid fa-certificate text-amber-600"></i>
-                                    <span>{'Deney Hayvanları Kullanım Sertifikası:' if is_tr else 'Laboratory Animal Care Certificate:'}</span>
-                                </strong>
-                                <p class="text-slate-600 mt-0.5">{'Kemirgen modellerinde deneysel prosedürler ve biyo-etik akreditasyonu.' if is_tr else 'Experimental procedures in rodent models and bio-ethical research accreditation.'}</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
