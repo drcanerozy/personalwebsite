@@ -186,6 +186,23 @@ def sync_konu1_obezite():
     new_html = new_html.replace('const allSlideEls = Array.from(stage.children);', 'let allSlideEls = Array.from(stage.children);')
     new_html = new_html.replace('const total = SLIDES.length;', 'let total = SLIDES.length;')
     
+    # Inject lock globals BEFORE go() so go() can reference them at first call time.
+    # PUBLIC_SLIDE_COUNT, isUnlocked, pendingTargetSlide are normally defined in the
+    # LOCK ENGINE <script> block appended to </body>, which is parsed AFTER the main
+    # <script> block. If go(0) is called at the end of the main script, these vars
+    # are undefined and the browser throws a ReferenceError, breaking everything.
+    lock_globals_injection = f"""/* ===== LOCK ENGINE GLOBALS (injected before go()) ===== */
+var PUBLIC_SLIDE_COUNT = {public_count};
+var isUnlocked = false;
+var pendingTargetSlide = null;
+var encryptedPayloadCiphertext = "";
+/* ======================================================= */
+"""
+    go_anchor = "function go(idx){"
+    go_first_pos = new_html.find(go_anchor)
+    if go_first_pos != -1:
+        new_html = new_html[:go_first_pos] + lock_globals_injection + new_html[go_first_pos:]
+
     # Intercept go(idx) for lock & smooth activation
     go_orig = "function go(idx){\n  if(idx<0||idx>=total) return;\n  if(allSlideEls[current]) allSlideEls[current].classList.remove('active');"
     go_patched = """function go(idx){
@@ -196,6 +213,14 @@ def sync_konu1_obezite():
   if(idx<0||idx>=total) return;
   if(allSlideEls[current] && current !== idx) allSlideEls[current].classList.remove('active');"""
     new_html = new_html.replace(go_orig, go_patched)
+
+    # Remove the naked go(0) call at the end of the main script block.
+    # It runs BEFORE the CryptoJS lock engine <script> is parsed (ReferenceError).
+    # Initialization is handled by DOMContentLoaded in the lock engine instead.
+    new_html = new_html.replace(
+        "// Initialize on slide 0\ngo(0);",
+        "// go(0) is called by the lock engine DOMContentLoaded handler"
+    )
 
     # Client-side script with inlined CryptoJS
     client_crypto_script = """
@@ -213,12 +238,12 @@ def sync_konu1_obezite():
 
 <script>
 /* ================= STUDENT LOCK & CRYPTOJS DECRYPTION ENGINE ================= */
-const PRES_ID = "konu1_obezite_tedavisi";
-const PUBLIC_SLIDE_COUNT = """ + str(public_count) + """;
-const TOTAL_SLIDES_COUNT = """ + str(total_slides) + """;
-let isUnlocked = false;
-let pendingTargetSlide = null;
-let encryptedPayloadCiphertext = "";
+// NOTE: PUBLIC_SLIDE_COUNT, isUnlocked, pendingTargetSlide, encryptedPayloadCiphertext
+// are declared with 'var' in the main <script> block above (before go() function),
+// so that go() can reference them even when called from the main script.
+// Redeclaring them here with const/let would cause a SyntaxError.
+var PRES_ID = "konu1_obezite_tedavisi";
+var TOTAL_SLIDES_COUNT = """ + str(total_slides) + """;
 
 document.addEventListener('DOMContentLoaded', () => {
   const scriptTag = document.getElementById('encrypted-payload-data');
