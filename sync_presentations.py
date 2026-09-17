@@ -139,6 +139,11 @@ def sync_konu1_obezite():
     # Normalize relative faculty logo path
     html = html.replace('../../../Files/Saglik-Bilimleri-Fakultesi-2.png', 'assets/Saglik-Bilimleri-Fakultesi-2.png')
 
+    # Inject HTTPS redirect so students who land on http:// are sent to https://
+    # This eliminates the "Not Secure" browser warning
+    https_redirect = """<script>if(location.protocol==='http:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){location.replace('https:'+location.href.substring(5));}</script>"""
+    html = html.replace('<head>', '<head>\n' + https_redirect, 1)
+
     # Extract SLIDES array
     pos = html.rfind('const SLIDES = [')
     if pos == -1:
@@ -321,7 +326,7 @@ async function handleUnlockSubmit(e) {
   try {
     const lockedList = JSON.parse(decryptedJson);
     applyDecryptedSlides(lockedList);
-    sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJson);
+    localStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJson);
     isUnlocked = true;
     closeLockModal();
     
@@ -344,7 +349,7 @@ async function handleUnlockSubmit(e) {
 }
 
 function checkSessionUnlock() {
-  const cached = sessionStorage.getItem('unlocked_pres_' + PRES_ID);
+  const cached = localStorage.getItem('unlocked_pres_' + PRES_ID);
   if (cached) {
     try {
       const lockedList = JSON.parse(cached);
@@ -427,6 +432,10 @@ def sync_obezite_uygulama():
 
     # Normalize relative faculty logo path
     html = html.replace('../../../Files/Saglik-Bilimleri-Fakultesi-2.png', 'assets/Saglik-Bilimleri-Fakultesi-2.png')
+
+    # Inject HTTPS redirect so students on http:// are sent to https://
+    https_redirect_uy = """<script>if(location.protocol==='http:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){location.replace('https:'+location.href.substring(5));}</script>"""
+    html = html.replace('<head>', '<head>\n' + https_redirect_uy, 1)
 
     # Find the split points in slide registration vs navigation motor
     pos_end = html.find('/* ---- Egzersiz 3 (Set B, eşit gramaj) ---- */')
@@ -544,7 +553,7 @@ async function handleUnlockSubmit(e) {
 
   try {
     applyDecryptedUygulama(decryptedJs);
-    sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJs);
+    localStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJs);
     isUnlocked = true;
     closeLockModal();
     
@@ -566,7 +575,7 @@ async function handleUnlockSubmit(e) {
 }
 
 function checkSessionUnlock() {
-  const cached = sessionStorage.getItem('unlocked_pres_' + PRES_ID);
+  const cached = localStorage.getItem('unlocked_pres_' + PRES_ID);
   if (cached) {
     try {
       applyDecryptedUygulama(cached);
