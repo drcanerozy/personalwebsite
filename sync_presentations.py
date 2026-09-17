@@ -129,7 +129,7 @@ LOCK_MODAL_HTML = """
       </button>
     </form>
     <div style="margin-top:20px; padding-top:16px; border-top:1px solid #1e293b; font-size:11px; color:#64748b; display:flex; align-items:center; justify-content:center; gap:6px;">
-      <span>🛡️</span> <span>Web Crypto API (AES-256-GCM) ile yerel çözülür.</span>
+      <span>🔒</span> <span>Ders İzlencesi ve OBS Şifresi</span>
     </div>
   </div>
 </div>
@@ -199,6 +199,26 @@ def sync_konu1_obezite():
     # Replace SLIDES array in HTML
     new_html = html[:pos + len('const SLIDES = ')] + new_public_slides_str + html[pos + len('const SLIDES = [') + end_pos + 1:]
 
+    # Ensure slide 0 has active class immediately upon DOM insertion
+    orig_dom_loop = "wrap.innerHTML = renderSlide(s, idx);"
+    patched_dom_loop = "wrap.innerHTML = renderSlide(s, idx);\n  if(idx === 0 && wrap.firstElementChild) wrap.firstElementChild.classList.add('active');"
+    new_html = new_html.replace(orig_dom_loop, patched_dom_loop)
+
+    # Patch allSlideEls & total
+    new_html = new_html.replace('const allSlideEls = Array.from(stage.children);', 'let allSlideEls = Array.from(stage.children);')
+    new_html = new_html.replace('const total = SLIDES.length;', 'let total = SLIDES.length;')
+    
+    # Intercept go(idx) for lock & smooth activation
+    go_orig = "function go(idx){\n  if(idx<0||idx>=total) return;\n  if(allSlideEls[current]) allSlideEls[current].classList.remove('active');"
+    go_patched = """function go(idx){
+  if(idx >= PUBLIC_SLIDE_COUNT && !isUnlocked){
+    openLockModal(idx);
+    return;
+  }
+  if(idx<0||idx>=total) return;
+  if(allSlideEls[current] && current !== idx) allSlideEls[current].classList.remove('active');"""
+    new_html = new_html.replace(go_orig, go_patched)
+
     # Client-side script
     payload_json = json.dumps(encrypted_payload, indent=2)
     client_crypto_script = """
@@ -224,6 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
     try { encryptedPayload = JSON.parse(scriptTag.textContent); } catch(e){}
   }
   checkSessionUnlock();
+  // Ensure slide 0 is active on load
+  go(0);
 });
 
 function getPasswordCandidates(inputStr) {
@@ -296,8 +318,24 @@ async function handleUnlockSubmit(e) {
   submitBtn.innerHTML = '⏳ Şifre Çözülüyor...';
   errorEl.style.display = 'none';
 
+  let decryptedJson = null;
   try {
-    const decryptedJson = await decryptPayload(password);
+    decryptedJson = await decryptPayload(password);
+  } catch(authErr) {
+    console.error("Şifre çözme hatası:", authErr);
+    errorEl.textContent = '⚠️ Hatalı şifre! Lütfen ders izlencesindeki şifrenizi kontrol ediniz.';
+    errorEl.style.display = 'block';
+    modalCard.classList.remove('modal-shake');
+    void modalCard.offsetWidth;
+    modalCard.classList.add('modal-shake');
+    input.focus();
+    input.select();
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '🔓 Şifreyi Çöz & Derse Devam Et';
+    return;
+  }
+
+  try {
     const lockedList = JSON.parse(decryptedJson);
     applyDecryptedSlides(lockedList);
     sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJson);
@@ -312,14 +350,10 @@ async function handleUnlockSubmit(e) {
     } else {
       go(PUBLIC_SLIDE_COUNT);
     }
-  } catch(err) {
-    console.error("Şifre çözme hatası:", err);
+  } catch(renderErr) {
+    console.error("Slayt yükleme hatası:", renderErr);
+    errorEl.textContent = '⚠️ İçerik çözüldü fakat eklenirken hata oluştu: ' + renderErr.message;
     errorEl.style.display = 'block';
-    modalCard.classList.remove('modal-shake');
-    void modalCard.offsetWidth;
-    modalCard.classList.add('modal-shake');
-    input.focus();
-    input.select();
   } finally {
     submitBtn.disabled = false;
     submitBtn.innerHTML = '🔓 Şifreyi Çöz & Derse Devam Et';
@@ -347,8 +381,13 @@ function applyDecryptedSlides(lockedList) {
     wrap.innerHTML = renderSlide(s, idx);
     if(wrap.firstElementChild) {
       stage.appendChild(wrap.firstElementChild);
-    }}
-  );
+    } else {
+      const fallback = document.createElement('div');
+      fallback.className = 'slide';
+      fallback.innerHTML = eyebrowTitle(s) + '<div class="slide-sub">' + (s.note || '') + '</div>';
+      stage.appendChild(fallback);
+    }
+  });
   allSlideEls = Array.from(stage.children);
   total = SLIDES.length;
   isUnlocked = true;
@@ -383,20 +422,6 @@ function togglePasswordVisibility() {
 </script>
 """
 
-    # Patch allSlideEls & total
-    new_html = new_html.replace('const allSlideEls = Array.from(stage.children);', 'let allSlideEls = Array.from(stage.children);')
-    new_html = new_html.replace('const total = SLIDES.length;', 'let total = SLIDES.length;')
-    
-    # Intercept go(idx) for lock
-    go_orig = "function go(idx){\n  if(idx<0||idx>=total) return;"
-    go_patched = """function go(idx){
-  if(idx >= PUBLIC_SLIDE_COUNT && !isUnlocked){
-    openLockModal(idx);
-    return;
-  }
-  if(idx<0||idx>=total) return;"""
-    new_html = new_html.replace(go_orig, go_patched)
-
     # Insert client_crypto_script before </body>
     new_html = new_html.replace('</body>', f'{client_crypto_script}\n</body>')
 
@@ -420,14 +445,16 @@ def sync_obezite_uygulama():
     # Normalize relative faculty logo path
     html = html.replace('../../../Files/Saglik-Bilimleri-Fakultesi-2.png', 'assets/Saglik-Bilimleri-Fakultesi-2.png')
 
-    # Find the split point in slide registration
+    # Find the split points in slide registration vs navigation motor
     pos_end = html.find('/* ---- Egzersiz 3 (Set B, eşit gramaj) ---- */')
-    pos_boot = html.find('function boot(){')
+    pos_nav = html.find('/* ============================================================\n   NAVİGASYON MOTORU')
+    if pos_nav == -1:
+        pos_nav = html.find('NAVİGASYON MOTORU')
 
-    if pos_end != -1 and pos_boot != -1:
+    if pos_end != -1 and pos_nav != -1:
         public_head = html[:pos_end]
-        locked_js = html[pos_end:pos_boot]
-        rest_html = html[pos_boot:]
+        locked_js = html[pos_end:pos_nav]
+        engine_html = html[pos_nav:]
 
         # Add preview end slide registration to public head
         preview_reg = """
@@ -436,7 +463,7 @@ addSlide('🛑 Önizleme Sınırı', 'Önizleme Sonu (Slayt 10)', 'Önizleme Son
 """
         public_head = public_head + preview_reg
 
-        # Encrypt locked JS registration script
+        # Encrypt locked JS registration script ONLY
         encrypted_payload = encrypt_aes_gcm(locked_js, DEFAULT_PASSWORD)
         encrypted_payload["presId"] = "obezite_uygulama_hafta1"
         payload_json = json.dumps(encrypted_payload, indent=2)
@@ -535,8 +562,24 @@ async function handleUnlockSubmit(e) {
   submitBtn.innerHTML = '⏳ Şifre Çözülüyor...';
   errorEl.style.display = 'none';
 
+  let decryptedJs = null;
   try {
-    const decryptedJs = await decryptPayload(password);
+    decryptedJs = await decryptPayload(password);
+  } catch(authErr) {
+    console.error("Şifre çözme hatası:", authErr);
+    errorEl.textContent = '⚠️ Hatalı şifre! Lütfen ders izlencesindeki şifrenizi kontrol ediniz.';
+    errorEl.style.display = 'block';
+    modalCard.classList.remove('modal-shake');
+    void modalCard.offsetWidth;
+    modalCard.classList.add('modal-shake');
+    input.focus();
+    input.select();
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '🔓 Şifreyi Çöz & Derse Devam Et';
+    return;
+  }
+
+  try {
     applyDecryptedUygulama(decryptedJs);
     sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJs);
     isUnlocked = true;
@@ -549,14 +592,10 @@ async function handleUnlockSubmit(e) {
     } else {
       goTo(PUBLIC_SLIDE_COUNT);
     }
-  } catch(err) {
-    console.error("Şifre çözme hatası:", err);
+  } catch(renderErr) {
+    console.error("Uygulama render hatası:", renderErr);
+    errorEl.textContent = '⚠️ İçerik çözüldü fakat eklenirken hata oluştu: ' + renderErr.message;
     errorEl.style.display = 'block';
-    modalCard.classList.remove('modal-shake');
-    void modalCard.offsetWidth;
-    modalCard.classList.add('modal-shake');
-    input.focus();
-    input.select();
   } finally {
     submitBtn.disabled = false;
     submitBtn.innerHTML = '🔓 Şifreyi Çöz & Derse Devam Et';
@@ -576,7 +615,7 @@ function checkSessionUnlock() {
 function applyDecryptedUygulama(jsCode) {
   if (isUnlocked) return;
   const initialSlideCount = SLIDES.length;
-  // Execute decrypted registration script in memory
+  // Execute decrypted registration script in global scope
   const runner = new Function(jsCode);
   runner();
 
@@ -610,7 +649,7 @@ function togglePasswordVisibility() {
 </script>
 """
 
-        # Intercept goTo(idx)
+        # Intercept goTo(idx) in engine_html
         orig_goto = "function goTo(idx){\n  if (idx < 0 || idx >= SLIDES.length) return;"
         patched_goto = """function goTo(idx){
   if (idx >= PUBLIC_SLIDE_COUNT && !isUnlocked){
@@ -618,9 +657,9 @@ function togglePasswordVisibility() {
     return;
   }
   if (idx < 0 || idx >= SLIDES.length) return;"""
-        rest_html = rest_html.replace(orig_goto, patched_goto)
+        engine_html = engine_html.replace(orig_goto, patched_goto)
 
-        new_html = public_head + rest_html
+        new_html = public_head + engine_html
         new_html = new_html.replace('</body>', f'{client_crypto_script}\n</body>')
     else:
         new_html = html
