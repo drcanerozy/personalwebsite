@@ -24,4 +24,4 @@ order: 6
 Access the live interactive web presentations via the links below. The **first 10 slides are public preview**, while slides 11+ are encrypted with **AES-256-GCM** and unlocked with the course password.
 
 - 👉 [**Topic 1: Obesity & Medical Nutrition Therapy (185 Slides - Live)**](../../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Protected)*
-- 👉 [**Week 1 Practice: Diet & Body Composition (59+ Slides - Live)**](../../slides/02-obezite-uygulama.html) *(🔒 AES-256 Protected)*
+- 👉 [**Week 1: Introduction to Obesity & Medical Nutrition Therapy Practice (59+ Slides - Live)**](../../slides/02-obezite-uygulama.html) *(🔒 AES-256 Protected)*

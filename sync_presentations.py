@@ -556,7 +556,7 @@ order: 1
     tr_pres_2 = BASE_DIR / "content/tr/presentations/02-obezite-uygulama.md"
     with open(tr_pres_2, "w", encoding="utf-8") as f:
         f.write("""---
-title: "Diyet ve Vücut Kompozisyonu (Obezite Uygulama)"
+title: "Obezite ve Tıbbi Beslenme Tedavisine Giriş Uygulaması (1. Hafta)"
 type: "presentation"
 badge: "Klinik Uygulama (BES 317)"
 date: "2026-03-01"
@@ -572,6 +572,7 @@ order: 2
 ## 💻 Klinik Uygulama Sunumu
 - **Önizleme Kapsamı (Slayt 1–10):** Kalori tarihi, Lavoisier ve Atwater kalorimetreleri, besin değişim sistemleri temelleri.
 - **Şifreli Modüller (Slayt 11+):** İnteraktif vaka hesaplayıcıları, makro besin optimizasyonları ve sınav pratikleri.
+- **Şifre:** Ders izlencesinde paylaşılan öğrenci şifresi ile açılır.
 """)
 
     # English cards
@@ -596,14 +597,14 @@ order: 1
     en_pres_2 = BASE_DIR / "content/en/presentations/02-obesity-clinical-practice.md"
     with open(en_pres_2, "w", encoding="utf-8") as f:
         f.write("""---
-title: "Diet & Body Composition (Obesity Practice)"
+title: "Introduction to Obesity & Medical Nutrition Therapy Practice (Week 1)"
 type: "presentation"
 badge: "Clinical Practice (NUT 317)"
 date: "2026-03-01"
 slide_count: "59+ Slides (🔒 AES-256 Protected)"
 html_url: "slides/02-obezite-uygulama.html"
 download_url: ""
-summary: "Calorimetry history, food exchange systems, interactive macro simulator, and packaged food analyses. First 10 slides public preview."
+summary: "Calorimetry history, food exchange systems, interactive macro simulator, and packaged food analyses. First 10 slides public preview; slides 11+ encrypted."
 draft: false
 lang: "en"
 order: 2

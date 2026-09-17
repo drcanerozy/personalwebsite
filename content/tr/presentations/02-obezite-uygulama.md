@@ -1,5 +1,5 @@
 ---
-title: "Diyet ve Vücut Kompozisyonu (Obezite Uygulama)"
+title: "Obezite ve Tıbbi Beslenme Tedavisine Giriş Uygulaması (1. Hafta)"
 type: "presentation"
 badge: "Klinik Uygulama (BES 317)"
 date: "2026-03-01"
@@ -15,3 +15,4 @@ order: 2
 ## 💻 Klinik Uygulama Sunumu
 - **Önizleme Kapsamı (Slayt 1–10):** Kalori tarihi, Lavoisier ve Atwater kalorimetreleri, besin değişim sistemleri temelleri.
 - **Şifreli Modüller (Slayt 11+):** İnteraktif vaka hesaplayıcıları, makro besin optimizasyonları ve sınav pratikleri.
+- **Şifre:** Ders izlencesinde paylaşılan öğrenci şifresi ile açılır.

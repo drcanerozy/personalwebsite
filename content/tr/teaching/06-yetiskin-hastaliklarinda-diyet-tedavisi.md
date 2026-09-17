@@ -24,4 +24,4 @@ order: 6
 Bu dersin canlı ve interaktif web sunumlarına aşağıdaki bağlantılardan erişebilirsiniz. **İlk 10 slayt açık önizleme** olarak sunulmakta; ileri modüller, vaka analizleri ve simülatörler **AES-256-GCM** öğrenci şifresiyle korunmaktadır.
 
 - 👉 [**1. Konu: Obezite ve Tıbbi Beslenme Tedavisi (185 Slayt - Canlı İzle)**](../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Korumalı)*
-- 👉 [**1. Hafta Uygulama: Diyet ve Vücut Kompozisyonu (59+ Slayt - Canlı İzle)**](../slides/02-obezite-uygulama.html) *(🔒 AES-256 Korumalı)*
+- 👉 [**1. Hafta: Obezite ve Tıbbi Beslenme Tedavisine Giriş Uygulaması (59+ Slayt - Canlı İzle)**](../slides/02-obezite-uygulama.html) *(🔒 AES-256 Korumalı)*
