@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Açlık ve Tokluğun Nöral & Biyokimyasal Regülasyonu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* Canlı Hareketli Biyokimyasal Akış Çizgileri - Açık Tema Uyumlu */
+    .signal-flow-green {
+      stroke: #059669 !important;
+      stroke-width: 3.5 !important;
+      stroke-dasharray: 8, 8;
+      animation: flowForward 0.85s linear infinite;
+      opacity: 1 !important;
+      filter: drop-shadow(0 2px 4px rgba(5, 150, 105, 0.35));
+    }
+
+    .signal-flow-red {
+      stroke: #e11d48 !important;
+      stroke-width: 3.5 !important;
+      stroke-dasharray: 8, 8;
+      animation: flowForward 0.85s linear infinite;
+      opacity: 1 !important;
+      filter: drop-shadow(0 2px 4px rgba(225, 29, 72, 0.35));
+    }
+
+    .signal-flow-blue {
+      stroke: #0284c7 !important;
+      stroke-width: 3.5 !important;
+      stroke-dasharray: 8, 8;
+      animation: flowForward 0.85s linear infinite;
+      opacity: 1 !important;
+      filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.35));
+    }
+
+    .signal-flow-amber {
+      stroke: #d97706 !important;
+      stroke-width: 3.5 !important;
+      stroke-dasharray: 8, 8;
+      animation: flowForward 0.85s linear infinite;
+      opacity: 1 !important;
+      filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.35));
+    }
+
+    .signal-flow-inhibitory {
+      stroke: #e11d48 !important;
+      stroke-width: 3 !important;
+      stroke-dasharray: 6, 6;
+      animation: flowForward 1.2s linear infinite reverse;
+      opacity: 1 !important;
+      filter: drop-shadow(0 2px 4px rgba(225, 29, 72, 0.3));
+    }
+
+    .signal-flow-off {
+      stroke: #cbd5e1 !important;
+      stroke-width: 1.5 !important;
+      stroke-dasharray: 4, 6;
+      opacity: 0.35 !important;
+      filter: none !important;
+    }
+
+    @keyframes flowForward {
+      from { stroke-dashoffset: 32; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Vurgulanan ve Sönen Düğüm Animasyonları */
+    .node-active-green {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: drop-shadow(0 6px 12px rgba(16, 185, 129, 0.2));
+      opacity: 1;
+    }
+    
+    .node-active-red {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: drop-shadow(0 6px 12px rgba(239, 68, 68, 0.22));
+      opacity: 1;
+    }
+
+    .node-active-amber {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: drop-shadow(0 6px 12px rgba(245, 158, 11, 0.22));
+      opacity: 1;
+    }
+
+    .node-dimmed {
+      opacity: 0.38;
+      filter: grayscale(40%);
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50/70 p-3 sm:p-6 lg:p-8 selection:bg-emerald-500 selection:text-white">
+
+  <!-- Üst Başlık & Kontroller -->
+  <header class="max-w-6xl w-full mx-auto mb-5 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-700 mb-2 shadow-sm">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span>Tıbbi Biyokimya & Nörofizyoloji İnteraktif Atlası</span>
+    </div>
+    
+    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+      Açlık ve Tokluğun Nöral & Biyokimyasal Regülasyonu
+    </h1>
+    
+    <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-3xl mx-auto">
+      Bir metabolik durum seçin; periferal hormonların (İnsülin, Leptin, Ghrelin, GLP-1), nervus vagusun ve hipotalamik <strong>POMC / NPY / MC4R</strong> ekseninin nasıl entegre olduğunu canlı izleyin.
+    </p>
+
+    <!-- Durum Seçici Butonlar -->
+    <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
+      <button id="btn-satiety" onclick="setMode('satiety')" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border-2 border-emerald-600 bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition-all flex items-center gap-2 scale-105">
+        <span class="text-base">🥗</span>
+        <span>Dengeli Yemek (Tokluk Yolağı)</span>
+      </button>
+
+      <button id="btn-fasting" onclick="setMode('fasting')" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-all flex items-center gap-2 shadow-sm">
+        <span class="text-base">🫙</span>
+        <span>Açlık & Boş Mide (Açlık Yolağı)</span>
+      </button>
+
+      <button id="btn-fructose" onclick="setMode('fructose')" class="px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-all flex items-center gap-2 shadow-sm">
+        <span class="text-base">🧃</span>
+        <span>Fruktoz / Mısır Şurubu (Yalancı Satiyet)</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-6xl w-full mx-auto bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
+    
+    <!-- Üst Durum Çubuğu -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 text-xs">
+      <div class="flex items-center gap-2.5">
+        <span class="w-3 h-3 rounded-full bg-emerald-500 ring-4 ring-emerald-100" id="status-indicator"></span>
+        <span class="font-extrabold text-sm text-slate-800" id="status-title">DURUM: Dengeli Yemek Sonrası (Tokluk Yolağı Aktif)</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] font-mono text-slate-500">
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> (+) Uyarım (Agonist)</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> (-) İnhibisyon / Antagonist</span>
+      </div>
+    </div>
+
+    <!-- Biyokimya Kitabı Tarzı Açık Tema SVG Diyagramı -->
+    <div class="w-full aspect-[16/9] min-h-[480px] max-h-[640px] bg-gradient-to-b from-slate-50/60 to-white rounded-2xl border border-slate-200/80 p-2 flex items-center justify-center relative overflow-hidden shadow-inner">
+      
+      <svg id="metabolic-svg" class="w-full h-full select-none" viewBox="0 0 1000 580" fill="none" xmlns="http://www.w3.org/2000/svg">
+        
+        <defs>
+          <marker id="arrow-green" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#059669"/>
+          </marker>
+          <marker id="arrow-red" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#e11d48"/>
+          </marker>
+          <marker id="arrow-blue" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#0284c7"/>
+          </marker>
+          <marker id="arrow-amber" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1.5 L 9 5 L 0 8.5 z" fill="#d97706"/>
+          </marker>
+          <marker id="t-bar" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 6 0 L 6 10 M 0 5 L 6 5" stroke="#e11d48" stroke-width="2.5"/>
+          </marker>
+        </defs>
+
+        <!-- ==================== 1. KAT: HİPOTALAMUS (MERKEZİ KONTROL) ==================== -->
+        <rect x="230" y="20" width="745" height="240" rx="16" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6,6"/>
+        <text x="250" y="44" fill="#475569" font-size="11.5" font-weight="800" letter-spacing="1">HİPOTALAMUS (ARKUAT NÜKLEUS & PVN EKSENİ)</text>
+
+        <!-- A. POMC / CART Nöronu (Tokluk Merkezi) -->
+        <g id="box-pomc" class="node-active-green">
+          <rect x="250" y="60" width="235" height="85" rx="12" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+          <text x="268" y="85" fill="#065f46" font-size="13" font-weight="800">POMC / CART Nöronu</text>
+          <text x="268" y="101" fill="#047857" font-size="10">1. Derece Anoreksijenik (Tokluk)</text>
+          <rect x="265" y="110" width="205" height="22" rx="5" fill="#d1fae5"/>
+          <text x="367" y="125" fill="#065f46" font-size="10.5" font-weight="800" text-anchor="middle">Sentez: α-MSH Peptiti</text>
+        </g>
+
+        <!-- B. NPY / AgRP Nöronu (Açlık Merkezi) -->
+        <g id="box-npy" class="node-dimmed">
+          <rect x="250" y="160" width="235" height="85" rx="12" fill="#fff1f2" stroke="#e11d48" stroke-width="2"/>
+          <text x="268" y="185" fill="#9f1239" font-size="13" font-weight="800">NPY / AgRP Nöronu</text>
+          <text x="268" y="201" fill="#be123c" font-size="10">1. Derece Oreksijenik (Açlık)</text>
+          <rect x="265" y="210" width="205" height="22" rx="5" fill="#ffe4e6"/>
+          <text x="367" y="225" fill="#9f1239" font-size="10.5" font-weight="800" text-anchor="middle">Sentez: NPY & AgRP</text>
+        </g>
+
+        <!-- Karşılıklı İnhibisyon (POMC -> NPY) -->
+        <path id="path-pomc-npy-inhib" d="M 367,145 L 367,160" stroke="#e11d48" stroke-width="2" marker-end="url(#t-bar)" class="signal-flow-inhibitory"/>
+
+        <!-- C. MC4R Reseptörü ve Çıktı Nöronu (PVN) -->
+        <g id="box-mc4r" class="node-active-green">
+          <rect x="600" y="60" width="355" height="185" rx="14" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+          <text x="618" y="84" fill="#0369a1" font-size="11.5" font-weight="800">2. DERECE EFEKTÖR NÖRON (PVN)</text>
+          
+          <!-- MC4R Rozeti -->
+          <rect id="rect-mc4r-badge" x="618" y="96" width="320" height="48" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+          <text id="txt-mc4r-title" x="778" y="116" fill="#075985" font-size="11.5" font-weight="800" text-anchor="middle">MC4R RESEPTÖRÜ</text>
+          <text id="txt-mc4r-state" x="778" y="132" fill="#0369a1" font-size="10.5" font-weight="700" text-anchor="middle">α-MSH Bağlı → RESEPTÖR AÇIK (+)</text>
+
+          <!-- Fizyolojik Çıktı Kutusu -->
+          <rect id="rect-output" x="618" y="152" width="320" height="78" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+          <text id="txt-output-main" x="778" y="177" fill="#065f46" font-size="13.5" font-weight="800" text-anchor="middle">YEMEYİ DURDUR (TOKLUK)</text>
+          <text id="txt-output-sub" x="778" y="198" fill="#047857" font-size="10.5" font-weight="600" text-anchor="middle">Metabolik Hız Yüksek ↑ • Enerji Harcaması ↑</text>
+          <text id="txt-output-fructose-note" x="778" y="216" fill="#b45309" font-size="9.5" font-weight="700" text-anchor="middle"></text>
+        </g>
+
+        <!-- POMC ve AgRP'den MC4R'ye Sinyal Hatları -->
+        <path id="path-msh" d="M 485,102 L 610,118" stroke="#059669" stroke-width="3.5" marker-end="url(#arrow-green)" class="signal-flow-green"/>
+        <text id="lbl-msh" x="548" y="98" fill="#059669" font-size="10.5" font-weight="800" text-anchor="middle">α-MSH (+)</text>
+
+        <path id="path-agrp" d="M 485,202 L 610,128" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#t-bar)" class="signal-flow-off"/>
+        <text id="lbl-agrp" x="548" y="176" fill="#94a3b8" font-size="10.5" font-weight="700" text-anchor="middle">AgRP (- Blok)</text>
+
+        <!-- ==================== 2. KAT: PERİFERİK ORGANLAR ==================== -->
+        
+        <!-- 1. MİDE -->
+        <g id="organ-stomach" class="node-dimmed">
+          <rect x="25" y="360" width="165" height="185" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+          <text x="40" y="390" font-size="20">🫃</text>
+          <text x="70" y="390" fill="#0f172a" font-size="13" font-weight="800">MİDE</text>
+          
+          <rect x="35" y="405" width="145" height="34" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="42" y="420" fill="#64748b" font-size="9.5" font-weight="700">Mekanik Gerilme:</text>
+          <text id="txt-stomach-vagus" x="42" y="433" fill="#0284c7" font-size="10" font-weight="800">N. Vagus Aktif (+)</text>
+
+          <rect x="35" y="445" width="145" height="42" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="42" y="460" fill="#64748b" font-size="9.5" font-weight="700">Paryetal Hormon:</text>
+          <text id="txt-stomach-ghrelin" x="42" y="476" fill="#64748b" font-size="10" font-weight="800">Ghrelin: Baskılandı ↓</text>
+          
+          <text id="txt-stomach-note" x="107" y="525" fill="#64748b" font-size="9" text-anchor="middle">Hacim Tokluğu</text>
+        </g>
+
+        <!-- 2. İNCE BAĞIRSAK -->
+        <g id="organ-gut" class="node-active-green">
+          <rect x="210" y="360" width="175" height="185" rx="14" fill="#ffffff" stroke="#059669" stroke-width="2"/>
+          <text x="225" y="390" font-size="20">🧬</text>
+          <text x="255" y="390" fill="#0f172a" font-size="13" font-weight="800">İNCE BAĞIRSAK</text>
+          
+          <rect x="220" y="405" width="155" height="60" rx="6" fill="#ecfdf5" stroke="#a7f3d0"/>
+          <text x="228" y="422" fill="#065f46" font-size="9.5" font-weight="700">Satiyet Peptitleri:</text>
+          <text id="txt-gut-peptides" x="228" y="440" fill="#059669" font-size="11" font-weight="800">CCK, PYY, GLP-1</text>
+          <text id="txt-gut-sub" x="228" y="456" fill="#047857" font-size="9.5" font-weight="600">Tokluk Sinyali ↑↑</text>
+
+          <text id="txt-gut-note" x="297" y="525" fill="#059669" font-size="9" font-weight="600" text-anchor="middle">Protein / Yağ / Lif Yanıtı</text>
+        </g>
+
+        <!-- 3. PANKREAS -->
+        <g id="organ-pancreas" class="node-active-green">
+          <rect x="405" y="360" width="175" height="185" rx="14" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+          <text x="420" y="390" font-size="20">🧫</text>
+          <text x="450" y="390" fill="#0f172a" font-size="13" font-weight="800">PANKREAS</text>
+          
+          <rect x="415" y="405" width="155" height="60" rx="6" fill="#e0f2fe" stroke="#bae6fd"/>
+          <text x="423" y="422" fill="#075985" font-size="9.5" font-weight="700">Beta Hücreleri:</text>
+          <text id="txt-pancreas-main" x="423" y="440" fill="#0284c7" font-size="11" font-weight="800">İNSÜLİN SALGISI</text>
+          <text id="txt-pancreas-sub" x="423" y="456" fill="#0369a1" font-size="9.5" font-weight="600">Glukoz Yanıtı Yüksek</text>
+
+          <text id="txt-pancreas-note" x="492" y="525" fill="#0284c7" font-size="9" font-weight="600" text-anchor="middle">POMC (+), NPY (-)</text>
+        </g>
+
+        <!-- 4. KARACİĞER (FRUKTOZUN AYRIŞMA NOKTASI) -->
+        <g id="organ-liver" class="node-dimmed">
+          <rect x="600" y="360" width="180" height="185" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+          <text x="615" y="390" font-size="20">🫁</text>
+          <text x="645" y="390" fill="#0f172a" font-size="13" font-weight="800">KARACİĞER</text>
+          
+          <rect id="rect-liver-badge" x="610" y="405" width="160" height="60" rx="6" fill="#f8fafc" stroke="#e2e8f0"/>
+          <text x="618" y="422" fill="#64748b" font-size="9.5" font-weight="700">Metabolik Rol:</text>
+          <text id="txt-liver-main" x="618" y="440" fill="#475569" font-size="10.5" font-weight="800">Normal Glukoz Dağılımı</text>
+          <text id="txt-liver-sub" x="618" y="456" fill="#64748b" font-size="9" font-weight="600">Sistemik Yakıt</text>
+
+          <text id="txt-liver-note" x="690" y="525" fill="#64748b" font-size="9" text-anchor="middle">Hepatik İşlem</text>
+        </g>
+
+        <!-- 5. YAĞ DOKUSU -->
+        <g id="organ-adipose" class="node-active-green">
+          <rect x="800" y="360" width="175" height="185" rx="14" fill="#ffffff" stroke="#d97706" stroke-width="2"/>
+          <text x="815" y="390" font-size="20">🧈</text>
+          <text x="845" y="390" fill="#0f172a" font-size="13" font-weight="800">YAĞ DOKUSU</text>
+          
+          <rect x="810" y="405" width="155" height="60" rx="6" fill="#fef3c7" stroke="#fde68a"/>
+          <text x="818" y="422" fill="#92400e" font-size="9.5" font-weight="700">Adipokin Salgısı:</text>
+          <text id="txt-adipose-main" x="818" y="440" fill="#d97706" font-size="11" font-weight="800">LEPTİN</text>
+          <text id="txt-adipose-sub" x="818" y="456" fill="#b45309" font-size="9" font-weight="600">Kronik Enerji Bekçisi</text>
+
+          <text id="txt-adipose-note" x="887" y="525" fill="#d97706" font-size="9" font-weight="600" text-anchor="middle">POMC (+), AgRP (-)</text>
+        </g>
+
+        <!-- ==================== 3. KAT: SİNYAL YOLAKLARI ==================== -->
+        
+        <!-- Vagus Yolu (Mideden POMC'a) -->
+        <path id="path-vagus" d="M 107,360 C 107,240 180,102 245,102" stroke="#0284c7" stroke-width="3" marker-end="url(#arrow-blue)" class="signal-flow-blue"/>
+        <text id="lbl-vagus" x="145" y="210" fill="#0284c7" font-size="10.5" font-weight="800">⚡ N. Vagus (+)</text>
+
+        <!-- Ghrelin Yolu (Mideden NPY/AgRP'ye) -->
+        <path id="path-ghrelin" d="M 155,360 C 175,280 200,202 245,202" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#arrow-red)" class="signal-flow-off"/>
+        <text id="lbl-ghrelin" x="180" y="270" fill="#94a3b8" font-size="10" font-weight="700">Ghrelin (+)</text>
+
+        <!-- Bağırsak Peptitleri -> POMC (+) -->
+        <path id="path-gut" d="M 297,360 L 297,150" stroke="#059669" stroke-width="3.5" marker-end="url(#arrow-green)" class="signal-flow-green"/>
+        <text id="lbl-gut" x="307" y="300" fill="#059669" font-size="10" font-weight="800">CCK / PYY (+)</text>
+
+        <!-- İnsülin -> POMC (+) -->
+        <path id="path-insulin" d="M 492,360 C 492,270 420,165 375,150" stroke="#0284c7" stroke-width="3" marker-end="url(#arrow-blue)" class="signal-flow-blue"/>
+        <text id="lbl-insulin" x="450" y="270" fill="#0284c7" font-size="10" font-weight="800">İnsülin (+)</text>
+
+        <!-- Fruktoz Karaciğer Sıkışma Oku -->
+        <path id="path-fructose-liver" d="M 690,360 C 690,310 690,260 690,240" stroke="#cbd5e1" stroke-width="1.5" marker-end="url(#arrow-amber)" class="signal-flow-off"/>
+        <text id="lbl-fructose-liver" x="700" y="300" fill="#94a3b8" font-size="9.5" font-weight="700">Hepatik KHK</text>
+
+        <!-- Leptin -> POMC (+) -->
+        <path id="path-leptin" d="M 887,360 C 887,240 470,120 445,115" stroke="#d97706" stroke-width="3" marker-end="url(#arrow-amber)" class="signal-flow-amber"/>
+
+        <!-- Leptin / İnsülin -> NPY/AgRP (-) İnhibisyonu -->
+        <path id="path-leptin-inhib" d="M 820,360 C 740,270 515,225 490,220" stroke="#e11d48" stroke-width="2.5" marker-end="url(#t-bar)" class="signal-flow-inhibitory"/>
+
+      </svg>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+      
+      <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm" id="card-step-1">
+        <div class="flex items-center gap-2 font-bold text-emerald-700 mb-1.5" id="header-step-1">
+          <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[11px] font-mono text-emerald-800">1</span>
+          <span>Periferik Girdi</span>
+        </div>
+        <p class="text-slate-600 leading-relaxed" id="step-text-1">
+          Dengeli yemek midede gerilme yaratır (<strong>N. Vagus</strong> tetiklenir). İnce bağırsaktan <strong>CCK, PYY, GLP-1</strong> salınır. Pankreas insülin üretir.
+        </p>
+      </div>
+
+      <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm" id="card-step-2">
+        <div class="flex items-center gap-2 font-bold text-emerald-700 mb-1.5" id="header-step-2">
+          <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[11px] font-mono text-emerald-800">2</span>
+          <span>Arkuat Nükleus (ARC)</span>
+        </div>
+        <p class="text-slate-600 leading-relaxed" id="step-text-2">
+          Hormonlar tokluk merkezi olan <strong>POMC / CART</strong> nöronlarını uyarır. Açlık nöronları (<strong>NPY / AgRP</strong>) baskılanır.
+        </p>
+      </div>
+
+      <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm" id="card-step-3">
+        <div class="flex items-center gap-2 font-bold text-emerald-700 mb-1.5" id="header-step-3">
+          <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[11px] font-mono text-emerald-800">3</span>
+          <span>MC4R Reseptör Durumu</span>
+        </div>
+        <p class="text-slate-600 leading-relaxed" id="step-text-3">
+          POMC nöronu <strong>α-MSH</strong> salgılar. α-MSH, PVN bölgesindeki <strong>MC4R</strong> reseptörünü güçlü şekilde aktive eder.
+        </p>
+      </div>
+
+      <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm" id="card-step-4">
+        <div class="flex items-center gap-2 font-bold text-emerald-700 mb-1.5" id="header-step-4">
+          <span class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center text-[11px] font-mono text-emerald-800">4</span>
+          <span>Fizyolojik Çıktı</span>
+        </div>
+        <p class="text-slate-600 leading-relaxed" id="step-text-4">
+          <strong>Tokluk oluşur</strong>, yemek sonlandırılır. Sempatik sinir sistemi uyarılarak enerji harcaması ve metabolik hız artırılır.
+        </p>
+      </div>
+
+    </div>
+
+    <div id="fructose-deep-dive" class="mt-4 p-4 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-slate-700">
+      <div class="flex items-center gap-2 text-amber-900 font-extrabold mb-1">
+        <span class="text-base">💡</span>
+        <span>Biyokimyasal Fark: Fruktoz Neden Tokluk Oluşturamaz ve İştahı Artırır?</span>
+      </div>
+      <p class="leading-relaxed text-amber-950/80">
+        Glukoz tüm dokularda kullanılır ve pankreastan <strong>İnsülin</strong> salgılatarak midedeki <strong>Ghrelin'i susturur</strong>. 
+        Oysa fruktoz <em>(mısır şurubu, meşrubatlar)</em> hemen hemen sadece <strong>karaciğerde (Ketohekzokokinaz)</strong> tutulur; 
+        pankreastan insülin salgılatamaz. İnsülin yükselmediği için midedeki <strong>Ghrelin düşmez</strong>, beyinde <strong>POMC uyarılmaz</strong> ve <strong>MC4R açılamaz</strong>. 
+        Sonuç: Vücut yüksek kalori alsa dahi beyin açlık sinyali vermeye devam eder.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Alt Bilgi / Formül -->
+  <footer class="max-w-6xl w-full mx-auto mt-4 p-4 rounded-2xl bg-white border border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+    <div>
+      <strong class="text-slate-800">Biyokimyasal Kural:</strong> 
+      <span id="footer-rule" class="text-slate-600">α-MSH = MC4R Agonisti (Tokluk) | AgRP = MC4R Antagonisti (Açlık)</span>
+    </div>
+    <div class="font-mono text-[11px] px-3.5 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold" id="footer-summary">
+      POMC → α-MSH → MC4R (+) = TOKLUK
+    </div>
+  </footer>
+
+  <script>
+    function setMode(mode) {
+      // 1. Düğme Sınıfları
+      const btnSatiety = document.getElementById('btn-satiety');
+      const btnFasting = document.getElementById('btn-fasting');
+      const btnFructose = document.getElementById('btn-fructose');
+
+      const normalBtn = "px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-all flex items-center gap-2 shadow-sm";
+      
+      btnSatiety.className = normalBtn;
+      btnFasting.className = normalBtn;
+      btnFructose.className = normalBtn;
+
+      // 2. Element Tanımlamaları
+      const statusTitle = document.getElementById('status-title');
+      const statusIndicator = document.getElementById('status-indicator');
+
+      const boxPomc = document.getElementById('box-pomc');
+      const boxNpy = document.getElementById('box-npy');
+      const boxMc4r = document.getElementById('box-mc4r');
+
+      const rectMc4rBadge = document.getElementById('rect-mc4r-badge');
+      const txtMc4rTitle = document.getElementById('txt-mc4r-title');
+      const txtMc4rState = document.getElementById('txt-mc4r-state');
+
+      const rectOutput = document.getElementById('rect-output');
+      const txtOutputMain = document.getElementById('txt-output-main');
+      const txtOutputSub = document.getElementById('txt-output-sub');
+      const txtOutputFructoseNote = document.getElementById('txt-output-fructose-note');
+
+      // Yollar
+      const pathMsh = document.getElementById('path-msh');
+      const lblMsh = document.getElementById('lbl-msh');
+
+      const pathAgrp = document.getElementById('path-agrp');
+      const lblAgrp = document.getElementById('lbl-agrp');
+
+      const pathPomcNpyInhib = document.getElementById('path-pomc-npy-inhib');
+
+      const pathVagus = document.getElementById('path-vagus');
+      const lblVagus = document.getElementById('lbl-vagus');
+
+      const pathGhrelin = document.getElementById('path-ghrelin');
+      const lblGhrelin = document.getElementById('lbl-ghrelin');
+
+      const pathGut = document.getElementById('path-gut');
+      const lblGut = document.getElementById('lbl-gut');
+
+      const pathInsulin = document.getElementById('path-insulin');
+      const lblInsulin = document.getElementById('lbl-insulin');
+
+      const pathFructoseLiver = document.getElementById('path-fructose-liver');
+      const lblFructoseLiver = document.getElementById('lbl-fructose-liver');
+
+      const pathLeptin = document.getElementById('path-leptin');
+      const pathLeptinInhib = document.getElementById('path-leptin-inhib');
+
+      // Organ Düğümleri
+      const organStomach = document.getElementById('organ-stomach');
+      const organGut = document.getElementById('organ-gut');
+      const organPancreas = document.getElementById('organ-pancreas');
+      const organLiver = document.getElementById('organ-liver');
+      const organAdipose = document.getElementById('organ-adipose');
+
+      // Organ Metinleri
+      const txtStomachVagus = document.getElementById('txt-stomach-vagus');
+      const txtStomachGhrelin = document.getElementById('txt-stomach-ghrelin');
+      const txtGutPeptides = document.getElementById('txt-gut-peptides');
+      const txtGutSub = document.getElementById('txt-gut-sub');
+      const txtPancreasMain = document.getElementById('txt-pancreas-main');
+      const txtPancreasSub = document.getElementById('txt-pancreas-sub');
+      const rectLiverBadge = document.getElementById('rect-liver-badge');
+      const txtLiverMain = document.getElementById('txt-liver-main');
+      const txtLiverSub = document.getElementById('txt-liver-sub');
+
+      // Açıklama Adımları
+      const step1 = document.getElementById('step-text-1');
+      const step2 = document.getElementById('step-text-2');
+      const step3 = document.getElementById('step-text-3');
+      const step4 = document.getElementById('step-text-4');
+
+      const header1 = document.getElementById('header-step-1');
+      const header2 = document.getElementById('header-step-2');
+      const header3 = document.getElementById('header-step-3');
+      const header4 = document.getElementById('header-step-4');
+
+      const footerSummary = document.getElementById('footer-summary');
+      const fructoseDeepDive = document.getElementById('fructose-deep-dive');
+
+      // ========================================================
+      // 1. DURUM: DENGELİ YEMEK (TOKLUK YOLAĞI)
+      // ========================================================
+      if (mode === 'satiety') {
+        btnSatiety.className = "px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border-2 border-emerald-600 bg-emerald-600 text-white shadow-md shadow-emerald-600/20 transition-all flex items-center gap-2 scale-105";
+        statusTitle.innerText = "DURUM: Dengeli Yemek Sonrası (Tokluk Yolağı Aktif)";
+        statusIndicator.className = "w-3 h-3 rounded-full bg-emerald-500 ring-4 ring-emerald-100";
+
+        // Vurgulamalar
+        boxPomc.className.baseVal = "node-active-green";
+        boxNpy.className.baseVal = "node-dimmed";
+        boxMc4r.className.baseVal = "node-active-green";
+
+        organStomach.className.baseVal = "node-active-green";
+        organGut.className.baseVal = "node-active-green";
+        organPancreas.className.baseVal = "node-active-green";
+        organLiver.className.baseVal = "node-dimmed";
+        organAdipose.className.baseVal = "node-active-green";
+
+        // Yollar
+        pathMsh.className.baseVal = "signal-flow-green";
+        lblMsh.setAttribute('fill', '#059669');
+
+        pathAgrp.className.baseVal = "signal-flow-off";
+        lblAgrp.setAttribute('fill', '#94a3b8');
+
+        pathPomcNpyInhib.className.baseVal = "signal-flow-inhibitory";
+
+        pathVagus.className.baseVal = "signal-flow-blue";
+        lblVagus.setAttribute('fill', '#0284c7');
+
+        pathGhrelin.className.baseVal = "signal-flow-off";
+        lblGhrelin.setAttribute('fill', '#cbd5e1');
+
+        pathGut.className.baseVal = "signal-flow-green";
+        lblGut.setAttribute('fill', '#059669');
+
+        pathInsulin.className.baseVal = "signal-flow-blue";
+        lblInsulin.setAttribute('fill', '#0284c7');
+
+        pathFructoseLiver.className.baseVal = "signal-flow-off";
+        lblFructoseLiver.setAttribute('fill', '#cbd5e1');
+
+        pathLeptin.className.baseVal = "signal-flow-amber";
+        pathLeptinInhib.className.baseVal = "signal-flow-inhibitory";
+
+        // Reseptör & Sonuç
+        rectMc4rBadge.setAttribute('fill', '#e0f2fe');
+        rectMc4rBadge.setAttribute('stroke', '#0284c7');
+        txtMc4rTitle.innerText = "MC4R RESEPTÖRÜ";
+        txtMc4rState.innerText = "α-MSH Bağlı → RESEPTÖR AÇIK (+)";
+        txtMc4rState.setAttribute('fill', '#0369a1');
+
+        rectOutput.setAttribute('fill', '#ecfdf5');
+        rectOutput.setAttribute('stroke', '#059669');
+        txtOutputMain.innerText = "YEMEYİ DURDUR (TOKLUK)";
+        txtOutputMain.setAttribute('fill', '#065f46');
+        txtOutputSub.innerText = "Metabolik Hız Yüksek ↑ • Enerji Harcaması ↑";
+        txtOutputSub.setAttribute('fill', '#047857');
+        txtOutputFructoseNote.innerText = "";
+
+        // Organ İçi
+        txtStomachVagus.innerText = "N. Vagus Aktif (+)";
+        txtStomachVagus.setAttribute('fill', '#0284c7');
+        txtStomachGhrelin.innerText = "Ghrelin: Baskılandı ↓";
+        txtStomachGhrelin.setAttribute('fill', '#64748b');
+
+        txtGutPeptides.innerText = "CCK, PYY, GLP-1";
+        txtGutSub.innerText = "Tokluk Sinyali ↑↑";
+
+        txtPancreasMain.innerText = "İNSÜLİN SALGISI";
+        txtPancreasSub.innerText = "Glukoz Yanıtı Yüksek";
+
+        rectLiverBadge.setAttribute('fill', '#f8fafc');
+        rectLiverBadge.setAttribute('stroke', '#e2e8f0');
+        txtLiverMain.innerText = "Normal Glukoz Dağılımı";
+        txtLiverMain.setAttribute('fill', '#475569');
+        txtLiverSub.innerText = "Sistemik Yakıt";
+
+        // Adımlar
+        [header1, header2, header3, header4].forEach(h => {
+          h.className = "flex items-center gap-2 font-bold text-emerald-700 mb-1.5";
+        });
+
+        step1.innerHTML = "Dengeli yemek midede mekanik hacim yaratır (<strong>Nervus Vagus</strong>). İnce bağırsaktan <strong>CCK, PYY, GLP-1</strong> salınır. Pankreas insülin iletir.";
+        step2.innerHTML = "Tüm bu sinyaller Arkuat Nükleusta <strong>POMC</strong> nöronlarını tetikler; açlık oluşturan <strong>NPY/AgRP</strong> nöronlarını susturur.";
+        step3.innerHTML = "POMC nöronu <strong>α-MSH</strong> salgılar. α-MSH, PVN'deki <strong>MC4R</strong> reseptörüne bağlanarak reseptörü açar.";
+        step4.innerHTML = "<strong>Tokluk oluşur</strong>, yemek davranışı sonlandırılır. Sempatik tonus ile bazal enerji harcaması artırılır.";
+
+        footerSummary.className = "font-mono text-[11px] px-3.5 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold";
+        footerSummary.innerText = "POMC → α-MSH → MC4R (+) = TOKLUK";
+
+        fructoseDeepDive.className = "mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700";
+      }
+
+      // ========================================================
+      // 2. DURUM: AÇLIK & BOŞ MİDE
+      // ========================================================
+      else if (mode === 'fasting') {
+        btnFasting.className = "px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border-2 border-rose-600 bg-rose-600 text-white shadow-md shadow-rose-600/20 transition-all flex items-center gap-2 scale-105";
+        statusTitle.innerText = "DURUM: Açlık & Boş Mide (Oreksijenik / Açlık Yolağı Aktif)";
+        statusIndicator.className = "w-3 h-3 rounded-full bg-rose-500 ring-4 ring-rose-100";
+
+        // Vurgulamalar
+        boxPomc.className.baseVal = "node-dimmed";
+        boxNpy.className.baseVal = "node-active-red";
+        boxMc4r.className.baseVal = "node-active-red";
+
+        organStomach.className.baseVal = "node-active-red";
+        organGut.className.baseVal = "node-dimmed";
+        organPancreas.className.baseVal = "node-dimmed";
+        organLiver.className.baseVal = "node-dimmed";
+        organAdipose.className.baseVal = "node-dimmed";
+
+        // Yollar
+        pathMsh.className.baseVal = "signal-flow-off";
+        lblMsh.setAttribute('fill', '#cbd5e1');
+
+        pathAgrp.className.baseVal = "signal-flow-red";
+        lblAgrp.setAttribute('fill', '#e11d48');
+
+        pathPomcNpyInhib.className.baseVal = "signal-flow-off";
+
+        pathVagus.className.baseVal = "signal-flow-off";
+        lblVagus.setAttribute('fill', '#cbd5e1');
+
+        pathGhrelin.className.baseVal = "signal-flow-red";
+        lblGhrelin.setAttribute('fill', '#e11d48');
+
+        pathGut.className.baseVal = "signal-flow-off";
+        lblGut.setAttribute('fill', '#cbd5e1');
+
+        pathInsulin.className.baseVal = "signal-flow-off";
+        lblInsulin.setAttribute('fill', '#cbd5e1');
+
+        pathFructoseLiver.className.baseVal = "signal-flow-off";
+        lblFructoseLiver.setAttribute('fill', '#cbd5e1');
+
+        pathLeptin.className.baseVal = "signal-flow-off";
+        pathLeptinInhib.className.baseVal = "signal-flow-off";
+
+        // Reseptör & Sonuç
+        rectMc4rBadge.setAttribute('fill', '#ffe4e6');
+        rectMc4rBadge.setAttribute('stroke', '#e11d48');
+        txtMc4rTitle.innerText = "MC4R RESEPTÖRÜ";
+        txtMc4rState.innerText = "AgRP Bağlandı → RESEPTÖR BLOKE (KİLİTLİ 🔒)";
+        txtMc4rState.setAttribute('fill', '#9f1239');
+
+        rectOutput.setAttribute('fill', '#fff1f2');
+        rectOutput.setAttribute('stroke', '#e11d48');
+        txtOutputMain.innerText = "AÇLIK & BESİN ARAMA DÜRTÜSÜ";
+        txtOutputMain.setAttribute('fill', '#9f1239');
+        txtOutputSub.innerText = "Tokluk Freni Kalktı • Enerji Harcaması Kısıldı ↓";
+        txtOutputSub.setAttribute('fill', '#be123c');
+        txtOutputFructoseNote.innerText = "";
+
+        // Organ İçi
+        txtStomachVagus.innerText = "Mide Boş (Gerilme Yok)";
+        txtStomachVagus.setAttribute('fill', '#94a3b8');
+        txtStomachGhrelin.innerText = "Ghrelin: ZİRVE ↑↑";
+        txtStomachGhrelin.setAttribute('fill', '#e11d48');
+
+        txtGutPeptides.innerText = "Salgı Yok (Boş)";
+        txtGutSub.innerText = "Peptitler Dipte ↓";
+
+        txtPancreasMain.innerText = "İnsülin: Bazal (Düşük)";
+        txtPancreasSub.innerText = "Glukagon Baskın";
+
+        rectLiverBadge.setAttribute('fill', '#f8fafc');
+        rectLiverBadge.setAttribute('stroke', '#e2e8f0');
+        txtLiverMain.innerText = "Glikojenoliz & GNG";
+        txtLiverMain.setAttribute('fill', '#475569');
+        txtLiverSub.innerText = "Açlık Yakıtı";
+
+        // Adımlar
+        [header1, header2, header3, header4].forEach(h => {
+          h.className = "flex items-center gap-2 font-bold text-rose-700 mb-1.5";
+        });
+
+        step1.innerHTML = "Mide boş kaldığı için paryetal hücrelerden yoğun şekilde <strong>Ghrelin</strong> kana verilir. Vagal gerilme ve bağırsak peptitleri sıfırlanır.";
+        step2.innerHTML = "Ghrelin, hipotalamusta <strong>NPY / AgRP</strong> nöronlarını uyarır. Tokluk nöronu (POMC) sessiz kalır.";
+        step3.innerHTML = "AgRP nöronu <strong>AgRP peptiti</strong> salgılar. AgRP, MC4R reseptörünün <em>yarışmalı antagonistidir</em> ve reseptörü kilitler.";
+        step4.innerHTML = "<strong>Şiddetli açlık ve yeme arzusu</strong> başlar. Enerji tasarrufu için metabolik hız düşürülür.";
+
+        footerSummary.className = "font-mono text-[11px] px-3.5 py-1.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 font-bold";
+        footerSummary.innerText = "AgRP → MC4R (-) Blokaj = ŞİDDETLİ AÇLIK";
+
+        fructoseDeepDive.className = "mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700";
+      }
+
+      // ========================================================
+      // 3. DURUM: FRUKTOZ / MISIR ŞURUBU (AYRIŞMA DETAYI)
+      // ========================================================
+      else if (mode === 'fructose') {
+        btnFructose.className = "px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold border-2 border-amber-600 bg-amber-600 text-white shadow-md shadow-amber-600/20 transition-all flex items-center gap-2 scale-105";
+        statusTitle.innerText = "DURUM: Fruktoz / Mısır Şurubu (Hepatik Tuzak & Ghrelin Düşmemesi)";
+        statusIndicator.className = "w-3 h-3 rounded-full bg-amber-500 ring-4 ring-amber-100";
+
+        // Vurgulamalar
+        boxPomc.className.baseVal = "node-dimmed";
+        boxNpy.className.baseVal = "node-active-amber";
+        boxMc4r.className.baseVal = "node-active-amber";
+
+        organStomach.className.baseVal = "node-active-amber";
+        organGut.className.baseVal = "node-dimmed";
+        organPancreas.className.baseVal = "node-dimmed";
+        organLiver.className.baseVal = "node-active-amber";
+        organAdipose.className.baseVal = "node-dimmed";
+
+        // Yollar
+        pathMsh.className.baseVal = "signal-flow-off";
+        lblMsh.setAttribute('fill', '#cbd5e1');
+
+        pathAgrp.className.baseVal = "signal-flow-amber";
+        lblAgrp.setAttribute('fill', '#d97706');
+
+        pathPomcNpyInhib.className.baseVal = "signal-flow-off";
+
+        pathVagus.className.baseVal = "signal-flow-off";
+        lblVagus.setAttribute('fill', '#cbd5e1');
+
+        pathGhrelin.className.baseVal = "signal-flow-amber";
+        lblGhrelin.setAttribute('fill', '#d97706');
+
+        pathGut.className.baseVal = "signal-flow-off";
+        lblGut.setAttribute('fill', '#cbd5e1');
+
+        pathInsulin.className.baseVal = "signal-flow-off";
+        lblInsulin.setAttribute('fill', '#cbd5e1');
+
+        pathFructoseLiver.className.baseVal = "signal-flow-amber";
+        lblFructoseLiver.setAttribute('fill', '#d97706');
+
+        pathLeptin.className.baseVal = "signal-flow-off";
+        pathLeptinInhib.className.baseVal = "signal-flow-off";
+
+        // Reseptör & Sonuç
+        rectMc4rBadge.setAttribute('fill', '#fef3c7');
+        rectMc4rBadge.setAttribute('stroke', '#d97706');
+        txtMc4rTitle.innerText = "MC4R RESEPTÖRÜ";
+        txtMc4rState.innerText = "α-MSH Yok + AgRP Aktif → RESEPTÖR KAPALI";
+        txtMc4rState.setAttribute('fill', '#92400e');
+
+        rectOutput.setAttribute('fill', '#fffbeb');
+        rectOutput.setAttribute('stroke', '#d97706');
+        txtOutputMain.innerText = "YALANCI SATİYET & HIZLI TEKRAR ACIKMA";
+        txtOutputMain.setAttribute('fill', '#92400e');
+        txtOutputSub.innerText = "Kalori Alındı Ama Beyin Doymadı • Tatlı / Yeme Arzusu Sürer";
+        txtOutputSub.setAttribute('fill', '#b45309');
+        txtOutputFructoseNote.innerText = "Metabolik Neden: Ghrelin Düşmedi & İnsülin/POMC Uyarılmadı";
+
+        // Organ İçi
+        txtStomachVagus.innerText = "Sıvı/Şeker: Gerilme Yok";
+        txtStomachVagus.setAttribute('fill', '#94a3b8');
+        txtStomachGhrelin.innerText = "Ghrelin: DÜŞMEDİ (Yüksek ⚠️)";
+        txtStomachGhrelin.setAttribute('fill', '#d97706');
+
+        txtGutPeptides.innerText = "Yetersiz CCK & PYY";
+        txtGutSub.innerText = "Lif/Protein Yok";
+
+        txtPancreasMain.innerText = "İnsülin: Yetersiz Uyarım";
+        txtPancreasSub.innerText = "GLUT5 ile İnsülin Tetiklenmez";
+
+        rectLiverBadge.setAttribute('fill', '#fef3c7');
+        rectLiverBadge.setAttribute('stroke', '#fde68a');
+        txtLiverMain.innerText = "Fruktoz Karaciğerde Hapsolur";
+        txtLiverMain.setAttribute('fill', '#92400e');
+        txtLiverSub.innerText = "KHK ile Yağa Dönüşür (Lipogenez)";
+
+        // Adımlar
+        [header1, header2, header3, header4].forEach(h => {
+          h.className = "flex items-center gap-2 font-bold text-amber-700 mb-1.5";
+        });
+
+        step1.innerHTML = "Fruktoz midede hacim yaratmaz ve pankreastan insülin salgılatamaz. Bu nedenle <strong>Ghrelin düşüşü gerçekleşmez</strong>.";
+        step2.innerHTML = "Fruktoz doğrudan <strong>Karaciğerde</strong> metabolize edilir (De novo lipogenez). Kanda insülin ve tokluk hormonu yükselmediği için <strong>NPY/AgRP</strong> aktif kalır.";
+        step3.innerHTML = "Beyin α-MSH sinyali alamaz; <strong>MC4R reseptörü aktive olamaz</strong>. Tokluk freni devreye girmez.";
+        step4.innerHTML = "Yüksek kalori alınmasına rağmen beyin <strong>doyum hissetmez</strong>. Hızlı tekrar acıkma ve sürekli atıştırma döngüsü başlar.";
+
+        footerSummary.className = "font-mono text-[11px] px-3.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 font-bold";
+        footerSummary.innerText = "Fruktoz → Ghrelin Düşmez → MC4R Kapalı = YALANCI SATİYET";
+
+        fructoseDeepDive.className = "mt-4 p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-xs text-slate-700 shadow-sm";
+      }
+    }
+
+    // İlk Yüklemede Tokluk Modu ile Başlat
+    window.addEventListener('DOMContentLoaded', () => {
+      setMode('satiety');
+    });
+  </script>
+</body>
+</html>

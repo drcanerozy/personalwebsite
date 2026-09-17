@@ -4,16 +4,18 @@ Obsidian Vault to Academic Website Presentation Synchronizer & AES-256 Encryptor
 Dr. Caner ÖZYILDIRIM Website Suite
 
 This script:
-1. Reads HTML presentation files directly from the Obsidian Vault.
-2. Applies AES-256-GCM + PBKDF2 encryption to slides 11+ (keeping first 10 slides as public preview).
-3. Integrates the Web Crypto API decryption engine, student lock modal, and Table of Contents jump interceptor.
-4. Updates website markdown entries and compiles the website.
+1. Copies all simulation files and image assets directly from the Obsidian Vault to slides/assets/.
+2. Reads HTML presentation files directly from the Obsidian Vault.
+3. Applies AES-256-GCM + PBKDF2 encryption to slides 11+ (keeping first 10 slides as public preview).
+4. Integrates the Web Crypto API decryption engine with flexible candidate matching, student lock modal, and Table of Contents jump interceptor.
+5. Updates website markdown entries and compiles the website.
 """
 
 import os
 import sys
 import re
 import json
+import shutil
 import base64
 import hashlib
 import subprocess
@@ -22,10 +24,35 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.resolve()
 VAULT_DIR = Path("/Users/canerozyildirim/Library/Mobile Documents/iCloud~md~obsidian/Documents/caner")
 SLIDES_OUTPUT_DIR = BASE_DIR / "slides"
+SLIDES_ASSETS_DIR = SLIDES_OUTPUT_DIR / "assets"
 SLIDES_OUTPUT_DIR.mkdir(exist_ok=True)
+SLIDES_ASSETS_DIR.mkdir(exist_ok=True)
 
 # Secure Course Password for Yetişkin Hastalıklarında Beslenme Tedavisi
 DEFAULT_PASSWORD = "COZYYHTBT2026_"
+
+def sync_assets():
+    """Copies all simulation HTML files, PNG assets, and logos from Vault to slides/assets/."""
+    print("📦 Sunum asset'leri ve simülasyonları kopyalanıyor...")
+    vault_assets_dir = VAULT_DIR / "Dersler/Yetişkinlerde Beslenme Tedavisi Uygulaması/Sunumlar/assets"
+    copied_count = 0
+    
+    if vault_assets_dir.exists():
+        for item in vault_assets_dir.iterdir():
+            if item.is_file() and not item.name.startswith('.'):
+                dest = SLIDES_ASSETS_DIR / item.name
+                shutil.copy2(item, dest)
+                copied_count += 1
+        print(f"  ✅ {copied_count} asset dosyası '{SLIDES_ASSETS_DIR}' dizinine kopyalandı.")
+    else:
+        print(f"  ⚠️ Vault assets dizini bulunamadı: {vault_assets_dir}")
+
+    # Copy faculty logo
+    faculty_logo = VAULT_DIR / "Files/Saglik-Bilimleri-Fakultesi-2.png"
+    if faculty_logo.exists():
+        dest_logo = SLIDES_ASSETS_DIR / "Saglik-Bilimleri-Fakultesi-2.png"
+        shutil.copy2(faculty_logo, dest_logo)
+        print("  ✅ Fakülte logosu kopyalandı.")
 
 def encrypt_aes_gcm(plaintext: str, password: str) -> dict:
     """Encrypts plaintext with PBKDF2 + AES-256-GCM (Web Crypto API compatible)."""
@@ -127,6 +154,9 @@ def sync_konu1_obezite():
     with open(src_file, "r", encoding="utf-8") as f:
         html = f.read()
 
+    # Normalize relative faculty logo path
+    html = html.replace('../../../Files/Saglik-Bilimleri-Fakultesi-2.png', 'assets/Saglik-Bilimleri-Fakultesi-2.png')
+
     # Extract SLIDES array
     pos = html.rfind('const SLIDES = [')
     if pos == -1:
@@ -196,8 +226,29 @@ document.addEventListener('DOMContentLoaded', () => {
   checkSessionUnlock();
 });
 
-async function decryptPayload(password) {
-  if (!encryptedPayload) return null;
+function getPasswordCandidates(inputStr) {
+  const p = (inputStr || '').trim();
+  if (!p) return [];
+  const set = new Set();
+  set.add(p);
+  set.add(p.toUpperCase());
+  set.add(p.toLowerCase());
+  set.add(p.toLocaleUpperCase('en-US'));
+  set.add(p.toLocaleUpperCase('tr-TR'));
+  if (!p.endsWith('_')) {
+    set.add(p + '_');
+    set.add(p.toUpperCase() + '_');
+    set.add(p.toLocaleUpperCase('en-US') + '_');
+  } else {
+    const withoutUnderscore = p.replace(/_+$/, '');
+    set.add(withoutUnderscore);
+    set.add(withoutUnderscore.toUpperCase());
+    set.add(withoutUnderscore.toLocaleUpperCase('en-US'));
+  }
+  return Array.from(set);
+}
+
+async function decryptWithCandidate(cand) {
   const saltBytes = Uint8Array.from(atob(encryptedPayload.salt), c => c.charCodeAt(0));
   const ivBytes = Uint8Array.from(atob(encryptedPayload.iv), c => c.charCodeAt(0));
   const cipherBytes = Uint8Array.from(atob(encryptedPayload.ciphertext), c => c.charCodeAt(0));
@@ -205,7 +256,7 @@ async function decryptPayload(password) {
 
   const enc = new TextEncoder();
   const baseKey = await window.crypto.subtle.importKey(
-    "raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]
+    "raw", enc.encode(cand), { name: "PBKDF2" }, false, ["deriveKey"]
   );
   const derivedKey = await window.crypto.subtle.deriveKey(
     { name: "PBKDF2", salt: saltBytes, iterations: iterations, hash: "SHA-256" },
@@ -215,6 +266,21 @@ async function decryptPayload(password) {
     { name: "AES-GCM", iv: ivBytes }, derivedKey, cipherBytes
   );
   return new TextDecoder("utf-8").decode(decryptedBuf);
+}
+
+async function decryptPayload(passwordInput) {
+  if (!encryptedPayload) return null;
+  const candidates = getPasswordCandidates(passwordInput);
+  let lastErr = null;
+  for (const cand of candidates) {
+    try {
+      const res = await decryptWithCandidate(cand);
+      if (res) return res;
+    } catch(err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr || new Error("Şifre çözülemedi.");
 }
 
 async function handleUnlockSubmit(e) {
@@ -351,6 +417,9 @@ def sync_obezite_uygulama():
     with open(src_file, "r", encoding="utf-8") as f:
         html = f.read()
 
+    # Normalize relative faculty logo path
+    html = html.replace('../../../Files/Saglik-Bilimleri-Fakultesi-2.png', 'assets/Saglik-Bilimleri-Fakultesi-2.png')
+
     # Find the split point in slide registration
     pos_end = html.find('/* ---- Egzersiz 3 (Set B, eşit gramaj) ---- */')
     pos_boot = html.find('function boot(){')
@@ -396,8 +465,29 @@ document.addEventListener('DOMContentLoaded', () => {
   checkSessionUnlock();
 });
 
-async function decryptPayload(password) {
-  if (!encryptedPayload) return null;
+function getPasswordCandidates(inputStr) {
+  const p = (inputStr || '').trim();
+  if (!p) return [];
+  const set = new Set();
+  set.add(p);
+  set.add(p.toUpperCase());
+  set.add(p.toLowerCase());
+  set.add(p.toLocaleUpperCase('en-US'));
+  set.add(p.toLocaleUpperCase('tr-TR'));
+  if (!p.endsWith('_')) {
+    set.add(p + '_');
+    set.add(p.toUpperCase() + '_');
+    set.add(p.toLocaleUpperCase('en-US') + '_');
+  } else {
+    const withoutUnderscore = p.replace(/_+$/, '');
+    set.add(withoutUnderscore);
+    set.add(withoutUnderscore.toUpperCase());
+    set.add(withoutUnderscore.toLocaleUpperCase('en-US'));
+  }
+  return Array.from(set);
+}
+
+async function decryptWithCandidate(cand) {
   const saltBytes = Uint8Array.from(atob(encryptedPayload.salt), c => c.charCodeAt(0));
   const ivBytes = Uint8Array.from(atob(encryptedPayload.iv), c => c.charCodeAt(0));
   const cipherBytes = Uint8Array.from(atob(encryptedPayload.ciphertext), c => c.charCodeAt(0));
@@ -405,7 +495,7 @@ async function decryptPayload(password) {
 
   const enc = new TextEncoder();
   const baseKey = await window.crypto.subtle.importKey(
-    "raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]
+    "raw", enc.encode(cand), { name: "PBKDF2" }, false, ["deriveKey"]
   );
   const derivedKey = await window.crypto.subtle.deriveKey(
     { name: "PBKDF2", salt: saltBytes, iterations: iterations, hash: "SHA-256" },
@@ -415,6 +505,21 @@ async function decryptPayload(password) {
     { name: "AES-GCM", iv: ivBytes }, derivedKey, cipherBytes
   );
   return new TextDecoder("utf-8").decode(decryptedBuf);
+}
+
+async function decryptPayload(passwordInput) {
+  if (!encryptedPayload) return null;
+  const candidates = getPasswordCandidates(passwordInput);
+  let lastErr = null;
+  for (const cand of candidates) {
+    try {
+      const res = await decryptWithCandidate(cand);
+      if (res) return res;
+    } catch(err) {
+      lastErr = err;
+    }
+  }
+  throw lastErr || new Error("Şifre çözülemedi.");
 }
 
 async function handleUnlockSubmit(e) {
@@ -595,6 +700,7 @@ order: 1
 """)
 
     en_pres_2 = BASE_DIR / "content/en/presentations/02-obesity-clinical-practice.md"
+    en_pres_2.parent.mkdir(parents=True, exist_ok=True)
     with open(en_pres_2, "w", encoding="utf-8") as f:
         f.write("""---
 title: "Introduction to Obesity & Medical Nutrition Therapy Practice (Week 1)"
@@ -619,6 +725,7 @@ order: 2
 def main():
     print("🔄 Obsidian Vault -> Web Sitesi Sunum Senkronizasyonu Başlatılıyor...\n")
     print(f"🔑 Şifre: {DEFAULT_PASSWORD}\n")
+    sync_assets()
     sync_konu1_obezite()
     sync_obezite_uygulama()
     update_markdown_and_rebuild()
