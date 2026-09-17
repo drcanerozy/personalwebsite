@@ -708,16 +708,88 @@ def generate_html(lang="tr"):
         bibtex_js_obj += f"            '{k}': `{escaped_v}`,\n"
     bibtex_js_obj += "        }"
 
+    page_url = "https://canerozy.com/" if is_tr else "https://canerozy.com/en/"
+    meta_desc = bio_data.get('meta_description', 'Dr. Caner ÖZYILDIRIM - Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü. Beslenme Örüntüleri, Obezite, Biyoistatistik, Veri Görselleştirme ve Yapay Zeka.' if is_tr else 'Dr. Caner ÖZYILDIRIM - Akdeniz University Department of Nutrition and Dietetics. Dietary Patterns, Obesity, Biostatistics, Data Visualization, and Artificial Intelligence.')
+    schema_job = "Beslenme ve Diyetetik Akademisyeni" if is_tr else "Nutrition & Dietetics Academic"
+    schema_inst = "Akdeniz Üniversitesi" if is_tr else "Akdeniz University"
+    schema_alumni = "Ankara Üniversitesi Sağlık Bilimleri Enstitüsü" if is_tr else "Ankara University Graduate School of Health Sciences"
+
     html = f"""<!DOCTYPE html>
 <html lang="{lang}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{ui['title']}</title>
-    <meta name="description" content="{bio_data.get('meta_description', 'Dr. Caner ÖZYILDIRIM - Akdeniz University Nutrition & Dietetics')}">
-    <meta property="og:title" content="{ui['title']}">
-    <meta property="og:description" content="{ui['role_subtitle']} | {ui['institution']}">
+    <meta name="description" content="{meta_desc}">
+    <link rel="canonical" href="{page_url}">
+    <link rel="alternate" hreflang="tr" href="https://canerozy.com/">
+    <link rel="alternate" hreflang="en" href="https://canerozy.com/en/">
+    <link rel="alternate" hreflang="x-default" href="https://canerozy.com/">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{page_url}">
+    <meta property="og:title" content="{ui['title']}">
+    <meta property="og:description" content="{meta_desc}">
+    <meta property="og:image" content="https://canerozy.com/assets/images/profil.jpg">
+    <meta property="og:site_name" content="Dr. Caner ÖZYILDIRIM">
+    <meta property="og:locale" content="{'tr_TR' if is_tr else 'en_US'}">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{page_url}">
+    <meta name="twitter:title" content="{ui['title']}">
+    <meta name="twitter:description" content="{meta_desc}">
+    <meta name="twitter:image" content="https://canerozy.com/assets/images/profil.jpg">
+    <meta name="twitter:site" content="@CanerOzy">
+    <meta name="twitter:creator" content="@CanerOzy">
+
+    <!-- Academic Schema.org (JSON-LD) for Google Search Knowledge Graph -->
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Dr. Caner ÖZYILDIRIM",
+      "jobTitle": "{schema_job}",
+      "url": "https://canerozy.com",
+      "image": "https://canerozy.com/assets/images/profil.jpg",
+      "worksFor": {{
+        "@type": "EducationalOrganization",
+        "name": "{schema_inst}",
+        "url": "https://www.akdeniz.edu.tr"
+      }},
+      "alumniOf": [
+        {{
+          "@type": "EducationalOrganization",
+          "name": "{schema_alumni}"
+        }},
+        {{
+          "@type": "EducationalOrganization",
+          "name": "Ondokuz Mayıs Üniversitesi"
+        }}
+      ],
+      "sameAs": [
+        "https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr",
+        "https://orcid.org/0000-0001-8227-9575",
+        "https://avesis.akdeniz.edu.tr/canerozyildirim",
+        "https://drcaner.substack.com",
+        "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab",
+        "https://www.linkedin.com/in/caner-ozyildirim-35345b228",
+        "https://x.com/CanerOzy"
+      ],
+      "knowsAbout": [
+        "Nutrition and Dietetics",
+        "Dietary Patterns",
+        "Obesity Management",
+        "GLP-1 and Incretin Therapies",
+        "Intermittent Fasting",
+        "Ultra-Processed Foods",
+        "Biostatistics",
+        "Data Visualization",
+        "Artificial Intelligence"
+      ]
+    }}
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧬</text></svg>">
@@ -1634,12 +1706,42 @@ def generate_single_course_html(course, lang="tr"):
             <span>{'Ders İzlencesi (PDF İndir)' if is_tr else 'Download Syllabus (PDF)'}</span>
         </a>""" if syllabus else ""
 
+    course_slug = course.get('_filename', 'course.md').replace('.md', '.html')
+    course_url = f"https://canerozy.com/dersler/{course_slug}" if is_tr else f"https://canerozy.com/en/courses/{course_slug}"
+    course_desc = summary if summary else f"{title} - Dr. Caner ÖZYILDIRIM"
+
     html = f"""<!DOCTYPE html>
 <html lang="{'tr' if is_tr else 'en'}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} | Dr. Caner ÖZYILDIRIM</title>
+    <meta name="description" content="{course_desc}">
+    <link rel="canonical" href="{course_url}">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta property="og:description" content="{course_desc}">
+    <meta property="og:url" content="{course_url}">
+    <meta property="og:image" content="https://canerozy.com/assets/images/profil.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta name="twitter:description" content="{course_desc}">
+    <meta name="twitter:image" content="https://canerozy.com/assets/images/profil.jpg">
+
+    <!-- Course Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "{title}",
+      "description": "{course_desc}",
+      "provider": {{
+        "@type": "Person",
+        "name": "Dr. Caner ÖZYILDIRIM",
+        "url": "https://canerozy.com"
+      }}
+    }}
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -1736,6 +1838,59 @@ def generate_single_course_html(course, lang="tr"):
 </html>"""
     return html
 
+def generate_sitemap_and_robots(tr_teaching, en_teaching):
+    from datetime import date
+    today = date.today().isoformat()
+    
+    urls = [
+        {"loc": "https://canerozy.com/", "lastmod": today, "changefreq": "daily", "priority": "1.0", "tr": "https://canerozy.com/", "en": "https://canerozy.com/en/"},
+        {"loc": "https://canerozy.com/en/", "lastmod": today, "changefreq": "weekly", "priority": "0.9", "tr": "https://canerozy.com/", "en": "https://canerozy.com/en/"},
+    ]
+    
+    for c in tr_teaching:
+        fname = c.get("_filename", "course.md").replace(".md", ".html")
+        urls.append({
+            "loc": f"https://canerozy.com/dersler/{fname}",
+            "lastmod": today,
+            "changefreq": "monthly",
+            "priority": "0.8"
+        })
+        
+    for c in en_teaching:
+        fname = c.get("_filename", "course.md").replace(".md", ".html")
+        urls.append({
+            "loc": f"https://canerozy.com/en/courses/{fname}",
+            "lastmod": today,
+            "changefreq": "monthly",
+            "priority": "0.8"
+        })
+        
+    xml_lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    for u in urls:
+        xml_lines.append("  <url>")
+        xml_lines.append(f"    <loc>{u['loc']}</loc>")
+        xml_lines.append(f"    <lastmod>{u['lastmod']}</lastmod>")
+        xml_lines.append(f"    <changefreq>{u['changefreq']}</changefreq>")
+        xml_lines.append(f"    <priority>{u['priority']}</priority>")
+        if "tr" in u and "en" in u:
+            xml_lines.append(f'    <xhtml:link rel="alternate" hreflang="tr" href="{u["tr"]}"/>')
+            xml_lines.append(f'    <xhtml:link rel="alternate" hreflang="en" href="{u["en"]}"/>')
+        xml_lines.append("  </url>")
+    xml_lines.append("</urlset>\n")
+    
+    with open(BASE_DIR / "sitemap.xml", "w", encoding="utf-8") as f:
+        f.write("\n".join(xml_lines))
+    print("  ✅ Generated: sitemap.xml")
+    
+    robots_content = """User-agent: *
+Allow: /
+
+Sitemap: https://canerozy.com/sitemap.xml
+"""
+    with open(BASE_DIR / "robots.txt", "w", encoding="utf-8") as f:
+        f.write(robots_content)
+    print("  ✅ Generated: robots.txt")
+
 def main():
     print("🚀 Building Academic Website...")
     
@@ -1774,6 +1929,9 @@ def main():
         with open(en_courses_dir / fname, "w", encoding="utf-8") as f:
             f.write(chtml)
     print(f"  ✅ {len(en_teaching)} English course detail pages generated in en/courses/")
+    
+    # 5. Generate XML Sitemap & robots.txt for Google Search Console
+    generate_sitemap_and_robots(tr_teaching, en_teaching)
     
     print("🎉 All bilingual sites compiled successfully from Obsidian markdown!")
 
