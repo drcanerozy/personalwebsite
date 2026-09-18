@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BES339 Canlı Oylama · Beslenmenin AI ile Dönüşümü</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<!-- Paho MQTT WebSocket Client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-border: #334155;
+    --teal: #14b8a6;
+    --teal-glow: rgba(20, 184, 166, 0.25);
+    --rose: #f43f5e;
+    --indigo: #6366f1;
+    --gold: #f59e0b;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .app-container {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .header {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-brand {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: inline-block;
+  }
+  .status-dot.connected {
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+  }
+  .status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    background: #090d16;
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .nav-tab {
+    padding: 8px 4px;
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+    background: transparent;
+  }
+  .nav-tab.active {
+    background: var(--card);
+    color: var(--teal);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .poll-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .poll-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--teal);
+    letter-spacing: 0.05em;
+  }
+  .poll-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #fff;
+  }
+  .poll-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .slider-box {
+    background: #0b1120;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .slider-val-badge {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 16px var(--teal-glow);
+  }
+  .slider-input {
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    background: #1e293b;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  .slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 3px solid #fff;
+    box-shadow: 0 0 12px rgba(20, 184, 166, 0.6);
+    cursor: pointer;
+  }
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .option-item {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #0b1120;
+    border: 1.5px solid var(--card-border);
+    color: var(--text);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    width: 100%;
+  }
+  .option-item:hover, .option-item:active {
+    border-color: var(--teal);
+    background: rgba(20, 184, 166, 0.1);
+  }
+  .option-item.selected {
+    border-color: var(--teal);
+    background: rgba(20, 184, 166, 0.15);
+    color: #fff;
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(20, 184, 166, 0.4);
+    transition: all 0.15s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .submit-btn:active {
+    transform: scale(0.98);
+  }
+  .success-banner {
+    display: none;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    font-size: 13px;
+    color: #34d399;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- ÜST BİLGİ -->
+  <header class="header">
+    <div class="header-brand">
+      <span>🧬</span> <span>BES339 · Canlı Oylama</span>
+    </div>
+    <div class="status-badge" id="statusBadge">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Bağlanıyor...</span>
+    </div>
+  </header>
+
+  <!-- ANKET SEKMELERİ -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchSection('pre')">1. Giriş Anketi</button>
+    <button class="nav-tab" onclick="switchSection('roles')">2. Gelecek Rolüm</button>
+    <button class="nav-tab" onclick="switchSection('post')">3. Kapanış / Evrim</button>
+  </div>
+
+  <!-- BAŞARI BİLDİRİMİ -->
+  <div class="success-banner" id="successBanner">
+    ✅ Oyunuz tahtaya anında iletildi! Teşekkürler.
+  </div>
+
+  <!-- 1. BÖLÜM: DERS BAŞI ZİHNİYET ANKETİ -->
+  <div id="sectionPre" class="poll-card">
+    <span class="poll-tag">Ders Öncesi · Beklenti Anketi</span>
+    <h2 class="poll-title">Sizce yapay zeka bir diyetisyenin rutin görevlerinin % kaçını devralabilir?</h2>
+    <p class="poll-desc">Dersin başında aklınızdaki tahmini belirleyin. Sunum sonunda fikirlerinizi tekrar ölçeceğiz.</p>
+    
+    <div class="slider-box">
+      <div class="slider-val-badge" id="preSliderVal">35%</div>
+      <input type="range" min="0" max="100" value="35" class="slider-input" id="preRange" oninput="document.getElementById('preSliderVal').textContent = this.value + '%'">
+    </div>
+
+    <h3 style="font-size:14px; font-weight:700; margin-top:8px;">Yapay zeka diyetisyenden daha hatasız kalori & menü hesabı yapabilir mi?</h3>
+    <div class="options-list">
+      <button class="option-item" onclick="selectOption('preQ2', 1, this)">
+        <span>🟢</span> <span>Evet, matematiksel olarak hatasızdır</span>
+      </button>
+      <button class="option-item" onclick="selectOption('preQ2', 2, this)">
+        <span>🔴</span> <span>Hayır, diyetisyen kesinlikle üstündür</span>
+      </button>
+      <button class="option-item" onclick="selectOption('preQ2', 3, this)">
+        <span>🟡</span> <span>Kararsızım / Vakaya göre değişir</span>
+      </button>
+    </div>
+
+    <button class="submit-btn" onclick="submitPreSurvey()">
+      <span>🚀</span> <span>Oyu Tahtaya Gönder</span>
+    </button>
+  </div>
+
+  <!-- 2. BÖLÜM: GELECEĞİN DİYETİSYEN ROLÜ -->
+  <div id="sectionRoles" class="poll-card" style="display:none;">
+    <span class="poll-tag">Kişisel Vizyon · Kariyer Tercihi</span>
+    <h2 class="poll-title">Hangi Geleceğin Diyetisyen Rolü Sizi En Çok Heyecanlandırıyor?</h2>
+    <p class="poll-desc">Mezuniyet sonrası kendinizi en yakın hissettiğiniz uzmanlık alanını seçin:</p>
+
+    <div class="options-list">
+      <button class="option-item" onclick="selectOption('role', 1, this)">
+        <span>🧬</span> <span>1. Biyolojik Veri & Omiks Mimarı</span>
+      </button>
+      <button class="option-item" onclick="selectOption('role', 2, this)">
+        <span>🛡️</span> <span>2. Klinik AI Güvenlik & Halüsinasyon Denetçisi</span>
+      </button>
+      <button class="option-item" onclick="selectOption('role', 3, this)">
+        <span>🧠</span> <span>3. Nöro-Beslenme & Longevity Uzmanı</span>
+      </button>
+      <button class="option-item" onclick="selectOption('role', 4, this)">
+        <span>🎗️</span> <span>4. Hassas Onko-Radyomiks Diyetisyeni</span>
+      </button>
+      <button class="option-item" onclick="selectOption('role', 5, this)">
+        <span>🤍</span> <span>5. Davranışsal Stratejist & Empatik Lider</span>
+      </button>
+      <button class="option-item" onclick="selectOption('role', 6, this)">
+        <span>🌿</span> <span>6. Sürdürülebilir Eko-TBS Tasarımcısı</span>
+      </button>
+      <button class="option-item" onclick="selectOption('role', 7, this)">
+        <span>🛠️</span> <span>7. Beslenme Biyoenformatikçisi & Prompt Mühendisi</span>
+      </button>
+    </div>
+
+    <button class="submit-btn" onclick="submitRoleSurvey()">
+      <span>🚀</span> <span>Kariyer Tercihimi Gönder</span>
+    </button>
+  </div>
+
+  <!-- 3. BÖLÜM: DERS SONU ZİHNİYET EVRİMİ -->
+  <div id="sectionPost" class="poll-card" style="display:none;">
+    <span class="poll-tag">Ders Sonu · Zihniyet Evrimi</span>
+    <h2 class="poll-title">16 klinik alanı ve ampirik kanıtları gördükten sonra: AI rutin görevleri ne oranda devralır?</h2>
+    <p class="poll-desc">Ders öncesi verdiğiniz oyla karşılaştırılacaktır.</p>
+
+    <div class="slider-box">
+      <div class="slider-val-badge" id="postSliderVal">85%</div>
+      <input type="range" min="0" max="100" value="85" class="slider-input" id="postRange" oninput="document.getElementById('postSliderVal').textContent = this.value + '%'">
+    </div>
+
+    <h3 style="font-size:14px; font-weight:700; margin-top:8px;">Yapay zeka klinik beslenmede tek başına güvenilir midir?</h3>
+    <div class="options-list">
+      <button class="option-item" onclick="selectOption('postQ2', 1, this)">
+        <span>🛡️</span> <span>Diyetisyen Denetimi Şart (Human-in-the-Loop)</span>
+      </button>
+      <button class="option-item" onclick="selectOption('postQ2', 2, this)">
+        <span>🤖</span> <span>AI Tek Başına Yeterli</span>
+      </button>
+    </div>
+
+    <button class="submit-btn" onclick="submitPostSurvey()">
+      <span>🚀</span> <span>Dönüşüm Oyumu Gönder</span>
+    </button>
+  </div>
+
+</div>
+
+<script>
+// Benzersiz Öğrenci Kimliği
+var studentId = 'std_' + Math.random().toString(36).substr(2, 9);
+var selectedValues = {
+  preQ1: 35,
+  preQ2: null,
+  role: null,
+  postQ1: 85,
+  postQ2: null
+};
+
+// URL parametresinden Room ID al
+var urlParams = new URLSearchParams(window.location.search);
+var roomId = urlParams.get('room') || 'bes339-h2';
+
+// MQTT Client (HiveMQ Public WebSocket Broker)
+var mqttBroker = "broker.hivemq.com";
+var mqttPort = 8884; // WSS Port
+var client = new Paho.MQTT.Client(mqttBroker, mqttPort, "voter_" + studentId);
+
+function onConnect() {
+  console.log("MQTT Bağlantısı Başarılı!");
+  document.getElementById("statusDot").classList.add("connected");
+  document.getElementById("statusText").textContent = "Canlı Oda: " + roomId.toUpperCase();
+}
+
+function onFailure(err) {
+  console.log("MQTT Bağlantı Hatası: ", err);
+  document.getElementById("statusText").textContent = "Yeniden deneniyor...";
+  setTimeout(connectMQTT, 3000);
+}
+
+function onConnectionLost(responseObject) {
+  if (responseObject.errorCode !== 0) {
+    console.log("Bağlantı koptu: " + responseObject.errorMessage);
+    document.getElementById("statusDot").classList.remove("connected");
+    document.getElementById("statusText").textContent = "Koptu, bağlanıyor...";
+    setTimeout(connectMQTT, 2000);
+  }
+}
+
+function connectMQTT() {
+  client.onConnectionLost = onConnectionLost;
+  client.connect({
+    useSSL: true,
+    timeout: 5,
+    onSuccess: onConnect,
+    onFailure: onFailure
+  });
+}
+connectMQTT();
+
+function sendPayload(type, data) {
+  var payload = {
+    studentId: studentId,
+    type: type,
+    roomId: roomId,
+    timestamp: Date.now(),
+    data: data
+  };
+  var message = new Paho.MQTT.Message(JSON.stringify(payload));
+  message.destinationName = "bes339/" + roomId + "/votes";
+  client.send(message);
+
+  // Başarı kutusu göster
+  var banner = document.getElementById("successBanner");
+  banner.style.display = "block";
+  setTimeout(function(){ banner.style.display = "none"; }, 3500);
+}
+
+function switchSection(sec) {
+  document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById('sectionPre').style.display = (sec === 'pre') ? 'flex' : 'none';
+  document.getElementById('sectionRoles').style.display = (sec === 'roles') ? 'flex' : 'none';
+  document.getElementById('sectionPost').style.display = (sec === 'post') ? 'flex' : 'none';
+  
+  var tabs = document.querySelectorAll('.nav-tab');
+  if(sec === 'pre') tabs[0].classList.add('active');
+  if(sec === 'roles') tabs[1].classList.add('active');
+  if(sec === 'post') tabs[2].classList.add('active');
+}
+
+function selectOption(key, val, el) {
+  selectedValues[key] = val;
+  var parent = el.closest('.options-list');
+  parent.querySelectorAll('.option-item').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function submitPreSurvey() {
+  selectedValues.preQ1 = parseInt(document.getElementById('preRange').value, 10);
+  sendPayload('pre_survey', {
+    q1: selectedValues.preQ1,
+    q2: selectedValues.preQ2 || 1
+  });
+}
+
+function submitRoleSurvey() {
+  if(!selectedValues.role){
+    alert("Lütfen bir rol seçiniz!");
+    return;
+  }
+  sendPayload('role_survey', {
+    roleIdx: selectedValues.role
+  });
+}
+
+function submitPostSurvey() {
+  selectedValues.postQ1 = parseInt(document.getElementById('postRange').value, 10);
+  sendPayload('post_survey', {
+    q1: selectedValues.postQ1,
+    q2: selectedValues.postQ2 || 1
+  });
+}
+</script>
+
+</body>
+</html>
