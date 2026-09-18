@@ -369,21 +369,26 @@ var roomId = urlParams.get('room') || 'bes339-h2';
 // MQTT Client (HiveMQ Public WebSocket Broker)
 var mqttBroker = "broker.hivemq.com";
 var mqttPort = 8884; // WSS Port
-var client = new Paho.MQTT.Client(mqttBroker, mqttPort, "voter_" + studentId);
+var client = new Paho.MQTT.Client(mqttBroker, 8884, "/mqtt", "voter_" + studentId);
+
+var isConnected = false;
 
 function onConnect() {
   console.log("MQTT Bağlantısı Başarılı!");
+  isConnected = true;
   document.getElementById("statusDot").classList.add("connected");
   document.getElementById("statusText").textContent = "Canlı Oda: " + roomId.toUpperCase();
 }
 
 function onFailure(err) {
   console.log("MQTT Bağlantı Hatası: ", err);
+  isConnected = false;
   document.getElementById("statusText").textContent = "Yeniden deneniyor...";
-  setTimeout(connectMQTT, 3000);
+  setTimeout(connectMQTT, 2500);
 }
 
 function onConnectionLost(responseObject) {
+  isConnected = false;
   if (responseObject.errorCode !== 0) {
     console.log("Bağlantı koptu: " + responseObject.errorMessage);
     document.getElementById("statusDot").classList.remove("connected");
@@ -396,7 +401,9 @@ function connectMQTT() {
   client.onConnectionLost = onConnectionLost;
   client.connect({
     useSSL: true,
-    timeout: 5,
+    timeout: 10,
+    keepAliveInterval: 30,
+    cleanSession: true,
     onSuccess: onConnect,
     onFailure: onFailure
   });
@@ -413,9 +420,30 @@ function sendPayload(type, data) {
   };
   var message = new Paho.MQTT.Message(JSON.stringify(payload));
   message.destinationName = "bes339/" + roomId + "/votes";
-  client.send(message);
 
-  // Başarı kutusu göster
+  if (!isConnected) {
+    client.connect({
+      useSSL: true,
+      timeout: 5,
+      keepAliveInterval: 30,
+      cleanSession: true,
+      onSuccess: function(){
+        onConnect();
+        client.send(message);
+        showSuccessBanner();
+      },
+      onFailure: function(){
+        alert("Bağlantı kurulamadı. Lütfen internet bağlantınızı kontrol edip tekrar deneyin.");
+      }
+    });
+    return;
+  }
+
+  client.send(message);
+  showSuccessBanner();
+}
+
+function showSuccessBanner() {
   var banner = document.getElementById("successBanner");
   banner.style.display = "block";
   setTimeout(function(){ banner.style.display = "none"; }, 3500);
