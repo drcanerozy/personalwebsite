@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>BES339 Canlı Oylama · Beslenmenin AI ile Dönüşümü</title>
+<title>BES339 Canlı Oylama · Bilgisayar Uygulamaları ve Yapay Zeka</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -78,16 +78,18 @@
   }
   .nav-tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
     gap: 6px;
     background: #090d16;
     padding: 4px;
     border-radius: 10px;
   }
+  .nav-tabs.three-tabs { grid-template-columns: 1fr 1fr 1fr; }
+  .nav-tabs.four-tabs { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
   .nav-tab {
     padding: 8px 4px;
     text-align: center;
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--text-muted);
     border-radius: 6px;
@@ -175,7 +177,7 @@
     background: #0b1120;
     border: 1.5px solid var(--card-border);
     color: var(--text);
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -184,6 +186,7 @@
     gap: 10px;
     text-align: left;
     width: 100%;
+    line-height: 1.4;
   }
   .option-item:hover, .option-item:active {
     border-color: var(--teal);
@@ -227,6 +230,16 @@
     font-weight: 600;
     animation: fadeIn 0.3s ease;
   }
+  .vaka-box {
+    background: #090d16;
+    border-left: 3px solid var(--indigo);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #cbd5e1;
+    font-style: italic;
+  }
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-4px); }
     to { opacity: 1; transform: translateY(0); }
@@ -239,7 +252,7 @@
   <!-- ÜST BİLGİ -->
   <header class="header">
     <div class="header-brand">
-      <span>🧬</span> <span>BES339 · Canlı Oylama</span>
+      <span id="weekIcon">🧬</span> <span id="weekTitle">BES339 · Canlı Oylama</span>
     </div>
     <div class="status-badge" id="statusBadge">
       <span class="status-dot" id="statusDot"></span>
@@ -247,104 +260,255 @@
     </div>
   </header>
 
-  <!-- ANKET SEKMELERİ -->
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="switchSection('pre')">1. Giriş Anketi</button>
-    <button class="nav-tab" onclick="switchSection('roles')">2. Gelecek Rolüm</button>
-    <button class="nav-tab" onclick="switchSection('post')">3. Kapanış / Evrim</button>
-  </div>
-
   <!-- BAŞARI BİLDİRİMİ -->
   <div class="success-banner" id="successBanner">
     ✅ Oyunuz tahtaya anında iletildi! Teşekkürler.
   </div>
 
-  <!-- 1. BÖLÜM: DERS BAŞI ZİHNİYET ANKETİ -->
-  <div id="sectionPre" class="poll-card">
-    <span class="poll-tag">Ders Öncesi · Beklenti Anketi</span>
-    <h2 class="poll-title">Sizce yapay zeka bir diyetisyenin rutin görevlerinin % kaçını devralabilir?</h2>
-    <p class="poll-desc">Dersin başında aklınızdaki tahmini belirleyin. Sunum sonunda fikirlerinizi tekrar ölçeceğiz.</p>
-    
-    <div class="slider-box">
-      <div class="slider-val-badge" id="preSliderVal">35%</div>
-      <input type="range" min="0" max="100" value="35" class="slider-input" id="preRange" oninput="document.getElementById('preSliderVal').textContent = this.value + '%'">
+  <!-- ======================================================== -->
+  <!-- HAFTA 1 ANKETLERİ -->
+  <!-- ======================================================== -->
+  <div id="week1Container" style="display:none; flex-direction:column; gap:16px;">
+    <!-- SEKMELER (HAFTA 1) -->
+    <div class="nav-tabs four-tabs" id="h1Tabs">
+      <button class="nav-tab active" onclick="switchH1Section('tanisma')">1. Tanışma</button>
+      <button class="nav-tab" onclick="switchH1Section('turing')">2. Turing</button>
+      <button class="nav-tab" onclick="switchH1Section('rlhf')">3. RLHF</button>
+      <button class="nav-tab" onclick="switchH1Section('hitl')">4. HITL</button>
     </div>
 
-    <h3 style="font-size:14px; font-weight:700; margin-top:8px;">Yapay zeka diyetisyenden daha hatasız kalori & menü hesabı yapabilir mi?</h3>
-    <div class="options-list">
-      <button class="option-item" onclick="selectOption('preQ2', 1, this)">
-        <span>🟢</span> <span>Evet, matematiksel olarak hatasızdır</span>
-      </button>
-      <button class="option-item" onclick="selectOption('preQ2', 2, this)">
-        <span>🔴</span> <span>Hayır, diyetisyen kesinlikle üstündür</span>
-      </button>
-      <button class="option-item" onclick="selectOption('preQ2', 3, this)">
-        <span>🟡</span> <span>Kararsızım / Vakaya göre değişir</span>
+    <!-- H1 - 1. BÖLÜM: TANIŞMA & BEKLENTİ ANKETİ -->
+    <div id="h1SectionTanisma" class="poll-card">
+      <span class="poll-tag">Hafta 1 · Slayt 03 · Tanışma Anketi</span>
+      <h2 class="poll-title">Yapay Zekayı (ChatGPT vb.) eğitim/meslek hayatınızda ne sıklıkla kullanıyorsunuz?</h2>
+      
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('h1_freq', 1, this)">
+          <span>🔵</span> <span>1. Hiç veya Çok Nadir</span>
+        </button>
+        <button class="option-item" onclick="selectOption('h1_freq', 2, this)">
+          <span>🟡</span> <span>2. Haftada Birkaç Kez (Ödev / Özet / Fikir)</span>
+        </button>
+        <button class="option-item" onclick="selectOption('h1_freq', 3, this)">
+          <span>🟢</span> <span>3. Her Gün / Düzenli Asistan Olarak</span>
+        </button>
+      </div>
+
+      <h3 style="font-size:14px; font-weight:700; margin-top:10px; color:#fff;">Yapay zekanın verdiği beslenme/sağlık bilgisine şu an ne kadar güveniyorsunuz?</h3>
+      <div class="slider-box">
+        <div class="slider-val-badge" id="h1TrustVal">50%</div>
+        <input type="range" min="0" max="100" value="50" class="slider-input" id="h1TrustRange" oninput="document.getElementById('h1TrustVal').textContent = this.value + '%'">
+      </div>
+
+      <button class="submit-btn" onclick="submitH1Tanisma()">
+        <span>🚀</span> <span>Oyu Tahtaya Gönder</span>
       </button>
     </div>
 
-    <button class="submit-btn" onclick="submitPreSurvey()">
-      <span>🚀</span> <span>Oyu Tahtaya Gönder</span>
-    </button>
+    <!-- H1 - 2. BÖLÜM: MİNİ TURING TESTİ -->
+    <div id="h1SectionTuring" class="poll-card" style="display:none;">
+      <span class="poll-tag">Hafta 1 · Slayt 16 · Mini Turing Testi</span>
+      <h2 class="poll-title">Hangisi Yapay Zeka Tarafından Yazılmıştır?</h2>
+      
+      <div class="vaka-box">
+        <b>Danışan Vakası:</b> "Hocam dün akşam tatlı krizine yenik düşüp 2 dilim baklava yedim, vicdan azabından ölüyorum. Bugün tüm öğünleri kesip sadece yeşil detoks suyu mu içsem?"
+      </div>
+
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('h1_turing', 'A', this)">
+          <span>🤖</span> <span><b>Yanıt A Yapay Zeka:</b> "Kesinlikle aç kalmamalısınız. Baklava yüksek glisemik indekse sahiptir... Bol su için, sebze ağırlıklı beslenin ve 45 dk yürüyüş yapın."</span>
+        </button>
+        <button class="option-item" onclick="selectOption('h1_turing', 'B', this)">
+          <span>🤖</span> <span><b>Yanıt B Yapay Zeka:</b> "Öncelikle derin bir nefes alıyoruz, hiçbir şey mahvolmadı! :) Diyet bir ceza-ödül mekanizması değildir. Akşama hafif bir zeytinyağlıyla dengeleriz."</span>
+        </button>
+      </div>
+
+      <button class="submit-btn" onclick="submitH1Turing()">
+        <span>🎯</span> <span>Turing Tahminimi Gönder</span>
+      </button>
+    </div>
+
+    <!-- H1 - 3. BÖLÜM: RLHF TERBİYE DERSİ -->
+    <div id="h1SectionRlhf" class="poll-card" style="display:none;">
+      <span class="poll-tag">Hafta 1 · Slayt 43 · RLHF Klinik Hakem</span>
+      <h2 class="poll-title">Bir Klinik Diyetisyen Olarak Hangi Model Yanıtını Ödüllendirirsiniz?</h2>
+      
+      <div class="vaka-box">
+        <b>Danışan Sorusu:</b> "Kilo vermek istiyorum, ne yapmalıyım?"
+      </div>
+
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('h1_rlhf', 'A', this)">
+          <span>🔴</span> <span><b>Model A:</b> "Kesinlikle günde 1200 kaloriyle sınırlı kalmalısın, karbonhidratı tamamen kes."</span>
+        </button>
+        <button class="option-item" onclick="selectOption('h1_rlhf', 'B', this)">
+          <span>🟢</span> <span><b>Model B:</b> "Bu, kişisel sağlık durumuna bağlıdır. Bir diyetisyene danışmanı öneririm. Genel ilke olarak..."</span>
+        </button>
+      </div>
+
+      <button class="submit-btn" onclick="submitH1Rlhf()">
+        <span>⭐</span> <span>Klinik Puanımı Gönder</span>
+      </button>
+    </div>
+
+    <!-- H1 - 4. BÖLÜM: HITL MESLEKİ GELECEK -->
+    <div id="h1SectionHitl" class="poll-card" style="display:none;">
+      <span class="poll-tag">Hafta 1 · Slayt 78 · HITL Modeli</span>
+      <h2 class="poll-title">Gelecekte klinik pratikte yapay zekayı nasıl konumlandıracaksınız?</h2>
+      
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('h1_hitl', 1, this)">
+          <span>👑</span> <span><b>Human-in-the-Loop:</b> Direksiyonda ve nihai kararda daima ben varım; AI sadece taslak ve hesap asistanımdır.</span>
+        </button>
+        <button class="option-item" onclick="selectOption('h1_hitl', 2, this)">
+          <span>🤖</span> <span><b>Human-on-the-Loop:</b> AI rutin hesapları ve menüleri otomatik yapar; ben yalnızca kritik sapmalarda müdahale ederim.</span>
+        </button>
+        <button class="option-item" onclick="selectOption('h1_hitl', 3, this)">
+          <span>🌿</span> <span><b>Geleneksel Yaklaşım:</b> Mesleki uygulamalarımda AI kullanmamayı veya minimumda tutmayı tercih ederim.</span>
+        </button>
+      </div>
+
+      <button class="submit-btn" onclick="submitH1Hitl()">
+        <span>🚀</span> <span>Tercihimi Gönder</span>
+      </button>
+    </div>
+
   </div>
 
-  <!-- 2. BÖLÜM: GELECEĞİN DİYETİSYEN ROLÜ -->
-  <div id="sectionRoles" class="poll-card" style="display:none;">
-    <span class="poll-tag">Kişisel Vizyon · Kariyer Tercihi</span>
-    <h2 class="poll-title">Hangi Geleceğin Diyetisyen Rolü Sizi En Çok Heyecanlandırıyor?</h2>
-    <p class="poll-desc">Mezuniyet sonrası kendinizi en yakın hissettiğiniz uzmanlık alanını seçin:</p>
+  <!-- ======================================================== -->
+  <!-- HAFTA 2 ANKETLERİ -->
+  <!-- ======================================================== -->
+  <div id="week2Container" style="display:none; flex-direction:column; gap:16px;">
+    <!-- ANKET SEKMELERİ (HAFTA 2) -->
+    <div class="nav-tabs three-tabs" id="h2Tabs">
+      <button class="nav-tab active" onclick="switchH2Section('pre')">1. Giriş Anketi</button>
+      <button class="nav-tab" onclick="switchH2Section('roles')">2. Gelecek Rolüm</button>
+      <button class="nav-tab" onclick="switchH2Section('post')">3. Kapanış / Evrim</button>
+    </div>
 
-    <div class="options-list">
-      <button class="option-item" onclick="selectOption('role', 1, this)">
-        <span>🧬</span> <span>1. Biyolojik Veri & Omiks Mimarı</span>
-      </button>
-      <button class="option-item" onclick="selectOption('role', 2, this)">
-        <span>🛡️</span> <span>2. Klinik AI Güvenlik & Halüsinasyon Denetçisi</span>
-      </button>
-      <button class="option-item" onclick="selectOption('role', 3, this)">
-        <span>🧠</span> <span>3. Nöro-Beslenme & Longevity Uzmanı</span>
-      </button>
-      <button class="option-item" onclick="selectOption('role', 4, this)">
-        <span>🎗️</span> <span>4. Hassas Onko-Radyomiks Diyetisyeni</span>
-      </button>
-      <button class="option-item" onclick="selectOption('role', 5, this)">
-        <span>🤍</span> <span>5. Davranışsal Stratejist & Empatik Lider</span>
-      </button>
-      <button class="option-item" onclick="selectOption('role', 6, this)">
-        <span>🌿</span> <span>6. Sürdürülebilir Eko-TBS Tasarımcısı</span>
-      </button>
-      <button class="option-item" onclick="selectOption('role', 7, this)">
-        <span>🛠️</span> <span>7. Beslenme Biyoenformatikçisi & Prompt Mühendisi</span>
+    <!-- 1. BÖLÜM: DERS BAŞI ZİHNİYET ANKETİ -->
+    <div id="sectionPre" class="poll-card">
+      <span class="poll-tag">Ders Öncesi · Beklenti Anketi</span>
+      <h2 class="poll-title">Sizce yapay zeka bir diyetisyenin rutin görevlerinin % kaçını devralabilir?</h2>
+      <p class="poll-desc">Dersin başında aklınızdaki tahmini belirleyin. Sunum sonunda fikirlerinizi tekrar ölçeceğiz.</p>
+      
+      <div class="slider-box">
+        <div class="slider-val-badge" id="preSliderVal">35%</div>
+        <input type="range" min="0" max="100" value="35" class="slider-input" id="preRange" oninput="document.getElementById('preSliderVal').textContent = this.value + '%'">
+      </div>
+
+      <h3 style="font-size:14px; font-weight:700; margin-top:8px;">Yapay zeka diyetisyenden daha hatasız kalori & menü hesabı yapabilir mi?</h3>
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('preQ2', 1, this)">
+          <span>🟢</span> <span>Evet, matematiksel olarak hatasızdır</span>
+        </button>
+        <button class="option-item" onclick="selectOption('preQ2', 2, this)">
+          <span>🔴</span> <span>Hayır, diyetisyen kesinlikle üstündür</span>
+        </button>
+        <button class="option-item" onclick="selectOption('preQ2', 3, this)">
+          <span>🟡</span> <span>Kararsızım / Vakaya göre değişir</span>
+        </button>
+      </div>
+
+      <button class="submit-btn" onclick="submitPreSurvey()">
+        <span>🚀</span> <span>Oyu Tahtaya Gönder</span>
       </button>
     </div>
 
-    <button class="submit-btn" onclick="submitRoleSurvey()">
-      <span>🚀</span> <span>Kariyer Tercihimi Gönder</span>
-    </button>
-  </div>
+    <!-- 2. BÖLÜM: GELECEĞİN DİYETİSYEN ROLÜ -->
+    <div id="sectionRoles" class="poll-card" style="display:none;">
+      <span class="poll-tag">Kişisel Vizyon · Kariyer Tercihi</span>
+      <h2 class="poll-title">Hangi Geleceğin Diyetisyen Rolü Sizi En Çok Heyecanlandırıyor?</h2>
+      <p class="poll-desc">Mezuniyet sonrası kendinizi en yakın hissettiğiniz uzmanlık alanını seçin:</p>
 
-  <!-- 3. BÖLÜM: DERS SONU ZİHNİYET EVRİMİ -->
-  <div id="sectionPost" class="poll-card" style="display:none;">
-    <span class="poll-tag">Ders Sonu · Zihniyet Evrimi</span>
-    <h2 class="poll-title">16 klinik alanı ve kanıtları gördükten sonra: AI rutin görevleri ne oranda devralır?</h2>
-    <p class="poll-desc">Ders öncesindeki % tahmininiz ile bu yeni tahmininiz karşılaştırılacaktır.</p>
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('role', 1, this)">
+          <span>🧬</span> <span>1. Biyolojik Veri & Omiks Mimarı</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 2, this)">
+          <span>🛡️</span> <span>2. Klinik AI Güvenlik & Halüsinasyon Denetçisi</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 3, this)">
+          <span>🧠</span> <span>3. Nöro-Beslenme & Longevity Uzmanı</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 4, this)">
+          <span>🎗️</span> <span>4. Hassas Onko-Radyomiks Diyetisyeni</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 5, this)">
+          <span>🤍</span> <span>5. Davranışsal Stratejist & Empatik Lider</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 6, this)">
+          <span>🌿</span> <span>6. Sürdürülebilir Eko-TBS Tasarımcısı</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 7, this)">
+          <span>🛠️</span> <span>7. Beslenme Biyoenformatikçisi & Prompt Mühendisi</span>
+        </button>
+      </div>
 
-    <div class="slider-box">
-      <div class="slider-val-badge" id="postSliderVal">85%</div>
-      <input type="range" min="0" max="100" value="85" class="slider-input" id="postRange" oninput="document.getElementById('postSliderVal').textContent = this.value + '%'">
+      <button class="submit-btn" onclick="submitRoleSurvey()">
+        <span>🚀</span> <span>Kariyer Tercihimi Gönder</span>
+      </button>
     </div>
 
-    <button class="submit-btn" onclick="submitPostSurvey()" style="margin-top:8px;">
-      <span>🚀</span> <span>Dönüşüm Oyumu Gönder</span>
-    </button>
+    <!-- 3. BÖLÜM: DERS SONU ZİHNİYET EVRİMİ -->
+    <div id="sectionPost" class="poll-card" style="display:none;">
+      <span class="poll-tag">Ders Sonu · Zihniyet Evrimi</span>
+      <h2 class="poll-title">16 klinik alanı ve kanıtları gördükten sonra: AI rutin görevleri ne oranda devralır?</h2>
+      <p class="poll-desc">Ders öncesindeki % tahmininiz ile bu yeni tahmininiz karşılaştırılacaktır.</p>
+
+      <div class="slider-box">
+        <div class="slider-val-badge" id="postSliderVal">85%</div>
+        <input type="range" min="0" max="100" value="85" class="slider-input" id="postRange" oninput="document.getElementById('postSliderVal').textContent = this.value + '%'">
+      </div>
+
+      <button class="submit-btn" onclick="submitPostSurvey()" style="margin-top:8px;">
+        <span>🚀</span> <span>Dönüşüm Oyumu Gönder</span>
+      </button>
+    </div>
+
   </div>
 
 </div>
 
 <script>
+// URL Parametreleri
+var urlParams = new URLSearchParams(window.location.search);
+var weekParam = urlParams.get('w') || urlParams.get('week') || urlParams.get('h');
+var requestedTab = (urlParams.get('tab') || urlParams.get('step') || urlParams.get('section') || '').toLowerCase();
+var rawRoom = urlParams.get('room') || '';
+
+// Hangi hafta aktif?
+var currentWeek = 2; // Varsayılan Hafta 2
+if (weekParam === '1' || rawRoom.indexOf('h1') !== -1 || ['tanisma', 'turing', 'rlhf', 'hitl', 'h1_pre', 'h1_turing', 'h1_rlhf', 'h1_hitl'].indexOf(requestedTab) !== -1) {
+  currentWeek = 1;
+}
+
+var roomId = currentWeek === 1 ? 'bes339-h1' : 'bes339-h2';
+if (rawRoom) roomId = rawRoom;
+
+// Hafta Container ve Başlıkları Ayarla
+if (currentWeek === 1) {
+  document.getElementById('week1Container').style.display = 'flex';
+  document.getElementById('week2Container').style.display = 'none';
+  document.getElementById('weekTitle').textContent = 'BES339 · H1: AI ile Tanışma';
+  document.getElementById('weekIcon').textContent = '🤖';
+} else {
+  document.getElementById('week1Container').style.display = 'none';
+  document.getElementById('week2Container').style.display = 'flex';
+  document.getElementById('weekTitle').textContent = 'BES339 · H2: Beslenmenin Dönüşümü';
+  document.getElementById('weekIcon').textContent = '🧬';
+}
+
 // Benzersiz Öğrenci Kimliği
 var studentId = 'std_' + Math.random().toString(36).substr(2, 9);
 var selectedValues = {
+  // Hafta 1
+  h1_freq: null,
+  h1_trust: 50,
+  h1_turing: null,
+  h1_rlhf: null,
+  h1_hitl: null,
+  // Hafta 2
   preQ1: 35,
   preQ2: null,
   role: null,
@@ -352,26 +516,19 @@ var selectedValues = {
   postQ2: null
 };
 
-// URL parametresinden Room ID al
-var urlParams = new URLSearchParams(window.location.search);
-var roomId = urlParams.get('room') || 'bes339-h2';
-
 // MQTT Client (HiveMQ Public WebSocket Broker)
 var mqttBroker = "broker.hivemq.com";
-var mqttPort = 8884; // WSS Port
-var client = new Paho.MQTT.Client(mqttBroker, 8884, "/mqtt", "voter_" + studentId);
-
+var mqttPort = 8884;
+var client = new Paho.MQTT.Client(mqttBroker, mqttPort, "/mqtt", "voter_" + studentId);
 var isConnected = false;
 
 function onConnect() {
-  console.log("MQTT Bağlantısı Başarılı!");
   isConnected = true;
   document.getElementById("statusDot").classList.add("connected");
   document.getElementById("statusText").textContent = "Canlı Oda: " + roomId.toUpperCase();
 }
 
 function onFailure(err) {
-  console.log("MQTT Bağlantı Hatası: ", err);
   isConnected = false;
   document.getElementById("statusText").textContent = "Yeniden deneniyor...";
   setTimeout(connectMQTT, 2500);
@@ -380,7 +537,6 @@ function onFailure(err) {
 function onConnectionLost(responseObject) {
   isConnected = false;
   if (responseObject.errorCode !== 0) {
-    console.log("Bağlantı koptu: " + responseObject.errorMessage);
     document.getElementById("statusDot").classList.remove("connected");
     document.getElementById("statusText").textContent = "Koptu, bağlanıyor...";
     setTimeout(connectMQTT, 2000);
@@ -405,6 +561,7 @@ function sendPayload(type, data) {
     studentId: studentId,
     type: type,
     roomId: roomId,
+    week: currentWeek,
     timestamp: Date.now(),
     data: data
   };
@@ -439,23 +596,79 @@ function showSuccessBanner() {
   setTimeout(function(){ banner.style.display = "none"; }, 3500);
 }
 
-function switchSection(sec) {
-  document.querySelectorAll('.nav-tab').forEach(function(t){ t.classList.remove('active'); });
-  document.getElementById('sectionPre').style.display = (sec === 'pre') ? 'flex' : 'none';
-  document.getElementById('sectionRoles').style.display = (sec === 'roles') ? 'flex' : 'none';
-  document.getElementById('sectionPost').style.display = (sec === 'post') ? 'flex' : 'none';
-  
-  var tabs = document.querySelectorAll('.nav-tab');
-  if(sec === 'pre') tabs[0].classList.add('active');
-  if(sec === 'roles') tabs[1].classList.add('active');
-  if(sec === 'post') tabs[2].classList.add('active');
-}
-
 function selectOption(key, val, el) {
   selectedValues[key] = val;
   var parent = el.closest('.options-list');
   parent.querySelectorAll('.option-item').forEach(function(b){ b.classList.remove('selected'); });
   el.classList.add('selected');
+}
+
+/* ---------- HAFTA 1 FONKSİYONLARI ---------- */
+function switchH1Section(sec) {
+  var tabs = document.querySelectorAll('#h1Tabs .nav-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+
+  document.getElementById('h1SectionTanisma').style.display = (sec === 'tanisma') ? 'flex' : 'none';
+  document.getElementById('h1SectionTuring').style.display = (sec === 'turing') ? 'flex' : 'none';
+  document.getElementById('h1SectionRlhf').style.display = (sec === 'rlhf') ? 'flex' : 'none';
+  document.getElementById('h1SectionHitl').style.display = (sec === 'hitl') ? 'flex' : 'none';
+
+  if(sec === 'tanisma' && tabs[0]) tabs[0].classList.add('active');
+  if(sec === 'turing' && tabs[1]) tabs[1].classList.add('active');
+  if(sec === 'rlhf' && tabs[2]) tabs[2].classList.add('active');
+  if(sec === 'hitl' && tabs[3]) tabs[3].classList.add('active');
+}
+
+function submitH1Tanisma() {
+  selectedValues.h1_trust = parseInt(document.getElementById('h1TrustRange').value, 10);
+  sendPayload('h1_tanisma', {
+    freq: selectedValues.h1_freq || 1,
+    trust: selectedValues.h1_trust
+  });
+}
+
+function submitH1Turing() {
+  if(!selectedValues.h1_turing){
+    alert("Lütfen Yapay Zeka olduğunu düşündüğünüz yanıtı seçiniz (Yanıt A veya Yanıt B)!");
+    return;
+  }
+  sendPayload('h1_turing', {
+    choice: selectedValues.h1_turing
+  });
+}
+
+function submitH1Rlhf() {
+  if(!selectedValues.h1_rlhf){
+    alert("Lütfen bir model yanıtı seçiniz (Model A veya Model B)!");
+    return;
+  }
+  sendPayload('h1_rlhf', {
+    choice: selectedValues.h1_rlhf
+  });
+}
+
+function submitH1Hitl() {
+  if(!selectedValues.h1_hitl){
+    alert("Lütfen bir model tercihi seçiniz!");
+    return;
+  }
+  sendPayload('h1_hitl', {
+    choice: selectedValues.h1_hitl
+  });
+}
+
+/* ---------- HAFTA 2 FONKSİYONLARI ---------- */
+function switchH2Section(sec) {
+  var tabs = document.querySelectorAll('#h2Tabs .nav-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+
+  document.getElementById('sectionPre').style.display = (sec === 'pre') ? 'flex' : 'none';
+  document.getElementById('sectionRoles').style.display = (sec === 'roles') ? 'flex' : 'none';
+  document.getElementById('sectionPost').style.display = (sec === 'post') ? 'flex' : 'none';
+  
+  if(sec === 'pre' && tabs[0]) tabs[0].classList.add('active');
+  if(sec === 'roles' && tabs[1]) tabs[1].classList.add('active');
+  if(sec === 'post' && tabs[2]) tabs[2].classList.add('active');
 }
 
 function submitPreSurvey() {
@@ -484,14 +697,25 @@ function submitPostSurvey() {
   });
 }
 
-// URL Parametresine göre doğrudan ilgili anketi aç
-var requestedTab = urlParams.get('tab') || urlParams.get('step') || urlParams.get('section') || 'pre';
-if (requestedTab === 'roles' || requestedTab === '2' || requestedTab === 'roller') {
-  switchSection('roles');
-} else if (requestedTab === 'post' || requestedTab === '3' || requestedTab === 'kapanis') {
-  switchSection('post');
+// URL Parametresine göre doğrudan ilgili sekme aç
+if (currentWeek === 1) {
+  if (requestedTab === 'turing' || requestedTab === '2' || requestedTab === 'h1_turing') {
+    switchH1Section('turing');
+  } else if (requestedTab === 'rlhf' || requestedTab === '3' || requestedTab === 'h1_rlhf') {
+    switchH1Section('rlhf');
+  } else if (requestedTab === 'hitl' || requestedTab === '4' || requestedTab === 'h1_hitl') {
+    switchH1Section('hitl');
+  } else {
+    switchH1Section('tanisma');
+  }
 } else {
-  switchSection('pre');
+  if (requestedTab === 'roles' || requestedTab === '2' || requestedTab === 'roller') {
+    switchH2Section('roles');
+  } else if (requestedTab === 'post' || requestedTab === '3' || requestedTab === 'kapanis') {
+    switchH2Section('post');
+  } else {
+    switchH2Section('pre');
+  }
 }
 </script>
 
