@@ -205,6 +205,27 @@
   .quote-cite{ font-family:var(--mono); font-size:clamp(14px, 1.15vw, 17px); color:var(--accent); font-weight:600;}
   .quote-note{ margin-top:clamp(16px, 2vh, 24px); font-family:var(--sans); font-size:clamp(17px, 1.35vw, 22px); color:var(--tan-mute); max-width:70ch; line-height:1.6;}
 
+  /* Visual Container Typography Enhancement */
+  .visual-box, .slide [style*="background:var(--bg-raise)"] {
+    font-size: clamp(14px, 1.15vw, 17px);
+  }
+  .visual-box p, .slide [style*="background:var(--bg-raise)"] p {
+    font-size: clamp(13.5px, 1.1vw, 16.5px) !important;
+    line-height: 1.55 !important;
+  }
+  .visual-box b, .slide [style*="background:var(--bg-raise)"] b {
+    font-size: clamp(14px, 1.15vw, 17px) !important;
+  }
+  .visual-box span, .slide [style*="background:var(--bg-raise)"] span {
+    font-size: clamp(13px, 1.05vw, 16px) !important;
+  }
+  .visual-box div[style*="font-weight:800"], .visual-box div[style*="font-weight:700"],
+  .slide [style*="background:var(--bg-raise)"] div[style*="font-weight:800"],
+  .slide [style*="background:var(--bg-raise)"] div[style*="font-weight:700"] {
+    font-size: clamp(15px, 1.25vw, 19px) !important;
+    line-height: 1.4 !important;
+  }
+
   /* Grid Layouts */
   .grid{ display:grid; gap:clamp(18px, 2vw, 32px); margin-top:clamp(16px, 2vh, 24px); width:100%; max-width:1800px;}
   .g2{ grid-template-columns:repeat(2,1fr);}
@@ -4893,10 +4914,12 @@ function renderToc(s){
 }
 
 function renderSec(s){
-  const outline = s.outline ? '<div class="sec-outline">' + s.outline.map((o,i)=>'<div class="sec-outline-item"><span class="n">' + (i+1) + '</span>' + o + '</div>').join('') + '</div>' : '';
+  const itemsList = s.outline || s.topics;
+  const outline = itemsList ? '<div class="sec-outline">' + itemsList.map((o,i)=>'<div class="sec-outline-item"><span class="n">' + (i+1) + '</span>' + o + '</div>').join('') + '</div>' : '';
+  const secNum = s.n || (s.sec !== undefined ? String(s.sec + 1).padStart(2, '0') : '');
   return '<div class="slide sec-slide">' +
-    '<div class="sec-num">' + (s.n||'') + '</div>' +
-    '<div class="sec-label">Bölüm ' + (s.n||'') + '</div>' +
+    (secNum ? '<div class="sec-num">' + secNum + '</div>' : '') +
+    '<div class="sec-label">Bölüm ' + (secNum || '') + '</div>' +
     '<h2 class="sec-title">' + (s.title||'') + '</h2>' +
     '<div class="sec-sub">' + (s.sub||'') + '</div>' + outline + '</div>';
 }
