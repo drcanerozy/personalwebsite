@@ -1434,6 +1434,28 @@ Beyond research and data analytics, one of my highest priorities is in the lectu
                 <div class="pod-item bg-warmBg rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md hover:border-emerald-600 transition group" >
                     <div>
                         <div class="flex justify-between items-center mb-3">
+                            <span class="text-[11px] font-bold bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full border border-emerald-200/80">Episode #12</span>
+                            <span class="text-xs text-slate-400 font-mono flex items-center"><i class="fa-regular fa-clock mr-1"></i> 21 min</span>
+                        </div>
+                        <h3 class="font-serif font-bold text-lg text-academic-900 group-hover:text-emerald-700 transition">
+                            The Hidden Side of Weight Loss Drugs
+                        </h3>
+                        <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                            Criticized for being overweight, yet criticized for taking medication to lose weight. Exploring the psychosocial dynamics, illicit black markets, and shifting social perceptions surrounding GLP-1 drugs.
+                        </p>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-t border-slate-200 flex justify-between items-center text-xs">
+                        <a href="https://open.spotify.com/episode/3cMT58kTqaADyVX76Y0rJW" target="_blank" rel="noopener noreferrer" class="text-emerald-700 font-semibold group-hover:underline flex items-center space-x-1.5">
+                            <i class="fa-brands fa-spotify text-sm"></i>
+                            <span>Listen Episode</span>
+                        </a>
+                        <span class="text-slate-400 text-[11px] font-mono">2026-09-18</span>
+                    </div>
+                </div>
+                <div class="pod-item bg-warmBg rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md hover:border-emerald-600 transition group" >
+                    <div>
+                        <div class="flex justify-between items-center mb-3">
                             <span class="text-[11px] font-bold bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full border border-emerald-200/80">Episode #11</span>
                             <span class="text-xs text-slate-400 font-mono flex items-center"><i class="fa-regular fa-clock mr-1"></i> 18 min</span>
                         </div>
@@ -1541,7 +1563,7 @@ Beyond research and data analytics, one of my highest priorities is in the lectu
                         <span class="text-slate-400 text-[11px] font-mono">2022-09-14</span>
                     </div>
                 </div>
-                <div class="pod-item bg-warmBg rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md hover:border-emerald-600 transition group" >
+                <div class="pod-item bg-warmBg rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md hover:border-emerald-600 transition group" style="display: none;">
                     <div>
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-[11px] font-bold bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full border border-emerald-200/80">Episode #06</span>
@@ -1700,7 +1722,7 @@ Beyond research and data analytics, one of my highest priorities is in the lectu
             <!-- Expand/Collapse Toggle for Podcasts -->
             <div id="toggle-podcasts-container" class="mt-8 flex justify-center">
                 <button onclick="toggleShowAllPodcasts()" class="inline-flex items-center space-x-2 bg-white hover:bg-academic-50 text-academic-700 font-semibold px-6 py-3 rounded-xl border border-academic-200 shadow-sm transition transform hover:-translate-y-0.5 text-xs">
-                    <span id="toggle-podcasts-text">View All Episodes (12 Episodes)</span>
+                    <span id="toggle-podcasts-text">View All Episodes (13 Episodes)</span>
                     <i id="toggle-podcasts-icon" class="fa-solid fa-chevron-down text-xs ml-1"></i>
                 </button>
             </div>
@@ -1905,7 +1927,7 @@ Beyond research and data analytics, one of my highest priorities is in the lectu
                 btnIcon.classList.remove('fa-chevron-down');
                 btnIcon.classList.add('fa-chevron-up');
             } else {
-                btnText.innerText = "View All Episodes (12 Episodes)";
+                btnText.innerText = "View All Episodes (13 Episodes)";
                 btnIcon.classList.remove('fa-chevron-up');
                 btnIcon.classList.add('fa-chevron-down');
                 document.getElementById('podcasts').scrollIntoView({ behavior: 'smooth' });
