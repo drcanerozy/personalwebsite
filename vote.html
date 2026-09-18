@@ -483,6 +483,16 @@ function submitPostSurvey() {
     q2: selectedValues.postQ2 || 1
   });
 }
+
+// URL Parametresine göre doğrudan ilgili anketi aç
+var requestedTab = urlParams.get('tab') || urlParams.get('step') || urlParams.get('section') || 'pre';
+if (requestedTab === 'roles' || requestedTab === '2' || requestedTab === 'roller') {
+  switchSection('roles');
+} else if (requestedTab === 'post' || requestedTab === '3' || requestedTab === 'kapanis') {
+  switchSection('post');
+} else {
+  switchSection('pre');
+}
 </script>
 
 </body>
