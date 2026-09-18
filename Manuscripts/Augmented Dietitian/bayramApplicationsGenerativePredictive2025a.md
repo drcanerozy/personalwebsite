@@ -1,0 +1,42 @@
+---
+Title: "Applications of generative and predictive AI in nutrition and dietetics: a narrative review"
+Authors: "Hatice Merve Bayram, Arda Ozturkcan"
+Year: 2025
+DOI: "10.1080/17538157.2025.2560834"
+Nitelik: 
+Alan: 
+Konu: 
+AI_Methodology: 
+Layer_Focus: 
+Model_Asamasi: 
+Proposed_Tool: 
+Methods: "This review aims to identify the strengths and limitations of these models, assess their potential as decision- support tools for healthcare professionals, and shed light on the existing gaps in the field. A comprehensive literature search was conducted using PubMed, Scopus, Web of Science, and Google Scholar databases to identify relevant studies published between January 2019 and May 2025."
+Findings: "The main findings suggest that the application of AI in nutrition is still emerging, with the majority of studies centered on dietary assessment. There is comparatively less emphasis on food estimation, disease prediction, lifestyle interventions, and understanding diet-related diseasesBy categorizing findings into specific nutritional areas such as dietary assessment, obesity management, food estimation, and personalized nutrition, this review offers a thematic perspective that enhances clarity and allows for comparative insight across applications. Another key strength is the inclusion of diverse AI approaches, including ML, DL, LLMs, and IoT-integrated systems, which provides a holistic overview of technological diversity in the field. Moreover, this review prioritizes studies with empirical findings, avoiding editorials and theoretical commentaries. This approach enhances the practical relevance and real-world applicability of the conclusions drawn. The focus on both strengths and limitations of AI-generated outputs, particularly in clinical and sensitive populations, provides a balanced view and contributes to a more nuanced understanding of AI’s readiness for integration into nutrition practice."
+Conclusions: "This review reveals the rapid growth of AI applications in nutrition and dietetics, spanning clinical, behavioral, and public health contexts. Dietary assessment tools have demonstrated high potential in both image and text-based formats, yet challenges remain regarding personalization and micronutrient adequacy. Obesity management tools show early success in structured interventions, while personalized nutrition systems are increasingly integrating physiological and microbiome data. Importantly, AI systems must be validated against professional standards and tested across diverse populations to ensure generalizability. The variability observed in chatbot outputs and food classification accuracy highlights the need for domain-specific training datasets and guideline-informed model architectures. In addition, ethical concerns – including data privacy, transparency, and the potential for harm in sensitive cases – must be addressed. AI technologies, particularly generative and DL models, are rapidly reshaping the field of nutrition and dietetics. While early findings are promising, especially in dietary assessment and personalized care, substantial work is needed to improve reliability, safety, and equity. Future studies should prioritize clinical validation, interdisciplinary collaboration, and the development of culturally sensitive, ethically grounded AI tools to fully realize their potential in supporting nutrition and health outcomes."
+Limitations: "Also, many reviewed tools – especially LLM-based chatbots – are still in their early stages of development, and their performance may vary significantly across updates and prompt formulations. Furthermore, very few studies incorporated long-term outcomes or real-world deployment data, limiting the understanding of sustainability and user adherence over time. Finally, the evolving nature of AI technologies means that current findings may become outdated rapidly."
+User_Notes: ""
+---
+
+# Applications of generative and predictive AI in nutrition and dietetics: a narrative review
+**Yazarlar:** Hatice Merve Bayram, Arda Ozturkcan | **Yıl:** 2025
+**DOI:** 10.1080/17538157.2025.2560834 | **Zotero:** [Görüntüle](zotero://select/library/items/VPXXFEH5)
+
+---
+
+## 📝 Benim Notlarım
+
+
+## 🟡 Genel Bilgiler (Sarı)
+
+
+## 🟢 Yöntem & Örneklem (Yeşil)
+- "This review aims to identify the strengths and limitations of these models, assess their potential as decision- support tools for healthcare professionals, and shed light on the existing gaps in the field. A comprehensive literature search was conducted using PubMed, Scopus, Web of Science, and Google Scholar databases to identify relevant studies published between January 2019 and May 2025." ([Sayfa 2](zotero://open-pdf/library/items/6YG3EILL?page=2&annotation=69LR9VSN))
+
+## 🔴 Bulgular (Kırmızı)
+- "The main findings suggest that the application of AI in nutrition is still emerging, with the majority of studies centered on dietary assessment. There is comparatively less emphasis on food estimation, disease prediction, lifestyle interventions, and understanding diet-related diseases" ([Sayfa 2](zotero://open-pdf/library/items/6YG3EILL?page=2&annotation=V97TBLU7))- "By categorizing findings into specific nutritional areas such as dietary assessment, obesity management, food estimation, and personalized nutrition, this review offers a thematic perspective that enhances clarity and allows for comparative insight across applications. Another key strength is the inclusion of diverse AI approaches, including ML, DL, LLMs, and IoT-integrated systems, which provides a holistic overview of technological diversity in the field. Moreover, this review prioritizes studies with empirical findings, avoiding editorials and theoretical commentaries. This approach enhances the practical relevance and real-world applicability of the conclusions drawn. The focus on both strengths and limitations of AI-generated outputs, particularly in clinical and sensitive populations, provides a balanced view and contributes to a more nuanced understanding of AI’s readiness for integration into nutrition practice." ([Sayfa 22](zotero://open-pdf/library/items/6YG3EILL?page=22&annotation=JPD9PSUQ))
+
+## 🔵 Sonuç / Conclusions (Mavi)
+- "This review reveals the rapid growth of AI applications in nutrition and dietetics, spanning clinical, behavioral, and public health contexts. Dietary assessment tools have demonstrated high potential in both image and text-based formats, yet challenges remain regarding personalization and micronutrient adequacy. Obesity management tools show early success in structured interventions, while personalized nutrition systems are increasingly integrating physiological and microbiome data. Importantly, AI systems must be validated against professional standards and tested across diverse populations to ensure generalizability. The variability observed in chatbot outputs and food classification accuracy highlights the need for domain-specific training datasets and guideline-informed model architectures. In addition, ethical concerns – including data privacy, transparency, and the potential for harm in sensitive cases – must be addressed. AI technologies, particularly generative and DL models, are rapidly reshaping the field of nutrition and dietetics. While early findings are promising, especially in dietary assessment and personalized care, substantial work is needed to improve reliability, safety, and equity. Future studies should prioritize clinical validation, interdisciplinary collaboration, and the development of culturally sensitive, ethically grounded AI tools to fully realize their potential in supporting nutrition and health outcomes." ([Sayfa 22](zotero://open-pdf/library/items/6YG3EILL?page=22&annotation=B8UN5CUU))
+
+## 🟠 Limitasyonlar (Turuncu)
+- "Also, many reviewed tools – especially LLM-based chatbots – are still in their early stages of development, and their performance may vary significantly across updates and prompt formulations. Furthermore, very few studies incorporated long-term outcomes or real-world deployment data, limiting the understanding of sustainability and user adherence over time. Finally, the evolving nature of AI technologies means that current findings may become outdated rapidly." ([Sayfa 22](zotero://open-pdf/library/items/6YG3EILL?page=22&annotation=AHUPQ9T2))

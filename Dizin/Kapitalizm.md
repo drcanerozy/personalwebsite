@@ -1,0 +1,4 @@
+
+
+## İlgili Notlar
+- [[Yeşil Devrim]]

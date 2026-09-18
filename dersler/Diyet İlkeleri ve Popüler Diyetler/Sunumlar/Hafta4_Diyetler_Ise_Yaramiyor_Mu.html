@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diyetler İşe Yaramıyor mu? — BES339</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#2B2320;
+    --bg-deep:#1C1613;
+    --bg-raise:#382E29;
+    --accent:#B5563A;
+    --accent-dark:#8B3F2A;
+    --accent-deep:#5E2A1D;
+    --cream:#F6F1E7;
+    --tan:#EDE4D3;
+    --tan-mute:#DDD3C4;
+    --muted:#5C5248;
+    --green:#4F6B52;
+    --green-light:#7A9278;
+    --white:#FFFFFF;
+    --black:#000000;
+    --serif:'Fraunces', serif;
+    --sans:'Inter', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%; background:var(--bg-deep); overflow:hidden;}
+  body{
+    font-family:var(--sans);
+    color:var(--cream);
+    -webkit-font-smoothing:antialiased;
+  }
+  #stage{
+    position:relative;
+    width:100vw; height:100vh;
+    overflow:hidden;
+  }
+  .slide{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    justify-content:center;
+    padding:7vh 9vw;
+    opacity:0;
+    transform:translateY(24px);
+    pointer-events:none;
+    transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+  }
+  .slide.active{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .slide.leaving{
+    opacity:0;
+    transform:translateY(-24px);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:22px; height:1px;
+    background:var(--accent);
+    display:inline-block;
+  }
+  h1,h2,h3{ font-family:var(--serif); font-weight:450; line-height:1.05; color:var(--cream);}
+  .slide-title{ font-size:clamp(28px,3.4vw,50px); font-weight:500; margin-bottom:.5em; max-width:16ch;}
+  .slide-sub{ font-family:var(--sans); font-size:clamp(14px,1.15vw,17px); color:var(--tan-mute); max-width:56ch; line-height:1.55; font-weight:400;}
+  .num-badge{
+    position:absolute; bottom:6vh; right:9vw;
+    font-family:var(--mono); font-size:13px; color:var(--muted);
+  }
+
+  /* ===== COVER ===== */
+  .cover{ justify-content:center; align-items:flex-start;}
+  .cover .kicker{ font-family:var(--mono); font-size:13px; letter-spacing:.12em; color:var(--tan-mute); margin-bottom:26px; text-transform:uppercase;}
+  .cover h1{ font-size:clamp(44px,7vw,96px); font-weight:450; max-width:14ch; margin-bottom:22px;}
+  .cover .sub{ font-family:var(--sans); font-size:clamp(15px,1.3vw,19px); color:var(--tan-mute); max-width:44ch; line-height:1.6; margin-bottom:40px;}
+  .cover .byline{ font-family:var(--mono); font-size:12.5px; color:var(--accent);}
+  .cover .orb{
+    position:absolute; top:-10vh; right:-8vw; width:44vw; height:44vw; border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, var(--accent-dark), transparent 70%);
+    opacity:.5; filter:blur(2px);
+  }
+
+  /* ===== ACT DIVIDER ===== */
+  .act-slide{ align-items:flex-start; justify-content:center; background:radial-gradient(ellipse at 20% 50%, var(--bg-raise), var(--bg-deep) 70%);}
+  .act-num{ font-family:var(--serif); font-style:italic; font-size:clamp(90px,13vw,190px); color:var(--accent-deep); line-height:.8; margin-bottom:6px; -webkit-text-stroke:1px var(--accent);}
+  .act-label{ font-family:var(--mono); font-size:13px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;}
+  .act-title{ font-size:clamp(34px,5vw,64px); font-weight:500; max-width:16ch; margin-bottom:16px;}
+  .act-sub{ font-family:var(--serif); font-style:italic; font-size:clamp(16px,1.5vw,22px); color:var(--tan-mute); max-width:40ch;}
+  .curtain{ position:absolute; inset:0; pointer-events:none; opacity:.5;
+    background:linear-gradient(90deg, var(--bg-deep) 0%, transparent 12%, transparent 88%, var(--bg-deep) 100%);}
+
+  /* ===== body content grid ===== */
+  .content-body{ display:flex; flex-direction:column; gap:26px; max-width:1400px;}
+  .grid{ display:grid; gap:18px;}
+  .g2{ grid-template-columns:1fr 1fr;}
+  .g3{ grid-template-columns:repeat(3,1fr);}
+  .g4{ grid-template-columns:repeat(4,1fr);}
+  .card{
+    background:var(--bg-raise);
+    border:1px solid rgba(246,241,231,0.08);
+    border-radius:4px;
+    padding:22px 24px;
+  }
+  .card.on-cream{ background:var(--tan); color:var(--bg-deep);}
+  .card.on-cream .card-h{ color:var(--accent-deep);}
+  .card.accent{ background:var(--accent-dark); color:var(--cream);}
+  .card.green{ background:var(--green); color:var(--cream);}
+  .card-h{ font-family:var(--sans); font-weight:600; font-size:15px; color:var(--accent); margin-bottom:8px;}
+  .card-body{ font-size:14.5px; line-height:1.55; color:var(--tan-mute);}
+  .card.on-cream .card-body{ color:var(--muted);}
+  .card.accent .card-body, .card.green .card-body{ color:var(--tan);}
+
+  /* stat */
+  .stat-num{ font-family:var(--serif); font-size:clamp(40px,5vw,72px); font-weight:500; color:var(--accent); line-height:1;}
+  .stat-label{ font-size:13.5px; color:var(--tan-mute); margin-top:8px; line-height:1.4;}
+
+  /* quote */
+  .quote-slide blockquote{ font-family:var(--serif); font-style:italic; font-size:clamp(22px,2.6vw,38px); line-height:1.35; color:var(--cream); max-width:22ch; margin-bottom:26px;}
+  .quote-cite{ font-family:var(--mono); font-size:12.5px; color:var(--accent);}
+  .quote-note{ margin-top:20px; font-size:14.5px; color:var(--tan-mute); max-width:50ch;}
+
+  /* cycle diagram */
+  .cycle-wrap{ position:relative; width:min(560px,60vh); height:min(560px,60vh); margin:0 auto;}
+  .cycle-center{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:118px; height:118px; border-radius:50%; background:var(--accent-deep); border:1px solid var(--accent); display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; padding:10px;}
+  .cycle-item{ position:absolute; width:190px; padding:14px 16px; background:var(--bg-raise); border:1px solid rgba(246,241,231,.1); border-radius:4px; font-size:13px; line-height:1.4; color:var(--tan-mute);}
+
+  /* choice two (spoiler) */
+  .choice-list{ display:flex; flex-direction:column; gap:14px; max-width:640px;}
+  .choice-item{ padding:16px 20px; border-radius:4px; font-family:var(--serif); font-style:italic; font-size:clamp(16px,1.6vw,21px);}
+  .choice-item.pos{ background:var(--green);}
+  .choice-item.neg{ background:var(--accent-dark);}
+  .choice-item.neutral{ background:var(--tan); color:var(--bg-deep); font-style:normal; font-family:var(--sans); font-weight:600;}
+
+  /* process numbered */
+  .proc-row{ display:flex; flex-direction:column; gap:10px; max-width:900px;}
+  .proc-step{ display:flex; gap:18px; align-items:flex-start; padding:12px 0; border-bottom:1px solid rgba(246,241,231,.08);}
+  .proc-step:last-child{ border-bottom:none;}
+  .proc-idx{ font-family:var(--serif); font-style:italic; font-size:26px; color:var(--accent); width:38px; flex-shrink:0;}
+  .proc-text{ font-size:14.5px; line-height:1.5; color:var(--tan-mute); padding-top:4px;}
+
+  /* table */
+  table.data-table{ width:100%; border-collapse:collapse; font-size:13.5px; max-width:1100px;}
+  table.data-table th{ text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); padding:10px 14px; border-bottom:1px solid var(--accent-dark);}
+  table.data-table td{ padding:10px 14px; border-bottom:1px solid rgba(246,241,231,.08); color:var(--tan-mute); line-height:1.4;}
+  table.data-table tr:hover td{ background:rgba(181,86,58,.08);}
+
+  /* case story */
+  .case-slide{ background:radial-gradient(ellipse at 80% 20%, var(--bg-raise), var(--bg-deep) 65%);}
+  .case-name{ font-family:var(--serif); font-size:clamp(30px,4vw,52px); font-weight:500; margin-bottom:20px;}
+  .case-monologue{ font-family:var(--serif); font-style:italic; font-size:clamp(16px,1.5vw,21px); line-height:1.7; max-width:52ch; color:var(--tan-mute);}
+  .case-tag{ font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:10px;}
+
+  .case-line{ font-family:var(--serif); font-style:italic; font-size:clamp(20px,2.2vw,32px); line-height:1.4; max-width:26ch; color:var(--cream);}
+
+  /* synth list */
+  .synth-list{ list-style:none; display:flex; flex-direction:column; gap:12px; max-width:820px;}
+  .synth-list li{ font-size:15.5px; line-height:1.55; color:var(--tan-mute); padding-left:26px; position:relative;}
+  .synth-list li::before{ content:'—'; position:absolute; left:0; color:var(--accent);}
+
+  /* icon grid simple dot */
+  .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block; margin-bottom:10px;}
+
+  /* concept icons + avatars */
+  .icon-wrap{ width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:14px; background:rgba(181,86,58,.14); color:var(--accent); flex-shrink:0;}
+  .card.on-cream .icon-wrap{ background:rgba(139,63,42,.12); color:var(--accent-deep);}
+  .icon-wrap svg{ width:19px; height:19px;}
+  .avatar-circle{ width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-size:24px; font-weight:500; color:var(--cream); margin-bottom:18px; border:1px solid rgba(246,241,231,.25);}
+
+  /* NAV */
+  #nav{
+    position:fixed; bottom:0; left:0; right:0; height:64px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 28px; z-index:50;
+    background:linear-gradient(0deg, var(--bg-deep) 40%, transparent);
+  }
+  .nav-btn{
+    width:40px; height:40px; border-radius:50%; border:1px solid rgba(246,241,231,.2);
+    background:transparent; color:var(--cream); cursor:pointer; font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s, border-color .2s;
+  }
+  .nav-btn:hover{ background:var(--accent-dark); border-color:var(--accent-dark);}
+  .nav-btn:disabled{ opacity:.25; cursor:default; background:none; border-color:rgba(246,241,231,.2);}
+  #progress-track{ flex:1; height:2px; background:rgba(246,241,231,.12); margin:0 22px; position:relative; border-radius:2px; overflow:hidden;}
+  #progress-fill{ position:absolute; left:0; top:0; bottom:0; background:var(--accent); width:0%; transition:width .4s;}
+  #act-indicator{ font-family:var(--mono); font-size:11.5px; color:var(--tan-mute); letter-spacing:.06em; white-space:nowrap;}
+  #slide-counter{ font-family:var(--mono); font-size:11.5px; color:var(--muted); white-space:nowrap; margin-left:18px;}
+
+  #act-rail{
+    position:fixed; top:0; right:0; height:100vh; width:5px;
+    display:flex; flex-direction:column; z-index:40;
+  }
+  .rail-seg{ flex:1; background:rgba(246,241,231,.08); margin-bottom:1px; transition:background .3s;}
+  .rail-seg.done{ background:var(--accent);}
+
+  @media (max-width:760px){
+    .g2,.g3,.g4{ grid-template-columns:1fr;}
+    .slide{ padding:9vh 6vw 12vh;}
+    .cycle-wrap{ display:none;}
+  }
+  ::selection{ background:var(--accent); color:var(--cream);}
+
+  /* ===== PRINT MODE — açık zemin, koyu metin, slaytlar alt alta akar ===== */
+  @media print{
+    :root{
+      --bg:#FFFFFF; --bg-deep:#FFFFFF; --bg-raise:#F6F1E7;
+      --accent:#8B3F2A; --accent-dark:#8B3F2A; --accent-deep:#5E2A1D;
+      --cream:#211A16; --tan:#FFFFFF; --tan-mute:#3A2F29; --muted:#6B6058;
+      --green:#3F5541; --green-light:#3F5541;
+    }
+    #nav, #act-rail{ display:none !important;}
+    html,body{ overflow:visible !important; background:#fff !important;}
+    #stage{ position:static; width:auto; height:auto; overflow:visible;}
+    .slide{
+      position:static !important; opacity:1 !important; transform:none !important;
+      pointer-events:auto !important; display:flex !important;
+      min-height:auto; padding:26px 6px 34px; page-break-after:always; break-after:page;
+      border-bottom:1px solid #ddd;
+    }
+    .cover, .act-slide, .case-slide{ min-height:90vh;}
+    .cycle-wrap{ height:560px;}
+    .curtain, .orb{ display:none !important;}
+    .card, table.data-table{ border:1px solid #ccc !important;}
+    .card.accent, .card.green{ border:1px solid #999 !important;}
+  }
+
+  /* Top Bar & Sec Rail */
+  #topBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: rgba(28, 22, 19, 0.96);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(237, 228, 211, 0.08);
+  }
+  .brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+  }
+  .brand-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(181, 86, 58, 0.3);
+  }
+  #sec-rail {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(237, 228, 211, 0.06);
+    z-index: 95;
+    display: block;
+    width: 100vw;
+  }
+  #sec-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--green-light));
+    width: 0%;
+    transition: width 0.25s ease;
+  }
+  #stage {
+    margin-top: 52px;
+  }
+  /* TOC Drawer */
+  #tocModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: none;
+    justify-content: flex-start;
+  }
+  #tocModal.open {
+    display: flex;
+  }
+  #tocDrawer {
+    width: 440px;
+    max-width: 90vw;
+    height: 100vh;
+    background: var(--bg-deep);
+    box-shadow: 4px 0 25px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    animation: slideInToc 0.2s ease-out;
+  }
+  @keyframes slideInToc {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+  #tocHeader {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(237, 228, 211, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  #tocList {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+  }
+  .toc-item {
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    background: var(--bg-raise);
+    border: 1px solid rgba(237, 228, 211, 0.06);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .toc-item:hover {
+    background: rgba(181, 86, 58, 0.15);
+    border-color: rgba(181, 86, 58, 0.3);
+  }
+  .toc-item.active {
+    border-left: 4px solid var(--accent);
+    background: rgba(181, 86, 58, 0.2);
+  }
+  .toc-item-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.35;
+  }
+  .toc-item-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+</style>
+</head>
+<body>
+<div id="topBar">
+  <div style="display:flex; align-items:center; gap:14px;">
+    <button id="tocBtn" style="padding:6px 14px;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;gap:7px;background:rgba(181,86,58,0.18);border:1px solid rgba(181,86,58,0.4);color:var(--cream);cursor:pointer;border-radius:6px;transition:all 0.15s ease;">
+      <span style="font-size:14px;">☰</span> <span>İçindekiler</span>
+    </button>
+    <div class="brand-badge">
+      <div class="brand-dot"></div>
+      <span>Diyetler İşe Yaramıyor Mu? · Popüler Diyetler</span>
+    </div>
+  </div>
+  <div id="topBarTopic" style="font-size:12px; font-weight:600; color:var(--tan); font-family:var(--mono); display:flex; align-items:center; gap:8px;">
+    <span style="background:rgba(181,86,58,0.25); color:var(--cream); font-weight:700; padding:3px 10px; border-radius:6px;">Giriş</span>
+  </div>
+</div>
+<div id="sec-rail" id="act-rail"><div id="sec-bar"></div></div>
+
+<div id="stage"></div>
+
+<div id="tocModal">
+  <div id="tocDrawer">
+    <div id="tocHeader">
+      <div style="font-weight:700; font-size:14px; color:var(--cream); display:flex; align-items:center; gap:8px;">
+        <span>📑</span> <span>İçindekiler & Tüm Slaytlar</span>
+      </div>
+      <button id="closeTocBtn" style="background:transparent; border:none; color:var(--muted); font-size:18px; cursor:pointer; padding:4px 8px; border-radius:4px; line-height:1;">✕</button>
+    </div>
+    <div id="tocList"></div>
+  </div>
+</div>
+
+<div id="nav">
+  <button class="nav-btn" id="prevBtn" aria-label="Önceki">←</button>
+  <div id="progress-track"><div id="progress-fill"></div></div>
+  <div id="act-indicator"></div>
+  <div id="slide-counter"></div>
+  <button class="nav-btn" id="nextBtn" aria-label="Sonraki">→</button>
+</div>
+
+<script>
+const ACTS = [
+  "Kısır Döngü","Vücut Ağırlığı Kaybının Fizyolojisi","Platoyu Yönetmek",
+  "Diyetler Neden Başarısız Olur?","Başarılı Bir Diyet Yok mu?","Vaka Örnekleri","Sonuç"
+];
+
+const SLIDES = [
+{type:'cover', kicker:'BES339 · Diyet İlkeleri ve Popüler Diyetler', title:'Diyetler İşe\nYaramıyor mu?', sub:'Vücut ağırlığı kaybının fizyolojisi, neden başarısız oluruz, kim başarır — ve gerçek hastalardan üç hikâye.', byline:'Arş. Gör. Dr. Caner Özyıldırım'},
+
+{type:'act', n:'01', act:0, title:'Kısır Döngü', sub:'Diyetler neden istatistiksel olarak çoğu zaman kaybediyor?'},
+
+{type:'choice', act:0, eyebrow:'Açılış', title:'Spoiler Alert', items:[
+  {t:'Her diyet başarılı olabilir.', cls:'pos'},
+  {t:'Tüm diyetler başarısız olabilir.', cls:'neg'},
+  {t:'Başarısızlığın sırrı: sadece kilo kaybına odaklanmak.', cls:'neutral'}
+]},
+
+{type:'quote', act:0, eyebrow:'1958 → Bugün', q:'Obeziteyle mücadele edenlerin çoğu tedavide kalmıyor. Kalanların çoğu kilo vermiyor, verenlerin de çoğu geri alıyor.', cite:'Albert Stunkard, The Management of Obesity — NY State J Med, 1958', note:"Bu satırlar 1958'de yazıldı. 65 yıl sonra hâlâ aynı gerçeği tartışıyoruz."},
+
+{type:'chart', act:0, eyebrow:"29 Uzun Dönem Çalışmanın Meta-Analizi", title:'Kaybedilen Kilo, Büyük Oranda Geri Kazanılıyor',
+  bars:[{label:'2 yıl', val:50},{label:'5 yıl', val:80}],
+  note:'Bariatrik cerrahide de benzer bir eğilim gösteren kanıtlar var — yani durum sadece diyetlere özgü değil.',
+  cite:'Anderson ve ark., Am J Clin Nutr. 2001;74(5):579–84. · Hall & Kahan, Med Clin North Am. 2018;102(1):183–97.'},
+
+{type:'cycle', act:0, eyebrow:'Neden Aynı Yere Dönüyoruz?', title:'Kısır Döngü', items:[
+  'Hızlı vücut ağırlığı kaybı (Negatif enerji dengesi)',
+  'Artmış iştah + Metabolizmada yavaşlama',
+  'Ağırlık kazanımı (Muhtemelen daha fazla yağ oranıyla)',
+  'Tedavi arayışında azalma',
+  'Kilo kaybının beyinde tehdit olarak algılanması',
+  'Başarısız kilo kaybı girişimleri',
+  'Diyetin boş bir çaba olarak görülmesi',
+  'Alternatiflere yöneliş'
+]},
+
+{type:'twoq', act:0, eyebrow:'Peki neden?', items:[
+  {n:'1', t:'Yanlış diyeti mi seçiyoruz?'},
+  {n:'2', t:'Yanlış yere mi odaklanıyoruz?'}
+]},
+
+{type:'act', n:'02', act:1, title:'Vücut Ağırlığı Kaybının Fizyolojisi', sub:"Vücut, kilo kaybına 30.000 yıllık bir hayatta kalma programıyla yanıt verir."},
+
+{type:'icon3', act:1, eyebrow:'Evrimsel Miras', title:"Vücut, Kilo Kaybını Neden 'Tehdit' Sayar?",
+  intro:'Memelilerde vücut ağırlığının azalması; açlık, artan metabolik verimlilik ve azalan enerji harcamasını içeren karmaşık bir tepkiyi tetikler — bunların hepsi yeniden kilo alımını destekler.',
+  items:[
+    {h:'Açlığa Karşı Korunmak', b:'', icon:'shield'},
+    {h:'Enerjinin Korunması', b:'', icon:'leaf'},
+    {h:'Üreme ve Emzirme İçin Yeterli Besin', b:'', icon:'seed'}
+  ],
+  note:"Son yüzyılda biriken kanıtlar, vücut ağırlığının — özellikle yağ dokusu kütlesinin — homeostatik bir sistem aracılığıyla korunduğunu gösteriyor."},
+
+{type:'process', act:1, eyebrow:'Açlıkta Metabolizma', title:'Yakıt Değişimi: Yağdan Ketona', intro:'Yağ, birincil enerji kaynağı olur; TG\'ler yıkılır, glukozu korumak için keton üretimi başlar.', steps:[
+  "Adipoz dokuda hormon-duyarlı lipaz artar, insülin azalır → serbest yağ asitleri açığa çıkar.",
+  "Yağ asitleri karaciğerde beta-oksidasyona uğrar, Asetil-CoA üretilir.",
+  "Krebs döngüsü kapasitesi aşıldığında ketogenez başlar: asetoasetat, β-hidroksibutirat, aseton.",
+  "Keton kullanımı glukoz ihtiyacını azaltır → protein yıkımı (ve iskelet kası) korunur."
+]},
+
+{type:'grid4', act:1, eyebrow:'Yağsız Kütleyi Korumaya Çalışan Sistem', title:'Kas Yıkımı: Hormonal Denge', items:[
+  {h:'Kortizol', b:'İskelet kasında proteolizi teşvik eder; ubikitin-proteazom ve lizozomal yollar glukoneogenez için amino asit sağlar.', cls:'accent'},
+  {h:'Büyüme Hormonu (GH)', b:"Lipolizi uyarır, kortizolün etkisini inhibe ederek kas proteini yıkımını azaltabilir.", cls:'green'},
+  {h:'Testosteron', b:'mTOR aktivasyonu yoluyla miyofibriler protein sentezini (MPS) uyarır, protein yıkımını azaltır.', cls:'accent'},
+  {h:'Östrojen', b:'Kasların insülin duyarlılığını düzenler, metabolik verimliliği destekleyerek kas dokusunu dolaylı korur.', cls:'green'}
+]},
+
+{type:'diagram-setpoint', act:1, eyebrow:'Set Point Theory', title:"Vücudun Savunduğu Bir Ayar Noktası mı Var?",
+  intro:"İnsan vücudunun, bir 'ayar noktasını' (set point) belirli bir ortamda savunacak şekilde hareket ettiği teorisi uzun süredir tartışılıyor.",
+  left:'Kilo vermek: çoğunlukla kolay.', right:'Verilen kiloyu geri almamak: çoğunlukla çok zor.',
+  note:"Metabolizma büyük kilo değişikliklerine 'karşı çalışır'; bu da sürekli kilo kaybını giderek zorlaştırır ve platoya girme ya da yeniden kilo alma eğilimine katkıda bulunur."},
+
+{type:'grid2', act:1, eyebrow:'Kanıt', title:'Set Point Bozulabilir mi?', items:[
+  {h:'Kemirgen Modelleri', b:'Lezzetli, enerji yoğun diyetler daha fazla kilo alımıyla sonuçlanıyor. Kalori kısıtlaması ağırlığı azaltabilir, ancak haftalarca yüksek yağlı diyetle beslenen hayvanlar başlangıç ağırlığını değil, daha yüksek bir ağırlığı savunuyor.'},
+  {h:'Pima Kızılderilileri', b:'RMR ve yağ oksidasyonu ailesel özellikler — kardeşler bu açıdan akraba olmayanlara göre daha benzer. Belirli bir ağırlık için düşük metabolik hız ve/veya düşük yağ oksidasyonu, kilo artışı için bağımsız bir risk faktörü.'}
+  ], note:"Beslenme tarzımız 'set point'imizi bozuyor olabilir!"},
+
+{type:'grid4', act:1, eyebrow:'Vücut Ağırlığı Kaybı Kişiden Kişiye Neden Farklı?', title:'4 Belirleyici Faktör', items:[
+  {h:'Vücut Kompozisyonu', b:'', icon:'body'},{h:'Dinlenme Metabolik Hızı', b:'', icon:'gauge'},{h:'Hormonlar', b:'', icon:'droplet'},{h:'Metabolik Verimlilik', b:'', icon:'spark'}
+  ], note:"Genetik farklılıklar, vücut ağırlığı değişkenliğinin %40-50'sine (obez bireylerde %60-80'ine) katkıda bulunuyor."},
+
+{type:'statsplit', act:1, eyebrow:'Ne Kaybediyoruz?', title:'Kaybedilen Kilonun İçinde Kas da Var',
+  stat:'~%25', statLabel:"Vücut ağırlığı kaybının ortalama yüzde kaçı yağsız kütleden gelir (her 10 kg'ın 2-3 kg'ı)",
+  body:["RMR ve Adaptif Termogenez — Kalori kısıtlaması BMR'de azalmayla sonuçlanır: T3 ve T4'te azalma, sempatik sinir sistemi aktivitesinde azalma, leptin seviyesinde azalma.",
+  "Ciddi enerji kısıtlamasında kas kaybı %39'a kadar çıkabilir. Normal vücut ağırlığındaki kişilerde bu oran %35'e kadar ulaşabilir. Yağ kütlesi fazla olanlarda kas kaybı orantılı olarak daha az olabilir.",
+  "RMR, BMR'ye çok benzer ama açlık halinde değilken ölçülür — indirekt kalorimetreyle ölçümü daha kolaydır."]},
+
+{type:'grid3', act:1, eyebrow:'Kanıt', title:'Metabolik Adaptasyon: Ne Kadar ve Ne Kadar Kalıcı?', items:[
+  {h:'CALERIE Çalışması', b:'2 yıldan uzun sürede ~9 kg kaybeden kişilerde, 2 yıl sonra ~100 kkal/gün metabolik adaptasyon.'},
+  {h:'%10 Kilo Kaybı Çalışması', b:'%10 vücut ağırlığı kaybı, ~350 kkal/gün metabolik adaptasyonla sonuçlandı.'},
+  {h:'The Biggest Loser', b:'RMR 700 kkal/gün azaldı — bu düşüş 6 yıl sonra bile kalıcıydı.'}
+  ], note:"Bir başka çalışmada: katılımcılar 7.3 kg kaybederken RMR 101 kkal/gün azaldı — bunun %60'ı doku kaybıyla, %40'ı gerçek metabolik adaptasyonla açıklandı."},
+
+{type:'grid2', act:1, eyebrow:'Bireysel Farklılıklar — Hafta 4 ile Bağlantılı', title:'Cimri (Thrifty) vs Savurgan (Spendthrift) Fenotip', items:[
+  {h:'Cimri (Thrifty)', b:'Açlıkta enerji harcaması ciddi düşer, aşırı beslenmede artış düşük kalır. Kilo alma riski yüksek, kilo verme kapasitesi düşük. 6 haftalık %50 kalori kısıtlaması çalışmasında: açlıkta EE\'si çok düşen cimri bireyler, diyet sırasında daha az kilo verdi.', cls:'accent'},
+  {h:'Savurgan (Spendthrift)', b:"Açlıkta enerji harcaması daha az düşer, aşırı beslenmede artış yüksek olur. Kilo kontrolü açısından avantajlı. Aynı çalışmada: EE'si açlıkta azalmayan savurgan bireyler, diyet sırasında daha fazla kilo kaybetti.", cls:'green'}
+]},
+
+{type:'grid2', act:1, eyebrow:'Beklenmedik Bir Fark Kaynağı', title:"Herkes Aynı Yemeği Aynı Şekilde 'Kullanmıyor'", items:[
+  {h:'Dışkıyla Enerji Kaybı: %2–10', b:"Bir bireyde günde 80 kkal (%2), başka bir bireyde 500 kkal (%10) dışkıyla kayboluyor. Bu fark, aynı miktarda yenmesine rağmen birinin diğerine göre günde 420 kkal daha az enerji depolaması anlamına gelir."},
+  {h:'Aşırı Beslenmede Zayıf Adaptasyon', b:'8 hafta boyunca %40 fazla enerji verilen bireylerde sadece 23 kkal/gün ekstra harcama gözlendi — en çok enerji harcayanlar en çok kilo alanlar oldu.'}
+  ], note:"Vücut fazla kaloriye anlamlı bir 'direnç' göstermiyor — kilo alımını enerji emilimi ve dışkılama farklılıkları daha iyi açıklıyor."},
+
+{type:'table', act:1, eyebrow:'Leptin Merkezi Bir Rol Oynuyor', title:'İştah Hormonları Kilo Kaybından Sonra Nasıl Değişir?',
+  cols:['Hormon','Ana İşlevi','Kilo Kaybı Sonrası Değişim'],
+  rows:[
+    ['Ghrelin','Açlık hormonu','↑ Artar — açlık hissi artar'],
+    ['Leptin','Tokluk / enerji dengesi','↓ Azalır — beyin enerji eksikliği hisseder'],
+    ['Peptid YY (PYY)','Tokluk sinyali','↓ Azalır — tokluk süresi kısalır'],
+    ['GLP-1','İnsülin uyarımı, tokluk','↓ Azalır — tokluk tepkisi kısalabilir'],
+    ['İnsülin','Kan şekeri, tokluk sinyali','↓ Azalır — glukoz kontrolü etkilenir'],
+    ['Adiponektin','İnsülin duyarlılığı','↑ Artar — olumlu metabolik gösterge'],
+    ['Kortizol','Stres hormonu','↑ Artabilir — stresle ilişkili yeme riski']
+  ], cite:'Nutrients 2025, 17, 1662'},
+
+{type:'grid2', act:1, eyebrow:'Homeostatik + Hedonik Yollar', title:'Beyin, Yeme Davranışını Nasıl Yönetir?', items:[
+  {h:'Prefrontal Korteks', b:'İrade kontrolü, planlama — azalan aktivite yeme kontrolünü zayıflatır.', icon:'hub'},
+  {h:'Striatum (Nucleus Accumbens)', b:'Gıda ödülüne hassasiyet — artan aktivite ödül-odaklı yemeyi artırır.', icon:'spark'},
+  {h:'Amigdala', b:"Stres yanıtı — kısıtlayıcı diyetler HPA aksını aktive edip 'comfort food' isteğini tetikler.", icon:'alert'},
+  {h:'Hipotalamus', b:'Homeostatik açlık-tokluk sinyallerinin ana entegrasyon merkezi.', icon:'target'}
+  ], grid4:true, cite:'Nutrients 2025, 17, 1662'},
+
+{type:'grid2', act:1, eyebrow:'12. Ay Dönüm Noktası', title:'Vücut Ağırlığı Kaybı ≠ Sürdürülmesi', items:[
+  {h:'Kilo kaybından sonraki süreçte müdahalelerimiz farklı mı olmalı?', b:"Vücut ağırlığı kaybı, genellikle 12. aydan itibaren 'plato' dönemine giriyor. Enerji alımı sürdürülemez hale gelip harcamayla çakışır düzeye çıkar. Her 1 kg kayıp, iştahta başlangıca göre ~95 kkal/gün'lük bir artışla ilişkilendiriliyor."},
+  {h:'Koruma fazı, kayıp fazından farklı bir strateji ister', b:'Kilo kaybını sürdürmek, kilo vermek için gerekenden nispeten daha küçük ama kalıcı bir enerji alımı düşüşü gerektirir. İştahı kontrol eden negatif geri bildirim güçlendiğinde, yüksek fiziksel aktivite seviyeleri kaybedilen kilonun korunmasıyla ilişkilenir.'}
+  ], cite:'Obesity (Silver Spring). 2021;29(Suppl 1):S9–S24.'},
+
+{type:'grid2', act:1, eyebrow:'Hücresel Direnç', title:'Çünkü Adipoz Doku Gitmek İstemiyor!', items:[
+  {h:'ECM Mekanik Stresi', b:'Yağ hücreleri küçülür ama ekstraselüler matriks kolayca adapte olamaz — bu mekanik stres lipolizi baskılar ve yeniden yağ birikimini tetikler.'},
+  {h:'Düşen Bazal Lipoliz', b:'Küçülen yağ hücreleri, büyük olanlara göre %30-50 daha az bazal lipoliz yapar — depolamaya daha hazır hale gelir.'},
+  {h:'Değişen Adipokin Profili', b:'İştahı artıran hormonlar artar, tokluk sağlayanlar azalır; kronik inflamasyon insülin direncini tetikler.'},
+  {h:'Yağ Hücresi Hafızası', b:"Hücre boyutu küçülür ama sayı aynı kalır (hiperplazi) — vücut adeta eski kiloyu 'hatırlar' ve geri dönmek ister."}
+  ], grid4:true},
+
+{type:'synth', act:1, eyebrow:'Ara Özet', title:'Kilo Vermek/Korumak Neden Bu Kadar Zor?', items:[
+  "Vücut, enerji harcamasının tüm bileşenlerini azaltıyor (kimilerinde 'cimrilik modu' aktive oluyor).",
+  "Enerji harcaması, kaybedilen ağırlığa kıyasla daha fazla azalıyor ve bu uzun süre kalıcı hale geliyor.",
+  "Homeostatik süreçler aktive olup iştah sinyalleri artıyor — vücut eski kilosuna dönme mekanizmalarını sürekli aktif tutuyor.",
+  "Kilo kaybı ile kiloyu korumak farklı fizyolojik süreçler — plato dönemi bunun sonucu.",
+  "Plato ile birlikte eskisine göre daha fazla çaba göstermek gerekebiliyor."
+]},
+
+{type:'act', n:'03', act:2, title:'Platoyu Yönetmek', sub:'Metabolik adaptasyonla nasıl çalışılır — direnç yerine strateji.'},
+
+{type:'grid2', act:2, eyebrow:'Strateji 1-2', title:'Diyet Araları ve Kalori Döngüsü', items:[
+  {h:'Diyete Ara Vermek', b:'Sıklık: Her 2-4 haftalık diyetten sonra 1-2 haftalık mola. Kalori: Hesaplananın 300-500 kkal üzerinde. Karbonhidrat artışı leptin duyarlılığını geri kazanmaya yardımcı olabilir. Süre: 7-14 gün; daha uzun aralar daha fazla metabolik fayda sağlayabilir.'},
+  {h:'Kalori ve Makro Döngüsü', b:'Haftada 1-2 gün planlı kalori artışı (kısıtlamanın %20-30 üzerinde), karbonhidrat vurgusuyla. Metabolik hızı korumaya ve sürekli kısıtlamanın psikolojik stresini azaltmaya yardımcı olabilir. Protein: 1.2-1.6 g/kg (kilo kaybında daha yüksek) — kas kütlesini ve metabolik hızı korur.'}
+]},
+
+{type:'grid2', act:2, eyebrow:'Tartışmalı Konu', title:'Kaçamak Öğün: Risk mi, Fırsat mı?', items:[
+  {h:'Risk', b:"#cheatmeal etiketli paylaşımlar genelde 1000-9000 kkal aralığında, katı kısıtlama ve egzersizle 'telafi edilen' öğünleri normalleştiriyor — bu, tıkanırcasına yeme/bulimia semptomlarına benzeyebilir ve 'abstinence violation effect' ile ilişkilendiriliyor.", cls:'accent', icon:'alert'},
+  {h:'Fırsat', b:"Planlı ve hedef odaklı algılandığında, kaçamak öğünler uzun diyetlerde 'zihinsel bir mola' işlevi görebilir — gıda isteklerini yönetmeye, sosyal uyuma ve kendi kendini düzenleme motivasyonuna yardımcı olabilir.", cls:'green', icon:'spark'}
+  ], cite:'https://doi.org/10.1093/nutrit/nuaf077'},
+
+{type:'statsplit', act:2, eyebrow:'Strateji 3 — Egzersiz', title:'Kilo Kaybı Sonrası Egzersiz Neden Kritik?',
+  stat:'%93.5', statLabel:'Direnç antrenmanının kalori kısıtlamasına bağlı kas kaybını önleyebildiği oran',
+  body:["Egzersiz Yapan vs Yapmayan — Daha yüksek enerji alımına rağmen vücut ağırlığı korunmuş. Ghrelin, leptin ve insülin düzeyleri daha dengeli. Egzersiz yapmayan grupta enerji harcaması azalmış → kilo geri alımı.",
+  "%10 kilo kaybı sonrası kaslar daha az enerjiyle daha çok iş yapar hale gelebilir.",
+  "Metabolik esneklik eğitimi (aerobik + anaerobik), yakıt kaynakları arasında geçiş becerisini geliştirir ve platoları aşmaya yardımcı olabilir."]},
+
+{type:'act', n:'04', act:3, title:'Diyetler Neden Başarısız Olur?', sub:'Fizyolojinin ötesinde: davranış, çevre ve kişilik.'},
+
+{type:'grid3', act:3, eyebrow:'Çok Boyutlu Bir Problem', title:'Fizyolojinin Ötesindeki Nedenler', items:[
+  {h:'Pratik Olmama', b:'Kısıtlayıcı/geçici diyetler yaşam tarzına odaklanmıyor; danışan cezalandırılmak için orada değil.'},
+  {h:'Psikolojik/Duygusal', b:'Duygusal yeme, stres, düşük beden imajı — kortizol yüksek kalorili yeme isteğini artırır.'},
+  {h:'Sosyoekonomik', b:'Sağlıklı gıdaya/güvenli fiziksel aktivite alanına sınırlı erişim; gerçekçi olmayan beden idealleri baskısı.'},
+  {h:'Çevresel', b:'Gıda bulunabilirliği, pazarlama, obezojenik ortamlar diyet uyumunu zayıflatır.'},
+  {h:'Uzun Vadeli Strateji Eksikliği', b:'Programlar kısa vadeli kilo kaybına odaklanır, koruma stratejisi içermez.'},
+  {h:'Sosyal Destek Eksikliği', b:'Motivasyon kaybı, hesap verebilirlik eksikliği, bilgi/deneyim paylaşımı eksikliği.'}
+]},
+
+{type:'grid2', act:3, eyebrow:'Davranışsal Dinamikler', title:'Diyet Döngüsü ve Diyetin Manipülasyonu', items:[
+  {h:'Diyet Döngüsü (Yo-Yo)', b:"Bir döngüden sonra aynı ağırlığa dönen kişi, öncekinden daha fazla yağa ve daha az kasa sahip olabilir — bu, o ağırlıkta daha düşük bir RMR anlamına gelir. Birden fazla döngüde, her kilo kaybı daha da zorlaşabilir. İlginç not: zayıf olduğu halde kilo vermeye uğraşanlarda, diyet sonrası yağ kazanımı obezlere kıyasla daha fazla olabiliyor."},
+  {h:'Diyetin Manipüle Edilmesi', b:"Verilenden daha az yemeye çalışmak · Gereksiz öğün atlamak · 'Kağıdı' saklayıp aklına geldikçe tekrar kullanmak · 'Ben normalde bu kadar yemiyordum.' İlk zamanlardaki aç hissetme, halsizlik, sinirlilik zamanla azalacaktır — danışanı bu önyargılara karşı hazırlamak önemli."}
+]},
+
+{type:'grid2', act:3, eyebrow:'Modern Yaşamın Baskısı', title:'Hız Çağı ve Diyet Yorgunluğu', items:[
+  {h:'Hız Çağı', b:'Diyetlerin günümüzün hızına adapte olması mümkün değil. Beslenme davranışını değiştirmek yavaş, uzun süren ve emek isteyen bir süreç — ama küçük değişiklikler uzun vadede anlamlı etkiler oluşturabilir.'},
+  {h:'Diyet Yorgunluğu (Diet Fatigue)', b:'Sürekli kısıtlama, zamanla uyum mekanizmalarını zayıflatır. Yiyecekle aşırı meşguliyet artar → obsesif kısıtlama → tıkınma riski. Aşırı kontrol çabası frontal korteks kaynaklarını tüketir → irade zayıflar.'}
+]},
+
+{type:'grid4', act:3, eyebrow:'NWCR Verisi', title:'Kişilik Özellikleri Başarıyı Belirleyebilir mi?', items:[
+  {h:'Sorumluluk Bilinci', b:'Kilo yönetiminin en sağlam kişilik korelasyonu (p=0.005). Sistematik öz-izlem, yapılandırılmış öğün planlamasına iyi yanıt verir.'},
+  {h:'Uyumluluk (Agreeableness)', b:'Sosyal destek kullanımı ve müdahaleye uyumla ilişkili — grup temelli yaklaşımlar etkili.'},
+  {h:'Nörotisizm', b:'Duygusal yeme, kaygı, kararsızlıkla ilişkili — net kurallar ve dışsal kontrol daha iyi çalışır.'},
+  {h:'Dışadönüklük', b:'Daha iyi sosyal destek ama sosyal yeme ortamlarına da daha açık olabilir.'}
+]},
+
+{type:'act', n:'05', act:4, title:'Başarılı Bir Diyet Yok mu?', sub:'Belki tek diyet yok, ama başarılı yaklaşımların ortak bir deseni var.'},
+
+{type:'grid2', act:4, eyebrow:'İki Farklı Model, İki Başarı Öyküsü', title:'Fin Diyabet Önleme Çalışması ve BROAD', items:[
+  {h:'Fin Diyabet Önleme Çalışması', b:"552 yetişkin, BKİ≥25, bozulmuş glukoz toleransı. Yoğun diyet+egzersiz+7 seans/yıl, süpermarket ziyaretleri, yemek pişirme dersleri, üç günlük yemek günlükleri. Sonuç: %58 azalmış diyabet insidansı (10 yılda) — örneklemin ~%40'ı ≥%5 kilo kaybını sürdürmüş."},
+  {h:'BROAD Çalışması', b:'65 fazla kilolu/obez yetişkin (KVH/diyabet riski). Düşük yağlı, bitki bazlı tam besinler vs standart bakım. Kalori sayımı yok. Haftada 2 kez destek. Sonuç: 12 ayda 11.5 kg vücut ağırlığı kaybı — kalori sayımı olmadan.'}
+]},
+
+{type:'synth', act:4, eyebrow:'Ortak Payda', title:'Başarılı Müdahalelerin Ortak Özellikleri', items:[
+  'Net hedefler.',
+  '≥6 ay boyunca yoğun görüşmeler ve takip — temas azaldığında yeniden kilo alımı yaygın.',
+  'Beceriye dayalı davranış değişikliği (kendini izleme, problem çözme).',
+  'Enerji yoğunluğunu azaltan, tokluğu artıran, minimal işlenmiş besinler.',
+  'Problem çözücü müdahaleler (geçici çok düşük kalorili diyetler, tazeleme ziyaretleri).',
+  'Düzenli fiziksel aktivite.'
+]},
+
+{type:'statsplit', act:4, eyebrow:'Yeni Yaklaşım', title:'AI Destekli Kişiselleştirme', statLabel:'25 genetik varyant, 42 metabolomik belirteç, 8 hormon ve davranışsal verileri birleştiren AI grubu',
+  stat:'%83.3', body:["AI grubu hekim grubuna göre %5.1 daha fazla kilo kaybı elde etti, %83.3'ü ≥%5 kayıp elde etti (hekim grubunda bu oran %53.3)."],
+  cite:'doi.org/10.1016/j.physbeh.2025.114813 · doi.org/10.1016/j.clnesp.2025.06.035'},
+
+{type:'grid4stat', act:4, eyebrow:'National Weight Control Registry — 4.000+ Yetişkin', title:'Kim Bu Kilo Vermeyi Başaranlar?',
+  intro:"Ortalama 30 kg vermiş ve minimum 13.6 kg'ı ortalama 5.5 yıl korumuş kişiler.",
+  items:[
+    {stat:'%78', b:'Düşük yağlı diyet, 5-9 porsiyon sebze/meyve'},
+    {stat:'%91', b:'Düzenli egzersiz yapıyor (en yaygın: yürüyüş)'},
+    {stat:'%62', b:'TV izlemeyi haftada 10 saatin altına indirmiş'},
+    {stat:'%83', b:'En az haftada 1 kez tartılıyor'},
+    {stat:'1300–1500 kkal', b:"Kilo kaybı için tıbbi/duygusal bir olay bildirmiş"},
+    {stat:'Her gün', b:'Kahvaltı yapıyorlar'}
+]},
+
+{type:'synth', act:4, eyebrow:'Psikolojik Belirleyiciler', title:'Öz Yeterlilik, Esneklik ve Motivasyon', items:[
+  'Öz yeterlilik: özellikle ilk 6 ayda yeme ve fiziksel aktivite konusunda kritik.',
+  'Bilişsel diyet kısıtlaması: besin alımını bilinçli kontrol etme — başarılı koruyucuları ayıran özellik.',
+  "'Ya hep ya hiç' yerine esnek düşünce: aksilikleri geçici sapma olarak görme, hemen devam etme.",
+  'Düşük depresyon / istikrarlı ruh hali: depresyon motivasyonu ve öz-bakımı olumsuz etkiler.',
+  'İçsel motivasyon (sağlık/esenlik için) dışsal baskıya göre daha güçlü uzun vadeli başarı öngörür.'
+]},
+
+{type:'grid2', act:4, eyebrow:'Dış Faktörler', title:'Sosyal Destek ve Program Tasarımı', items:[
+  {h:'Sosyal Destek', b:'Sağlıklı beslenme için arkadaş/iş arkadaşı desteği; fiziksel aktivite için aile desteği en etkili. Sağlık çalışanının önceki çabaları tanıması, başarı oranını %1.8 puan artırıyor.'},
+  {h:'Program Tasarımı', b:"Denetimli program + sosyal destek, bağlılık oranlarını %65 artırıyor. Programı tamamlama, başarı varyansının %20-30'unu oluşturuyor — en sağlam belirleyici. İlk 6 ayda ≥14 seans, 4 yıllık devamlılığı öngörüyor. Temas kesildiğinde kilo alımı tipik olarak 12-18 ay içinde hızlanıyor."}
+]},
+
+{type:'act', n:'06', act:5, title:'Vaka Örnekleri', sub:'Üç gerçek hasta profili — fizyolojiyi insan yüzüyle görmek.'},
+
+{type:'case-story', act:5, name:'Ayşe', tag:'Kendimi Artık Tanıyamıyorum', text:"Her zaman güçlü olmam gerektiğini düşünürüm. 92 kiloydum, bu kez başaracaktım. Sabah 5'te yürüyüşe çıktım, öğünlerimi saatine kadar planladım, haftalık 1.2 kilo verdim... ama sonra bir şeyler değişti. Artık sürekli yorgunum, eskiden tok hissettiğim öğünlerden sonra bile aç kalkıyorum. Tartı 1 kilo fazla gösterdiğinde ağladım. Diyet işe yarıyor mu bilmiyorum ama ben tükenmiş hissediyorum."},
+
+{type:'case-backstage', act:5, name:'Ayşe', mech:[
+  'Metabolik adaptasyon: RMR düşüşü, açlık hormonlarının artışı',
+  'Thrifty fenotip: yüksek enerji verimliliği, kilo kaybına direnç',
+  'Tartı bağımlılığı, gıda kontrol takıntısı, mükemmeliyetçilik'
+], interv:[
+  'Katı kısıtlama → esnek kısıtlama farkı',
+  "Yeme farkındalığı temelli, esnek enerji kontrollü diyet (80/20 prensibi)",
+  'Haftalık enerji hedefi, günlük değişebilir kalori alımı',
+  "Haftada 1 'plansız gün' — kaçamak = başarısızlık değil, sistemin parçası",
+  "Açlık-Tokluk Skalası günlüğü (1-10) + 'yemekten sonra ne hissettim?' günlüğü"
+]},
+
+{type:'case-quote', act:5, name:'Ayşe', line:"Yüzde 100'lük başarı hedefi yerine sürdürülebilir 80/20 planı yapalım."},
+
+{type:'case-story', act:5, name:'Emre', tag:'Hep Başlıyorum ama Hiç Bitiremiyorum', text:"Kaç kere başladım biliyor musunuz? Ketojenik, aralıklı açlık, çorba diyeti... hepsinde ilk hafta bomba gibi hissediyorum. Sonra bir iş stresi, bir gece uykusuzluk, gece 2'de pizza söylüyorum. 10 kilo verdim, 13 geri aldım. Bende bir sorun var mı? İrade eksikliği mi, karakter zayıflığı mı? Diyetisyenler liste veriyor ama ben liste değil, kendimi anlamak istiyorum."},
+
+{type:'case-backstage', act:5, name:'Emre', mech:[
+  'Weight cycling (yo-yo diyeti)',
+  'Stres kaynaklı nörolojik tetikleyiciler (amigdala-prefrontal denge)',
+  'Diyet sonrası homeostatik rebound (ghrelin↑, leptin↓)',
+  'Duygusal yeme, impulsivite, düşük öz düzenleme',
+  'Ödül sistemi hipersensitivitesi (dopamin devresi)'
+], interv:[
+  'Düşük hedef baskılı, sık ama küçük başarılarla şekillenen diyet',
+  "Önce 'yeme düzeni' (saatler) → sonra 'yemek içeriği'",
+  'Güvenli ama doyurucu gıdalarla başlangıç (sütlü kahve, tahıllı sandviç, mercimek çorbası)',
+  "'Stres-açlık-yeme' günlüğü + yemek krizine alternatif davranış listesi (müzik, 10 dk yürüyüş)"
+]},
+
+{type:'case-quote', act:5, name:'Emre', line:"Bugüne kadar diyetlerde başarısız olmadın, sadece sana uygun olmayan yöntemlerde ısrar ettin."},
+
+{type:'case-story', act:5, name:'Zeynep', tag:'Beni Böyle Kabul Ettiler', text:"Lisede çok zorbalığa uğradım, 'tombik' denildi bana. O gün karar verdim: zayıf olacaktım. Günde 1000 kaloriyi geçmemeye çalıştım. Zayıfladım, beni o halimle beğendiler. Ama şimdi o kiloyu korumak hayatımın merkezine oturdu. Saçlarım dökülüyor, reglim 4 aydır yok. Bazen 'bir gün her şeyi bırakıp doyana kadar yemek istiyorum' diyorum, sonra o düşünce beni korkutuyor. Kilo alırsam kimliğimi kaybedecekmişim gibi hissediyorum."},
+
+{type:'case-backstage', act:5, name:'Zeynep', mech:[
+  'RED-S (Relative Energy Deficiency in Sport) / enerji yetersizlik sendromu',
+  'Yeme bozukluğu riski — atipik AN, ortoreksiya eğilimleri',
+  'Sosyal onay ihtiyacı, öz değer = beden algısı',
+  'Hedonik vs. homeostatik açlık ayrımının bozulması',
+  'Kronik restriksiyonun mental etkileri'
+], interv:[
+  'Enerji yeterli, işlevsel beslenme odaklı plan (estetik değil sağlık hedefi)',
+  'Günlük protein ve enerji alımı alt limitleri mutlaka korunmalı',
+  "'Sosyal yeme pratiği' içeren öğünler (kendi hazırlamadığı yemeği tüketme)",
+  "'Yemekle ilişkim' günlüğü + 1 dışarı öğünü planlaması (menü → tatmin → suçluluk analizi)"
+]},
+
+{type:'case-quote', act:5, name:'Zeynep', line:"Bedenin senden performans, enerji, iyilik istiyor; tartıdaki sayı değil."},
+
+{type:'act', n:'07', act:6, title:'Sonuç', sub:'Fizyolojiden hikâyeye, hikâyeden pratiğe.'},
+
+{type:'grid2', act:6, eyebrow:'Klinik Pratiğe Dönüş', title:'Diyetisyenler Ne Yapabilir?', items:[
+  {h:'Fizyolojiyi danışana anlat', b:"Metabolik adaptasyonu, iştah hormonlarını bilen danışan kendini 'iradesiz' hissetmeyi bırakır.", icon:'speech'},
+  {h:'Gerçekçi hedef belirle', b:'Plato 12. ayda beklenir — bu bir başarısızlık değil, fizyolojinin bir parçası.', icon:'target'},
+  {h:'Kişiliğe göre uyarla', b:'Yüksek sorumluluk bilinci → yapılandırılmış takip; düşük sorumluluk → basitleştirilmiş dışsal yapı.', icon:'puzzle'},
+  {h:'Danışanı yargılamadan dinle', b:'Danışan cezalandırılmak için orada değil — diyet manipülasyonu bir işbirliği eksikliği sinyalidir.', icon:'ear'},
+  {h:'Koruma fazını aktif planla', b:'Kilo kaybı ile kiloyu korumak farklı süreçler — ikincisi için ayrı bir strateji gerekir.', icon:'shield'}
+  ], grid5:true},
+
+{type:'closer', title:'Diyetler İşe Yaramıyor mu?', lines:[
+  'İdeal diyet hangisidir? Bilmiyoruz.',
+  'Doğru olanın sağlıklı beslenme ve yaşam tarzı değişikliği olduğuna hemfikir gibiyiz.',
+  "Başarılı kilo kaybı, yalnızca kalori açığı yaratmak değil; bireyin nörometabolik profiline uygun, beyniyle uyumlu bir yaşam tarzı kurmaktır.",
+  'Diyetisyen, birçok disiplinden bilgiyi kullanabilen dinamik bir rehber olmalıdır.'
+]}
+];
+
+/* ================= RENDERERS ================= */
+function esc(s){ return s; }
+
+const ICONS = {
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6z" stroke-linejoin="round"/></svg>',
+  leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 19c8-1 13-6 14-14-8 1-13 6-14 14Z" stroke-linejoin="round"/><path d="M6 18c2-4 5-7 9-9"/></svg>',
+  seed: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="13" rx="5" ry="7"/><path d="M12 6c0-2 1.5-3.5 3-4"/></svg>',
+  body: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="5" r="2.4"/><path d="M7 21l2-8-2-4h10l-2 4 2 8M9 13h6"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.4-9.5-9C1 7.6 3 4.5 6.4 4.5c2 0 3.6 1.2 5.6 3.5 2-2.3 3.6-3.5 5.6-3.5C21 4.5 23 7.6 21.5 11c-2.5 4.6-9.5 9-9.5 9Z" stroke-linejoin="round"/></svg>',
+  droplet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c4 5 7 8.5 7 12a7 7 0 1 1-14 0c0-3.5 3-7 7-12Z" stroke-linejoin="round"/></svg>',
+  gauge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 15a8 8 0 1 1 16 0"/><path d="M12 15l4-5"/><circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/></svg>',
+  target: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor" stroke="none"/></svg>',
+  spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 3 5 14h6l-1 7 8-11h-6l1-7Z" stroke-linejoin="round"/></svg>',
+  alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 4 3 20h18Z" stroke-linejoin="round"/><path d="M12 10v4"/><circle cx="12" cy="17" r="0.8" fill="currentColor" stroke="none"/></svg>',
+  hub: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="4" r="1.6"/><circle cx="5" cy="18" r="1.6"/><circle cx="19" cy="18" r="1.6"/><path d="M12 7v2M9.8 13.5l-3.5 3M14.2 13.5l3.5 3"/></svg>',
+  speech: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v11H9l-4 4V5Z" stroke-linejoin="round"/></svg>',
+  puzzle: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 4h4v2.2a1.6 1.6 0 0 0 3 0V4h4v4h-2.2a1.6 1.6 0 0 0 0 3H20v4h-4v-2.2a1.6 1.6 0 0 0-3 0V15H9v-4H6.8a1.6 1.6 0 0 1 0-3H9V4Z" stroke-linejoin="round"/></svg>',
+  ear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 14c0 4 3 6 5 6s4-1.5 4-4-1.5-3-1.5-5A5.5 5.5 0 1 0 5 11c0 1.5 1 2 1 3.5" stroke-linejoin="round"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>'
+};
+function icon(name){ return `<div class="icon-wrap">${ICONS[name]||''}</div>`; }
+function avatar(letter, color){ return `<div class="avatar-circle" style="background:${color};">${letter}</div>`; }
+
+function renderCover(s){
+  return `<div class="slide cover" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;"><div class="orb"></div>
+    <div style="margin-bottom:24px; text-align:center;">
+      <img src="../../../Files/Saglik-Bilimleri-Fakultesi-2.png" alt="Sağlık Bilimleri Fakültesi Logosu" style="height:105px; max-width:320px; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3));">
+    </div>
+    <div class="kicker" style="text-align:center;">${s.kicker}</div>
+    <h1 style="text-align:center; margin:0 auto 16px; max-width:20ch;">${s.title.replace('\n','<br>')}</h1>
+    <div class="sub" style="text-align:center; margin:0 auto 20px; max-width:56ch; line-height:1.55;">${s.sub}</div>
+    
+        <div style="margin: 22px auto 0; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;">
+          <div style="font-size: 14.5px; font-weight: 700; color: var(--cream); background: rgba(181,86,58,0.22); border: 1px solid rgba(181,86,58,0.45); padding: 7px 22px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px;">
+            <span>👨‍🏫</span> <span>Ders Sorumlusu: Dr. Arş. Gör. Caner ÖZYILDIRIM</span>
+          </div>
+          <div style="font-size: 13px; font-weight: 600; color: var(--tan); letter-spacing: 0.02em;">
+            Beslenme ve Diyetetik Bölümü
+          </div>
+        </div>
+        <div style="margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+          <a href="https://canerozy.com" target="_blank" style="text-decoration: none; font-size: 12.5px; font-weight: 600; color: var(--cream); background: rgba(181,86,58,0.22); border: 1px solid rgba(181,86,58,0.45); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+            <span>🌐</span> <span>canerozy.com</span>
+          </a>
+          <a href="https://instagram.com/canerozy" target="_blank" style="text-decoration: none; font-size: 12.5px; font-weight: 600; color: #E1306C; background: rgba(225,48,108,0.08); border: 1px solid rgba(225,48,108,0.25); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+            <span>📸</span> <span>@canerozy</span>
+          </a>
+        </div>
+
+  </div>`;
+}
+
+function renderAct(s){
+  return `<div class="slide act-slide"><div class="curtain"></div>
+    <div class="act-num">${s.n}</div>
+    <div class="act-label">Perde ${s.n}</div>
+    <h2 class="act-title">${s.title}</h2>
+    <div class="act-sub">${s.sub}</div></div>`;
+}
+function eyebrowTitle(s){
+  return `<div class="eyebrow">${s.eyebrow||''}</div><h2 class="slide-title">${s.title||''}</h2>`;
+}
+function renderChoice(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="choice-list">${s.items.map(i=>`<div class="choice-item ${i.cls}">${i.t}</div>`).join('')}</div></div>`;
+}
+function renderQuote(s){
+  return `<div class="slide quote-slide">${s.eyebrow?`<div class="eyebrow">${s.eyebrow}</div>`:''}
+    <blockquote>"${s.q}"</blockquote>
+    <div class="quote-cite">${s.cite}</div>
+    <div class="quote-note">${s.note||''}</div></div>`;
+}
+function renderChart(s){
+  const max = Math.max(...s.bars.map(b=>b.val));
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div style="display:flex; gap:60px; align-items:flex-end; height:220px; margin:20px 0 30px;">
+    ${s.bars.map(b=>`<div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+      <div style="font-family:var(--mono); color:var(--accent); font-size:14px;">${b.val}%</div>
+      <div style="width:70px; height:${(b.val/max)*160}px; background:var(--accent-dark); border-radius:3px 3px 0 0;"></div>
+      <div style="font-size:13px; color:var(--tan-mute);">${b.label}</div></div>`).join('')}
+  </div>
+  <div class="slide-sub">${s.note}</div>
+  <div class="quote-cite" style="margin-top:14px;">${s.cite}</div></div>`;
+}
+function renderCycle(s){
+  const angleStep = 360/s.items.length;
+  const radius = 220;
+  let items = s.items.map((t,i)=>{
+    const angle = (angleStep*i - 90) * Math.PI/180;
+    const x = Math.cos(angle)*radius, y = Math.sin(angle)*radius;
+    return `<div class="cycle-item" style="top:calc(50% + ${y}px - 40px); left:calc(50% + ${x}px - 95px);">${t}</div>`;
+  }).join('');
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="cycle-wrap">${items}<div class="cycle-center">DÖNGÜ</div></div></div>`;
+}
+function renderTwoQ(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="grid g2" style="max-width:700px;">
+  ${s.items.map(i=>`<div class="card"><div class="stat-num">${i.n}</div><div class="card-body" style="margin-top:10px; font-size:16px; color:var(--cream);">${i.t}</div></div>`).join('')}
+  </div></div>`;
+}
+function renderIcon3(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="slide-sub" style="margin-bottom:20px;">${s.intro}</div>
+  <div class="grid g3">${s.items.map(i=>`<div class="card on-cream">${i.icon?icon(i.icon):'<div class="dot"></div>'}<div class="card-h" style="color:var(--accent-deep);">${i.h}</div></div>`).join('')}</div>
+  <div class="slide-sub" style="margin-top:22px;">${s.note||''}</div></div>`;
+}
+function renderProcess(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="slide-sub" style="margin-bottom:18px;">${s.intro}</div>
+  <div class="proc-row">${s.steps.map((t,i)=>`<div class="proc-step"><div class="proc-idx">${i+1}</div><div class="proc-text">${t}</div></div>`).join('')}</div></div>`;
+}
+function renderGrid(s, cols){
+  const cls = cols===4?'g4':cols===3?'g3':'g2';
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="grid ${cls}">${s.items.map(i=>`<div class="card ${i.cls||''}">${i.icon?icon(i.icon):''}<div class="card-h">${i.h}</div>${i.b?`<div class="card-body">${i.b}</div>`:''}</div>`).join('')}</div>
+  ${s.note?`<div class="slide-sub" style="margin-top:20px;">${s.note}</div>`:''}
+  ${s.cite?`<div class="quote-cite" style="margin-top:14px;">${s.cite}</div>`:''}</div>`;
+}
+function renderDiagramSetpoint(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="slide-sub" style="margin-bottom:22px;">${s.intro}</div>
+  <div style="display:flex; align-items:center; gap:30px; max-width:900px;">
+    <div class="card accent" style="flex:1;"><div class="card-body" style="color:var(--tan);">${s.left}</div></div>
+    <div style="width:110px; height:110px; border-radius:50%; border:2px dashed var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; text-align:center; flex-shrink:0; color:var(--accent);">SET<br>POINT</div>
+    <div class="card green" style="flex:1;"><div class="card-body" style="color:var(--tan);">${s.right}</div></div>
+  </div>
+  <div class="slide-sub" style="margin-top:22px;">${s.note}</div></div>`;
+}
+function renderTable(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <table class="data-table"><thead><tr>${s.cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
+  <tbody>${s.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>
+  ${s.cite?`<div class="quote-cite" style="margin-top:14px;">${s.cite}</div>`:''}</div>`;
+}
+function renderStatSplit(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div style="display:flex; gap:50px; align-items:flex-start; flex-wrap:wrap;">
+    <div style="min-width:220px;"><div class="stat-num">${s.stat}</div><div class="stat-label">${s.statLabel}</div></div>
+    <div style="flex:1; min-width:320px; display:flex; flex-direction:column; gap:14px;">
+      ${s.body.map(b=>`<div class="card-body" style="color:var(--tan-mute); font-size:14.5px;">${b}</div>`).join('')}
+    </div>
+  </div>${s.cite?`<div class="quote-cite" style="margin-top:16px;">${s.cite}</div>`:''}</div>`;
+}
+function renderGrid4Stat(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <div class="slide-sub" style="margin-bottom:20px;">${s.intro}</div>
+  <div class="grid g3">${s.items.map(i=>`<div class="card"><div class="stat-num" style="font-size:34px;">${i.stat}</div><div class="stat-label">${i.b}</div></div>`).join('')}</div></div>`;
+}
+function renderSynth(s){
+  return `<div class="slide">${eyebrowTitle(s)}
+  <ul class="synth-list">${s.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+}
+function renderCaseStory(s){
+  const colors = {'Ayşe':'var(--accent-dark)','Emre':'var(--green)','Zeynep':'var(--accent-deep)'};
+  return `<div class="slide case-slide"><div class="case-tag">Vaka</div>
+  ${avatar(s.name[0], colors[s.name]||'var(--accent-dark)')}
+  <h2 class="case-name">${s.name}: ${s.tag}</h2>
+  <div class="case-monologue">"${s.text}"</div></div>`;
+}
+function renderCaseBackstage(s){
+  return `<div class="slide"><div class="eyebrow">${s.name} — Perde Arkası</div><h2 class="slide-title">Ne Oluyor, Ne Yapılabilir?</h2>
+  <div class="grid g2">
+    <div><div class="card-h" style="margin-bottom:12px;">Mekanizma</div>
+      <ul class="synth-list">${s.mech.map(m=>`<li>${m}</li>`).join('')}</ul></div>
+    <div><div class="card-h" style="margin-bottom:12px; color:var(--green-light);">Müdahale</div>
+      <ul class="synth-list" style="--dot:var(--green);">${s.interv.map(m=>`<li style="--c:var(--green);">${m}</li>`).join('')}</ul></div>
+  </div></div>`;
+}
+function renderCaseQuote(s){
+  return `<div class="slide case-slide"><div class="case-tag">${s.name} — Danışanla Konuşma</div>
+  <div class="case-line">"${s.line}"</div></div>`;
+}
+function renderCloser(s){
+  return `<div class="slide"><h1 style="font-size:clamp(30px,4vw,54px); margin-bottom:30px;">${s.title}</h1>
+  <div style="display:flex; flex-direction:column; gap:16px; max-width:60ch;">
+  ${s.lines.map((l,i)=>`<div style="font-family:var(--serif); font-size:${i===3?'20px':'16px'}; font-style:${i>=2?'italic':'normal'}; color:${i===0?'var(--accent)':'var(--tan-mute)'}; line-height:1.5;">${l}</div>`).join('')}
+  </div></div>`;
+}
+
+function renderSlide(s, idx){
+  let html='';
+  switch(s.type){
+    case 'cover': html=renderCover(s); break;
+    case 'act': html=renderAct(s); break;
+    case 'choice': html=renderChoice(s); break;
+    case 'quote': html=renderQuote(s); break;
+    case 'chart': html=renderChart(s); break;
+    case 'cycle': html=renderCycle(s); break;
+    case 'twoq': html=renderTwoQ(s); break;
+    case 'icon3': html=renderIcon3(s); break;
+    case 'process': html=renderProcess(s); break;
+    case 'grid2': html=renderGrid(s, s.grid4?4:2); break;
+    case 'grid3': html=renderGrid(s,3); break;
+    case 'grid4': html=renderGrid(s,4); break;
+    case 'diagram-setpoint': html=renderDiagramSetpoint(s); break;
+    case 'table': html=renderTable(s); break;
+    case 'statsplit': html=renderStatSplit(s); break;
+    case 'grid4stat': html=renderGrid4Stat(s); break;
+    case 'synth': html=renderSynth(s); break;
+    case 'case-story': html=renderCaseStory(s); break;
+    case 'case-backstage': html=renderCaseBackstage(s); break;
+    case 'case-quote': html=renderCaseQuote(s); break;
+    case 'closer': html=renderCloser(s); break;
+    default: html=`<div class="slide"><div>${JSON.stringify(s)}</div></div>`;
+  }
+  return html;
+}
+
+/* ================= APP ================= */
+const stage = document.getElementById('stage');
+let current = 0;
+const total = SLIDES.length;
+
+SLIDES.forEach((s,i)=>{
+  const wrap = document.createElement('div');
+  wrap.innerHTML = renderSlide(s,i);
+  const el = wrap.firstElementChild;
+  el.dataset.idx = i;
+  stage.appendChild(el);
+});
+
+const allSlideEls = Array.from(stage.children);
+
+// build act rail
+const rail = document.getElementById('act-rail') || document.getElementById('sec-rail');
+const railSegs = [];
+if(rail){ allSlideEls.forEach(()=>{ const seg=document.createElement('div'); seg.className='rail-seg'; rail.appendChild(seg); railSegs.push(seg); }); }
+
+function go(idx, dir){
+  if(idx<0||idx>=total) return;
+  const prevEl = allSlideEls[current];
+  const nextEl = allSlideEls[idx];
+  if(prevEl) { prevEl.classList.remove('active'); }
+  nextEl.classList.add('active');
+  current = idx;
+  update();
+}
+function update(){
+  document.getElementById('prevBtn').disabled = current===0;
+  document.getElementById('nextBtn').disabled = current===total-1;
+  const pct = ((current)/(total-1)*100)+'%';
+  document.getElementById('progress-fill').style.width = pct;
+  const secBar = document.getElementById('sec-bar');
+  if (secBar) secBar.style.width = pct;
+  const s = SLIDES[current];
+  const actLabel = (s.act!==undefined) ? `PERDE ${['I','II','III','IV','V','VI','VII'][s.act]}: ${ACTS[s.act]}` : (s.type==='cover'?'GİRİŞ & KAPAK':'SONUÇ');
+  document.getElementById('act-indicator').textContent = actLabel;
+  const topTopic = document.getElementById('topBarTopic');
+  if (topTopic) topTopic.innerHTML = `<span style="background:rgba(181,86,58,0.25); color:var(--cream); font-weight:700; padding:3px 10px; border-radius:6px;">${actLabel}</span>`;
+  document.getElementById('slide-counter').textContent = (current+1)+' / '+total;
+}
+
+// TOC Drawer Controls
+const tocBtn = document.getElementById('tocBtn');
+const closeTocBtn = document.getElementById('closeTocBtn');
+const tocModal = document.getElementById('tocModal');
+const tocList = document.getElementById('tocList');
+
+function openToc(){
+  let html = "";
+  let currentAct = null;
+  SLIDES.forEach((s, idx) => {
+    const actHeader = (s.act !== undefined) ? `PERDE ${['I','II','III','IV','V','VI','VII'][s.act]}: ${ACTS[s.act]}` : (s.type === 'cover' ? 'GİRİŞ & KAPAK' : 'SONUÇ');
+    if (actHeader !== currentAct){
+      currentAct = actHeader;
+      html += `<div style="font-family:var(--mono); font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; margin:16px 0 6px; padding:5px 10px; background:rgba(181,86,58,0.15); border-radius:6px; letter-spacing:0.04em;">${currentAct}</div>`;
+    }
+    const isActive = current === idx;
+    const title = s.title || s.q || s.h || (s.type === 'cover' ? 'Kapak Slaytı' : `Slayt ${idx + 1}`);
+    const sub = s.sub || s.kicker || s.eyebrow || '';
+    html += `<div class="toc-item ${isActive ? 'active' : ''}" onclick="go(${idx}); closeToc();">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+        <div class="toc-item-title">${idx + 1}. ${title.replace(/<[^>]+>/g, ' ')}</div>
+        <span style="font-size:9.5px; background:rgba(181,86,58,0.2); color:var(--cream); padding:2px 6px; border-radius:4px; font-weight:600; flex-shrink:0;">${s.type || 'slayt'}</span>
+      </div>
+      ${sub ? `<div class="toc-item-sub">${sub.replace(/<[^>]+>/g, ' ')}</div>` : ''}
+    </div>`;
+  });
+  tocList.innerHTML = html;
+  tocModal.classList.add('open');
+  setTimeout(() => {
+    const activeEl = tocList.querySelector('.toc-item.active');
+    if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, 50);
+}
+
+function closeToc(){
+  tocModal.classList.remove('open');
+}
+
+if (tocBtn) tocBtn.addEventListener('click', openToc);
+if (closeTocBtn) closeTocBtn.addEventListener('click', closeToc);
+if (tocModal) {
+  tocModal.addEventListener('click', e => {
+    if (e.target === tocModal) closeToc();
+  });
+}
+document.getElementById('nextBtn').addEventListener('click',()=>go(current+1));
+document.getElementById('prevBtn').addEventListener('click',()=>go(current-1));
+window.addEventListener('keydown', e=>{
+  if(['ArrowRight','PageDown',' '].includes(e.key)){ e.preventDefault(); go(current+1); }
+  if(['ArrowLeft','PageUp'].includes(e.key)){ e.preventDefault(); go(current-1); }
+  if(e.key==='Escape'){ closeToc(); }
+});
+let touchX=null;
+window.addEventListener('touchstart', e=>{ touchX=e.touches[0].clientX; });
+window.addEventListener('touchend', e=>{
+  if(touchX===null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if(Math.abs(dx)>50){ dx<0 ? go(current+1) : go(current-1); }
+  touchX=null;
+});
+
+go(0);
+</script>
+</body>
+</html>

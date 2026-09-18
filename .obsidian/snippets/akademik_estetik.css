@@ -1,0 +1,462 @@
+/*
+ * Tema: Academic Workstation v2
+ * Vault: Caner Özyıldırım
+ * Özellikler:
+ *   - Hover kontrast sorunu giderildi (beyaz metin üstüne beyaz yok)
+ *   - Vault paneli: kalın klasörler, renkli kategorik border
+ *   - Renkli, dinamik başlıklar
+ *   - Temiz tablolar, pill properties
+ *   - Aktif not vurgusu güçlendirildi
+ */
+
+/* ============================================================
+   1. KÖK DEĞİŞKENLER
+   ============================================================ */
+:root {
+  /* Ana renkler */
+  --co-gold:       #C5A059;
+  --co-gold-dark:  #A07830;
+  --co-blue:       #4A90D9;
+  --co-blue-dark:  #2F6EA8;
+  --co-orange:     #E8724A;
+  --co-green:      #5BAD7A;
+  --co-purple:     #9B6BB5;
+  --co-yellow:     #D4AF37;
+  --co-red:        #E84A4A;
+
+  /* Arka planlar */
+  --co-bg:         #FAF8F5;
+  --co-bg2:        #F0EBE1;
+  --co-bg3:        #E8E0D5;
+
+  /* Metin */
+  --co-text:       #1A2A3A;
+  --co-text-muted: #50667C;
+  --co-text-light: #8899AA;
+
+  /* Font */
+  --co-serif: 'Playfair Display', 'Lora', Georgia, serif;
+  --co-sans:  'Inter', 'Segoe UI', system-ui, sans-serif;
+  --co-mono:  'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ============================================================
+   2. LIGHT THEME ENTEGRASYONU
+   ============================================================ */
+.theme-light {
+  --background-primary:           var(--co-bg);
+  --background-primary-alt:       var(--co-bg2);
+  --background-secondary:         var(--co-bg2);
+  --background-secondary-alt:     var(--co-bg3);
+  --background-modifier-hover:    rgba(74, 144, 217, 0.08);
+  --background-modifier-active-hover: rgba(74, 144, 217, 0.15);
+  --text-normal:                  var(--co-text);
+  --text-muted:                   var(--co-text-muted);
+  --text-faint:                   var(--co-text-light);
+  --text-accent:                  var(--co-gold);
+  --text-accent-hover:            var(--co-gold-dark);
+  --text-on-accent:               #FFFFFF;
+  --interactive-accent:           var(--co-blue);
+  --interactive-accent-hover:     var(--co-blue-dark);
+}
+
+/* ============================================================
+   3. VAULT PANEL (File Explorer)
+   ============================================================ */
+
+/* Genel nav item */
+.nav-folder-title,
+.nav-file-title {
+  padding: 5px 10px 5px 12px !important;
+  border-radius: 6px !important;
+  transition: background 0.15s ease, color 0.15s ease !important;
+  color: var(--co-text-muted) !important;
+  font-size: 0.88em !important;
+}
+
+/* HOVER — kontrast sorunu burada çözülüyor */
+.nav-folder-title:hover,
+.nav-file-title:hover {
+  background: rgba(74, 144, 217, 0.10) !important;
+  color: var(--co-text) !important;        /* asla beyaz üstüne beyaz olmayacak */
+}
+
+/* AKTİF dosya */
+.nav-file-title.is-active {
+  background: var(--co-blue) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+}
+
+.nav-file-title.is-active:hover {
+  background: var(--co-blue-dark) !important;
+  color: #FFFFFF !important;
+}
+
+/* Klasör başlıkları — kalın */
+.nav-folder-title {
+  font-weight: 700 !important;
+  font-size: 0.9em !important;
+  letter-spacing: 0.2px !important;
+}
+
+/* Üst düzey klasörler — kategorik renkli sol çizgi */
+/* 00 Kontrol Merkezi */
+.nav-folder[data-path="00 Kontrol Merkezi"] > .nav-folder-title {
+  border-left: 3px solid var(--co-gold) !important;
+  padding-left: 10px !important;
+  color: var(--co-gold-dark) !important;
+}
+
+/* Notlar */
+.nav-folder[data-path="Notlar"] > .nav-folder-title {
+  border-left: 3px solid var(--co-blue) !important;
+  padding-left: 10px !important;
+  color: var(--co-blue-dark) !important;
+}
+
+/* Çalışma Fikirleri */
+.nav-folder[data-path*="al\0131\015fma Fikirleri"] > .nav-folder-title,
+.nav-folder[data-path="Çalışma Fikirleri"] > .nav-folder-title {
+  border-left: 3px solid var(--co-orange) !important;
+  padding-left: 10px !important;
+  color: var(--co-orange) !important;
+}
+
+/* Projeler */
+.nav-folder[data-path="Projeler"] > .nav-folder-title {
+  border-left: 3px solid var(--co-green) !important;
+  padding-left: 10px !important;
+  color: var(--co-green) !important;
+}
+
+/* Dersler */
+.nav-folder[data-path="Dersler"] > .nav-folder-title {
+  border-left: 3px solid var(--co-purple) !important;
+  padding-left: 10px !important;
+  color: var(--co-purple) !important;
+}
+
+/* Dizin */
+.nav-folder[data-path="Dizin"] > .nav-folder-title {
+  border-left: 3px solid var(--co-red) !important;
+  padding-left: 10px !important;
+  color: var(--co-red) !important;
+}
+
+/* Templates */
+.nav-folder[data-path="Templates"] > .nav-folder-title {
+  border-left: 3px solid var(--co-text-light) !important;
+  padding-left: 10px !important;
+}
+
+/* Hover renkleri — üst düzey klasörler için de kontrast korunuyor */
+.nav-folder[data-path="00 Kontrol Merkezi"] > .nav-folder-title:hover { color: var(--co-gold-dark) !important; }
+.nav-folder[data-path="Notlar"] > .nav-folder-title:hover              { color: var(--co-blue-dark) !important; }
+.nav-folder[data-path="Projeler"] > .nav-folder-title:hover            { color: var(--co-green) !important; }
+.nav-folder[data-path="Dersler"] > .nav-folder-title:hover             { color: var(--co-purple) !important; }
+
+/* Alt klasörler — daha hafif */
+.nav-folder .nav-folder-title {
+  font-weight: 600 !important;
+}
+
+/* Not dosyaları — temiz renk */
+.nav-file-title-content {
+  color: inherit !important;
+}
+
+/* ============================================================
+   4. BAŞLIKLAR
+   ============================================================ */
+.markdown-preview-view h1,
+.markdown-source-view h1,
+.HyperMD-header-1 {
+  font-family: var(--co-serif) !important;
+  font-size: 1.9em !important;
+  font-weight: 700 !important;
+  color: var(--co-text) !important;
+  border-bottom: 2px solid var(--co-gold) !important;
+  padding-bottom: 6px !important;
+  margin-bottom: 16px !important;
+}
+
+.markdown-preview-view h2,
+.markdown-source-view h2,
+.HyperMD-header-2 {
+  font-family: var(--co-serif) !important;
+  font-size: 1.45em !important;
+  font-weight: 600 !important;
+  color: var(--co-blue-dark) !important;
+  border-left: 4px solid var(--co-blue) !important;
+  padding-left: 10px !important;
+  margin-top: 28px !important;
+}
+
+.markdown-preview-view h3,
+.markdown-source-view h3,
+.HyperMD-header-3 {
+  font-size: 1.2em !important;
+  font-weight: 600 !important;
+  color: var(--co-text-muted) !important;
+  margin-top: 20px !important;
+}
+
+.markdown-preview-view h4,
+.markdown-source-view h4,
+.HyperMD-header-4 {
+  font-size: 1.0em !important;
+  font-weight: 700 !important;
+  color: var(--co-gold-dark) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* ============================================================
+   5. PROPERTIES (YAML FRONTMATTER)
+   ============================================================ */
+.metadata-container {
+  background: transparent !important;
+  border: none !important;
+  padding: 8px 0 12px 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+}
+
+.metadata-property {
+  background: #FFFFFF !important;
+  border-radius: 16px !important;
+  padding: 4px 12px !important;
+  border: 1px solid rgba(197, 160, 89, 0.3) !important;
+  box-shadow: 0 1px 3px rgba(26, 42, 58, 0.06) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.metadata-property:hover {
+  border-color: var(--co-blue) !important;
+  box-shadow: 0 2px 8px rgba(74, 144, 217, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+.metadata-property-key {
+  color: var(--co-text-muted) !important;
+  font-weight: 500 !important;
+  font-size: 0.82em !important;
+}
+
+.metadata-property-value {
+  color: var(--co-text) !important;
+  font-weight: 600 !important;
+  font-size: 0.88em !important;
+}
+
+/* ============================================================
+   6. TABLOLAR
+   ============================================================ */
+.markdown-rendered table,
+.dataview.table-view-table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 16px 0 !important;
+  font-size: 0.9em !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.markdown-rendered table th,
+.dataview.table-view-table th {
+  background: var(--co-text) !important;
+  color: #FFFFFF !important;
+  font-family: var(--co-sans) !important;
+  padding: 10px 14px !important;
+  text-align: left !important;
+  font-weight: 600 !important;
+  font-size: 0.85em !important;
+  letter-spacing: 0.4px !important;
+  border: none !important;
+}
+
+.markdown-rendered table td,
+.dataview.table-view-table td {
+  padding: 9px 14px !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(26, 42, 58, 0.05) !important;
+  color: var(--co-text) !important;         /* kontrast garantisi */
+  transition: background 0.15s ease !important;
+}
+
+/* Zebra */
+.markdown-rendered table tr:nth-child(even) td,
+.dataview.table-view-table tr:nth-child(even) td {
+  background: rgba(26, 42, 58, 0.02) !important;
+}
+
+/* Hover — kontrast korunuyor */
+.markdown-rendered table tr:hover td,
+.dataview.table-view-table tr:hover td {
+  background: rgba(74, 144, 217, 0.07) !important;
+  color: var(--co-text) !important;         /* beyaz üstüne beyaz YOK */
+}
+
+/* ============================================================
+   7. İÇ LİNKLER
+   ============================================================ */
+.markdown-preview-view a.internal-link,
+.cm-s-obsidian .cm-hmd-internal-link {
+  color: var(--co-blue) !important;
+  text-decoration: none !important;
+  border-bottom: 1px dashed rgba(74, 144, 217, 0.4) !important;
+  transition: color 0.15s, border-color 0.15s !important;
+}
+
+.markdown-preview-view a.internal-link:hover {
+  color: var(--co-blue-dark) !important;
+  border-bottom-color: var(--co-blue-dark) !important;
+}
+
+/* Çözümsüz (kırmızı) link */
+.markdown-preview-view a.internal-link.is-unresolved {
+  color: var(--co-text-light) !important;
+  border-bottom-color: rgba(200, 200, 200, 0.4) !important;
+}
+
+/* ============================================================
+   8. CALLOUT BLOKLAR
+   ============================================================ */
+.callout {
+  border-radius: 6px !important;
+  border: none !important;
+  border-left: 4px solid var(--co-gold) !important;
+  background: rgba(197, 160, 89, 0.05) !important;
+  padding: 14px 18px !important;
+  margin: 16px 0 !important;
+}
+
+.callout[data-callout="tip"],
+.callout[data-callout="hint"] {
+  border-left-color: var(--co-blue) !important;
+  background: rgba(74, 144, 217, 0.05) !important;
+}
+
+.callout[data-callout="warning"],
+.callout[data-callout="caution"] {
+  border-left-color: var(--co-orange) !important;
+  background: rgba(232, 114, 74, 0.05) !important;
+}
+
+.callout[data-callout="danger"],
+.callout[data-callout="error"] {
+  border-left-color: var(--co-red) !important;
+  background: rgba(232, 74, 74, 0.05) !important;
+}
+
+.callout[data-callout="success"],
+.callout[data-callout="check"] {
+  border-left-color: var(--co-green) !important;
+  background: rgba(91, 173, 122, 0.05) !important;
+}
+
+.callout-title {
+  font-family: var(--co-mono) !important;
+  font-size: 0.78em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   9. KANBAN KARTLAR
+   ============================================================ */
+.kanban-plugin__item {
+  border-radius: 8px !important;
+  transition: box-shadow 0.2s ease !important;
+}
+
+.kanban-plugin__item:hover {
+  box-shadow: 0 4px 12px rgba(74, 144, 217, 0.18) !important;
+}
+
+/* ============================================================
+   10. ÜST BAR BAŞLIK
+   ============================================================ */
+.view-header-title {
+  font-family: var(--co-serif) !important;
+  font-size: 1.1em !important;
+  font-weight: 600 !important;
+  color: var(--co-text) !important;
+}
+
+/* ============================================================
+   11. SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(80, 102, 124, 0.25);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 144, 217, 0.5);
+}
+
+/* ============================================================
+   12. TAGS
+   ============================================================ */
+.tag {
+  background: rgba(197, 160, 89, 0.12) !important;
+  color: var(--co-gold-dark) !important;
+  border: 1px solid rgba(197, 160, 89, 0.3) !important;
+  border-radius: 10px !important;
+  padding: 1px 8px !important;
+  font-size: 0.8em !important;
+  font-weight: 500 !important;
+}
+
+.tag:hover {
+  background: var(--co-gold) !important;
+  color: #FFFFFF !important;
+}
+
+/* ============================================================
+   13. SEARCH VURGUSU
+   ============================================================ */
+.search-result-file-matched-text,
+mark {
+  background: rgba(212, 175, 55, 0.25) !important;
+  color: var(--co-text) !important;
+  border-radius: 2px !important;
+}
+
+/* ============================================================
+   14. MODAL / POPUP
+   ============================================================ */
+.modal {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(26, 42, 58, 0.18) !important;
+}
+
+/* ============================================================
+   15. INLINE KOD
+   ============================================================ */
+code {
+  background: rgba(26, 42, 58, 0.07) !important;
+  color: var(--co-orange) !important;
+  border-radius: 4px !important;
+  padding: 1px 5px !important;
+  font-family: var(--co-mono) !important;
+  font-size: 0.88em !important;
+}
+
+/* ============================================================
+   16. DETAILS/SUMMARY (dashboard toggle)
+   ============================================================ */
+details summary::-webkit-details-marker { display: none; }
+details summary::marker { display: none; }
+
+details > summary {
+  outline: none !important;
+}

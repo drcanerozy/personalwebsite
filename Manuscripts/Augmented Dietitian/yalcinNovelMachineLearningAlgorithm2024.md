@@ -1,0 +1,42 @@
+---
+Title: "A Novel Machine-Learning Algorithm to Predict the Early Termination of Nutrition Support Team Follow-Up in Hospitalized Adults: A Retrospective Cohort Study"
+Authors: "Nadir Yalçın, Merve Kaşıkcı, Burcu Kelleci-Çakır, Karel Allegaert, Merve Güner-Oytun, Serdar Ceylan, Cafer Balcı, Kutay Demirkan, Meltem Halil, Osman Abbasoğlu"
+Year: 2024
+DOI: "10.3390/nu16152492"
+Nitelik: 
+Alan: 
+Konu: 
+AI_Methodology: 
+Layer_Focus: 
+Model_Asamasi: 
+Proposed_Tool: 
+Methods: "The aim of this study was to develop and validate a machine learning-based algorithm that predicts the early termination of medical nutritional therapy (the transition to oral feeding).This retrospective cohort study included consecutive adult patients admitted to the Hacettepe hospital (from 1 January 2018 to 31 December 2022). The outcome of the study was the prediction of an early transition to adequate oral feeding before discharge. The dataset was randomly (70/30) divided into training and test datasets. We used six ML algorithms with multiple features to construct prediction models. ML model performance was measured according to the accuracy, area under the receiver operating characteristic curve, and F1 score. We used the Boruta Method to determine the important features and interpret the selected feature"
+Findings: "Six prediction algorithms were used, and the artificial neural network and elastic net models achieved the greatest area under the ROC in all outcomes (AUC = 0.770). Ranked by z-value, the 10 most important features in predicting an early transition to oral feeding in the artificial neural network and elastic net algorithms were parenteral nutrition, surgical wards, surgical outcomes, enteral nutrition, age, supplemental parenteral nutrition, digestive system diseases, gastrointestinal complications, NRS-2002, and impaired consciousness."
+Conclusions: "Overall, there was no discernible superiority among the models. Nevertheless, the artificial neural network and elastic net methods provided the highest AUC values. Since the machine learning model is interpretable, it can enable clinicians to better comprehend the features underlying the outcomes. Our study could support personalized treatment and nutritional follow-up strategies in clinical decision making for the prediction of an early transition to oral feeding in hospitalized adult patients.of MNT, indication for MNT, and comorbidities) of the patients were categorized, determined, and introduced to the ML algorithms as input, and the model aimed to predict whether the successful transition to oral intake was achieved as output. Not only does The generated ML model used to predict the early termination of MNT at follow-up has high accuracy and increases the trustworthiness of the model’s predictive abiliIn an effort to expand the availability of the developed ML models to a broader range of healthcare professionals and facilitate their use, the development of mobile applications and web tools is being considered by providing detailed guidelines and training to health professionals in future work"
+Limitations: "Despite achieving a targeted sample size least 20 times the number of dependent variables (input) and adopting a retrospective methodology to capture real-life data within the study population, it is imperative to acknowledge certain limitations inherent in this study. The utilization of data exclusively from a single center imposes constraints on the heterogeneity of the dataset and its applicability elsewhereThe other limitations of the study are that other important variables such as the length of stay, energy, protein, and the achievement of nutritional therapy targets could not be included in the study because of a large number of missing data"
+User_Notes: ""
+---
+
+# A Novel Machine-Learning Algorithm to Predict the Early Termination of Nutrition Support Team Follow-Up in Hospitalized Adults: A Retrospective Cohort Study
+**Yazarlar:** Nadir Yalçın, Merve Kaşıkcı, Burcu Kelleci-Çakır, Karel Allegaert, Merve Güner-Oytun, Serdar Ceylan, Cafer Balcı, Kutay Demirkan, Meltem Halil, Osman Abbasoğlu | **Yıl:** 2024
+**DOI:** 10.3390/nu16152492 | **Zotero:** [Görüntüle](zotero://select/library/items/Z9FLZ2W2)
+
+---
+
+## 📝 Benim Notlarım
+
+
+## 🟡 Genel Bilgiler (Sarı)
+
+
+## 🟢 Yöntem & Örneklem (Yeşil)
+- "The aim of this study was to develop and validate a machine learning-based algorithm that predicts the early termination of medical nutritional therapy (the transition to oral feeding)." ([Sayfa 1](zotero://open-pdf/library/items/L98HY6C9?page=1&annotation=J46NKIXA))- "This retrospective cohort study included consecutive adult patients admitted to the Hacettepe hospital (from 1 January 2018 to 31 December 2022). The outcome of the study was the prediction of an early transition to adequate oral feeding before discharge. The dataset was randomly (70/30) divided into training and test datasets. We used six ML algorithms with multiple features to construct prediction models. ML model performance was measured according to the accuracy, area under the receiver operating characteristic curve, and F1 score. We used the Boruta Method to determine the important features and interpret the selected feature" ([Sayfa 1](zotero://open-pdf/library/items/L98HY6C9?page=1&annotation=BQ2VMQXT))
+
+## 🔴 Bulgular (Kırmızı)
+- "Six prediction algorithms were used, and the artificial neural network and elastic net models achieved the greatest area under the ROC in all outcomes (AUC = 0.770). Ranked by z-value, the 10 most important features in predicting an early transition to oral feeding in the artificial neural network and elastic net algorithms were parenteral nutrition, surgical wards, surgical outcomes, enteral nutrition, age, supplemental parenteral nutrition, digestive system diseases, gastrointestinal complications, NRS-2002, and impaired consciousness." ([Sayfa 1](zotero://open-pdf/library/items/L98HY6C9?page=1&annotation=KQR4M6R9))
+
+## 🔵 Sonuç / Conclusions (Mavi)
+- "Overall, there was no discernible superiority among the models. Nevertheless, the artificial neural network and elastic net methods provided the highest AUC values. Since the machine learning model is interpretable, it can enable clinicians to better comprehend the features underlying the outcomes. Our study could support personalized treatment and nutritional follow-up strategies in clinical decision making for the prediction of an early transition to oral feeding in hospitalized adult patients." ([Sayfa 1](zotero://open-pdf/library/items/L98HY6C9?page=1&annotation=D9AY55ZE))- "of MNT, indication for MNT, and comorbidities) of the patients were categorized, determined, and introduced to the ML algorithms as input, and the model aimed to predict whether the successful transition to oral intake was achieved as output. Not only does The generated ML model used to predict the early termination of MNT at follow-up has high accuracy and increases the trustworthiness of the model’s predictive abili" ([Sayfa 8](zotero://open-pdf/library/items/L98HY6C9?page=8&annotation=6HRFT59S))- "In an effort to expand the availability of the developed ML models to a broader range of healthcare professionals and facilitate their use, the development of mobile applications and web tools is being considered by providing detailed guidelines and training to health professionals in future work" ([Sayfa 10](zotero://open-pdf/library/items/L98HY6C9?page=10&annotation=RI3GCI66))
+
+## 🟠 Limitasyonlar (Turuncu)
+- "Despite achieving a targeted sample size least 20 times the number of dependent variables (input) and adopting a retrospective methodology to capture real-life data within the study population, it is imperative to acknowledge certain limitations inherent in this study. The utilization of data exclusively from a single center imposes constraints on the heterogeneity of the dataset and its applicability elsewhere" ([Sayfa 10](zotero://open-pdf/library/items/L98HY6C9?page=10&annotation=27UHJP3W))- "The other limitations of the study are that other important variables such as the length of stay, energy, protein, and the achievement of nutritional therapy targets could not be included in the study because of a large number of missing data" ([Sayfa 10](zotero://open-pdf/library/items/L98HY6C9?page=10&annotation=C6LE2BGQ))

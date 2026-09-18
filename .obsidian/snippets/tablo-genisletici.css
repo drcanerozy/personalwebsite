@@ -1,0 +1,20 @@
+/* Tabloyu tüm sayfa genişliğine yayar */
+.dataview.table-view-table {
+    width: 100% !important;
+    max-width: none !important;
+    display: table !important;
+}
+
+/* Hücre içindeki metinlerin kesilmesini önler, alt satıra geçer */
+.dataview.table-view-table td {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    min-width: 150px; /* Sütunların çok daralmasını önler */
+}
+
+/* PDF Export sırasında tabloların daha iyi görünmesini sağlar */
+@media print {
+    .dataview.table-view-table {
+        font-size: 0.8em; /* PDF'e sığması için yazıyı biraz küçültür */
+    }
+}

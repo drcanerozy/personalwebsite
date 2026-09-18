@@ -1,4 +1,24 @@
 [
   "obsidian-git",
-  "templater-obsidian"
+  "templater-obsidian",
+  "obsidian-admonition",
+  "advanced-canvas",
+  "table-editor-obsidian",
+  "obsidian-charts",
+  "dataview",
+  "excalibrain",
+  "obsidian-excalidraw-plugin",
+  "highlightr-plugin",
+  "obsidian-icon-folder",
+  "obsidian-image-toolkit",
+  "obsidian-kanban",
+  "obsidian-mind-map",
+  "multi-properties",
+  "notebook-navigator",
+  "pdf-plus",
+  "obsidian-pandoc",
+  "obsidian-table-to-csv-exporter",
+  "obsidian-style-settings",
+  "obsidian-zotero-desktop-connector",
+  "zotero-lib-view"
 ]

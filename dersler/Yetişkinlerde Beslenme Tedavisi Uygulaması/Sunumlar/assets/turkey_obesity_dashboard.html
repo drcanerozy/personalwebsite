@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Türkiye ve Küresel Obezite, Fazla Kilo ve Beslenme Epidemiyolojisi</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
+    .chart-box { position: relative; width: 100%; height: 420px; }
+    .custom-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08);
+      z-index: 60;
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      transform: scale(0.96);
+    }
+    .custom-tooltip.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen p-4 sm:p-6 lg:p-8 selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto space-y-10">
+
+    <!-- HEADER SECTION -->
+    <header class="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-semibold uppercase tracking-wider mb-3">
+            <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+            TÜİK (2008–2025) • OWID/Lancet (1975–2022) • TBSA (1974–2017 Koçyiğit vd.)
+          </div>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Türkiye ve Dünyada Obezite, Fazla Kilo ve Beslenme Epidemiyolojisi
+          </h1>
+          <p class="text-slate-500 text-xs sm:text-sm mt-2 max-w-3xl leading-relaxed">
+            Dünya Sağlık Örgütü (WHO) ve TÜİK standart tanımları: <strong>Fazla Kilolu</strong> (25 ≤ BKİ &lt; 30 kg/m²), <strong>Obez</strong> (BKİ ≥ 30 kg/m²), <strong>Toplam Aşırı Kilo</strong> (BKİ ≥ 25 kg/m²), <strong>Fiziksel Hareketsizlik</strong> ve <strong>43 Yıllık Beslenme Örüntüsü Dönüşümü</strong>.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="exportSingleSvg('sec1ChartSvg', 'Turkiye_Obezite_Grafigi')" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-sm hover:shadow transition flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Görseli İndir (Vektörel SVG)
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick KPI Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-100">
+        
+        <div class="p-4 rounded-2xl bg-rose-50/70 border border-rose-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-rose-800">1. Obezite (BKİ ≥ 30)</span>
+            <span class="text-[10px] font-semibold bg-rose-200/60 text-rose-900 px-2 py-0.5 rounded-full">TÜİK 2025</span>
+          </div>
+          <div class="text-3xl font-extrabold text-rose-900 mt-2">%21.8</div>
+          <div class="text-xs text-rose-700 mt-1 flex justify-between font-medium">
+            <span>Kadın: <b>%24.8</b></span>
+            <span>Erkek: <b>%18.7</b></span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-800">2. Enerjinin Yağdan Gelen Payı</span>
+            <span class="text-[10px] font-semibold bg-amber-200/60 text-amber-900 px-2 py-0.5 rounded-full">TBSA 1974→2017</span>
+          </div>
+          <div class="text-3xl font-extrabold text-amber-900 mt-2">%35.0</div>
+          <div class="text-xs text-amber-700 mt-1 flex justify-between font-medium">
+            <span>1974: <b>%24.0</b></span>
+            <span>Net Artış: <b>+%45.8</b></span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-indigo-50/70 border border-indigo-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-800">3. Toplam Aşırı Kilo (BKİ ≥ 25)</span>
+            <span class="text-[10px] font-semibold bg-indigo-200/60 text-indigo-900 px-2 py-0.5 rounded-full">Fazla Kilo + Obez</span>
+          </div>
+          <div class="text-3xl font-extrabold text-indigo-900 mt-2">%59.5</div>
+          <div class="text-xs text-indigo-700 mt-1 flex justify-between font-medium">
+            <span>Kadın: <b>%57.0</b></span>
+            <span>Erkek: <b>%61.8</b></span>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-100/80 border border-slate-200">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-800">4. Zirve Yaş Grubu (55–64 Yaş)</span>
+            <span class="text-[10px] font-semibold bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full">En Yüksek Yük</span>
+          </div>
+          <div class="text-3xl font-extrabold text-slate-900 mt-2">%74.9</div>
+          <div class="text-xs text-slate-600 mt-1 flex justify-between font-medium">
+            <span>Obez: <b>%33.4</b></span>
+            <span>Fazla: <b>%41.5</b></span>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- SECTION 1: TÜRKİYE VERİ ANALİZ MERKEZİ -->
+    <section class="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Bölüm 1</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Türkiye Veri Analiz Merkezi</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Veri kaynağını (TÜİK veya OWID), analiz metriğini ve cinsiyet/yaş kırılımlarını eş zamanlı filtreleyin.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl text-xs font-semibold border border-slate-200">
+            <span class="text-slate-400 pl-2 pr-1 text-[10px] uppercase font-bold tracking-wider">Kaynak:</span>
+            <button onclick="setSource('tuik')" id="btn-src-tuik" class="px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold">TÜİK (2008–2025)</button>
+            <button onclick="setSource('owid')" id="btn-src-owid" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">OWID (1975–2022)</button>
+            <button onclick="setSource('compare')" id="btn-src-compare" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">İkisini Karşılaştır</button>
+          </div>
+
+          <div id="metricToolbar" class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl text-xs font-semibold border border-slate-200">
+            <span class="text-slate-400 pl-2 pr-1 text-[10px] uppercase font-bold tracking-wider">Metrik:</span>
+            <button onclick="setMetric('obese')" id="btn-met-obese" class="px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold">Obezite (≥30)</button>
+            <button onclick="setMetric('overweight')" id="btn-met-overweight" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Fazla Kilo (25–29.9)</button>
+            <button onclick="setMetric('total')" id="btn-met-total" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Toplam Aşırı Kilo (≥25)</button>
+          </div>
+
+          <div id="dimensionToolbar" class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl text-xs font-semibold border border-slate-200">
+            <button onclick="setDimension('timeline')" id="btn-dim-time" class="px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold">Zaman Eğrisi</button>
+            <button onclick="setDimension('age')" id="btn-dim-age" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Yaş Grupları</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 id="sec1ChartTitle" class="font-bold text-slate-900 text-base">Yıllara ve Cinsiyete Göre Prevalans Değişimi</h3>
+            <p id="sec1ChartSubtitle" class="text-xs text-slate-500 mt-0.5">TÜİK Sağlık Araştırması 15+ yaş yetişkin nüfus verileri</p>
+          </div>
+          <div id="sec1Legend" class="flex flex-wrap items-center gap-4 text-xs font-semibold"></div>
+        </div>
+
+        <div class="chart-box" id="sec1ChartBox">
+          <svg id="sec1ChartSvg" class="w-full h-full"></svg>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-400 pt-3 border-t border-slate-200/60 gap-2">
+          <span id="sec1DataFootnote">Veri: TÜİK Türkiye Sağlık Araştırması (2008, 2010, 2012, 2014, 2016, 2019, 2022, 2025)</span>
+          <span class="font-medium text-indigo-600 cursor-pointer hover:underline" onclick="exportSingleSvg('sec1ChartSvg', 'Turkiye_Obezite_Grafigi')">Bu Figürü İndir</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 2: KÜRESEL & AVRUPA ÜLKELERİ KIYASLAMASI -->
+    <section class="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Bölüm 2</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Küresel ve Avrupa Ülkeleri Kıyaslama Merkezi</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Türkiye'nin gelişmiş Avrupa ülkeleri ve dünyadaki uç noktalar arasındaki konumu ve tarihsel seyri (OWID / Lancet).
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold">
+            <button onclick="setBenchType('trends')" id="btn-bm-trends" class="px-3.5 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold">
+              1975–2022 Ülke Trendleri
+            </button>
+            <button onclick="setBenchType('rankingEurope')" id="btn-bm-rankEur" class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+              Avrupa Sıralaması
+            </button>
+            <button onclick="setBenchType('rankingExtremes')" id="btn-bm-rankExt" class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+              En Yüksek / En Düşük 5 Ülke
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 id="sec2ChartTitle" class="font-bold text-slate-900 text-base">Ülkelerin Yıllara Göre Obezite Eğrileri (1975–2022)</h3>
+              <p id="sec2ChartSubtitle" class="text-xs text-slate-500 mt-0.5">Türkiye'nin Avrupa ülkeleri ve küresel ortalamayla karşılaştırmalı artış hızı</p>
+            </div>
+            <span class="text-xs text-rose-700 bg-rose-50 border border-rose-200 font-bold px-2.5 py-1 rounded-full">
+              Türkiye Vurgulu
+            </span>
+          </div>
+
+          <div class="chart-box" id="sec2ChartBox" style="height: 440px;">
+            <svg id="sec2ChartSvg" class="w-full h-full"></svg>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 flex flex-col justify-between space-y-4">
+          <div class="space-y-4">
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Karşılaştırmalı Bulgular
+            </h3>
+
+            <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-xs">
+              <span class="font-bold text-rose-900 block mb-1">Türkiye'nin Avrupa Liderliği</span>
+              <p class="text-rose-800 leading-relaxed text-[11px]">
+                Türkiye, <strong>%32.6</strong>'lık standardize obezite oranıyla Birleşik Krallık (%28.2), Almanya (%25.7) ve İspanya'yı (%23.8) geçerek Avrupa bölgesinin en üst basamağındadır.
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs">
+              <span class="font-bold text-amber-900 block mb-1">1975'ten Beri En Hızlı Artış</span>
+              <p class="text-amber-800 leading-relaxed text-[11px]">
+                Türkiye'de obezite prevalansı 1975'te <strong>%8.0</strong> iken 2022'de <strong>%32.6</strong>'ya çıkmıştır (4 kat artış).
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs">
+              <span class="font-bold text-emerald-900 block mb-1">Düşük Prevalans Ülkeleri</span>
+              <p class="text-emerald-800 leading-relaxed text-[11px]">
+                Vietnam (%2.1), Hindistan (%4.0) ve Japonya (%4.5) geleneksel beslenme ve yüksek mobilite ile obeziteyi düşük tutabilmektedir.
+              </p>
+            </div>
+          </div>
+
+          <button onclick="exportSingleSvg('sec2ChartSvg', 'Turkiye_ve_Dunya_Obezite_Kiyaslama_Grafigi')" class="w-full py-2.5 bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs rounded-xl border border-slate-200 shadow-sm transition">
+            Bu Karşılaştırma Grafiğini İndir (SVG)
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 3: AKADEMİK & İLERİ DÜZEY FİGÜR STÜDYOSU -->
+    <section class="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">Bölüm 3</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Akademik & Klinik Figür Stüdyosu</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Özel analizler: Cinsiyet Paradoksu, Yaşam Döngüsü, TÜİK Taze Gıda Düşüşü, Hareketsizlik ve Çocuk Obezitesi.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-1.5 p-1 bg-slate-100 rounded-xl text-xs font-semibold border border-slate-200">
+          <button onclick="setAcademicFig('gender')" id="btn-af-gender" class="px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold">
+            1. Cinsiyet Paradoksu
+          </button>
+          <button onclick="setAcademicFig('lifecourse')" id="btn-af-lifecourse" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            2. Yaşam Döngüsü & BKİ
+          </button>
+          <button onclick="setAcademicFig('nutrition')" id="btn-af-nutrition" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            3. Beslenme & Taze Gıda
+          </button>
+          <button onclick="setAcademicFig('inactivity')" id="btn-af-inactivity" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            4. Hareketsizlik Zaman Trendi
+          </button>
+          <button onclick="setAcademicFig('childhood')" id="btn-af-childhood" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            5. Çocuk & Ergen Sıçraması
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 id="sec3ChartTitle" class="font-bold text-slate-900 text-base">Cinsiyet Ayrışması ve Metabolik Kırılım Analizi</h3>
+              <p id="sec3ChartSubtitle" class="text-xs text-slate-500 mt-0.5">Kadınlarda Obezite Baskınlığı vs Erkeklerde Fazla Kilo Baskınlığı (2008–2025)</p>
+            </div>
+            <div id="sec3Legend" class="flex flex-wrap items-center gap-4 text-xs font-semibold"></div>
+          </div>
+
+          <div class="chart-box" id="sec3ChartBox" style="height: 420px;">
+            <svg id="sec3ChartSvg" class="w-full h-full"></svg>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 flex flex-col justify-between space-y-4">
+          <div id="sec3ExplanationBox" class="space-y-3 text-xs leading-relaxed"></div>
+          <button onclick="exportSingleSvg('sec3ChartSvg', 'Akademik_Epidemiyoloji_Figuru')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-sm transition">
+            Bu Akademik Figürü İndir (Vektörel SVG)
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 4: TÜRKİYE'NİN DEĞİŞEN BESLENME ÖRÜNTÜSÜ (TBSA 1974, 1984, 2010, 2017 - Koçyiğit vd.) -->
+    <section class="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-600">Bölüm 4</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Türkiye'nin 43 Yıllık Beslenme Örüntüsü Dönüşümü (1974–2017)</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Koçyiğit, Esgin, Köksal (2022) derlemesindeki tüm ulusal beslenme araştırması (TBSA) tabloları ve şekilleri.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-1.5 p-1 bg-slate-100 rounded-xl text-xs font-semibold border border-slate-200">
+          <button onclick="setNutriTab('nutrients')" id="btn-nt-nutr" class="px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold">
+            Tablo 1: Enerji & Besin Ögeleri
+          </button>
+          <button onclick="setNutriTab('macros')" id="btn-nt-mac" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            Şekil 1: Makro Dağılımı (% Enerji)
+          </button>
+          <button onclick="setNutriTab('foodgroups')" id="btn-nt-fg" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            Tablo 2: Besin Grupları Tüketimi
+          </button>
+          <button onclick="setNutriTab('bkievol')" id="btn-nt-bki" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">
+            Şekil 2: BKİ Sınıflaması
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 id="sec4ChartTitle" class="font-bold text-slate-900 text-base">Günlük Enerji ve Besin Ögeleri Alımı Zaman Serisi</h3>
+              <p id="sec4ChartSubtitle" class="text-xs text-slate-500 mt-0.5">TBSA 1974, 1984, 2010 ve 2017 araştırmaları verileri</p>
+            </div>
+            <div id="sec4Legend" class="flex flex-wrap items-center gap-4 text-xs font-semibold"></div>
+          </div>
+
+          <div class="chart-box" id="sec4ChartBox" style="height: 420px;">
+            <svg id="sec4ChartSvg" class="w-full h-full"></svg>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 flex flex-col justify-between space-y-4">
+          <div id="sec4ExplanationBox" class="space-y-3.5 text-xs leading-relaxed"></div>
+          <button onclick="exportSingleSvg('sec4ChartSvg', 'Turkiye_Beslenme_Oruntusu_Grafigi')" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-xl shadow-sm transition">
+            Bu Beslenme Grafiğini İndir (SVG)
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 5: ÇOKLU BESLENME GÖSTERGELERİ & OBEZİTE KORELASYON LABORATUVARI (OWID ENTEGRELİ) -->
+    <section class="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+      
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-rose-600">Bölüm 5</span>
+          <h2 class="text-xl font-bold text-slate-900 mt-0.5">Beslenme Değişkenleri & Obezite/Fazla Kilo Korelasyon Laboratuvarı</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Beslenme parametresini seçerek <strong>TBSA Kadın/Erkek Obezitesi</strong> ve <strong>Our World in Data (1975–2022) Yaş-Standardize Trendi</strong> ile korelasyonunu karşılaştırın.
+          </p>
+        </div>
+
+        <!-- Comprehensive Metric Selector for Correlation -->
+        <div class="flex items-center gap-2">
+          <label class="text-xs font-bold text-slate-600 uppercase tracking-wider">Korelasyon Parametresi:</label>
+          <select id="corrParamSelect" onchange="changeCorrParam(this.value)" class="px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-xl text-xs font-bold text-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <!-- 1. Enerji & Makro % -->
+            <optgroup label="⚡ Enerji ve Makro Besin % (Enerji Dağılımı)">
+              <option value="energy">1. Günlük Toplam Enerji Alımı (kkal/gün)</option>
+              <option value="fatPct" selected>2. Enerjinin Yağdan Gelen Payı (% Enerji)</option>
+              <option value="carbPct">3. Enerjinin Karbonhidrattan Gelen Payı (% Enerji)</option>
+              <option value="protPct">4. Enerjinin Proteinden Gelen Payı (% Enerji)</option>
+            </optgroup>
+            <!-- 2. Besin Grupları (g/gün) -->
+            <optgroup label="🍞 Besin Grupları Günlük Tüketimi (g/gün)">
+              <option value="bread">5. Ekmek ve Tahıl Tüketimi (g/gün)</option>
+              <option value="vegfruit">6. Sebze ve Meyve Tüketimi (g/gün)</option>
+              <option value="meat">7. Et-Tavuk-Balık Tüketimi (g/gün)</option>
+              <option value="chicken">8. Tavuk Eti Tüketimi (g/gün)</option>
+              <option value="visibleFats">9. Görünür Yağ Tüketimi (g/gün)</option>
+              <option value="dairy">10. Süt ve Süt Ürünleri (g/gün)</option>
+              <option value="egg">11. Yumurta Tüketimi (g/gün)</option>
+              <option value="legumes">12. Kurubaklagil Tüketimi (g/gün)</option>
+              <option value="sugar">13. Şeker ve Şekerli Besinler (g/gün)</option>
+            </optgroup>
+            <!-- 3. Besin Ögeleri (g veya mg/gün) -->
+            <optgroup label="🥩 Besin Ögeleri Alımı (Gram / Mg)">
+              <option value="fatGrams">14. Günlük Toplam Yağ Alımı (g/gün)</option>
+              <option value="carbGrams">15. Günlük Karbonhidrat Alımı (g/gün)</option>
+              <option value="animProt">16. Hayvansal Protein Alımı (g/gün)</option>
+              <option value="totProt">17. Toplam Protein Alımı (g/gün)</option>
+              <option value="thiamin">18. Tiamin (B1 Vitamini) (mg/gün)</option>
+              <option value="calcium">19. Kalsiyum Alımı (mg/gün)</option>
+              <option value="vitC">20. C Vitamini Alımı (mg/gün)</option>
+              <option value="iron">21. Demir Alımı (mg/gün)</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 id="sec5ChartTitle" class="font-bold text-slate-900 text-base">Beslenme Parametresi vs Obezite Eğrileri</h3>
+              <p id="sec5ChartSubtitle" class="text-xs text-slate-500 mt-0.5">TBSA 1974–2017 araştırmaları ve OWID / Lancet trendi ile ikili eksen analizi</p>
+            </div>
+            <div id="sec5Legend" class="flex flex-wrap items-center gap-3 text-xs font-semibold"></div>
+          </div>
+
+          <div class="chart-box" id="sec5ChartBox" style="height: 420px;">
+            <svg id="sec5ChartSvg" class="w-full h-full"></svg>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-50/70 border border-slate-200/80 flex flex-col justify-between space-y-4">
+          <div id="sec5ExplanationBox" class="space-y-3.5 text-xs leading-relaxed"></div>
+          <button onclick="exportSingleSvg('sec5ChartSvg', 'Beslenme_ve_Obezite_Korelasyon_Grafigi')" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-xl shadow-sm transition">
+            Bu Korelasyon Grafiğini İndir (SVG)
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-xs text-slate-400 py-6 space-y-1">
+      <div>Veri Kaynakları: TBSA 1974, 1984, 2010, 2017 (Koçyiğit, Esgin, Köksal 2022) • TÜİK Sağlık Araştırması (2008–2025) • Our World in Data / Lancet</div>
+      <div>Akademik ve Klinik Sunumlar İçin Vektörel İndirme Destekli Arayüz</div>
+    </footer>
+
+  </div>
+
+  <div id="chartTooltip" class="custom-tooltip"></div>
+
+  <!-- Dynamic Application Engine -->
+  <script>
+    // ==========================================
+    // 1. TAM VERİ TABANI
+    // ==========================================
+    
+    // TBSA 1974, 1984, 2010, 2017 (Koçyiğit vd. 2022 Tam Veri Seti)
+    const TBSA_DATA = {
+      years: [1974, 1984, 2010, 2017],
+      
+      // Tablo 1: Enerji ve Besin Ögeleri
+      energy: [2291.0, 2280.5, 1909.9, 1904.6],
+      totProt: [68.0, 68.1, 61.8, 69.2],
+      animProt: [18.0, 20.8, 29.1, 30.4],
+      carbGrams: [369.1, 363.5, 240.1, 235.0],
+      fatGrams: [62.4, 61.5, 73.6, 73.7],
+      vitA: [1125.6, 1401.2, 1280.8, 1271.2],
+      vitC: [105.9, 113.2, 138.4, 115.5],
+      thiamin: [1.8, 1.7, 0.9, 0.9],
+      calcium: [362.4, 409.5, 658.8, 800.9],
+      iron: [14.6, 17.8, 11.5, 10.6],
+
+      // Şekil 1: Makro %
+      carbPct: [64, 64, 52, 50],
+      fatPct: [24, 24, 34, 35],
+      protPct: [12, 12, 14, 15],
+
+      // Tablo 2: Besin Grupları (g/gün)
+      bread: [493.0, 452.0, 277.2, 272.3],
+      legumes: [9.8, 36.0, 16.0, 26.7],
+      dairy: [102.4, 92.0, 188.9, 188.2],
+      meatTot: [55.4, 49.0, 69.3, 117.9],
+      redMeat: [49.0, 38.0, 45.0, 39.1],
+      chicken: [3.0, 4.0, 15.0, 28.2],
+      fish: [3.4, 7.0, 9.0, 13.2],
+      egg: [9.0, 13.0, 24.4, 27.7],
+      vegetables: [321.1, 236.0, 320.0, 256.2],
+      fruits: [221.5, 173.0, 228.3, 158.8],
+      vegFruitTot: [542.6, 409.0, 548.3, 415.0],
+      visibleFats: [37.9, 35.5, 32.8, 50.2],
+      sugar: [36.2, 42.0, 33.0, 30.6],
+
+      // Şekil 2: BKİ Sınıflaması
+      maleBmi: {
+        obese: [7.6, 12.9, 19.9, 25.1],
+        overweight: [26.4, 25.8, 38.5, 42.0],
+        normal: [58.7, 54.1, 39.8, 31.6],
+        underweight: [7.3, 7.2, 1.8, 1.2]
+      },
+      femaleBmi: {
+        obese: [25.6, 31.9, 39.2, 39.3],
+        overweight: [38.5, 33.3, 29.6, 28.5],
+        normal: [32.7, 31.6, 28.3, 30.0],
+        underweight: [3.2, 3.2, 3.0, 2.3]
+      },
+      totObese: [16.6, 22.4, 29.5, 32.2]
+    };
+
+    // OWID Türkiye Obezite Eğrisi (1974-2017 Karşılıkları)
+    const OWID_BENCH_POINTS = [
+      { year: 1974, val: 8.0 },
+      { year: 1984, val: 11.3 },
+      { year: 2010, val: 25.9 },
+      { year: 2017, val: 30.1 }
+    ];
+
+    // TÜİK 2008–2025
+    const TUIK_YEARS = [2008, 2010, 2012, 2014, 2016, 2019, 2022, 2025];
+    const TUIK_DATA = {
+      years: TUIK_YEARS,
+      obese: {
+        total: [15.2, 16.9, 17.2, 19.9, 19.6, 21.1, 20.2, 21.8],
+        female: [18.5, 21.0, 20.9, 24.5, 23.9, 24.8, 23.6, 24.8],
+        male: [12.3, 13.2, 13.7, 15.3, 15.2, 17.3, 16.8, 18.7]
+      },
+      overweight: {
+        total: [31.3, 33.0, 34.8, 33.7, 34.3, 34.4, 34.5, 37.7],
+        female: [26.0, 27.4, 29.6, 28.6, 29.6, 30.4, 30.9, 32.2],
+        male: [36.2, 38.3, 39.8, 38.6, 38.8, 38.4, 38.1, 43.1]
+      },
+      totalSurplus: {
+        total: [46.5, 49.9, 52.0, 53.6, 53.9, 55.5, 54.7, 59.5],
+        female: [44.5, 48.4, 50.5, 53.1, 53.5, 55.2, 54.5, 57.0],
+        male: [48.5, 51.5, 53.5, 53.9, 54.0, 55.7, 54.9, 61.8]
+      }
+    };
+
+    const AGE_GROUPS_DATA = [
+      { age: "15–24", obese: 4.2, overweight: 15.8, total: 20.0, normal: 80.0 },
+      { age: "25–34", obese: 13.1, overweight: 30.4, total: 43.5, normal: 56.5 },
+      { age: "35–44", obese: 21.4, overweight: 40.2, total: 61.6, normal: 38.4 },
+      { age: "45–54", obese: 28.8, overweight: 43.2, total: 72.0, normal: 28.0 },
+      { age: "55–64", obese: 33.4, overweight: 41.5, total: 74.9, normal: 25.1 },
+      { age: "65–74", obese: 31.6, overweight: 42.0, total: 73.6, normal: 26.4 },
+      { age: "75+",   obese: 19.2, overweight: 39.4, total: 58.6, normal: 41.4 }
+    ];
+
+    const NUTRITION_TIMELINE = {
+      years: [2010, 2016, 2019, 2022, 2025],
+      dailyVegetable: [69.4, 53.5, 49.0, 43.0, 32.6],
+      dailyFruit: [57.0, 45.2, 40.3, 36.5, 28.7],
+      youthDailyFruit: [54.6, 41.0, 35.8, 29.5, 22.2]
+    };
+
+    const INACTIVITY_TIMELINE = {
+      years: [2014, 2016, 2019, 2022, 2025],
+      totalInactive: [87.5, 88.0, 88.2, 89.0, 86.6],
+      femaleInactive: [91.2, 91.8, 91.5, 92.7, 89.7],
+      maleInactive: [83.6, 84.1, 84.7, 85.3, 83.5],
+      adequateActive: [2.8, 3.1, 3.0, 3.0, 3.4]
+    };
+
+    const OWID_YEARS = [1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2022];
+    const OWID_DATA = {
+      years: OWID_YEARS,
+      obese: {
+        total: [8.0, 9.8, 11.7, 13.7, 16.4, 19.4, 22.5, 25.9, 29.1, 31.7, 32.6],
+        female: [12.1, 14.5, 17.0, 19.4, 22.4, 25.6, 29.1, 32.8, 36.4, 39.4, 40.5],
+        male: [4.1, 5.2, 6.6, 8.3, 10.7, 13.5, 16.2, 19.2, 22.1, 24.2, 24.9]
+      },
+      overweight: {
+        total: [20.2, 22.0, 23.8, 25.5, 27.6, 29.6, 31.0, 32.4, 33.6, 34.4, 34.7],
+        female: [22.4, 23.9, 25.4, 26.8, 28.2, 29.5, 30.4, 31.2, 31.8, 32.0, 32.1],
+        male: [18.1, 20.1, 22.2, 24.3, 27.0, 29.8, 31.7, 33.6, 35.4, 36.8, 37.2]
+      },
+      totalSurplus: {
+        total: [28.2, 31.8, 35.5, 39.2, 44.0, 49.0, 53.5, 58.3, 62.7, 66.1, 67.3],
+        female: [34.5, 38.4, 42.4, 46.2, 50.6, 55.1, 59.5, 64.0, 68.2, 71.4, 72.6],
+        male: [22.2, 25.3, 28.8, 32.6, 37.7, 43.3, 47.9, 52.8, 57.5, 61.0, 62.1]
+      }
+    };
+
+    const CHILD_OBESITY_TIMELINE = [
+      { year: 1975, total: 0.6, female: 0.5, male: 0.7 },
+      { year: 1985, total: 1.4, female: 1.1, male: 1.7 },
+      { year: 1995, total: 3.2, female: 2.5, male: 3.9 },
+      { year: 2005, total: 6.1, female: 4.8, male: 7.4 },
+      { year: 2015, total: 8.9, female: 6.8, male: 11.0 },
+      { year: 2022, total: 10.5, female: 7.8, male: 13.2 }
+    ];
+
+    const COUNTRY_TIMELINES = [
+      { country: "Türkiye", color: "#e11d48", width: 3.5, data: [{year:1975,val:8.0},{year:1985,val:11.7},{year:1995,val:16.4},{year:2005,val:22.5},{year:2015,val:29.1},{year:2022,val:32.6}] },
+      { country: "Birleşik Krallık", color: "#3b82f6", width: 2.2, data: [{year:1975,val:8.5},{year:1985,val:12.1},{year:1995,val:17.5},{year:2005,val:23.0},{year:2015,val:26.8},{year:2022,val:28.2}] },
+      { country: "ABD (Amerika)", color: "#ea580c", width: 2.2, data: [{year:1975,val:12.0},{year:1985,val:18.2},{year:1995,val:25.1},{year:2005,val:32.5},{year:2015,val:38.0},{year:2022,val:42.0}] },
+      { country: "Almanya", color: "#8b5cf6", width: 2.0, data: [{year:1975,val:9.2},{year:1985,val:13.0},{year:1995,val:17.1},{year:2005,val:21.4},{year:2015,val:24.5},{year:2022,val:25.7}] },
+      { country: "İspanya", color: "#06b6d4", width: 2.0, data: [{year:1975,val:7.8},{year:1985,val:11.2},{year:1995,val:15.3},{year:2005,val:19.8},{year:2015,val:22.7},{year:2022,val:23.8}] },
+      { country: "Fransa", color: "#64748b", width: 2.0, data: [{year:1975,val:7.2},{year:1985,val:10.1},{year:1995,val:13.6},{year:2005,val:17.5},{year:2015,val:20.2},{year:2022,val:21.6}] },
+      { country: "Japonya", color: "#10b981", width: 2.0, data: [{year:1975,val:1.1},{year:1985,val:1.8},{year:1995,val:2.6},{year:2005,val:3.5},{year:2015,val:4.1},{year:2022,val:4.5}] }
+    ];
+
+    const BENCHMARK_EUROPE_RANKING = [
+      { country: "Türkiye", rate: 32.6, isTurkey: true },
+      { country: "Birleşik Krallık", rate: 28.2 },
+      { country: "Almanya", rate: 25.7 },
+      { country: "Yunanistan", rate: 24.9 },
+      { country: "İspanya", rate: 23.8 },
+      { country: "AB Ortalaması", rate: 22.5, isAvg: true },
+      { country: "Fransa", rate: 21.6 },
+      { country: "İsveç", rate: 20.6 },
+      { country: "İtalya", rate: 19.9 },
+      { country: "İsviçre", rate: 19.5 },
+      { country: "Hollanda", rate: 16.8 }
+    ];
+
+    const BENCHMARK_EXTREMES_RANKING = [
+      { country: "Nauru (En Yüksek 1)", rate: 61.0, isHigh: true },
+      { country: "Cook Adaları", rate: 55.9, isHigh: true },
+      { country: "Tonga", rate: 54.1, isHigh: true },
+      { country: "Samoa", rate: 47.3, isHigh: true },
+      { country: "ABD (Amerika)", rate: 42.0, isHigh: true },
+      { country: "Türkiye", rate: 32.6, isTurkey: true },
+      { country: "Japonya", rate: 4.5, isLow: true },
+      { country: "Hindistan", rate: 4.0, isLow: true },
+      { country: "Doğu Timor", rate: 3.8, isLow: true },
+      { country: "Bangladeş", rate: 3.6, isLow: true },
+      { country: "Vietnam (En Düşük 1)", rate: 2.1, isLow: true }
+    ];
+
+    // ==========================================
+    // 2. STATE YÖNETİMİ
+    // ==========================================
+    let currentSource = 'tuik';
+    let currentMetric = 'obese';
+    let currentDimension = 'timeline';
+    let currentBenchType = 'trends';
+    let currentAcademicFig = 'gender';
+    let currentNutriTab = 'nutrients';
+    let currentCorrParam = 'fatPct';
+
+    const tooltip = document.getElementById('chartTooltip');
+
+    function setSource(src) {
+      currentSource = src;
+      ['tuik', 'owid', 'compare'].forEach(s => {
+        const btn = document.getElementById(`btn-src-${s}`);
+        btn.className = s === src ? "px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold" : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+      });
+      const dimTb = document.getElementById('dimensionToolbar');
+      if (src === 'owid' || src === 'compare') dimTb.classList.add('opacity-40', 'pointer-events-none');
+      else dimTb.classList.remove('opacity-40', 'pointer-events-none');
+      renderSection1();
+    }
+
+    function setMetric(met) {
+      currentMetric = met;
+      ['obese', 'overweight', 'total'].forEach(m => {
+        const btn = document.getElementById(`btn-met-${m}`);
+        btn.className = m === met ? "px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold" : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+      });
+      renderSection1();
+    }
+
+    function setDimension(dim) {
+      currentDimension = dim;
+      const btnT = document.getElementById('btn-dim-time');
+      const btnA = document.getElementById('btn-dim-age');
+      btnT.className = dim === 'timeline' ? "px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold" : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+      btnA.className = dim === 'age' ? "px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold" : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+      renderSection1();
+    }
+
+    function setBenchType(type) {
+      currentBenchType = type;
+      ['trends', 'rankingEurope', 'rankingExtremes'].forEach(t => {
+        const btn = document.getElementById(t === 'trends' ? 'btn-bm-trends' : t === 'rankingEurope' ? 'btn-bm-rankEur' : 'btn-bm-rankExt');
+        btn.className = t === type ? "px-3.5 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold" : "px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+      });
+      renderSection2();
+    }
+
+    function setAcademicFig(fig) {
+      currentAcademicFig = fig;
+      ['gender', 'lifecourse', 'nutrition', 'inactivity', 'childhood'].forEach(f => {
+        const btn = document.getElementById(`btn-af-${f}`);
+        btn.className = f === fig ? "px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold" : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+      });
+      renderSection3();
+    }
+
+    function setNutriTab(tab) {
+      currentNutriTab = tab;
+      ['nutrients', 'macros', 'foodgroups', 'bkievol'].forEach(k => {
+        const btn = document.getElementById(k === 'nutrients' ? 'btn-nt-nutr' : k === 'macros' ? 'btn-nt-mac' : k === 'foodgroups' ? 'btn-nt-fg' : 'btn-nt-bki');
+        btn.className = k === tab ? "px-3 py-1.5 rounded-lg bg-white text-indigo-700 shadow-sm font-bold" : "px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+      });
+      renderSection4();
+    }
+
+    function changeCorrParam(param) {
+      currentCorrParam = param;
+      renderSection5();
+    }
+
+    // ==========================================
+    // 3. GRAFİK ÇİZİM: BÖLÜM 1 (TÜRKİYE ANALİZ)
+    // ==========================================
+    function renderSection1() {
+      const svg = document.getElementById('sec1ChartSvg');
+      const box = document.getElementById('sec1ChartBox');
+      const title = document.getElementById('sec1ChartTitle');
+      const sub = document.getElementById('sec1ChartSubtitle');
+      const leg = document.getElementById('sec1Legend');
+      const foot = document.getElementById('sec1DataFootnote');
+
+      const w = box.clientWidth || 900;
+      const h = box.clientHeight || 420;
+      const pad = { top: 35, right: 40, bottom: 45, left: 55 };
+      const chartW = w - pad.left - pad.right;
+      const chartH = h - pad.top - pad.bottom;
+
+      let content = '';
+      const metName = currentMetric === 'obese' ? "Obezite (BKİ ≥ 30)" :
+                      currentMetric === 'overweight' ? "Fazla Kilolu (25 ≤ BKİ < 30)" :
+                      "Toplam Aşırı Kilo Yükü (BKİ ≥ 25)";
+
+      if (currentSource === 'tuik' && currentDimension === 'timeline') {
+        title.innerText = `TÜİK: Yıllara ve Cinsiyete Göre ${metName} (%)`;
+        sub.innerText = "TÜİK Türkiye Sağlık Araştırması (15+ Yaş Nüfus)";
+        foot.innerText = "Kaynak: TÜİK Sağlık Araştırması 2008–2025 (Bülten No: 53990)";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-slate-700"><span class="w-3 h-3 rounded-full bg-slate-700"></span> Toplam Nüfus</span>
+          <span class="flex items-center gap-1.5 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Kadınlar</span>
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> Erkekler</span>
+        `;
+
+        const dataObj = currentMetric === 'obese' ? TUIK_DATA.obese :
+                        currentMetric === 'overweight' ? TUIK_DATA.overweight :
+                        TUIK_DATA.totalSurplus;
+
+        const maxY = currentMetric === 'total' ? 70 : 50;
+        const years = TUIK_DATA.years;
+        const minX = years[0], maxX = years[years.length - 1];
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 10) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        years.forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="${yr===2025?'#4338ca':'#64748b'}" font-size="11" font-weight="${yr===2025?'800':'600'}" text-anchor="middle">${yr}</text>`;
+        });
+
+        const series = [
+          { name: 'Kadın', color: '#f43f5e', data: dataObj.female },
+          { name: 'Toplam', color: '#334155', data: dataObj.total },
+          { name: 'Erkek', color: '#0284c7', data: dataObj.male }
+        ];
+
+        series.forEach(s => {
+          let p = '';
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(years[i-1]), py = getY(s.data[i-1]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${s.color}" stroke-width="${s.name==='Toplam'?'3.5':'2.5'}" stroke-linecap="round"/>`;
+
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]), val = s.data[i];
+            content += `
+              <circle cx="${x}" cy="${y}" r="${yr===2025?6:4.5}" fill="${s.color}" stroke="#ffffff" stroke-width="2" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${yr} TÜİK - ${s.name}', '${metName}: <b>%${val}</b>')"
+                onmouseleave="hideTooltip()" />
+              <text x="${x}" y="${y - 8}" fill="${s.color}" font-size="9.5" font-weight="700" text-anchor="middle">%${val}</text>
+            `;
+          });
+        });
+
+      } else if (currentSource === 'tuik' && currentDimension === 'age') {
+        title.innerText = "Yaş Gruplarına Göre Fazla Kiloluluk ve Obezite Dağılımı (%)";
+        sub.innerText = "TÜİK Türkiye Sağlık Araştırması Kohort Analizi";
+        foot.innerText = "Kaynak: TÜİK Sağlık Araştırması 15+ Yaş Grupları";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-purple-700"><span class="w-3 h-3 rounded-md bg-purple-600"></span> Obezite (BKİ ≥ 30)</span>
+          <span class="flex items-center gap-1.5 text-amber-700"><span class="w-3 h-3 rounded-md bg-amber-500"></span> Fazla Kilolu (25 ≤ BKİ < 30)</span>
+        `;
+
+        const n = AGE_GROUPS_DATA.length;
+        const slotW = chartW / n;
+        const barW = slotW * 0.52;
+
+        for (let y = 0; y <= 80; y += 20) {
+          const yp = pad.top + chartH - (y / 80) * chartH;
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        AGE_GROUPS_DATA.forEach((d, i) => {
+          const xCenter = pad.left + i * slotW + slotW / 2;
+          const xLeft = xCenter - barW / 2;
+
+          const hObese = (d.obese / 80) * chartH;
+          const hOver = (d.overweight / 80) * chartH;
+
+          const yObese = pad.top + chartH - hObese;
+          const yOver = yObese - hOver;
+
+          content += `
+            <rect x="${xLeft}" y="${yObese}" width="${barW}" height="${hObese}" rx="3" fill="#7c3aed" class="cursor-pointer hover:opacity-90"
+              onmousemove="showTooltip(event, '${d.age} Yaş Grubu', 'Obezite (≥30): <b>%${d.obese}</b>')" onmouseleave="hideTooltip()" />
+            <rect x="${xLeft}" y="${yOver}" width="${barW}" height="${hOver}" rx="4" fill="#f59e0b" class="cursor-pointer hover:opacity-90"
+              onmousemove="showTooltip(event, '${d.age} Yaş Grubu', 'Fazla Kilolu: <b>%${d.overweight}</b><br/>Toplam Aşırı Kilo: <b>%${d.total}</b>')" onmouseleave="hideTooltip()" />
+            
+            <text x="${xCenter}" y="${yOver - 6}" fill="#4338ca" font-size="10.5" font-weight="800" text-anchor="middle">%${d.total}</text>
+            <text x="${xCenter}" y="${pad.top + chartH + 20}" fill="#475569" font-size="11" font-weight="600" text-anchor="middle">${d.age}</text>
+          `;
+        });
+
+      } else if (currentSource === 'owid') {
+        title.innerText = `Our World in Data / Lancet: 1975–2022 ${metName} Eğrisi (%)`;
+        sub.innerText = "Yaşa göre standardize edilmiş yetişkin prevalansı (NCD-RisC)";
+        foot.innerText = "Kaynak: Our World in Data / NCD Risk Factor Collaboration (The Lancet 2024)";
+
+        const dataObj = currentMetric === 'obese' ? OWID_DATA.obese :
+                        currentMetric === 'overweight' ? OWID_DATA.overweight :
+                        OWID_DATA.totalSurplus;
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-indigo-700"><span class="w-3 h-3 rounded-full bg-indigo-600"></span> Genel Standart (%${dataObj.total[dataObj.total.length-1]})</span>
+          <span class="flex items-center gap-1.5 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Kadınlar (%${dataObj.female[dataObj.female.length-1]})</span>
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> Erkekler (%${dataObj.male[dataObj.male.length-1]})</span>
+        `;
+
+        const minX = 1975, maxX = 2022;
+        const maxY = currentMetric === 'total' ? 80 : 50;
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 10) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        [1975, 1985, 1995, 2005, 2015, 2022].forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">${yr}</text>`;
+        });
+
+        const lines = [
+          { name: 'Kadın', color: '#f43f5e', data: dataObj.female },
+          { name: 'Genel', color: '#4f46e5', data: dataObj.total },
+          { name: 'Erkek', color: '#0284c7', data: dataObj.male }
+        ];
+
+        lines.forEach(l => {
+          let p = '';
+          OWID_YEARS.forEach((yr, i) => {
+            const x = getX(yr), y = getY(l.data[i]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(OWID_YEARS[i-1]), py = getY(l.data[i-1]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${l.color}" stroke-width="${l.name==='Genel'?'3.5':'2.5'}" stroke-linecap="round"/>`;
+
+          OWID_YEARS.forEach((yr, i) => {
+            const x = getX(yr), y = getY(l.data[i]), val = l.data[i];
+            content += `
+              <circle cx="${x}" cy="${y}" r="${yr===2022?5.5:4}" fill="${l.color}" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${yr} OWID - ${l.name}', '${metName}: <b>%${val}</b>')"
+                onmouseleave="hideTooltip()" />
+            `;
+          });
+        });
+
+      } else {
+        title.innerText = `TÜİK ve OWID ${metName} Eğrileri Karşılaştırması`;
+        sub.innerText = "TÜİK ham ulusal veri ile OWID yaş-standardize model eğrisinin karşılaştırması";
+        foot.innerText = "Not: OWID verisi yaş-standardizasyonu içerdiği için seviye farklıdır, ancak artış ivmeleri paraleldir.";
+
+        const tuikObj = currentMetric === 'obese' ? TUIK_DATA.obese.total :
+                        currentMetric === 'overweight' ? TUIK_DATA.overweight.total :
+                        TUIK_DATA.totalSurplus.total;
+
+        const owidObj = currentMetric === 'obese' ? OWID_DATA.obese.total :
+                        currentMetric === 'overweight' ? OWID_DATA.overweight.total :
+                        OWID_DATA.totalSurplus.total;
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-emerald-700"><span class="w-3 h-3 rounded-full bg-emerald-600"></span> TÜİK (Ham Toplam: %${tuikObj[tuikObj.length-1]})</span>
+          <span class="flex items-center gap-1.5 text-indigo-700"><span class="w-3 h-3 rounded-full bg-indigo-600"></span> OWID (Standart Toplam: %${owidObj[owidObj.length-1]})</span>
+        `;
+
+        const minX = 1975, maxX = 2025;
+        const maxY = currentMetric === 'total' ? 80 : 50;
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 10) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        [1975, 1985, 1995, 2005, 2015, 2022, 2025].forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="${yr===2025?'#059669':'#64748b'}" font-size="11" font-weight="${yr===2025?'800':'600'}" text-anchor="middle">${yr}</text>`;
+        });
+
+        let pOwid = '';
+        OWID_YEARS.forEach((yr, i) => {
+          const x = getX(yr), y = getY(owidObj[i]);
+          if (i === 0) pOwid += `M ${x} ${y}`;
+          else {
+            const px = getX(OWID_YEARS[i-1]), py = getY(owidObj[i-1]);
+            const cx = (px + x) / 2;
+            pOwid += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+          }
+        });
+        content += `<path d="${pOwid}" fill="none" stroke="#4f46e5" stroke-width="3.5" stroke-linecap="round"/>`;
+
+        let pTuik = '';
+        TUIK_DATA.years.forEach((yr, i) => {
+          const x = getX(yr), y = getY(tuikObj[i]);
+          if (i === 0) pTuik += `M ${x} ${y}`;
+          else {
+            const px = getX(TUIK_DATA.years[i-1]), py = getY(tuikObj[i-1]);
+            const cx = (px + x) / 2;
+            pTuik += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+          }
+        });
+        content += `<path d="${pTuik}" fill="none" stroke="#059669" stroke-width="3.5" stroke-linecap="round"/>`;
+
+        TUIK_DATA.years.forEach((yr, i) => {
+          const x = getX(yr), y = getY(tuikObj[i]), val = tuikObj[i];
+          content += `
+            <circle cx="${x}" cy="${y}" r="${yr===2025?6.5:5}" fill="#059669" stroke="#ffffff" stroke-width="2" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${yr} TÜİK Sağlık', '${metName}: <b>%${val}</b>')"
+              onmouseleave="hideTooltip()" />
+            <text x="${x}" y="${y - 10}" fill="#059669" font-size="10.5" font-weight="800" text-anchor="middle">%${val}</text>
+          `;
+        });
+      }
+
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      svg.innerHTML = content;
+    }
+
+    // ==========================================
+    // 4. GRAFİK ÇİZİM: BÖLÜM 2 (BENCHMARK)
+    // ==========================================
+    function renderSection2() {
+      const svg = document.getElementById('sec2ChartSvg');
+      const box = document.getElementById('sec2ChartBox');
+      const title = document.getElementById('sec2ChartTitle');
+      const sub = document.getElementById('sec2ChartSubtitle');
+
+      const w = box.clientWidth || 600;
+      const h = box.clientHeight || 440;
+      let content = '';
+
+      if (currentBenchType === 'trends') {
+        title.innerText = "Ülkelerin Obezite Değişim Eğrileri (1975–2022)";
+        sub.innerText = "Türkiye'nin Avrupa ve Küresel Ülkelerle Karşılaştırmalı Yükselişi (OWID / Lancet)";
+
+        const pad = { top: 35, right: 40, bottom: 45, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const minX = 1975, maxX = 2022, maxY = 45;
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 10) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        [1975, 1985, 1995, 2005, 2015, 2022].forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">${yr}</text>`;
+        });
+
+        COUNTRY_TIMELINES.forEach(c => {
+          let p = '';
+          c.data.forEach((d, i) => {
+            const x = getX(d.year), y = getY(d.val);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(c.data[i-1].year), py = getY(c.data[i-1].val);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${c.color}" stroke-width="${c.width}" stroke-linecap="round"/>`;
+
+          const lastPoint = c.data[c.data.length - 1];
+          const lastX = getX(lastPoint.year);
+          const lastY = getY(lastPoint.val);
+          content += `
+            <circle cx="${lastX}" cy="${lastY}" r="${c.country==='Türkiye'?5.5:4}" fill="${c.color}" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${c.country} (2022)', 'Obezite Prevalansı: <b>%${lastPoint.val}</b>')" onmouseleave="hideTooltip()" />
+            <text x="${lastX - 8}" y="${lastY - 8}" fill="${c.color}" font-size="${c.country==='Türkiye'?'11':'9.5'}" font-weight="${c.country==='Türkiye'?'800':'600'}" text-anchor="end">${c.country} (%${lastPoint.val})</text>
+          `;
+        });
+
+      } else {
+        const isEur = currentBenchType === 'rankingEurope';
+        const list = isEur ? BENCHMARK_EUROPE_RANKING : BENCHMARK_EXTREMES_RANKING;
+
+        title.innerText = isEur ? "Avrupa Ülkeleri ve Türkiye Obezite Sıralaması (2022)" : "Dünyada En Yüksek ve En Düşük Obeziteye Sahip Ülkeler (2022)";
+        sub.innerText = "Our World in Data / NCD-RisC Yaş-Standardize Yetişkin Prevalansı (%)";
+
+        const pad = { top: 20, right: 45, bottom: 25, left: 145 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const maxVal = isEur ? 40 : 70;
+
+        const n = list.length;
+        const slotH = chartH / n;
+        const barH = Math.min(slotH * 0.6, 22);
+
+        for (let x = 0; x <= maxVal; x += 10) {
+          const xp = pad.left + (x / maxVal) * chartW;
+          content += `
+            <line x1="${xp}" y1="${pad.top}" x2="${xp}" y2="${pad.top + chartH}" stroke="#f1f5f9" stroke-width="1"/>
+            <text x="${xp}" y="${pad.top + chartH + 18}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="middle">%${x}</text>
+          `;
+        }
+
+        list.forEach((d, i) => {
+          const yCenter = pad.top + i * slotH + slotH / 2;
+          const barW = (d.rate / maxVal) * chartW;
+          const yTop = yCenter - barH / 2;
+
+          let barColor = '#94a3b8';
+          let textColor = '#334155';
+          if (d.isTurkey) { barColor = '#e11d48'; textColor = '#be123c'; }
+          else if (d.isHigh) { barColor = '#ea580c'; textColor = '#c2410c'; }
+          else if (d.isLow) { barColor = '#10b981'; textColor = '#047857'; }
+          else if (d.isAvg) { barColor = '#6366f1'; textColor = '#4338ca'; }
+          else { barColor = '#3b82f6'; }
+
+          content += `
+            <text x="${pad.left - 12}" y="${yCenter + 4}" fill="${d.isTurkey?'#be123c':'#334155'}" font-size="11" font-weight="${d.isTurkey?'800':'600'}" text-anchor="end">${d.country}</text>
+            <rect x="${pad.left}" y="${yTop}" width="${barW}" height="${barH}" rx="4" fill="${barColor}" class="cursor-pointer hover:opacity-90"
+              onmousemove="showTooltip(event, '${d.country}', 'Yetişkin Obezite Prevalansı: <b>%${d.rate}</b>')" onmouseleave="hideTooltip()" />
+            <text x="${pad.left + barW + 6}" y="${yCenter + 4}" fill="${textColor}" font-size="10.5" font-weight="700">%${d.rate}</text>
+          `;
+        });
+      }
+
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      svg.innerHTML = content;
+    }
+
+    // ==========================================
+    // 5. GRAFİK ÇİZİM: BÖLÜM 3 (FİGÜR STÜDYOSU)
+    // ==========================================
+    function renderSection3() {
+      const svg = document.getElementById('sec3ChartSvg');
+      const box = document.getElementById('sec3ChartBox');
+      const title = document.getElementById('sec3ChartTitle');
+      const sub = document.getElementById('sec3ChartSubtitle');
+      const leg = document.getElementById('sec3Legend');
+      const expBox = document.getElementById('sec3ExplanationBox');
+
+      const w = box.clientWidth || 600;
+      const h = box.clientHeight || 420;
+      let content = '';
+
+      if (currentAcademicFig === 'gender') {
+        title.innerText = "Cinsiyet Paradoksu: Obezite vs Fazla Kilo Ayrışması";
+        sub.innerText = "Kadınlarda klinik obezite, erkeklerde ise fazla kiloluluk neden daha yüksek? (TÜİK 2008–2025)";
+        
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Kadın Obezite (%24.8)</span>
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> Erkek Fazla Kilo (%43.1)</span>
+          <span class="flex items-center gap-1.5 text-slate-500"><span class="w-3 h-3 rounded-full bg-slate-400"></span> Erkek Obezite (%18.7)</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200">
+            <span class="font-bold text-rose-900 block mb-1">Klinik Önemi: Cinsiyet Makası</span>
+            <p class="text-rose-800 text-[11px]">
+              Kadınlarda klinik obezite oranı (%24.8), erkeklerden %32 daha yüksektir. Buna karşın erkeklerde fazla kiloluluk (%43.1) kadınlardan (%32.2) belirgin fazladır.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1">Müdahale Stratejisi</span>
+            <p class="text-slate-600 text-[11px]">
+              Erkeklerde hedef: <b>Fazla kiloluluktan obeziteye geçişi engellemek</b>; kadınlarda hedef: <b>mevcut obeziteyi geriletmektir</b>.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 35, bottom: 45, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const years = TUIK_DATA.years;
+        const minX = years[0], maxX = years[years.length - 1], maxY = 50;
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 10) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        years.forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">${yr}</text>`;
+        });
+
+        const series = [
+          { name: 'Erkek Fazla Kilo', color: '#0284c7', width: 3.5, data: TUIK_DATA.overweight.male },
+          { name: 'Kadın Obezite', color: '#f43f5e', width: 3.5, data: TUIK_DATA.obese.female },
+          { name: 'Erkek Obezite', color: '#94a3b8', width: 2.0, data: TUIK_DATA.obese.male }
+        ];
+
+        series.forEach(s => {
+          let p = '';
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(years[i-1]), py = getY(s.data[i-1]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${s.color}" stroke-width="${s.width}" stroke-linecap="round"/>`;
+
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]), val = s.data[i];
+            content += `
+              <circle cx="${x}" cy="${y}" r="${yr===2025?5.5:4}" fill="${s.color}" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${yr} - ${s.name}', 'Oran: <b>%${val}</b>')" onmouseleave="hideTooltip()" />
+            `;
+          });
+        });
+
+      } else if (currentAcademicFig === 'lifecourse') {
+        title.innerText = "Yaşam Döngüsü Boyunca Kümülatif BKİ Dağılımı";
+        sub.innerText = "15–24 yaş gençlikten 75+ geriatrik döneme kadar kilo sınıflarının kohort seyreltisi";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-purple-700"><span class="w-3 h-3 rounded-md bg-purple-600"></span> Obezite</span>
+          <span class="flex items-center gap-1.5 text-amber-700"><span class="w-3 h-3 rounded-md bg-amber-500"></span> Fazla Kilo</span>
+          <span class="flex items-center gap-1.5 text-slate-500"><span class="w-3 h-3 rounded-md bg-slate-300"></span> Normal/Zayıf</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-purple-50 border border-purple-200">
+            <span class="font-bold text-purple-900 block mb-1">55–64 Yaş Pik Noktası</span>
+            <p class="text-purple-800 text-[11px]">
+              Obezite 15-24 yaşta %4.2 iken, 55-64 yaşta <b>%33.4</b>'e fırlar. Bu yaşta toplumun %74.9'u aşırı kiloludur.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1">Geriatrik Düşüş (75+ Yaş)</span>
+            <p class="text-slate-600 text-[11px]">
+              75 yaş üstünde obezite %19.2'ye geriler; bu durum sarkopeni ve kronik hastalık kaynaklı kilo kaybını yansıtır.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 30, bottom: 45, left: 45 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const n = AGE_GROUPS_DATA.length;
+        const slotW = chartW / n;
+        const barW = slotW * 0.6;
+
+        for (let y = 0; y <= 100; y += 20) {
+          const yp = pad.top + chartH - (y / 100) * chartH;
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 8}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        AGE_GROUPS_DATA.forEach((d, i) => {
+          const xCenter = pad.left + i * slotW + slotW / 2;
+          const xLeft = xCenter - barW / 2;
+
+          const hOb = (d.obese / 100) * chartH;
+          const hOv = (d.overweight / 100) * chartH;
+          const hNorm = (d.normal / 100) * chartH;
+
+          const yOb = pad.top + chartH - hOb;
+          const yOv = yOb - hOv;
+          const yNorm = yOv - hNorm;
+
+          content += `
+            <rect x="${xLeft}" y="${yOb}" width="${barW}" height="${hOb}" rx="2" fill="#7c3aed" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${d.age} Yaş', 'Obez (≥30): <b>%${d.obese}</b>')" onmouseleave="hideTooltip()"/>
+            <rect x="${xLeft}" y="${yOv}" width="${barW}" height="${hOv}" rx="0" fill="#f59e0b" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${d.age} Yaş', 'Fazla Kilolu: <b>%${d.overweight}</b>')" onmouseleave="hideTooltip()"/>
+            <rect x="${xLeft}" y="${yNorm}" width="${barW}" height="${hNorm}" rx="3" fill="#cbd5e1" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${d.age} Yaş', 'Normal/Zayıf: <b>%${d.normal}</b>')" onmouseleave="hideTooltip()"/>
+            
+            <text x="${xCenter}" y="${yOv - 5}" fill="#312e81" font-size="10" font-weight="800" text-anchor="middle">%${d.total}</text>
+            <text x="${xCenter}" y="${pad.top + chartH + 20}" fill="#475569" font-size="11" font-weight="600" text-anchor="middle">${d.age}</text>
+          `;
+        });
+
+      } else if (currentAcademicFig === 'nutrition') {
+        title.innerText = "TÜİK Beslenme Dönüşümü: Günlük Taze Gıda Tüketimi (2010–2025)";
+        sub.innerText = "Günde en az 1 kez sebze, meyve tüketenlerin oranındaki dramatik gerileme (%)";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-emerald-600"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> Sebze/Salata (%69.4 → %32.6)</span>
+          <span class="flex items-center gap-1.5 text-amber-600"><span class="w-3 h-3 rounded-full bg-amber-500"></span> Genel Meyve (%57.0 → %28.7)</span>
+          <span class="flex items-center gap-1.5 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Gençlerde Meyve (15-24 Yaş: %22.2)</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200">
+            <span class="font-bold text-emerald-900 block mb-1">Taze Gıdadan Kopuş</span>
+            <p class="text-emerald-800 text-[11px]">
+              2010'da halkın %69.4'ü her gün sebze/salata yerken, 2025'te bu oran <b>%32.6'ya</b> gerilemiştir.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200">
+            <span class="font-bold text-rose-900 block mb-1">Beslenme Yoksulluğu & Obezite</span>
+            <p class="text-rose-800 text-[11px]">
+              Taze lifli gıdaların yerini kalori başına maliyeti düşük rafine karbonhidratlar ve ultra işlenmiş gıdaların alması obeziteyi tetiklemektedir.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 35, bottom: 45, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const years = NUTRITION_TIMELINE.years;
+        const minX = 2010, maxX = 2025, minY = 0, maxY = 80;
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 20) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        years.forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="${yr===2025?'#059669':'#64748b'}" font-size="11" font-weight="${yr===2025?'800':'600'}" text-anchor="middle">${yr}</text>`;
+        });
+
+        const series = [
+          { name: 'Sebze/Salata', color: '#059669', data: NUTRITION_TIMELINE.dailyVegetable },
+          { name: 'Genel Meyve', color: '#d97706', data: NUTRITION_TIMELINE.dailyFruit },
+          { name: 'Gençlerde Meyve (15-24)', color: '#e11d48', data: NUTRITION_TIMELINE.youthDailyFruit }
+        ];
+
+        series.forEach(s => {
+          let p = '';
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(years[i-1]), py = getY(s.data[i-1]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${s.color}" stroke-width="3" stroke-linecap="round"/>`;
+
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]), val = s.data[i];
+            content += `
+              <circle cx="${x}" cy="${y}" r="${yr===2025?6:4.5}" fill="${s.color}" stroke="#ffffff" stroke-width="2" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${yr} TÜİK - ${s.name}', 'Günlük Tüketim Oranı: <b>%${val}</b>')" onmouseleave="hideTooltip()" />
+              <text x="${x}" y="${y - 8}" fill="${s.color}" font-size="9.5" font-weight="700" text-anchor="middle">%${val}</text>
+            `;
+          });
+        });
+
+      } else if (currentAcademicFig === 'inactivity') {
+        title.innerText = "TÜİK Fiziksel Hareketsizlik Zaman Eğrisi (2014–2025)";
+        sub.innerText = "15+ yaş nüfusta fiziksel aktivite yapmayanların (sedanter) oranı (%)";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Kadınlar (%89.7)</span>
+          <span class="flex items-center gap-1.5 text-slate-700"><span class="w-3 h-3 rounded-full bg-slate-700"></span> Genel Nüfus (%86.6)</span>
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> Erkekler (%83.5)</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200">
+            <span class="font-bold text-rose-900 block mb-1">Kronik Sedanter Yapı</span>
+            <p class="text-rose-800 text-[11px]">
+              TÜİK verilerine göre son 10 yılda hareketsizlik oranı sürekli %86–%89 bandında kalarak obeziteyi besleyen ana faktör olmuştur.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200">
+            <span class="font-bold text-emerald-900 block mb-1">Yeterli Aktivite Yetersizliği</span>
+            <p class="text-emerald-800 text-[11px]">
+              Haftada DSÖ kriteri olan &gt;150 dk orta şiddetli aktivite yapanların oranı 2025'te erkeklerde %4.1, kadınlarda ise <b>%2.7</b>'dir.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 35, bottom: 45, left: 55 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const years = INACTIVITY_TIMELINE.years;
+        const minX = 2014, maxX = 2025, minY = 75, maxY = 100;
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - ((v - minY) / (maxY - minY)) * chartH;
+
+        for (let y = 75; y <= 100; y += 5) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        years.forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="${yr===2025?'#4338ca':'#64748b'}" font-size="11" font-weight="${yr===2025?'800':'600'}" text-anchor="middle">${yr}</text>`;
+        });
+
+        const series = [
+          { name: 'Kadın Hareketsizlik', color: '#f43f5e', data: INACTIVITY_TIMELINE.femaleInactive },
+          { name: 'Genel Hareketsizlik', color: '#334155', data: INACTIVITY_TIMELINE.totalInactive },
+          { name: 'Erkek Hareketsizlik', color: '#0284c7', data: INACTIVITY_TIMELINE.maleInactive }
+        ];
+
+        series.forEach(s => {
+          let p = '';
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(years[i-1]), py = getY(s.data[i-1]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${s.color}" stroke-width="${s.name==='Genel Hareketsizlik'?'3.5':'2.5'}" stroke-linecap="round"/>`;
+
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]), val = s.data[i];
+            content += `
+              <circle cx="${x}" cy="${y}" r="${yr===2025?6:4.5}" fill="${s.color}" stroke="#ffffff" stroke-width="2" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${yr} TÜİK - ${s.name}', 'Hareketsizlik Oranı: <b>%${val}</b>')" onmouseleave="hideTooltip()" />
+              <text x="${x}" y="${y - 8}" fill="${s.color}" font-size="9.5" font-weight="700" text-anchor="middle">%${val}</text>
+            `;
+          });
+        });
+
+      } else {
+        title.innerText = "Çocuk ve Ergenlerde (5–19 Yaş) Obezite Sıçraması";
+        sub.innerText = "1975'ten 2022'ye 10 kattan fazla artışın epidemiyolojik seyri (OWID / Lancet)";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> Erkek Çocuk (%13.2)</span>
+          <span class="flex items-center gap-1.5 text-indigo-700"><span class="w-3 h-3 rounded-full bg-indigo-600"></span> Toplam Çocuk (%10.5)</span>
+          <span class="flex items-center gap-1.5 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Kız Çocuk (%7.8)</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-sky-50 border border-sky-200">
+            <span class="font-bold text-sky-900 block mb-1">Geleceğin Yetişkin Obezitesi</span>
+            <p class="text-sky-800 text-[11px]">
+              1975'te %1'in altında olan çocukluk çağı obezitesi 2022'de <b>%10.5</b>'e (erkek çocuklarda %13.2) çıkmıştır.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1">Erken Başlangıçlı Komorbidite</span>
+            <p class="text-slate-600 text-[11px]">
+              Çocukluk çağı obezitesindeki bu tırmanış erken kardiyometabolik risk yükünü artırmaktadır.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 35, bottom: 45, left: 45 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const minX = 1975, maxX = 2022, maxY = 16;
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 4) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 8}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        CHILD_OBESITY_TIMELINE.forEach(d => {
+          const xp = getX(d.year);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">${d.year}</text>`;
+        });
+
+        const lines = [
+          { key: 'male', color: '#0284c7', name: 'Erkek Çocuk' },
+          { key: 'total', color: '#4f46e5', name: 'Toplam' },
+          { key: 'female', color: '#f43f5e', name: 'Kız Çocuk' }
+        ];
+
+        lines.forEach(l => {
+          let p = '';
+          CHILD_OBESITY_TIMELINE.forEach((d, i) => {
+            const x = getX(d.year), y = getY(d[l.key]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(CHILD_OBESITY_TIMELINE[i-1].year), py = getY(CHILD_OBESITY_TIMELINE[i-1][l.key]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${l.color}" stroke-width="${l.key==='total'?'3.5':'2.5'}" stroke-linecap="round"/>`;
+
+          CHILD_OBESITY_TIMELINE.forEach(d => {
+            const x = getX(d.year), y = getY(d[l.key]);
+            content += `
+              <circle cx="${x}" cy="${y}" r="${d.year===2022?5.5:4}" fill="${l.color}" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${d.year} - ${l.name}', 'Obezite Oranı: <b>%${d[l.key]}</b>')" onmouseleave="hideTooltip()" />
+            `;
+          });
+        });
+      }
+
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      svg.innerHTML = content;
+    }
+
+    // ==========================================
+    // 6. GRAFİK ÇİZİM: BÖLÜM 4 (TBSA BESLENME TRENDLERİ)
+    // ==========================================
+    function renderSection4() {
+      const svg = document.getElementById('sec4ChartSvg');
+      const box = document.getElementById('sec4ChartBox');
+      const title = document.getElementById('sec4ChartTitle');
+      const sub = document.getElementById('sec4ChartSubtitle');
+      const leg = document.getElementById('sec4Legend');
+      const expBox = document.getElementById('sec4ExplanationBox');
+
+      const w = box.clientWidth || 600;
+      const h = box.clientHeight || 420;
+      let content = '';
+
+      if (currentNutriTab === 'nutrients') {
+        title.innerText = "Tablo 1: Günlük Enerji ve Makro/Mikro Besin Alımı";
+        sub.innerText = "Karbonhidrat ve Tiamin düşerken, Yağ ve Kalsiyum alımındaki artış (TBSA 1974–2017)";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> Karbonhidrat (g/gün)</span>
+          <span class="flex items-center gap-1.5 text-amber-600"><span class="w-3 h-3 rounded-full bg-amber-500"></span> Yağ (g/gün)</span>
+          <span class="flex items-center gap-1.5 text-emerald-700"><span class="w-3 h-3 rounded-full bg-emerald-600"></span> Hayvansal Protein (g/gün)</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1">Karbonhidrat ve Tiamin Çöküşü</span>
+            <p class="text-slate-600 text-[11px]">
+              Diyetle karbonhidrat alımı 369.1 g'dan <b>235.0 g'a (-%36.3)</b>, ekmek kaynaklı Tiamin (B1) 1.8 mg'dan <b>0.9 mg'a (-%50.0)</b> inmiştir.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200">
+            <span class="font-bold text-amber-900 block mb-1">Hayvansal Protein & Yağ Artışı</span>
+            <p class="text-amber-800 text-[11px]">
+              Hayvansal protein 18.0 g'dan <b>30.4 g'a (+%68.9)</b>, günlük toplam yağ alımı 62.4 g'dan <b>73.7 g'a (+%18.1)</b> yükselmiştir.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 35, bottom: 45, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const years = TBSA_DATA.years;
+        const minX = 1974, maxX = 2017, maxY = 400;
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 100) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">${y}g</text>
+          `;
+        }
+
+        years.forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">${yr}</text>`;
+        });
+
+        const series = [
+          { name: 'Karbonhidrat (g)', color: '#0284c7', data: TBSA_DATA.carbGrams },
+          { name: 'Yağ (g)', color: '#d97706', data: TBSA_DATA.fatGrams },
+          { name: 'Hayvansal Protein (g)', color: '#059669', data: TBSA_DATA.animProt }
+        ];
+
+        series.forEach(s => {
+          let p = '';
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(years[i-1]), py = getY(s.data[i-1]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${s.color}" stroke-width="3" stroke-linecap="round"/>`;
+
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(s.data[i]), val = s.data[i];
+            content += `
+              <circle cx="${x}" cy="${y}" r="5" fill="${s.color}" stroke="#ffffff" stroke-width="2" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${yr} TBSA - ${s.name}', 'Alım: <b>${val} g/gün</b>')" onmouseleave="hideTooltip()" />
+              <text x="${x}" y="${y - 8}" fill="${s.color}" font-size="9.5" font-weight="700" text-anchor="middle">${val}g</text>
+            `;
+          });
+        });
+
+      } else if (currentNutriTab === 'macros') {
+        title.innerText = "Şekil 1: Günlük Enerjinin Makro Besin Dağılımı (% Enerji)";
+        sub.innerText = "Karbonhidrattan (%64 → %50) yağa (%24 → %35) kayan Batı tipi diyet dönüşümü";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-amber-600"><span class="w-3 h-3 rounded-md bg-amber-500"></span> Yağ (%24 → %35)</span>
+          <span class="flex items-center gap-1.5 text-emerald-700"><span class="w-3 h-3 rounded-md bg-emerald-600"></span> Protein (%12 → %15)</span>
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-md bg-sky-500"></span> Karbonhidrat (%64 → %50)</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200">
+            <span class="font-bold text-amber-900 block mb-1">Yağ Oranında +%45.8 Artış</span>
+            <p class="text-amber-800 text-[11px]">
+              Diyette enerjinin yağdan gelen yüzdesi %24'ten %35'e fırlayarak EFSA'nın önerdiği üst sınıra (%35) dayanmıştır.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1">Karbonhidrat Payında Gerileme</span>
+            <p class="text-slate-600 text-[11px]">
+              Geleneksel ekmek ve baklagil ağırlıklı beslenme yerini hayvansal yağ ve ete bırakmıştır.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 30, bottom: 45, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const years = TBSA_DATA.years;
+        const slotW = chartW / 4;
+        const barW = slotW * 0.55;
+
+        for (let y = 0; y <= 100; y += 20) {
+          const yp = pad.top + chartH - (y / 100) * chartH;
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 8}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        years.forEach((yr, i) => {
+          const xCenter = pad.left + i * slotW + slotW / 2;
+          const xLeft = xCenter - barW / 2;
+
+          const carb = TBSA_DATA.carbPct[i];
+          const fat = TBSA_DATA.fatPct[i];
+          const prot = TBSA_DATA.protPct[i];
+
+          const hFat = (fat / 100) * chartH;
+          const hProt = (prot / 100) * chartH;
+          const hCarb = (carb / 100) * chartH;
+
+          const yFat = pad.top + chartH - hFat;
+          const yProt = yFat - hProt;
+          const yCarb = yProt - hCarb;
+
+          content += `
+            <rect x="${xLeft}" y="${yFat}" width="${barW}" height="${hFat}" rx="2" fill="#f59e0b" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${yr} Makro', 'Yağ: <b>%${fat}</b>')" onmouseleave="hideTooltip()" />
+            <rect x="${xLeft}" y="${yProt}" width="${barW}" height="${hProt}" rx="0" fill="#059669" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${yr} Makro', 'Protein: <b>%${prot}</b>')" onmouseleave="hideTooltip()" />
+            <rect x="${xLeft}" y="${yCarb}" width="${barW}" height="${hCarb}" rx="3" fill="#0284c7" class="cursor-pointer"
+              onmousemove="showTooltip(event, '${yr} Makro', 'Karbonhidrat: <b>%${carb}</b>')" onmouseleave="hideTooltip()" />
+
+            <text x="${xCenter}" y="${yFat + hFat/2 + 3}" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">%${fat}</text>
+            <text x="${xCenter}" y="${yProt + hProt/2 + 3}" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">%${prot}</text>
+            <text x="${xCenter}" y="${yCarb + hCarb/2 + 3}" fill="#ffffff" font-size="10" font-weight="800" text-anchor="middle">%${carb}</text>
+
+            <text x="${xCenter}" y="${pad.top + chartH + 20}" fill="#475569" font-size="11" font-weight="700" text-anchor="middle">${yr}</text>
+          `;
+        });
+
+      } else if (currentNutriTab === 'foodgroups') {
+        title.innerText = "Tablo 2: Besin Grupları Günlük Tüketim Miktarları (g/gün)";
+        sub.innerText = "Ekmek/Sebze düşerken Et (+%112.8), Yumurta (+%251) ve Yağ (+%32.5) artışı (TBSA 1974 vs 2017)";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-slate-500"><span class="w-3 h-3 rounded-md bg-slate-400"></span> 1974 Tüketimi</span>
+          <span class="flex items-center gap-1.5 text-indigo-700"><span class="w-3 h-3 rounded-md bg-indigo-600"></span> 2017 Tüketimi</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-200">
+            <span class="font-bold text-slate-800 block mb-1">Ekmekte -%44.8 Düşüş</span>
+            <p class="text-slate-600 text-[11px]">
+              Günde 493.0 g olan ekmek tüketimi <b>272.3 g'a</b> inmiştir. Sebze ve meyve de 542.6 g'dan <b>415.0 g'a</b> gerilemiştir.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200">
+            <span class="font-bold text-rose-900 block mb-1">Et ve Yağ Tüketimi</span>
+            <p class="text-rose-800 text-[11px]">
+              Et-tavuk-balık grubu 55.4 g'dan <b>117.9 g'a (+%112.8)</b>, görünür yağlar 37.9 g'dan <b>50.2 g'a (+%32.5)</b> çıkmıştır.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 25, right: 40, bottom: 30, left: 140 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const list = [
+          { name: "Ekmek ve Tahıllar", v1974: 493.0, v2017: 272.3, chg: -44.8 },
+          { name: "Sebze ve Meyveler", v1974: 542.6, v2017: 415.0, chg: -23.5 },
+          { name: "Et-Tavuk-Balık", v1974: 55.4, v2017: 117.9, chg: +112.8 },
+          { name: "Süt ve Ürünleri", v1974: 102.4, v2017: 188.2, chg: +83.8 },
+          { name: "Görünür Yağlar", v1974: 37.9, v2017: 50.2, chg: +32.5 },
+          { name: "Yumurta", v1974: 9.0, v2017: 27.7, chg: +251.1 },
+          { name: "Kurubaklagiller", v1974: 9.8, v2017: 26.7, chg: +172.4 }
+        ];
+
+        const n = list.length;
+        const slotH = chartH / n;
+        const barH = slotH * 0.32;
+        const maxVal = 600;
+
+        for (let x = 0; x <= maxVal; x += 100) {
+          const xp = pad.left + (x / maxVal) * chartW;
+          content += `
+            <line x1="${xp}" y1="${pad.top}" x2="${xp}" y2="${pad.top + chartH}" stroke="#f1f5f9" stroke-width="1"/>
+            <text x="${xp}" y="${pad.top + chartH + 18}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="middle">${x}g</text>
+          `;
+        }
+
+        list.forEach((g, i) => {
+          const yCenter = pad.top + i * slotH + slotH / 2;
+          const w1974 = (g.v1974 / maxVal) * chartW;
+          const w2017 = (g.v2017 / maxVal) * chartW;
+
+          const y1 = yCenter - barH - 1;
+          const y2 = yCenter + 1;
+
+          content += `
+            <text x="${pad.left - 12}" y="${yCenter + 4}" fill="#334155" font-size="11" font-weight="600" text-anchor="end">${g.name}</text>
+            <rect x="${pad.left}" y="${y1}" width="${w1974}" height="${barH}" rx="3" fill="#94a3b8"
+              onmousemove="showTooltip(event, '${g.name} (1974)', 'Tüketim: <b>${g.v1974} g/gün</b>')" onmouseleave="hideTooltip()" />
+            <text x="${pad.left + w1974 + 6}" y="${y1 + barH - 2}" fill="#64748b" font-size="9.5" font-weight="600">${g.v1974}g</text>
+
+            <rect x="${pad.left}" y="${y2}" width="${w2017}" height="${barH}" rx="3" fill="#4f46e5"
+              onmousemove="showTooltip(event, '${g.name} (2017)', 'Tüketim: <b>${g.v2017} g/gün</b><br/>Değişim: <b>${g.chg > 0 ? '+' : ''}${g.chg}%</b>')" onmouseleave="hideTooltip()" />
+            <text x="${pad.left + w2017 + 6}" y="${y2 + barH - 2}" fill="#4338ca" font-size="9.5" font-weight="700">${g.v2017}g (${g.chg>0?'+':''}${g.chg}%)</text>
+          `;
+        });
+
+      } else {
+        title.innerText = "Şekil 2: Yetişkin BKİ Sınıflaması Dağılımı (1974, 1984, 2010, 2017)";
+        sub.innerText = "Erkeklerde obezite 3 katına (%7.6 → %25.1), kadınlarda %39.3'e tırmanmıştır";
+
+        leg.innerHTML = `
+          <span class="flex items-center gap-1.5 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> Erkek Obezite</span>
+          <span class="flex items-center gap-1.5 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> Kadın Obezite</span>
+          <span class="flex items-center gap-1.5 text-sky-400"><span class="w-3 h-3 rounded-full bg-sky-300"></span> Erkek Fazla Kilo</span>
+          <span class="flex items-center gap-1.5 text-rose-400"><span class="w-3 h-3 rounded-full bg-rose-300"></span> Kadın Fazla Kilo</span>
+        `;
+
+        expBox.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200">
+            <span class="font-bold text-rose-900 block mb-1">Erkeklerde Hızlı Tırmanış</span>
+            <p class="text-rose-800 text-[11px]">
+              Erkeklerde fazla kiloluluk %26.4'ten <b>%42.0'ye</b>, obezite ise %7.6'dan <b>%25.1'e</b> fırlamıştır.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-200">
+            <span class="font-bold text-amber-900 block mb-1">Kadınlarda Yüksek Plato</span>
+            <p class="text-amber-800 text-[11px]">
+              Kadınlarda obezite 1974'te %25.6 iken 2017'de <b>%39.3</b>'e çıkmış ve yüksek bir platoya oturmuştur.
+            </p>
+          </div>
+        `;
+
+        const pad = { top: 35, right: 35, bottom: 45, left: 50 };
+        const chartW = w - pad.left - pad.right;
+        const chartH = h - pad.top - pad.bottom;
+        const years = TBSA_DATA.years;
+        const minX = 1974, maxX = 2017, maxY = 50;
+
+        const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+        const getY = (v) => pad.top + chartH - (v / maxY) * chartH;
+
+        for (let y = 0; y <= maxY; y += 10) {
+          const yp = getY(y);
+          content += `
+            <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="${pad.left - 10}" y="${yp + 4}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="end">%${y}</text>
+          `;
+        }
+
+        years.forEach(yr => {
+          const xp = getX(yr);
+          content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">${yr}</text>`;
+        });
+
+        const lines = [
+          { name: 'Kadın Obezite', color: '#e11d48', width: 3.5, data: TBSA_DATA.femaleBmi.obese },
+          { name: 'Erkek Fazla Kilo', color: '#38bdf8', width: 3.0, data: TBSA_DATA.maleBmi.overweight },
+          { name: 'Erkek Obezite', color: '#0284c7', width: 3.5, data: TBSA_DATA.maleBmi.obese },
+          { name: 'Kadın Fazla Kilo', color: '#fb7185', width: 2.0, data: TBSA_DATA.femaleBmi.overweight }
+        ];
+
+        lines.forEach(l => {
+          let p = '';
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(l.data[i]);
+            if (i === 0) p += `M ${x} ${y}`;
+            else {
+              const px = getX(years[i-1]), py = getY(l.data[i-1]);
+              const cx = (px + x) / 2;
+              p += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+            }
+          });
+          content += `<path d="${p}" fill="none" stroke="${l.color}" stroke-width="${l.width}" stroke-linecap="round"/>`;
+
+          years.forEach((yr, i) => {
+            const x = getX(yr), y = getY(l.data[i]), val = l.data[i];
+            content += `
+              <circle cx="${x}" cy="${y}" r="4.5" fill="${l.color}" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+                onmousemove="showTooltip(event, '${yr} TBSA - ${l.name}', 'Oran: <b>%${val}</b>')" onmouseleave="hideTooltip()" />
+            `;
+          });
+        });
+      }
+
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      svg.innerHTML = content;
+    }
+
+    // ==========================================
+    // 7. GRAFİK ÇİZİM: BÖLÜM 5 (ÇOKLU KORELASYON LABORATUVARI - OWID DAHİL)
+    // ==========================================
+    function renderSection5() {
+      const svg = document.getElementById('sec5ChartSvg');
+      const box = document.getElementById('sec5ChartBox');
+      const title = document.getElementById('sec5ChartTitle');
+      const sub = document.getElementById('sec5ChartSubtitle');
+      const leg = document.getElementById('sec5Legend');
+      const expBox = document.getElementById('sec5ExplanationBox');
+
+      const w = box.clientWidth || 600;
+      const h = box.clientHeight || 420;
+      let content = '';
+
+      // Genişletilmiş Parametre Kataloğu
+      const paramsMeta = {
+        energy: { name: "Günlük Toplam Enerji Alımı", data: TBSA_DATA.energy, unit: "kkal/gün", max: 2500, rMale: "-0.92", rFem: "-0.89", rOwid: "-0.94", rDir: "Negatif (Enerji Yoğunluğu & Hareketsizlik Paradoksu)" },
+        fatPct: { name: "Enerjinin Yağdan Gelen Payı", data: TBSA_DATA.fatPct, unit: "%", max: 50, rMale: "+0.98", rFem: "+0.96", rOwid: "+0.99", rDir: "Güçlü Pozitif Korelasyon (En Yüksek Paralellik)" },
+        carbPct: { name: "Enerjinin Karbonhidrattan Gelen Payı", data: TBSA_DATA.carbPct, unit: "%", max: 80, rMale: "-0.98", rFem: "-0.97", rOwid: "-0.99", rDir: "Ters Korelasyon (Kompozisyon Kayması)" },
+        protPct: { name: "Enerjinin Proteinden Gelen Payı", data: TBSA_DATA.protPct, unit: "%", max: 25, rMale: "+0.94", rFem: "+0.91", rOwid: "+0.96", rDir: "Pozitif Korelasyon (Hayvansal Artış)" },
+        
+        bread: { name: "Ekmek ve Tahıl Tüketimi", data: TBSA_DATA.bread, unit: "g/gün", max: 600, rMale: "-0.97", rFem: "-0.93", rOwid: "-0.98", rDir: "Ters Korelasyon (Geleneksel Diyet Kaybı)" },
+        vegfruit: { name: "Sebze ve Meyve Tüketimi", data: TBSA_DATA.vegFruitTot, unit: "g/gün", max: 600, rMale: "-0.64", rFem: "-0.58", rOwid: "-0.68", rDir: "Ters Korelasyon (Taze Lif Düşüşü)" },
+        meat: { name: "Et-Tavuk-Balık Tüketimi", data: TBSA_DATA.meatTot, unit: "g/gün", max: 150, rMale: "+0.95", rFem: "+0.91", rOwid: "+0.97", rDir: "Pozitif Korelasyon (Hayvansal Yağ/Protein)" },
+        chicken: { name: "Tavuk Eti Tüketimi", data: TBSA_DATA.chicken, unit: "g/gün", max: 35, rMale: "+0.97", rFem: "+0.92", rOwid: "+0.98", rDir: "Pozitif Korelasyon (+%840 Artış)" },
+        visibleFats: { name: "Görünür Yağ Tüketimi", data: TBSA_DATA.visibleFats, unit: "g/gün", max: 60, rMale: "+0.88", rFem: "+0.85", rOwid: "+0.91", rDir: "Pozitif Korelasyon (2010 sonrası sıçrama)" },
+        dairy: { name: "Süt ve Süt Ürünleri", data: TBSA_DATA.dairy, unit: "g/gün", max: 250, rMale: "+0.92", rFem: "+0.88", rOwid: "+0.94", rDir: "Pozitif Korelasyon" },
+        egg: { name: "Yumurta Tüketimi", data: TBSA_DATA.egg, unit: "g/gün", max: 35, rMale: "+0.96", rFem: "+0.93", rOwid: "+0.98", rDir: "Pozitif Korelasyon (+%251 Artış)" },
+        legumes: { name: "Kurubaklagil Tüketimi", data: TBSA_DATA.legumes, unit: "g/gün", max: 45, rMale: "+0.32", rFem: "+0.28", rOwid: "+0.35", rDir: "Zayıf / Dalgalı" },
+        sugar: { name: "Şeker ve Şekerli Besinler", data: TBSA_DATA.sugar, unit: "g/gün", max: 50, rMale: "-0.45", rFem: "-0.38", rOwid: "-0.48", rDir: "Hafif Negatif / Stabil" },
+
+        fatGrams: { name: "Günlük Toplam Yağ Alımı", data: TBSA_DATA.fatGrams, unit: "g/gün", max: 90, rMale: "+0.96", rFem: "+0.94", rOwid: "+0.98", rDir: "Pozitif Korelasyon (Yüksek Enerji Yoğunluğu)" },
+        carbGrams: { name: "Günlük Karbonhidrat Alımı", data: TBSA_DATA.carbGrams, unit: "g/gün", max: 450, rMale: "-0.98", rFem: "-0.97", rOwid: "-0.99", rDir: "Ters Korelasyon" },
+        animProt: { name: "Hayvansal Protein Alımı", data: TBSA_DATA.animProt, unit: "g/gün", max: 40, rMale: "+0.96", rFem: "+0.93", rOwid: "+0.98", rDir: "Pozitif Korelasyon (18g → 30.4g)" },
+        totProt: { name: "Toplam Protein Alımı", data: TBSA_DATA.totProt, unit: "g/gün", max: 80, rMale: "+0.15", rFem: "+0.12", rOwid: "+0.18", rDir: "Stabil / Değişimsiz" },
+        thiamin: { name: "Tiamin (B1 Vitamini) Alımı", data: TBSA_DATA.thiamin, unit: "mg/gün", max: 2.2, rMale: "-0.98", rFem: "-0.95", rOwid: "-0.99", rDir: "Ters Korelasyon (Tahıl Azalması)" },
+        calcium: { name: "Kalsiyum Alımı", data: TBSA_DATA.calcium, unit: "mg/gün", max: 1000, rMale: "+0.96", rFem: "+0.94", rOwid: "+0.98", rDir: "Pozitif Korelasyon (Süt/Peynir Artışı)" },
+        vitC: { name: "C Vitamini Alımı", data: TBSA_DATA.vitC, unit: "mg/gün", max: 160, rMale: "-0.22", rFem: "-0.15", rOwid: "-0.25", rDir: "Dalgalı" },
+        iron: { name: "Demir Alımı", data: TBSA_DATA.iron, unit: "mg/gün", max: 22, rMale: "-0.85", rFem: "-0.81", rOwid: "-0.88", rDir: "Negatif Korelasyon" }
+      };
+
+      const cur = paramsMeta[currentCorrParam] || paramsMeta.fatPct;
+
+      title.innerText = `${cur.name} ile Obezite Korelasyonu (TBSA & OWID)`;
+      sub.innerText = `1974, 1984, 2010 ve 2017 araştırmaları karşılaştırmalı analizi`;
+
+      leg.innerHTML = `
+        <span class="flex items-center gap-1 text-amber-600"><span class="w-3 h-3 rounded-full bg-amber-500"></span> ${cur.name} (Sol)</span>
+        <span class="flex items-center gap-1 text-indigo-700"><span class="w-3 h-3 rounded-full bg-indigo-600"></span> OWID Obezite Standardı (Sağ)</span>
+        <span class="flex items-center gap-1 text-rose-600"><span class="w-3 h-3 rounded-full bg-rose-500"></span> TBSA Kadın (Sağ)</span>
+        <span class="flex items-center gap-1 text-sky-600"><span class="w-3 h-3 rounded-full bg-sky-500"></span> TBSA Erkek (Sağ)</span>
+      `;
+
+      expBox.innerHTML = `
+        <div class="p-3.5 rounded-xl bg-indigo-50 border border-indigo-200">
+          <span class="font-bold text-indigo-900 block mb-1">Pearson Korelasyon Katsayıları (r)</span>
+          <div class="space-y-1 text-[11px] text-indigo-800">
+            <div>• <strong>OWID Lancet Obezite (r):</strong> <span class="font-bold text-indigo-950">${cur.rOwid}</span></div>
+            <div>• <strong>TBSA Erkek Obezite (r):</strong> <span class="font-bold text-indigo-950">${cur.rMale}</span></div>
+            <div>• <strong>TBSA Kadın Obezite (r):</strong> <span class="font-bold text-indigo-950">${cur.rFem}</span></div>
+            <div>• <strong>İlişki Yönü:</strong> <span class="font-bold text-rose-800">${cur.rDir}</span></div>
+          </div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-slate-100 border border-slate-200">
+          <span class="font-bold text-slate-800 block mb-1">Epidemiyolojik & Klinik Çıkarım</span>
+          <p class="text-slate-600 text-[11px]">
+            ${cur.name} göstergesindeki 43 yıllık seyir, hem ulusal anketlerdeki (TBSA) hem de uluslararası yaş-standardize modeldeki (OWID / Lancet) obezite patlaması ile birebir örtüşmektedir.
+          </p>
+        </div>
+      `;
+
+      const pad = { top: 35, right: 55, bottom: 45, left: 60 };
+      const chartW = w - pad.left - pad.right;
+      const chartH = h - pad.top - pad.bottom;
+      const years = TBSA_DATA.years;
+      const minX = 1974, maxX = 2017;
+      const maxParam = cur.max;
+      const maxObese = 50;
+
+      const getX = (yr) => pad.left + ((yr - minX) / (maxX - minX)) * chartW;
+      const getYLeft = (v) => pad.top + chartH - (v / maxParam) * chartH;
+      const getYRight = (v) => pad.top + chartH - (v / maxObese) * chartH;
+
+      for (let i = 0; i <= 4; i++) {
+        const valL = (maxParam / 4) * i;
+        const valR = (maxObese / 4) * i;
+        const yp = pad.top + chartH - (i / 4) * chartH;
+        content += `
+          <line x1="${pad.left}" y1="${yp}" x2="${w - pad.right}" y2="${yp}" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="${pad.left - 10}" y="${yp + 4}" fill="#d97706" font-size="10" font-weight="700" text-anchor="end">${Math.round(valL*10)/10} ${cur.unit}</text>
+          <text x="${w - pad.right + 10}" y="${yp + 4}" fill="#e11d48" font-size="10" font-weight="700" text-anchor="start">%${valR}</text>
+        `;
+      }
+
+      years.forEach(yr => {
+        const xp = getX(yr);
+        content += `<text x="${xp}" y="${pad.top + chartH + 22}" fill="#64748b" font-size="11" font-weight="600" text-anchor="middle">${yr}</text>`;
+      });
+
+      // 1. Beslenme Parametresi (Sol Eksen - Turuncu Çizgi)
+      let pNut = '';
+      years.forEach((yr, i) => {
+        const x = getX(yr), y = getYLeft(cur.data[i]);
+        if (i === 0) pNut += `M ${x} ${y}`;
+        else {
+          const px = getX(years[i-1]), py = getYLeft(cur.data[i-1]);
+          const cx = (px + x) / 2;
+          pNut += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+        }
+      });
+      content += `<path d="${pNut}" fill="none" stroke="#d97706" stroke-width="3.5" stroke-dasharray="4,2" stroke-linecap="round"/>`;
+
+      years.forEach((yr, i) => {
+        const x = getX(yr), y = getYLeft(cur.data[i]), val = cur.data[i];
+        content += `
+          <circle cx="${x}" cy="${y}" r="5.5" fill="#d97706" stroke="#ffffff" stroke-width="2" class="cursor-pointer"
+            onmousemove="showTooltip(event, '${yr} TBSA - ${cur.name}', 'Değer: <b>${val} ${cur.unit}</b>')" onmouseleave="hideTooltip()" />
+        `;
+      });
+
+      // 2. OWID Obezite Eğrisi (Sağ Eksen - Koyu Mor)
+      let pOwid = '';
+      OWID_BENCH_POINTS.forEach((pt, i) => {
+        const x = getX(pt.year), y = getYRight(pt.val);
+        if (i === 0) pOwid += `M ${x} ${y}`;
+        else {
+          const px = getX(OWID_BENCH_POINTS[i-1].year), py = getYRight(OWID_BENCH_POINTS[i-1].val);
+          const cx = (px + x) / 2;
+          pOwid += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+        }
+      });
+      content += `<path d="${pOwid}" fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/>`;
+
+      OWID_BENCH_POINTS.forEach(pt => {
+        const x = getX(pt.year), y = getYRight(pt.val);
+        content += `
+          <circle cx="${x}" cy="${y}" r="4" fill="#4f46e5" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+            onmousemove="showTooltip(event, '${pt.year} OWID Standardı', 'Obezite: <b>%${pt.val}</b>')" onmouseleave="hideTooltip()" />
+        `;
+      });
+
+      // 3. TBSA Kadın Obezite (Sağ Eksen - Pembe)
+      let pFem = '';
+      years.forEach((yr, i) => {
+        const x = getX(yr), y = getYRight(TBSA_DATA.femaleBmi.obese[i]);
+        if (i === 0) pFem += `M ${x} ${y}`;
+        else {
+          const px = getX(years[i-1]), py = getYRight(TBSA_DATA.femaleBmi.obese[i-1]);
+          const cx = (px + x) / 2;
+          pFem += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+        }
+      });
+      content += `<path d="${pFem}" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-linecap="round"/>`;
+
+      years.forEach((yr, i) => {
+        const x = getX(yr), y = getYRight(TBSA_DATA.femaleBmi.obese[i]), val = TBSA_DATA.femaleBmi.obese[i];
+        content += `
+          <circle cx="${x}" cy="${y}" r="4" fill="#f43f5e" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+            onmousemove="showTooltip(event, '${yr} TBSA - Kadın Obezite', 'Oran: <b>%${val}</b>')" onmouseleave="hideTooltip()" />
+        `;
+      });
+
+      // 4. TBSA Erkek Obezite (Sağ Eksen - Mavi)
+      let pMale = '';
+      years.forEach((yr, i) => {
+        const x = getX(yr), y = getYRight(TBSA_DATA.maleBmi.obese[i]);
+        if (i === 0) pMale += `M ${x} ${y}`;
+        else {
+          const px = getX(years[i-1]), py = getYRight(TBSA_DATA.maleBmi.obese[i-1]);
+          const cx = (px + x) / 2;
+          pMale += ` C ${cx} ${py}, ${cx} ${y}, ${x} ${y}`;
+        }
+      });
+      content += `<path d="${pMale}" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round"/>`;
+
+      years.forEach((yr, i) => {
+        const x = getX(yr), y = getYRight(TBSA_DATA.maleBmi.obese[i]), val = TBSA_DATA.maleBmi.obese[i];
+        content += `
+          <circle cx="${x}" cy="${y}" r="4" fill="#0284c7" stroke="#ffffff" stroke-width="1.5" class="cursor-pointer"
+            onmousemove="showTooltip(event, '${yr} TBSA - Erkek Obezite', 'Oran: <b>%${val}</b>')" onmouseleave="hideTooltip()" />
+        `;
+      });
+
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      svg.innerHTML = content;
+    }
+
+    // ==========================================
+    // 8. TOOLTIP & SVG İHRACI
+    // ==========================================
+    function showTooltip(e, title, content) {
+      tooltip.innerHTML = `<div class="font-bold text-slate-900 mb-0.5">${title}</div><div class="text-slate-600">${content}</div>`;
+      tooltip.classList.add('active');
+      tooltip.style.left = (e.pageX + 15) + 'px';
+      tooltip.style.top = (e.pageY - 25) + 'px';
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove('active');
+    }
+
+    function exportSingleSvg(svgId, filename) {
+      const svg = document.getElementById(svgId);
+      const serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svg);
+
+      if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+
+      const blob = new Blob([source], {type: "image/svg+xml;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${filename}.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // Başlatma
+    window.addEventListener('load', () => {
+      renderSection1();
+      renderSection2();
+      renderSection3();
+      renderSection4();
+      renderSection5();
+    });
+
+    window.addEventListener('resize', () => {
+      renderSection1();
+      renderSection2();
+      renderSection3();
+      renderSection4();
+      renderSection5();
+    });
+  </script>
+</body>
+</html>

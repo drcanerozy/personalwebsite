@@ -1,0 +1,10 @@
+{
+  "id": "notebooklm-bridge",
+  "name": "NotebookLM Bridge",
+  "version": "1.3.0",
+  "minAppVersion": "1.4.0",
+  "description": "Obsidian vault'undaki PDF'leri NotebookLM'e gönderin ve notları vault'a aktarın.",
+  "author": "NotebookLM Bridge",
+  "authorUrl": "",
+  "isDesktopOnly": true
+}

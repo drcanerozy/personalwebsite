@@ -1,0 +1,65 @@
+{
+  "collapse-filter": false,
+  "search": "path:\"Notlar\" OR path:\"Dizin\" OR path:\"Çalışma Fikirleri\" OR path:\"00 Kontrol Merkezi/Derslerim\"",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": true,
+  "showOrphans": false,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "[\"Tür\": \"Çekirdek\"] OR [\"TÜR\": \"Çekirdek\"] OR [\"tür\": \"çekirdek\"]",
+      "color": {
+        "a": 1,
+        "rgb": 15680580
+      }
+    },
+    {
+      "query": "[\"Tür\": \"Besleyici\"] OR [\"TÜR\": \"Besleyici\"] OR [\"tür\": \"besleyici\"]",
+      "color": {
+        "a": 1,
+        "rgb": 1096065
+      }
+    },
+    {
+      "query": "path:\"Dizin\" OR path:\"MOC\"",
+      "color": {
+        "a": 1,
+        "rgb": 11032055
+      }
+    },
+    {
+      "query": "path:\"Çalışma Fikirleri\"",
+      "color": {
+        "a": 1,
+        "rgb": 16096779
+      }
+    },
+    {
+      "query": "[\"MEKANİZMA\"]",
+      "color": {
+        "a": 1,
+        "rgb": 3900150
+      }
+    },
+    {
+      "query": "path:\"00 Kontrol Merkezi/Derslerim\" OR path:\"Dersler\"",
+      "color": {
+        "a": 1,
+        "rgb": 9741240
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": true,
+  "textFadeMultiplier": 1.4,
+  "nodeSizeMultiplier": 2.5,
+  "lineSizeMultiplier": 1.2,
+  "collapse-forces": false,
+  "centerStrength": 0.5,
+  "repelStrength": 10,
+  "linkStrength": 0.8,
+  "linkDistance": 200,
+  "scale": 0.48661598948339685,
+  "close": false
+}

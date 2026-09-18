@@ -1,0 +1,250 @@
+{
+	"nodes":[
+		{"id":"grp_faz5","type":"group","x":4680,"y":-80,"width":1180,"height":2600,"color":"1","label":"🔴 FAZ 5: BÜYÜK UPF DOSYASI & ADİPOZ DOKU ÇİFT KULVARI (11 - 16. HAFTALAR)"},
+		{"id":"grp_faz1","type":"group","x":-50,"y":-80,"width":1120,"height":2600,"color":"4","label":"🟢 FAZ 1: GLP-1 & İLAÇ ÇAĞINDA METABOLİZMA (1 - 3. HAFTALAR)"},
+		{"id":"grp_faz3","type":"group","x":2300,"y":-80,"width":1100,"height":2600,"color":"2","label":"🟠 FAZ 3: ARALIKLI AÇLIK & HÜCRESEL PLASTİSİTE SERİSİ (5 - 7. HAFTALAR)"},
+		{"id":"grp_faz4","type":"group","x":3490,"y":-80,"width":1100,"height":2600,"color":"5","label":"🔵 FAZ 4: \"DİYETİSYEN GÖZÜNDEN\" BESİNSEL İNDİRGEMECİLİK (8 - 10. HAFTALAR)"},
+		{"id":"grp_faz2","type":"group","x":1150,"y":-80,"width":1060,"height":2600,"color":"3","label":"🟡 FAZ 2: KÖPRÜ & KARAR HAFTASI (4. HAFTA)"},
+		{
+			"id":"f1_header",
+			"type":"text",
+			"text":"## 🎙️ GLP-1 Podcast Sezonu & İştah Biyolojisi\n\n**Strateji:** Konsantre Podcast ile %100 senkronize; sıcak arama hacminden organik kitle çekme.\n**Yayın Ritmi:** Pazartesi Podcast | Salı & Perşembe Substack | Çarşamba Reels | Cuma Carousel\n**Odak:** İlaç iştahı kesiyor ama hücrenin içinde ne yaşanıyor?",
+			"styleAttributes":{"textAlign":"left"},
+			"x":0,
+			"y":0,
+			"width":1020,
+			"height":180,
+			"color":"4"
+		},
+		{
+			"id":"f1_w1",
+			"type":"text",
+			"text":"### 🗓️ 1. HAFTA: İlaçların Doğuşu & Emilim Krizleri\n\n- 🎙️ **Pazartesi:** **Podcast Bölüm 1** — *Gila Canavarından Mucize İlaçlara (Ozempic ve Diğerleri)*\n  - 🎬 **Reels:** Zehirli kertenkele tükürüğünden 100 milyar dolarlık imparatorluğa.\n  - 🐦 **X Thread:** Lotte Knudsen'ın Novo Nordisk laboratuvarındaki gizli savaşı.\n\n- 📝 **Salı:** **Substack 1** — `[[23-doganin-ozempici-diye-bir-sey-neden-yoktur|\"Doğanın Ozempic'i\" Diye Bir Şey Neden Yoktur?]]`\n  - 📸 **Instagram Carousel:** Yulaf lapası (\"Oatempic\") vs 165 saatlik Albümin kalkanı.\n  - 🎯 **Reklam:** *Bu Carousel'e günlük 100 TL Meta reklamı verilerek profil ziyareti çekilecek.*\n\n- 📝 **Perşembe:** **Substack 2** — `[[GLP-1 Kullanırken Tok Hissetmeniz, Aç Olduğunuz Gerçeğini Değiştirmiyor]]`\n  - 💼 **LinkedIn:** 461 bin hasta verisi: İlaç çağında gizli mikrobesin açlığı ve SIBO/IMO.\n  - 📸 **Instagram Carousel:** Tartıda kilo verirken hücreleriniz neden aç kalıyor?",
+			"styleAttributes":{"textAlign":"left"},
+			"x":0,
+			"y":220,
+			"width":1020,
+			"height":680,
+			"color":"4"
+		},
+		{
+			"id":"f1_w2",
+			"type":"text",
+			"text":"### 🗓️ 2. HAFTA: Moleküler Gelecek & Kas Kaybı Paradoksu\n\n- 🎙️ **Pazartesi:** **Podcast Bölüm 2** — *Zayıflama İlaçları Obeziteyi Bitirdi mi? (Diyetisyenler Buraya)*\n  - 🎬 **Reels:** 20 kilo verip 8 kilo kas kaybetmek: Zayıflamak mı, yaşlanmak mı?\n  - 💼 **LinkedIn:** EASO 2026 ve ACLM kılavuzlarında diyetisyenliğin tarihi virajı.\n\n- 📝 **Salı:** **Substack 3** — `[[24-ameliyatsiz-mide-kucultme-cagi-glukagon-paradoksu|Ameliyatsız Mide Küçültme Çağı: Glukagon Paradoksu]]`\n  - 🐦 **X Thread:** Retatrutide'in %24.2'lik rekor kilo kaybı: Glukagon metabolik hızı nasıl koruyor?\n  - 📸 **Instagram Carousel:** Kan şekerini yükselten hormon zayıflama ilacına neden konur?\n\n- 📝 **Perşembe:** **Substack 4** — `[[Kaslarımızın Diyet Sonrası İntikamı|Kaslarımızın Diyet Sonrası İntikamı: GLP-1 & Sarkopeni]]`\n  - 💼 **LinkedIn:** İskelet kasında Tip 3 Deiyodinaz (D3) enzimi: Kanda normal görünen tiroid kas içinde neden felç olur?\n  - 📸 **Instagram Carousel:** Kilo verince tiroidiniz neden kasa isyan eder?\n  - 🎯 **Reklam:** *Bu Carousel'e günlük 100 TL Meta reklamı verilerek uzman kitle hedeflenecek.*",
+			"styleAttributes":{"textAlign":"left"},
+			"x":0,
+			"y":940,
+			"width":1020,
+			"height":720,
+			"color":"4"
+		},
+		{
+			"id":"f1_w3",
+			"type":"text",
+			"text":"### 🗓️ 3. HAFTA: İlacı Bırakınca Ne Oluyor? & Beyindeki \"Food Noise\"\n\n- 🎙️ **Pazartesi:** **Podcast Bölüm 3** — *İlacı Bıraktığınız O İlk Gün: Food Noise'un İntikamı*\n  - 🎬 **Reels:** İlacı bırakınca yemek gürültüsü neden 3 kat şiddetle geri dönüyor?\n  - 🐦 **X Thread:** BMJ meta-analizi: 1.5 yılda kiloların tamamının geri alınması.\n\n- 📝 **Salı:** **Substack 5** — `[[25-ilaci-biraktiginizda-ne-olur-glp1-sonrasi|İlacı Bıraktığınızda Ne Olur? GLP-1 Sonrası Geri Kazanım]]`\n  - 💼 **LinkedIn:** İlaç ne kadar güçlüyse rebound o kadar sert: Çıkış planı neden girişten önemli?\n  - 📸 **Instagram Carousel:** Zayıflama iğnesini bırakanların %70'i neden eski kilosuna dönüyor?\n\n- 📝 **Perşembe:** **Substack 6 (Yeni Yazı)** — `[[Beyindeki Food Noise Neden İlaç Kesilince Çığ Gibi Döner?]]`\n  - 🐦 **X Thread:** Hipotalamik NPY/AgRP ve mezolimbik dopamin ödül merkezinin intikamı.\n  - 💼 **LinkedIn:** Nörobiyolojik açıdan iştah ve irade: Obezite bir karakter zaafı mıdır?",
+			"styleAttributes":{"textAlign":"left"},
+			"x":0,
+			"y":1700,
+			"width":1020,
+			"height":720,
+			"color":"4"
+		},
+		{
+			"id":"f2_header",
+			"type":"text",
+			"text":"## 🌉 GLP-1 Sezon Kapanışı & Karar Köprüsü\n\n**Strateji:** Podcast serisinin 4. bölümünün olup olmama durumuna göre iki net alternatifle GLP-1 dosyasını zirvede kapatmak.",
+			"styleAttributes":{"textAlign":"left"},
+			"x":1190,
+			"y":0,
+			"width":980,
+			"height":180,
+			"color":"3"
+		},
+		{
+			"id":"f2_content",
+			"type":"text",
+			"text":"### 🗓️ 4. HAFTA: İki Senaryolu GLP-1 Kapanış Kurgusu\n\n#### 🅰️ SENARYO A: Podcast 4. Bölüm Olursa (Sistem Eleştirisi)\n- 🎙️ **Podcast 4:** *Obezojenik Çevre, Medicaid Bütçe Patlaması ve Biyolojik Kapitalizm*\n- 📝 **Salı (Yazı 7):** *\"Obezite İlaçları Bizi Özgürleştiriyor mu, Yoksa %100 Sömürülebilir Tüketicilere mi Dönüştürüyor?\"* (Lancet Regional Health analizi).\n- 📝 **Perşembe (Yazı 8):** *\"Geleceğin GLP-1 İlaçları: Miyostatin Blokerleri Kas Kaybını Sıfırlayabilir mi?\"* (Yeni nesil AR-GE).\n\n---\n\n#### 🅱️ SENARYO B: Podcast 3 Bölümde Biterse (Klinik Rehber)\n- 📝 **Salı (Yazı 7):** *\"GLP-1 Çağında Diyetisyenlik ve Hekimlik: 800 Kalorilik İştah Penceresinden Sağlık Çıkarmak\"* (ACLM/ASN kılavuzu).\n- 📝 **Perşembe (Yazı 8):** *\"Zayıflama İğnesi Kullananlar İçin 5 Aşamalı Güvenli Çıkış Protokolü\"* (Pratik davranışsal çıkış rehberi).",
+			"styleAttributes":{"textAlign":"left"},
+			"x":1190,
+			"y":220,
+			"width":980,
+			"height":850,
+			"color":"3"
+		},
+		{
+			"id":"trans_1",
+			"type":"text",
+			"text":"### 🔄 GEÇİŞ DUYURUSU 1 (FAZ 1/2'DEN FAZ 3'E GEÇİŞ)\n\n> **Ne Zaman?** 4. Haftanın Pazar Günü\n\n- 📧 **Substack Özel Bülteni:** *\"GLP-1 Dosyasını Kapattık: Önümüzdeki 3 Hafta Hücrelerimizin Açlık Hafızasına İniyoruz.\"*\n- 📸 **Instagram Story / Post:** *\"Popüler diyet safsatalarını bırakıp Aralıklı Açlığın (IF) Moleküler Biyolojisi'ne odaklanıyoruz. Salı günü ilk yazı yayında!\"*\n- 🐦 **X Duyurusu:** *\"GLP-1 serimiz tamamlandı! Şimdi binlerce yıllık kadim mekanizmamıza dönüyoruz: Oruç ve Hücresel Plastisite.\"*",
+			"styleAttributes":{"textAlign":"left"},
+			"x":1190,
+			"y":1120,
+			"width":980,
+			"height":550,
+			"color":"6"
+		},
+		{
+			"id":"f3_header",
+			"type":"text",
+			"text":"## 🧬 Aralıklı Açlığın Moleküler Biyolojisi\n\n**Strateji:** Açlığı bir kalori hesabı olarak değil, genetik bir açma-kapama düğmesi olarak inceleyen bilimsel otorite serisi.\n**Yayın Ritmi:** Salı & Perşembe Substack | Çarşamba Reels | Cuma Carousel",
+			"styleAttributes":{"textAlign":"left"},
+			"x":2340,
+			"y":0,
+			"width":1020,
+			"height":180,
+			"color":"2"
+		},
+		{
+			"id":"f3_w5",
+			"type":"text",
+			"text":"### 🗓️ 5. HAFTA: Açlığın Moleküler Biyolojisi & Pankreas Rejenerasyonu\n\n- 📝 **Salı:** `[[Sosyal Medya/Substack/12-orucu-bozdugunuz-o-ilk-an|Orucu Bozduğunuz O İlk An]]`\n  - 🔬 **İçerik:** Hücrede substrat partisyonu (glukoz vs serbest yağ asidi yarışı), insülin pikleri ve mitokondriyal şok.\n  - 📸 **Instagram Carousel:** Saatlerce aç kaldıktan sonra ağzınıza attığınız ilk lokma hücrede neyi başlatır?\n\n- 📝 **Perşembe:** `[[Sosyal Medya/Substack/41-pankreas-genclesebilir-mi-aclikta-beta-hucre-plastisitesi|Pankreas Gençleşebilir mi?]]`\n  - 🔬 **İçerik:** FMD modeli, Ngn3 ekspresyonu ve beta hücre dediferansiyasyonu / rejenerasyonu.\n  - 💼 **LinkedIn:** Pankreas yaşlanmayı geri çevirebilir mi? Açlık taklit eden diyetlerin hücresel kanıtı.",
+			"styleAttributes":{"textAlign":"left"},
+			"x":2340,
+			"y":220,
+			"width":1020,
+			"height":650,
+			"color":"2"
+		},
+		{
+			"id":"f3_w6",
+			"type":"text",
+			"text":"### 🗓️ 6. HAFTA: Cinsiyet Farkları & Uzun Açlık Riskleri\n\n- 📝 **Salı:** `[[Sosyal Medya/Substack/09-kadinlarda-52-diyeti-cikmazi|Kadınlarda 5:2 Diyeti Çıkmazı]]`\n  - 🔬 **İçerik:** Kadınlarda Ghrelin ve HPA aksı (stres/kortizol) dalgalanması, anksiyete ve adet düzensizliği paradoksu.\n  - 📸 **Instagram Carousel (Viral):** Aralıklı açlık kadınlarda neden erkeklerdeki gibi çalışmaz?\n\n- 📝 **Perşembe:** `[[Sosyal Medya/Substack/08-uzun-sureli-su-orucu-guvenli-mi|Uzun Süreli Su Orucu Güvenli mi?]]`\n  - 🔬 **İçerik:** 3-7 günlük su oruçları: Otofaji vaatleri vs nitrojen/protein kaybı ve kardiyak elektrolit riskleri.\n  - 🐦 **X Thread:** Otofaji uğruna kalp kası eritmek: Uzun su oruçlarının klinik gerçekliği.",
+			"styleAttributes":{"textAlign":"left"},
+			"x":2340,
+			"y":910,
+			"width":1020,
+			"height":650,
+			"color":"2"
+		},
+		{
+			"id":"f3_w7",
+			"type":"text",
+			"text":"### 🗓️ 7. HAFTA: Bağırsak Mikrobiyotası & Biyobelirteç Deep-Dive\n\n- 📝 **Salı:** `[[Sosyal Medya/Substack/10-aralikli-aclik-isle-yaramiyor-mu-bagirsaklariniz|Aralıklı Açlık İşe Yaramıyor mu? Bağırsaklarınız]]`\n  - 🔬 **İçerik:** Açlık bağırsak mukus tabakasını inceltir mi, zenginleştirir mi? Akkermansia muciniphila dinamikleri.\n  - 📸 **Instagram Carousel:** Aç kalırken bağırsak bakterileriniz ne yiyor?\n\n- 📝 **Perşembe (Özel Deep-Dive):** `[[Gıda Anketleri Tarihe mi Karışıyor? Ne Yediğiniz İdrarınızdan Anlaşılıyor]]`\n  - 🔬 **İçerik:** PLOS Med 2025 (Abar et al.): Poli-Metabolit Skorları, idrarda Levoglukozan ve N6-CML ölçümü.\n  - 💼 **LinkedIn:** Beslenme epidemiyolojisinde devrim: Anketler yerine objektif kan ve idrar metabolitleri.",
+			"styleAttributes":{"textAlign":"left"},
+			"x":2340,
+			"y":1600,
+			"width":1020,
+			"height":650,
+			"color":"2"
+		},
+		{
+			"id":"trans_2",
+			"type":"text",
+			"text":"### 🔄 GEÇİŞ DUYURUSU 2 (FAZ 3'TEN FAZ 4'E GEÇİŞ)\n\n> **Ne Zaman?** 7. Haftanın Pazar Günü\n\n- 📧 **Substack & Sosyal Medya:** *\"3 haftalık hücre ve açlık yolculuğumuz bitti. Şimdi iğneyi biraz kendimize, yani beslenme bilimine batırma vakti: 'Diyetisyen Gözünden Beslenme Ezberleri' serimiz Salı günü başlıyor!\"*",
+			"styleAttributes":{"textAlign":"left"},
+			"x":2340,
+			"y":2290,
+			"width":1020,
+			"height":230,
+			"color":"6"
+		},
+		{
+			"id":"f4_header",
+			"type":"text",
+			"text":"## 🧐 Beslenme Felsefesi & Bilim Okuryazarlığı\n\n**Strateji:** Gıdayı kimyasal parçalarına ayırıp asıl resmi unutan indirgemeciliğe meydan okuma; UPF serisi öncesi güven inşa etme.\n**Yayın Ritmi:** Salı & Perşembe Substack | X Thread & LinkedIn",
+			"styleAttributes":{"textAlign":"left"},
+			"x":3530,
+			"y":0,
+			"width":1020,
+			"height":180,
+			"color":"5"
+		},
+		{
+			"id":"f4_w8",
+			"type":"text",
+			"text":"### 🗓️ 8. HAFTA: İndirgemeciliğin Çöküşü & Kalori Yanılgısı\n\n- 📝 **Salı:** `[[Sosyal Medya/Substack/01-bir-domates-asla-likopen-degildir|Bir Domates Asla Likopen Değildir]]`\n  - 💡 **İçerik:** Besinsel İndirgemecilik (Nutritionism) eleştirisi. Gıda matrisi vs tekil izole moleküller.\n  - 📸 **Instagram Carousel:** Bir domates sadece likopen midir? Beslenme biliminin en büyük hatası.\n\n- 📝 **Perşembe:** `[[Sosyal Medya/Substack/Diyetisyenler, 1 kg=7000 kkal hesabını bir kenara bırakın|Diyetisyenler, 1 kg=7000 kkal Hesabını Bırakın]]`\n  - 💡 **İçerik:** Wishnofsky termodinamik kuralının çöküşü ve dinamik enerji dengesi modelleri.\n  - 💼 **LinkedIn:** Diyetisyenler! 1 kg = 7000 kkal hesabını artık neden rafa kaldırmalıyız?",
+			"styleAttributes":{"textAlign":"left"},
+			"x":3530,
+			"y":220,
+			"width":1020,
+			"height":650,
+			"color":"5"
+		},
+		{
+			"id":"f4_w9",
+			"type":"text",
+			"text":"### 🗓️ 9. HAFTA: Mesleki Gerçekler & Mutfak Sosyolojisi\n\n- 📝 **Salı:** `[[Sosyal Medya/Substack/04-gercek-beslenme-bilimi-can-sikici-kadar-sikicidir|Gerçek Beslenme Bilimi Can Sıkıcıdır]]`\n  - 💡 **İçerik:** Mucize diyet vaatlerinin arkasındaki sıkıcı, yavaş ve gri bilimsel metodoloji.\n  - 🐦 **X Thread:** Popüler diyetler neden heyecanlı satar, gerçek bilim neden sıkıcıdır?\n\n- 📝 **Perşembe:** `[[Sosyal Medya/Substack/03-diyetisyenler-ocak-basinda-egitilmeli|Diyetisyenler Ocak Başında Eğitilmeli]]`\n  - 💡 **İçerik:** Kültürel beslenme, sofra ritüeli ve mutfaktan kopuk diyet listelerinin kaçınılmaz iflası.\n  - 📸 **Instagram Post + LinkedIn:** Diyetisyenler ocak başında eğitilmeli: Tabak modelleri kültürü neden yok sayıyor?",
+			"styleAttributes":{"textAlign":"left"},
+			"x":3530,
+			"y":910,
+			"width":1020,
+			"height":650,
+			"color":"5"
+		},
+		{
+			"id":"f4_w10",
+			"type":"text",
+			"text":"### 🗓️ 10. HAFTA: Sağlık Anksiyetesi & Büyük UPF Teaser'ı\n\n- 📝 **Salı:** `[[Sosyal Medya/Substack/02-bilgi-topladikca-mi-saglikli-oluyorsunuz|Bilgi Topladıkça mı Sağlıklı Oluyorsunuz?]]` + `[[Sosyal Medya/Substack/36-bir-diyetisyen-olarak-beni-soke-eden-sey|Bir Diyetisyen Olarak Beni Şoke Eden Şey]]`\n  - 💡 **İçerik:** Sağlık anksiyetesi çağı, ortoreksiya ve kılavuzların metodolojik çatışmaları.\n  - 🐦 **X Thread:** Sürekli sağlık araştırması okuyup neden daha kaygılı hissediyoruz?\n\n- 📝 **Perşembe (Büyük UPF Köprüsü):** `[[Sosyal Medya/Substack/40-ultra-islenmis-ama-turk-mutfagindan|Ultra-İşlenmiş Ama Türk Mutfağından]]`\n  - 💡 **İçerik:** Bizim geleneksel tarhanamız, pekmezimiz ve kurutulmuş etlerimiz NOVA'ya göre UPF mi?\n  - 📸 **Instagram Carousel (Viral Kanca):** Tarhana çorbası ultra-işlenmiş gıda mı? Gelecek hafta büyük dosyayı açıyoruz!",
+			"styleAttributes":{"textAlign":"left"},
+			"x":3530,
+			"y":1600,
+			"width":1020,
+			"height":650,
+			"color":"5"
+		},
+		{
+			"id":"trans_3",
+			"type":"text",
+			"text":"### 🔄 GEÇİŞ DUYURUSU 3 (BÜYÜK UPF LANSMANI DUYURUSU)\n\n> **Ne Zaman?** 10. Haftanın Pazar Günü\n\n- 🚀 **Büyük Sezon Lansman Duyurusu (Tüm Kanallarda):** *\"Önümüzdeki Pazartesi Türkiye'nin en kapsamlı UPF Dosyası Başlıyor! Çift kulvar: Pazartesi gıdanın endüstriyel yolculuğu, Perşembe yağ dokusu fizyolojisi!\"*",
+			"styleAttributes":{"textAlign":"left"},
+			"x":3530,
+			"y":2290,
+			"width":1020,
+			"height":230,
+			"color":"6"
+		},
+		{
+			"id":"f5_header",
+			"type":"text",
+			"text":"## 🏭 UPF Dosyası & 🧬 Saf Adipoz Doku (Dual-Track)\n\n**Strateji:** Pazartesi fabrikanın tabağımıza koyduklarını, Perşembe o tabağın yağ dokumuzda yarattığı hücresel devrimi inceliyoruz.\n**Materyal:** Tüm sosyal medya şablonları `[[Sosyal Medya/UPF_Serisi_Sosyal_Medya_Paketi]]` dosyasında hazırdır.",
+			"styleAttributes":{"textAlign":"left"},
+			"x":4720,
+			"y":0,
+			"width":1100,
+			"height":180,
+			"color":"1"
+		},
+		{
+			"id":"f5_w11_12",
+			"type":"text",
+			"text":"### 🗓️ 11. HAFTA: Tanım Kaosu & Adipoz Enerji Freni\n- 🗓️ **Pazartesi (UPF 1):** `[[Sosyal Medya/Substack/UPF1-Bir Besinin Ultra İşlenmiş Olduğuna Kim Karar Veriyor?|UPF 1: Bir Besinin Ultra İşlenmiş Olduğuna Kim Karar Veriyor?]]`\n- 🗓️ **Perşembe (AD 1):** `[[Sosyal Medya/Substack/06-neden-yaglariniz-gitmiyor|AD 1: Neden Yağlarınız Gitmiyor? (Adipoz Dokunun TBK1-AMPK Freni)]]`\n\n---\n\n### 🗓️ 12. HAFTA: Sistemler Savaşı & Epigenetik Yağ Hafızası\n- 🗓️ **Pazartesi (UPF 2):** `[[Sosyal Medya/Substack/UPF2-Aynı Semptom Farklı Teşhisler Hangisi Gerçek Ultra İşlenmiş Besin?|UPF 2: Aynı Semptom Farklı Teşhisler]]`\n- 🗓️ **Perşembe (AD 2):** `[[Sosyal Medya/Substack/11-kilo-verip-geri-aldiniz-mi-yag-dokunuz-hatirliyor|AD 2: Kilo Verip Geri Aldınız mı? (Adipoz Epigenetik Hafıza & Catch-up Fat)]]`",
+			"styleAttributes":{"textAlign":"left"},
+			"x":4720,
+			"y":220,
+			"width":1100,
+			"height":650,
+			"color":"1"
+		},
+		{
+			"id":"f5_w13_14",
+			"type":"text",
+			"text":"### 🗓️ 13. HAFTA: Gıdanın Kendisi & Mekanik Kafes Paradoksu\n- 🗓️ **Pazartesi (UPF 3):** `[[Sosyal Medya/Substack/UPF3-Gerçek Suçlu Gıdanın İşlenmesi mi, Yoksa Kendisi mi?|UPF 3: Gerçek Suçlu Gıdanın İşlenmesi mi? (Danimarka Akıllı Teknoloji)]]`\n- 🗓️ **Perşembe (AD 3):** `[[Sosyal Medya/Substack/13-kilo-vermek-neden-yetmez-mekanik-kafes|AD 3: Kilo Vermek Neden Yetmez? (Adipoz Doku Fibrozisi & Mekanik Kafes)]]`\n\n---\n\n### 🗓️ 14. HAFTA: Risk İstatistikleri & Bölgesel Yağ Depoları\n- 🗓️ **Pazartesi (UPF 4):** `[[Sosyal Medya/Substack/UPF4-Ultra İşlenmiş Besinlerden Korkmayı Abarttık mı?|UPF 4: UPF'den Korkmayı Abarttık mı? (İstatistiksel Gerçekler)]]`\n- 🗓️ **Perşembe (AD 4):** `[[Notlar/Bölgesel Adipozite, Depot-Spesifiklik ve Tür-Doku Eşleşme Problemi|AD 4: Deri Altı vs Visseral Yağ: Hangi Yağ Gerçekten Tehlikeli?]]`",
+			"styleAttributes":{"textAlign":"left"},
+			"x":4720,
+			"y":910,
+			"width":1100,
+			"height":650,
+			"color":"1"
+		},
+		{
+			"id":"f5_w15_16",
+			"type":"text",
+			"text":"### 🗓️ 15. HAFTA: Bitki Bazlı Paradoks & Yağın Anksiyete Sinyali\n- 🗓️ **Pazartesi (UPF 5):** `[[Sosyal Medya/Substack/UPF5-Ultra İşlenmişlik Kavramı Bitki Bazlı Beslenmeyi Yok Sayıyor|UPF 5: Bitki Bazlı Beslenmeyi Yok Saymak]]`\n- 🗓️ **Perşembe (AD 5):** `[[Sosyal Medya/Substack/27-yag-dokunuz-neden-sizi-kaygilandiriyor-gdf15|AD 5: Yağ Dokunuz Neden Sizi Kaygılandırıyor? (GDF15 & Stres Ekseni)]]`\n\n---\n\n### 🗓️ 16. HAFTA: BÜYÜK FİNAL — Biyolojik Yolculuk & Yaşlanma\n- 🗓️ **Pazartesi (UPF 6):** `[[Sosyal Medya/Substack/UPF6-Kapanış UPFler Hakkında Ne Düşünmeliyiz?|UPF 6: Büyük Kapanış: UPFler Hakkında Ne Düşünmeliyiz?]]`\n- 🗓️ **Perşembe (AD 6):** `[[Notlar/Adipoz Doku Yaşlanması ve Kalori Kısıtlaması|AD 6: Adipoz Doku Yaşlanması, SASP ve Yağ Dokusunu Genç Tutmak]]`",
+			"styleAttributes":{"textAlign":"left"},
+			"x":4720,
+			"y":1600,
+			"width":1100,
+			"height":650,
+			"color":"1"
+		}
+	],
+	"edges":[
+		{"id":"e_f1_to_f2","fromNode":"grp_faz1","fromSide":"right","toNode":"grp_faz2","toSide":"left","color":"4","label":"Sezon Kapanış Köprüsü"},
+		{"id":"e_f2_to_f3","fromNode":"trans_1","fromSide":"right","toNode":"grp_faz3","toSide":"left","color":"6","label":"Açlık Biyolojisi Lansmanı"},
+		{"id":"e_f3_to_f4","fromNode":"trans_2","fromSide":"right","toNode":"grp_faz4","toSide":"left","color":"6","label":"Felsefe & İndirgemecilik Lansmanı"},
+		{"id":"e_f4_to_f5","fromNode":"trans_3","fromSide":"right","toNode":"grp_faz5","toSide":"left","color":"1","label":"BÜYÜK UPF & AD ÇİFT KULVAR LANSMANI"}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

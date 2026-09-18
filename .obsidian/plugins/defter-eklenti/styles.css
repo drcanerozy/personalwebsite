@@ -1,0 +1,61 @@
+.defter-status-bar {
+  cursor: default;
+  opacity: 0.85;
+}
+
+.defter-paper-active {
+  --defter-paper-color: #ffffff;
+  background-color: var(--defter-paper-color) !important;
+  transition: background-color 0.15s ease;
+}
+
+.defter-paper-active[style*="--defter-paper-font"],
+.defter-paper-active {
+  font-family: var(--defter-paper-font, inherit) !important;
+}
+
+.defter-paper-active .cm-line,
+.defter-paper-active .cm-content {
+  font-family: inherit !important;
+}
+
+/* Çizgili kağıt */
+.defter-paper-active.defter-shape-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 27px,
+    rgba(0, 0, 0, 0.12) 28px
+  ) !important;
+  background-position: 0 8px !important;
+}
+
+/* Kareli kağıt */
+.defter-paper-active.defter-shape-grid {
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 23px,
+      rgba(0, 0, 0, 0.1) 24px
+    ),
+    repeating-linear-gradient(
+      to right,
+      transparent,
+      transparent 23px,
+      rgba(0, 0, 0, 0.1) 24px
+    ) !important;
+}
+
+/* Noktalı kağıt (dot-grid) */
+.defter-paper-active.defter-shape-dots {
+  background-image: radial-gradient(
+    rgba(0, 0, 0, 0.22) 1px,
+    transparent 1px
+  ) !important;
+  background-size: 22px 22px !important;
+}
+
+.defter-paper-active.defter-shape-none {
+  background-image: none !important;
+}

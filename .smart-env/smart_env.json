@@ -1,0 +1,105 @@
+{
+  "is_obsidian_vault": true,
+  "smart_blocks": {
+    "embed_blocks": true,
+    "min_chars": 200
+  },
+  "smart_sources": {
+    "min_chars": 200,
+    "embed_model": {
+      "adapter": "transformers",
+      "transformers": {
+        "model_key": "TaylorAI/bge-micro-v2",
+        "legacy_transformers": false
+      },
+      "TaylorAI/bge-micro-v2": {}
+    },
+    "excluded_headings": "",
+    "file_exclusions": "Untitled,Çalışma Fikirleri/AD immün hücrelerinden özellikle B hücreleri ve IgG’nin insülin direnciyle ilişkisini nasıl çalışabiliriz Bariatrik cerrahi öncesi immün hücre profili metabolik çıktılarla,diyabet remisyonuyla veya komorbidite....md,Çalışma Fikirleri/Bağırsakta şeker emilimini azaltacak bir rat müdahalesi- astragalin-6-glukosit,bitki metaboliti,glut5i inhibe ediyor,glut1i etkilemiyor (PMID-26306809); MSNBA,glut5i etkili olarak inhibe ediyor (PMID-....md,Çalışma Fikirleri/Besin veritabanından meyve ve sebzelerin mikrobesin içeriklerini karşılaştırıp gerçekten öne çıkan besinler var mı araştırma raporu hazırlanabilir. EAR RDA vb karşılaştırmalı,mucize besin var mı-çeşitlilik....md,Çalışma Fikirleri/Diyet poliaminleri putresin (diyette en baskın),spermidin,spermine,codaverin. endojen sentezi ornitin dekarboksilaz hız kısıtlayıcı. folat folik asit mikrobiyotayı değiştirerek poliamin atımını artırabiliyor.....md,Çalışma Fikirleri/Dynapenic abdominal obesity=lower tertile hangdrip strength+abdominal obezite sarkopenikten farkı kas kütlesi kaybı,kas fonksiyonu kaybı,düşük fiziksel performans değerlendirilmiyor leans DAO olabilir....md,Çalışma Fikirleri/Farklı nutrientlerin varlığında AD besin ögelerini nasıl metabolize etmeyi tercih ediyor Yüksek fruktoz,normal yağ,glukoz,BCAA Yüksek yağ,normal fruktoz,BCAA Yüksek BCAA normal fruktoz,....md,Çalışma Fikirleri/GKCR geni- glukokinaz regületör protein geni. rs1260326 ve rs780094 varyantları sıklıkla çalışılıyor. de novo lipogenezi düzenleyen bir gen. NAFLD ile ilişkili. bu varyantlara göre fruktoz,dya… tüketiminin....md,Çalışma Fikirleri/Gıda takviyesi kullanmak gerekli mi evet-hayır 2 gruba rapor hazırlatıp dönem sonunda sunum yaptırılabilir. benzer konu hamburger sağlıklı mı sağlıksız mı,gıda katkıları iyi midir kötü müdür,işlenmiş....md,Çalışma Fikirleri/Hayvansal ürünleri içerisindeki doymuş yağ asitleri çeşitlerinin miktarına göre sınıflandırsak (laurik+stearik vb.) yağ asitlerine örüntüsü ve miktarına göre KVH ile ilişkilendirebilir miyiz.md,Çalışma Fikirleri/Is Obesity Always Gloomy? Diet Quality and Intervention Response in 'Happy Overeaters' vs. 'Emotional Eaters'\" (Obezite Her Zaman Kasvetli midir? 'Mutlu Aşırı Yiyiciler' ile 'Duygusal Yiyiciler'de Diyet Kalitesi ve Müdahaleye Yanıtın Karşıla.md,Çalışma Fikirleri/Kemik iliği naklinde ne nakil ediliyor,daha doğrusu bu nakil AD progenitörleri içeriyor olabilir mi AD progenitröleri de nakil ediliyorsa AD disfonksiyonu olan vs olmayandan nakil çıktıları etkiler mi,Çalışma Fikirleri/Normal kilolularda,normal kilolu ama obezlerde,obezlerde ama sağlıklılarda vb spesifik yağ depoları saptanabilir mi Mesela zayıflarda epikardiyal yağı pankreas yağı kas yağı artanlar var mıdır.md,Çalışma Fikirleri/Ultra işlenmiş besin farkındalığı-bilgisi ile beslenme okuryazarlığı ilişkisi vb. UPF besinlerin fotoğraflarına ve etiket bilgilerine göre ayırt edebilirler miayırt edenler ve edemeyenlerin beslenme bilgileri....md,Çalışma Fikirleri/Yapay zeka yardımıyla besin tüketim sıklığı almak ses kaydımızı tanısa sıklık alırken,bunları bilgisayar aktarıp R yardımıyla veritabanından besin kompozisyonu analizi yapsa. mük olur.md,Çalışma Fikirleri/gelen neredeyse her danışanda uyku bozukluğuna,duygusal yemeye,strese bağlı yemeyle ilişkili yeme atakları var. işin bu psikolojik boyutunu öncelikleyen bir beslenme kliniği projesi hazırlasak,neler....md,Çalışma Fikirleri/hangi AD’nin olumsuz etkileneceğini belirleyen şey ne vasküler,kas,pankreas,hangisi önce veya neden etkileniyor bunların yaktınlığını etkileyen SNPlere göre kişileri gruplayabilir miyiz.md,Çalışma Fikirleri/hashimatoda d vit ve melatonin önemli gözüküyor. klinikte de uyku problemi yaşadığını söyleyen çok hasta vardı. neler yapılabilir. Melatonin ve glutatyon yakından ilişkili. Bağlanabilir mi.md,Çalışma Fikirleri/herhangi bir hastalığı olmayan elektif abdominal cerrahi hastalarından AD örnekleri almışlar. Biz de buna yönelebiliriz,demir met,fibröz,sarkopenik… doi.org-10.1007-s11033-023-08460-y.md,Çalışma Fikirleri/sağlıklı,bağırsak geçirgenliği olan,çölyağı olan kişilerde glutenli öğün eksomorfinlerin dolaşıma geçmesi arasında farklılık oluşturuyor mu,bunların fizyolojik etkileri saptanabilir mi.md,Çalışma Fikirleri/seçilen kişilere aynı öğün bir sabah bir de gece tükettirilse,lipojenik ve diğer önemli olabilecek enzimlerin vb ekspresyonlarına bakılabilir mi kandan,bu işler nasıl yürüyor diyet kompozisyonu da dahil....md,Çalışma Fikirleri/İnsanlara diyetlerini kişiselleştirebilecekleri bir uygulama yazsak- Diyetisyen veya app üzerinden günlük kalori ihtiyacı ve hedefler belirlense. Kalorilik hazır ve kolay tarifler olsa,günlük öğün sayısını....md,Makaleler/SUMMER READING LIST/(Arts and Traditions of the Table_ Perspectives on Culinary History) Gyorgy Scrinis - Nutritionism_ The Science and Politics of Dietary Advice-Columbia University Press (2013).pdf,Makaleler/SUMMER READING LIST/(The Cultural Politics of Media and Popular Culture) Deborah Harris-moore - Media and the Rhetoric of Body Perfection_ Cosmetic Surgery,Weight Loss and Beauty in Popular Culture-Ashgate Pub Co (2014).pdf,Makaleler/UPF/whole-grain-modified-nova-ultra-processed-food-upf-definitions-a-cross-sectional-analysis-of-the-impact-on-cardiometabolic-risk-measures-when-excluding-high-whole-grain-foods-from-the-upf-category-in-.pdf,Augmented Dietitian/A Multicenter Randomized Controlled Trial of Microbiome-Based Artificial Intelligence-Assisted Personalized Diet vs Low-Fermentable Oligosaccharides,Disaccharides,Monosaccharides,and Polyol.md,Augmented Dietitian Okunmuşlar/A Multicenter Randomized Controlled Trial of Microbiome-Based Artificial Intelligence-Assisted Personalized Diet vs Low-Fermentable Oligosaccharides,NotebookLM Etkinliği/Examining the Efficacy of AI-assisted Note-taking in Enhancing Lecture  Comprehension for EAP Students Investigating How Ai Tools Facilitate  EAP Students’ Listening Comprehension and Integrated Summary  Writing.md,Çalışma Fikirleri/AD immün hücrelerinden özellikle B hücreleri ve IgG’nin insülin direnciyle ilişkisini nasıl çalışabiliriz Bariatrik cerrahi öncesi immün hücre profili metabolik çıktılarla, diyabet remisyonuyla veya komorbidite....md,Çalışma Fikirleri/Bağırsakta şeker emilimini azaltacak bir rat müdahalesi- astragalin-6-glukosit, bitki metaboliti, glut5i inhibe ediyor, glut1i etkilemiyor (PMID-26306809); MSNBA, glut5i etkili olarak inhibe ediyor (PMID-....md,Çalışma Fikirleri/Besin veritabanından meyve ve sebzelerin mikrobesin içeriklerini karşılaştırıp gerçekten öne çıkan besinler var mı araştırma raporu hazırlanabilir. EAR RDA vb karşılaştırmalı, mucize besin var mı-çeşitlilik....md,Çalışma Fikirleri/Dynapenic abdominal obesity=lower tertile hangdrip strength+abdominal obezite sarkopenikten farkı kas kütlesi kaybı, kas fonksiyonu kaybı, düşük fiziksel performans değerlendirilmiyor leans DAO olabilir....md,Çalışma Fikirleri/Kemik iliği naklinde ne nakil ediliyor, daha doğrusu bu nakil AD progenitörleri içeriyor olabilir mi AD progenitröleri de nakil ediliyorsa AD disfonksiyonu olan vs olmayandan nakil çıktıları etkiler mi,....md,Çalışma Fikirleri/Yapay zeka yardımıyla besin tüketim sıklığı almak ses kaydımızı tanısa sıklık alırken, bunları bilgisayar aktarıp R yardımıyla veritabanından besin kompozisyonu analizi yapsa. mük olur.md,Çalışma Fikirleri/herhangi bir hastalığı olmayan elektif abdominal cerrahi hastalarından AD örnekleri almışlar. Biz de buna yönelebiliriz, demir met, fibröz, sarkopenik… doi.org-10.1007-s11033-023-08460-y.md",
+    "folder_exclusions": "smart-chats",
+    "single_file_data_path": ".smart-env/smart_sources.json"
+  },
+  "language": "en",
+  "re_import_wait_time": 13,
+  "smart_chat_threads": {
+    "chat_model": {
+      "adapter": "ollama",
+      "ollama": {}
+    }
+  },
+  "smart_notices": {
+    "muted": {
+      "done_initial_scan": true,
+      "done_import": true,
+      "embedding_complete": true
+    }
+  },
+  "smart_view_filter": {
+    "expanded_view": false,
+    "render_markdown": true,
+    "show_full_path": false
+  },
+  "version": "",
+  "new_user": true,
+  "models": {
+    "embedding_platform": "transformers",
+    "chat_completion_platform": "open_router"
+  },
+  "smart_threads": {
+    "chat_model": {
+      "adapter": "openai",
+      "openai": {
+        "model_key": "gpt-4o"
+      }
+    },
+    "embed_model": {
+      "model_key": "None"
+    }
+  },
+  "connections_lists": {
+    "results_collection_key": "smart_sources",
+    "score_algo_key": "similarity",
+    "connections_post_process": "none",
+    "results_limit": 20,
+    "exclude_frontmatter_blocks": true,
+    "connections_list_item_component_key": "connections_list_item_v3",
+    "components": {
+      "connections_list_item_v3": {
+        "render_markdown": true,
+        "show_full_path": false
+      },
+      "connections_list_v4": {
+        "show_graph": true
+      }
+    },
+    "connections_view_location": "right",
+    "connections_list_component_key": "connections_list_v4",
+    "frontmatter_filter_include": "",
+    "frontmatter_filter_exclude": ""
+  },
+  "context_items": {
+    "template_preset": "xml_structured",
+    "template_before": "<item loc=\"{{KEY}}\" at=\"{{TIME_AGO}}\">",
+    "template_after": "</item>"
+  },
+  "smart_contexts": {
+    "template_preset": "xml_structured",
+    "template_before": "<context>\n{{FILE_TREE}}",
+    "template_after": "</context>"
+  },
+  "lookup_lists": {
+    "results_collection_key": "smart_blocks",
+    "score_algo_key": "similarity",
+    "results_limit": 20
+  },
+  "embedding_models": {
+    "default_model_key": "transformers#1768747597703"
+  },
+  "event_logs": {
+    "native_notice_info": false,
+    "native_notice_warning": true,
+    "native_notice_error": true,
+    "native_notice_attention": false,
+    "native_notice_milestone": true
+  }
+}

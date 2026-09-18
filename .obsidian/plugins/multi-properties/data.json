@@ -1,0 +1,6 @@
+{
+  "alterProp": "ignore",
+  "recursive": true,
+  "delimiter": ",",
+  "defaultPropPath": "Templates/Note Properties"
+}

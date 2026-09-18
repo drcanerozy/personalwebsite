@@ -1,0 +1,16 @@
+# Sürekli Protein Tüketmeye Çalışıyoruz — Ama Kısıtlaması Ömrü Uzatıyor Olabilir mi?
+
+Bir önceki yazımda (Neden Sürekli Daha Fazla Protein Tüketmeye Çalışıyorsun?) proteinmaxxing trendini, market raflarını, "daha fazlası her zaman iyidir" sezgisini anlatmıştım. Şimdi tam ters yöne bakalım: uzun ömür araştırmalarının en tutarlı bulgularından biri, proteini (ya da genel olarak besin alımını) *kısıtlamanın* ömrü uzattığı yönünde — mayadan solucana, fareden maymuna kadar neredeyse her model organizmada.
+
+**Mekanizma net.** Protein ve özellikle amino asitler, hücre büyümesinin ana anahtarı olan mTORC1 yolunu aktive ediyor — bu, tam da GLP-1/GIP yazımda bahsettiğim büyüme sinyali. mTORC1 aktifken hücre büyür, protein sentezler, çoğalır; aktivitesi düştüğünde ise **otofaji** devreye giriyor — hücrenin kendi hasarlı bileşenlerini temizleyip geri dönüştürdüğü bir bakım süreci. Kalori ya da protein kısıtlaması, mTORC1'i baskılayıp IGF-1 düzeyini düşürerek bu bakım moduna geçişi tetikliyor. Rapamisin gibi mTOR'u doğrudan bloke eden ilaçların ömür uzattığı gösterilmiş durumda — protein kısıtlamasının bir kısmı da aynı yolu, ilaçsız şekilde tetikliyor.
+
+**İnsanda resim daha karmaşık, ve bunu atlamamak lazım.** Epidemiyolojik bir çalışma, orta yaşlı yetişkinlerde (50-65 yaş) yüksek protein alımının — özellikle hayvansal kaynaklı — tüm nedenli mortalite ve kanser ölümüyle ilişkili olabileceğini öne sürdü. Ama aynı ilişki **65 yaş üstünde tersine döndü**: yaşlı yetişkinlerde daha yüksek protein alımı koruyucu görünüyor. Bu, "protein kısıtlaması herkese iyi gelir" gibi basit bir sloganın çökmesi demek — asıl mesele yaşam evresi. Genç/orta yaşta büyüme sinyalini bastırmak faydalı görünürken, ileri yaşta kas kaybını (sarkopeni) önlemek için protein daha kritik hale geliyor.
+
+**Kaynak da önemli.** Bir analizde, bitkisel proteinin enerjideki payı her %3 arttığında tüm nedenli mortalitede %5'lik bir azalma gözlendi; toplam protein alımı da hafif bir koruyucu etkiyle ilişkiliydi, ama hayvansal protein alımında böyle net bir ilişki bulunamadı. Yani soru sadece "ne kadar" değil, "hangi kaynaktan" — bu da proteini tek bir blok olarak konuşmanın (tıpkı "peynir" ya da "kahve" gibi) yetersiz kaldığı bir başka örnek.
+
+**Dürüst olmak gerekirse, insanda kesin kanıt henüz yok.** Kısa süreli çalışmalar protein kısıtlamasının IGF-1'i düşürdüğünü, bazı metabolik belirteçleri iyileştirdiğini gösteriyor — ama bunun insan ömrünü gerçekten uzattığına dair randomize, uzun süreli bir kanıt yok ve muhtemelen hiç olmayacak (böyle bir çalışmayı onlarca yıl sürdürmek pratik değil). Elimizdeki şey, hayvan modellerinden güçlü bir mekanistik hikaye ve insanda dolaylı, yaşa bağlı, kaynağa bağlı bir epidemiyolojik iz.
+
+Bunun 9. yazımla kurduğu tezat tam da amaçlanan şey: aynı besin ögesi, aynı anda hem "daha fazlasını tüket" pazarlamasının merkezinde hem de "daha azı uzun yaşat" araştırmasının merkezinde. İkisi de kısmen doğru olabilir — çünkü sorulan soru farklı. "Kısa vadede kas ve tokluk mu istiyorsunuz, yoksa uzun vadede hücresel bakım mı" sorusunun cevabı yaşınıza, hedefinize ve hangi on yılınızda olduğunuza göre değişiyor. Tek bir "protein" tavsiyesi, ikisini de karşılayamaz.
+
+---
+*Bu yazı, "Neden Sürekli Daha Fazla Protein Tüketmeye Çalışıyorsun?" yazımın doğal devamı ve beslenme bilimindeki bilgi/bulgu kirliliği serisinin bir parçasıdır.*

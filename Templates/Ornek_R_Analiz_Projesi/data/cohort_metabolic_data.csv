@@ -1,0 +1,9 @@
+patient_id,group,age,bmi_baseline,bmi_12week,fasting_glucose,hba1c,tbk1_expression,lean_mass_change
+P001,IF_LowCarb,45,32.4,29.1,98,5.4,1.2,-0.4
+P002,IF_LowCarb,52,35.1,31.8,105,5.7,1.4,-0.2
+P003,IF_LowCarb,39,29.8,26.5,92,5.2,0.9,-0.1
+P004,IF_LowCarb,61,38.2,34.0,118,6.1,1.8,-0.5
+P005,Control,48,31.5,31.2,102,5.6,2.1,-1.8
+P006,Control,55,34.0,33.9,110,5.9,2.4,-2.1
+P007,Control,42,30.2,30.0,99,5.5,1.9,-1.4
+P008,Control,58,36.5,36.1,122,6.3,2.6,-2.3

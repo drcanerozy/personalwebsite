@@ -1,0 +1,244 @@
+{
+  "workspaces": {
+    "Ana Dashboard": {
+      "main": {
+        "id": "main-root",
+        "type": "split",
+        "direction": "horizontal",
+        "children": [
+          {
+            "id": "col-left",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "leaf-planlayici",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": { "file": "00 Kontrol Merkezi/Planlayıcı.md", "mode": "preview", "source": false },
+                  "icon": "lucide-home",
+                  "title": "🏠 Planlayıcı"
+                }
+              },
+              {
+                "id": "leaf-vault-dashboard",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": { "file": "00 Kontrol Merkezi/Dashboard.md", "mode": "preview", "source": false },
+                  "icon": "lucide-layout-dashboard",
+                  "title": "🗺️ Vault"
+                }
+              },
+              {
+                "id": "leaf-is-takibi",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": { "file": "00 Kontrol Merkezi/İş Takibi.md", "mode": "preview", "source": false },
+                  "icon": "lucide-kanban",
+                  "title": "📋 İş Takibi"
+                }
+              },
+              {
+                "id": "leaf-derslerim",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": { "file": "Dersler/Derslerim.md", "mode": "preview", "source": false },
+                  "icon": "lucide-book-open",
+                  "title": "📚 Derslerim"
+                }
+              },
+              {
+                "id": "leaf-empty",
+                "type": "leaf",
+                "state": {
+                  "type": "empty",
+                  "state": {},
+                  "icon": "lucide-file",
+                  "title": "Yeni Sekme"
+                }
+              }
+            ],
+            "currentTab": 0
+          },
+          {
+            "id": "col-right",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "leaf-arastirma-dashboard",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": { "file": "00 Kontrol Merkezi/Araştırma Alanları Dashboard.md", "mode": "preview", "source": false },
+                  "icon": "lucide-microscope",
+                  "title": "🔬 Araştırma"
+                }
+              },
+              {
+                "id": "leaf-proje-merkezi",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": { "file": "00 Kontrol Merkezi/Proje Merkezi.md", "mode": "preview", "source": false },
+                  "icon": "lucide-folder-open",
+                  "title": "🗂️ Projeler"
+                }
+              }
+            ],
+            "currentTab": 0
+          }
+        ]
+      },
+      "left": {
+        "id": "left-sidebar",
+        "type": "split",
+        "children": [
+          {
+            "id": "left-sidebar-tabs",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "file-explorer-leaf",
+                "type": "leaf",
+                "state": {
+                  "type": "file-explorer",
+                  "state": { "sortOrder": "byModifiedTime", "autoReveal": false },
+                  "icon": "lucide-folder-closed",
+                  "title": "Dosya Gezgini"
+                }
+              },
+              {
+                "id": "search-leaf",
+                "type": "leaf",
+                "state": {
+                  "type": "search",
+                  "state": { "query": "", "matchingCase": false, "explainSearch": false, "collapseAll": false, "extraContext": false, "sortOrder": "byModifiedTime" },
+                  "icon": "lucide-search",
+                  "title": "Arama"
+                }
+              },
+              {
+                "id": "bookmarks-leaf",
+                "type": "leaf",
+                "state": {
+                  "type": "bookmarks",
+                  "state": {},
+                  "icon": "lucide-bookmark",
+                  "title": "Yer İşaretleri"
+                }
+              }
+            ]
+          }
+        ],
+        "direction": "horizontal",
+        "width": 220
+      },
+      "right": {
+        "id": "right-sidebar",
+        "type": "split",
+        "children": [
+          {
+            "id": "right-sidebar-tabs",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "localgraph-leaf",
+                "type": "leaf",
+                "state": {
+                  "type": "localgraph",
+                  "state": {
+                    "file": "00 Kontrol Merkezi/Planlayıcı.md",
+                    "options": {
+                      "collapse-filter": false,
+                      "search": "",
+                      "localJumps": 2,
+                      "localBacklinks": true,
+                      "localForelinks": true,
+                      "localInterlinks": false,
+                      "showTags": false,
+                      "showAttachments": false,
+                      "hideUnresolved": true,
+                      "collapse-color-groups": false,
+                      "colorGroups": [
+                        { "query": "path:Notlar", "color": { "a": 1, "rgb": 4889178 } },
+                        { "query": "path:\"Çalışma Fikirleri\"", "color": { "a": 1, "rgb": 15233098 } },
+                        { "query": "path:Projeler", "color": { "a": 1, "rgb": 8109694 } },
+                        { "query": "path:Dersler", "color": { "a": 1, "rgb": 14069084 } },
+                        { "query": "path:\"Sosyal Medya\"", "color": { "a": 1, "rgb": 15548684 } }
+                      ],
+                      "collapse-display": false,
+                      "showArrow": true,
+                      "textFadeMultiplier": 0.5,
+                      "nodeSizeMultiplier": 2.0,
+                      "lineSizeMultiplier": 1.0,
+                      "collapse-forces": false,
+                      "centerStrength": 0.45,
+                      "repelStrength": 12,
+                      "linkStrength": 0.6,
+                      "linkDistance": 220,
+                      "scale": 1.0,
+                      "close": false
+                    }
+                  },
+                  "icon": "lucide-git-fork",
+                  "title": "📡 Graf"
+                }
+              },
+              {
+                "id": "backlinks-leaf",
+                "type": "leaf",
+                "state": {
+                  "type": "backlink",
+                  "state": { "file": "00 Kontrol Merkezi/Planlayıcı.md", "collapseAll": false, "extraContext": false, "sortOrder": "alphabetical", "showSearch": false, "searchQuery": "", "backlinkCollapsed": false, "unlinkedCollapsed": true },
+                  "icon": "links-coming-in",
+                  "title": "Gelen Bağlantılar"
+                }
+              },
+              {
+                "id": "outline-leaf",
+                "type": "leaf",
+                "state": {
+                  "type": "outline",
+                  "state": { "file": "00 Kontrol Merkezi/Planlayıcı.md", "followCursor": true, "showSearch": false, "searchQuery": "" },
+                  "icon": "lucide-list",
+                  "title": "İçindekiler"
+                }
+              },
+              {
+                "id": "tags-leaf",
+                "type": "leaf",
+                "state": {
+                  "type": "tag",
+                  "state": { "sortOrder": "frequency", "useHierarchy": true, "showSearch": true, "searchQuery": "" },
+                  "icon": "lucide-tags",
+                  "title": "Etiketler"
+                }
+              }
+            ],
+            "currentTab": 0
+          }
+        ],
+        "direction": "horizontal",
+        "width": 300,
+        "collapsed": false
+      },
+      "left-ribbon": {
+        "hiddenItems": {
+          "switcher:Hızlı geçişi aç": false,
+          "graph:Grafik görünümünü aç": false,
+          "canvas:Yeni tuval oluşturun": false,
+          "command-palette:Komut paletini aç": false,
+          "workspaces:Çalışma alanı düzenlerini yönetme": false,
+          "bases:Yeni taban oluştur": false,
+          "templater-obsidian:Templater": false
+        }
+      },
+      "active": "leaf-planlayici",
+      "mtime": "2026-03-18T12:00:00+03:00"
+    }
+  },
+  "active": "Ana Dashboard"
+}

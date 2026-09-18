@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "zotero": {
+      "command": "uvx",
+      "args": [
+        "zotero-mcp-server"
+      ],
+      "env": {
+        "ZOTERO_USER_ID": "11856269",
+        "ZOTERO_API_KEY": "u318r26RupnzNED7wmsWBkVm"
+      }
+    },
+    "pubmed": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@cyanheads/pubmed-mcp-server@latest"
+      ]
+    }
+  }
+}

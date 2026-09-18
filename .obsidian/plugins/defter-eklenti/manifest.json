@@ -1,0 +1,9 @@
+{
+  "id": "defter-eklenti",
+  "name": "Defter",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.0",
+  "description": "Bir klasördeki notlar arasında oluşturulma/düzenlenme tarihine ya da manuel sıraya göre, yön tuşlarıyla defter sayfası çevirir gibi gezinme. Hızlı not ekleme (quick capture) ile birlikte.",
+  "author": "Caner Özyıldırım",
+  "isDesktopOnly": false
+}

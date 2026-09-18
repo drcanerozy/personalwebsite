@@ -1,0 +1,62 @@
+{
+  "database": "Zotero",
+  "noteImportFolder": "",
+  "pdfExportImageDPI": 120,
+  "pdfExportImageFormat": "jpg",
+  "pdfExportImageQuality": 90,
+  "citeFormats": [],
+  "exportFormats": [
+    {
+      "name": "Weight Centric",
+      "outputPathTemplate": "{{citekey}}.md",
+      "imageOutputPathTemplate": "Weight Centric/{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "Templates/Weight Centric.md"
+    },
+    {
+      "name": "NotebookLM Etkinliği",
+      "outputPathTemplate": "NotebookLM Etkinliği/{{citekey}}.md",
+      "imageOutputPathTemplate": "",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "Templates/NotebookLM Etkinliği.md"
+    },
+    {
+      "name": "Reklam Kurulu Kararları",
+      "outputPathTemplate": "Reklam Kurulu Kararları/{{citekey}}.md",
+      "imageOutputPathTemplate": "{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "Templates/Reklam Kurulu Kararları.md"
+    },
+    {
+      "name": "Augmented Dietitian",
+      "outputPathTemplate": "Augmented Dietitian Okunmuşlar/{{citekey}}.md",
+      "imageOutputPathTemplate": "{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "Templates/Augmented Dietitian Template.md"
+    },
+    {
+      "name": "GLP1 Review Template",
+      "outputPathTemplate": "{{citekey}}.md",
+      "imageOutputPathTemplate": "{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "Templates/GLP1 Review Template.md"
+    },
+    {
+      "name": "Akademik Okumalar",
+      "outputPathTemplate": "{{citekey}}.md",
+      "imageOutputPathTemplate": "{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "Templates/Zotero Akademik Okuma.md"
+    },
+    {
+      "name": "Zotero makale notları",
+      "outputPathTemplate": "{{citekey}}.md",
+      "imageOutputPathTemplate": "{{citekey}}/",
+      "imageBaseNameTemplate": "image",
+      "templatePath": "Templates/Zotero_Sablon.md"
+    }
+  ],
+  "citeSuggestTemplate": "[[{{citekey}}]]",
+  "openNoteAfterImport": false,
+  "whichNotesToOpenAfterImport": "first-imported-note"
+}
