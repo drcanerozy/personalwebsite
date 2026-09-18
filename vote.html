@@ -326,25 +326,15 @@
   <!-- 3. BÖLÜM: DERS SONU ZİHNİYET EVRİMİ -->
   <div id="sectionPost" class="poll-card" style="display:none;">
     <span class="poll-tag">Ders Sonu · Zihniyet Evrimi</span>
-    <h2 class="poll-title">16 klinik alanı ve ampirik kanıtları gördükten sonra: AI rutin görevleri ne oranda devralır?</h2>
-    <p class="poll-desc">Ders öncesi verdiğiniz oyla karşılaştırılacaktır.</p>
+    <h2 class="poll-title">16 klinik alanı ve kanıtları gördükten sonra: AI rutin görevleri ne oranda devralır?</h2>
+    <p class="poll-desc">Ders öncesindeki % tahmininiz ile bu yeni tahmininiz karşılaştırılacaktır.</p>
 
     <div class="slider-box">
       <div class="slider-val-badge" id="postSliderVal">85%</div>
       <input type="range" min="0" max="100" value="85" class="slider-input" id="postRange" oninput="document.getElementById('postSliderVal').textContent = this.value + '%'">
     </div>
 
-    <h3 style="font-size:14px; font-weight:700; margin-top:8px;">Yapay zeka klinik beslenmede tek başına güvenilir midir?</h3>
-    <div class="options-list">
-      <button class="option-item" onclick="selectOption('postQ2', 1, this)">
-        <span>🛡️</span> <span>Diyetisyen Denetimi Şart (Human-in-the-Loop)</span>
-      </button>
-      <button class="option-item" onclick="selectOption('postQ2', 2, this)">
-        <span>🤖</span> <span>AI Tek Başına Yeterli</span>
-      </button>
-    </div>
-
-    <button class="submit-btn" onclick="submitPostSurvey()">
+    <button class="submit-btn" onclick="submitPostSurvey()" style="margin-top:8px;">
       <span>🚀</span> <span>Dönüşüm Oyumu Gönder</span>
     </button>
   </div>
