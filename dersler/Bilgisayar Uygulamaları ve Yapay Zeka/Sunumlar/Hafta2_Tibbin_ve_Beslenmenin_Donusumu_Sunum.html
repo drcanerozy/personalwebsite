@@ -3735,7 +3735,8 @@ window.addEventListener("wheel", function(e){
   if(e.deltaY > 0){
     // Scrolling DOWN
     if(isScrollable && !atBottom){
-      // Natural browser scroll down inside slide
+      // Directly and smoothly scroll active slide via touchpad/mousewheel
+      activeSlide.scrollBy({ top: e.deltaY, behavior: 'auto' });
       wheelAccumulatorY = 0;
       return;
     }
@@ -3752,7 +3753,8 @@ window.addEventListener("wheel", function(e){
   } else if(e.deltaY < 0){
     // Scrolling UP
     if(isScrollable && !atTop){
-      // Natural browser scroll up inside slide
+      // Directly and smoothly scroll active slide via touchpad/mousewheel
+      activeSlide.scrollBy({ top: e.deltaY, behavior: 'auto' });
       wheelAccumulatorY = 0;
       return;
     }

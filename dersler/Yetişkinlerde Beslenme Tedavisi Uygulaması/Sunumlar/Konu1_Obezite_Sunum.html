@@ -53,7 +53,7 @@
   .slide{
     position:absolute;
     inset:0;
-    display:flex;
+    display:none !important;
     flex-direction:column;
     justify-content:flex-start;
     align-items:center;
@@ -61,17 +61,20 @@
     overflow-y:auto;
     overflow-x:hidden;
     -webkit-overflow-scrolling:touch;
-    opacity:0;
-    transform:translateY(16px);
-    pointer-events:none;
-    transition:opacity .35s cubic-bezier(.22,.61,.36,1), transform .35s cubic-bezier(.22,.61,.36,1);
     box-sizing:border-box;
     scroll-behavior:smooth;
+    z-index:1;
   }
   .slide.active{
+    display:flex !important;
     opacity:1;
-    transform:translateY(0);
     pointer-events:auto;
+    z-index:10;
+    animation:fadein .25s ease-out;
+  }
+  @keyframes fadein{
+    from{opacity:0;transform:translateY(8px);}
+    to{opacity:1;transform:translateY(0);}
   }
 
   /* Inner wrapper constraints across all slide contents */
@@ -242,12 +245,16 @@
   .box-info p{ color:var(--cream); font-size:clamp(14.5px, 1.15vw, 18px); line-height:1.6; margin:0;}
 
   /* Deep Study Articles (Full Page Reports) */
-  .slide.deep-study{
+  .slide.deep-study:not(.active){
+    display:none !important;
+  }
+  .slide.deep-study.active{
     display:block !important;
     padding:clamp(65px, 7vh, 85px) clamp(24px, 4vw, 72px) clamp(90px, 9vh, 120px) clamp(24px, 4vw, 72px) !important;
     overflow-y:auto !important;
     height:100vh !important;
     background:var(--bg-deep) !important;
+    z-index:10 !important;
   }
   .slide.deep-study::before,
   .slide.deep-study::after,
@@ -274,7 +281,8 @@
   .ds-takeaway-b{ font-size:clamp(15px, 1.2vw, 19px); line-height:1.6; color:var(--cream); margin:0;}
 
   /* Dashboard */
-  .slide.dashboard-slide{ display:flex; flex-direction:column; padding:clamp(65px, 7vh, 85px) clamp(20px, 3vw, 40px) 85px clamp(20px, 3vw, 40px); height:100vh;}
+  .slide.dashboard-slide:not(.active){ display:none !important; }
+  .slide.dashboard-slide.active{ display:flex !important; flex-direction:column; padding:clamp(65px, 7vh, 85px) clamp(20px, 3vw, 40px) 85px clamp(20px, 3vw, 40px); height:100vh; z-index:10 !important;}
   .dash-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px; width:100%; max-width:1800px; margin-left:auto; margin-right:auto;}
   .dash-title{ font-size:clamp(22px, 1.8vw, 30px); font-weight:700; color:var(--cream);}
   .dash-eyebrow{ font-family:var(--mono); font-size:13px; color:var(--accent); text-transform:uppercase; display:block; font-weight:600;}
@@ -5509,46 +5517,10 @@ window.addEventListener('wheel', (e) => {
     return;
   }
 
-  // Vertical scroll / trackpad gestures (deltaY)
+  // Vertical scroll / trackpad gestures (deltaY): Sadece slayt içeriğini kaydırır, asla slayt atlamaz
   const activeSlide = allSlideEls[current];
-  const isScrollable = activeSlide && (activeSlide.scrollHeight > activeSlide.clientHeight + 20);
-  const atTop = !activeSlide || activeSlide.scrollTop <= 8;
-  const atBottom = !activeSlide || (activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 12);
-
-  if (e.deltaY > 0) {
-    // Scrolling DOWN
-    if (isScrollable && !atBottom) {
-      // Allow natural native scroll down inside slide
-      wheelAccumulatorY = 0;
-      return;
-    }
-    // Reached bottom or slide has no vertical scroll -> require deliberate force to change slide
-    if (isWheelLocked) return;
-    wheelAccumulatorY += e.deltaY;
-    if (wheelAccumulatorY > 160) {
-      isWheelLocked = true;
-      wheelAccumulatorY = 0;
-      go(current + 1);
-      clearTimeout(wheelCooldownTimer);
-      wheelCooldownTimer = setTimeout(() => { isWheelLocked = false; }, 650);
-    }
-  } else if (e.deltaY < 0) {
-    // Scrolling UP
-    if (isScrollable && !atTop) {
-      // Allow natural native scroll up inside slide
-      wheelAccumulatorY = 0;
-      return;
-    }
-    // Reached top or slide has no vertical scroll -> require deliberate force to change slide
-    if (isWheelLocked) return;
-    wheelAccumulatorY += e.deltaY;
-    if (wheelAccumulatorY < -160) {
-      isWheelLocked = true;
-      wheelAccumulatorY = 0;
-      go(current - 1);
-      clearTimeout(wheelCooldownTimer);
-      wheelCooldownTimer = setTimeout(() => { isWheelLocked = false; }, 650);
-    }
+  if (activeSlide && Math.abs(e.deltaY) > 0) {
+    activeSlide.scrollBy({ top: e.deltaY, behavior: 'auto' });
   }
 }, { passive: true });
 
