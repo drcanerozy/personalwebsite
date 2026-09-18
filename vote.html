@@ -35,7 +35,7 @@
   }
   .app-container {
     width: 100%;
-    max-width: 480px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -83,13 +83,13 @@
     padding: 4px;
     border-radius: 10px;
   }
+  .nav-tabs.two-tabs { grid-template-columns: 1fr 1fr; }
   .nav-tabs.three-tabs { grid-template-columns: 1fr 1fr 1fr; }
-  .nav-tabs.four-tabs { grid-template-columns: 1fr 1fr 1fr 1fr; }
 
   .nav-tab {
-    padding: 8px 4px;
+    padding: 9px 4px;
     text-align: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--text-muted);
     border-radius: 6px;
@@ -120,7 +120,7 @@
     letter-spacing: 0.05em;
   }
   .poll-title {
-    font-size: 16px;
+    font-size: 15.5px;
     font-weight: 700;
     line-height: 1.4;
     color: #fff;
@@ -130,41 +130,101 @@
     color: var(--text-muted);
     line-height: 1.45;
   }
-  .slider-box {
+  .q-label {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .text-input {
+    width: 100%;
     background: #0b1120;
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 16px;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: #fff;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .text-input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  textarea.text-input {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.45;
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media(max-width: 400px) {
+    .tools-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .tool-btn {
+    background: #0b1120;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 8px;
+    color: var(--text);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+  }
+  .tool-btn.selected {
+    border-color: var(--teal);
+    background: rgba(20, 184, 166, 0.15);
+    color: #fff;
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  .likert-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .likert-btn {
+    background: #0b1120;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px 4px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
   }
-  .slider-val-badge {
-    font-size: 36px;
-    font-weight: 800;
-    color: var(--teal);
+  .likert-num {
     font-family: 'JetBrains Mono', monospace;
-    text-shadow: 0 0 16px var(--teal-glow);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-muted);
   }
-  .slider-input {
-    width: 100%;
-    height: 12px;
-    border-radius: 6px;
-    background: #1e293b;
-    outline: none;
-    -webkit-appearance: none;
-    cursor: pointer;
+  .likert-desc {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.2;
   }
-  .slider-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--teal);
-    border: 3px solid #fff;
-    box-shadow: 0 0 12px rgba(20, 184, 166, 0.6);
-    cursor: pointer;
+  .likert-btn.selected {
+    border-color: var(--teal);
+    background: rgba(20, 184, 166, 0.15);
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  .likert-btn.selected .likert-num {
+    color: var(--teal);
+  }
+  .likert-btn.selected .likert-desc {
+    color: #fff;
   }
   .options-list {
     display: flex;
@@ -187,10 +247,6 @@
     text-align: left;
     width: 100%;
     line-height: 1.4;
-  }
-  .option-item:hover, .option-item:active {
-    border-color: var(--teal);
-    background: rgba(20, 184, 166, 0.1);
   }
   .option-item.selected {
     border-color: var(--teal);
@@ -230,15 +286,41 @@
     font-weight: 600;
     animation: fadeIn 0.3s ease;
   }
-  .vaka-box {
-    background: #090d16;
-    border-left: 3px solid var(--indigo);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 12.5px;
-    line-height: 1.45;
-    color: #cbd5e1;
-    font-style: italic;
+  .slider-box {
+    background: #0b1120;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .slider-val-badge {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 16px var(--teal-glow);
+  }
+  .slider-input {
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    background: #1e293b;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  .slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 3px solid #fff;
+    box-shadow: 0 0 12px rgba(20, 184, 166, 0.6);
+    cursor: pointer;
   }
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-4px); }
@@ -252,7 +334,7 @@
   <!-- ÜST BİLGİ -->
   <header class="header">
     <div class="header-brand">
-      <span id="weekIcon">🧬</span> <span id="weekTitle">BES339 · Canlı Oylama</span>
+      <span id="weekIcon">🤖</span> <span id="weekTitle">BES339 · Canlı Oylama</span>
     </div>
     <div class="status-badge" id="statusBadge">
       <span class="status-dot" id="statusDot"></span>
@@ -262,114 +344,112 @@
 
   <!-- BAŞARI BİLDİRİMİ -->
   <div class="success-banner" id="successBanner">
-    ✅ Oyunuz tahtaya anında iletildi! Teşekkürler.
+    ✅ Yanıtlarınız tahtaya anında iletildi! Teşekkürler.
   </div>
 
   <!-- ======================================================== -->
   <!-- HAFTA 1 ANKETLERİ -->
   <!-- ======================================================== -->
   <div id="week1Container" style="display:none; flex-direction:column; gap:16px;">
-    <!-- SEKMELER (HAFTA 1) -->
-    <div class="nav-tabs four-tabs" id="h1Tabs">
-      <button class="nav-tab active" onclick="switchH1Section('tanisma')">1. Tanışma</button>
-      <button class="nav-tab" onclick="switchH1Section('turing')">2. Turing</button>
-      <button class="nav-tab" onclick="switchH1Section('rlhf')">3. RLHF</button>
-      <button class="nav-tab" onclick="switchH1Section('hitl')">4. HITL</button>
+    <!-- SEKMELER (HAFTA 1: 2 SEKME - AÇILIŞ & KAPANIŞ) -->
+    <div class="nav-tabs two-tabs" id="h1Tabs">
+      <button class="nav-tab active" onclick="switchH1Section('pre')">1. Açılış &amp; Tanışma</button>
+      <button class="nav-tab" onclick="switchH1Section('post')">2. Ders Sonu Gelişim</button>
     </div>
 
-    <!-- H1 - 1. BÖLÜM: TANIŞMA & BEKLENTİ ANKETİ -->
-    <div id="h1SectionTanisma" class="poll-card">
-      <span class="poll-tag">Hafta 1 · Slayt 03 · Tanışma Anketi</span>
-      <h2 class="poll-title">Yapay Zekayı (ChatGPT vb.) eğitim/meslek hayatınızda ne sıklıkla kullanıyorsunuz?</h2>
+    <!-- H1 - 1. BÖLÜM: DERS BAŞI TANIŞMA & DENEYİM ANKETİ -->
+    <div id="h1SectionPre" class="poll-card">
+      <span class="poll-tag">Hafta 1 · Açılış &amp; Tanışma Anketi</span>
       
-      <div class="options-list">
-        <button class="option-item" onclick="selectOption('h1_freq', 1, this)">
-          <span>🔵</span> <span>1. Hiç veya Çok Nadir</span>
-        </button>
-        <button class="option-item" onclick="selectOption('h1_freq', 2, this)">
-          <span>🟡</span> <span>2. Haftada Birkaç Kez (Ödev / Özet / Fikir)</span>
-        </button>
-        <button class="option-item" onclick="selectOption('h1_freq', 3, this)">
-          <span>🟢</span> <span>3. Her Gün / Düzenli Asistan Olarak</span>
-        </button>
+      <!-- S1: KULLANILAN ARAÇLAR -->
+      <div>
+        <label class="q-label">1. En sık hangi yapay zeka aracını kullanıyorsunuz?</label>
+        <div class="tools-grid" id="h1ToolsGrid">
+          <button type="button" class="tool-btn" onclick="selectH1Tool('ChatGPT', this)">ChatGPT</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Gemini', this)">Gemini</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Claude', this)">Claude</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('DeepSeek', this)">DeepSeek</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Perplexity', this)">Perplexity</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Copilot', this)">Copilot</button>
+        </div>
+        <input type="text" id="h1ToolOther" class="text-input" placeholder="Diğer / Farklı bir araç kullanıyorsanız yazın..." style="margin-top:8px;">
       </div>
 
-      <h3 style="font-size:14px; font-weight:700; margin-top:10px; color:#fff;">Yapay zekanın verdiği beslenme/sağlık bilgisine şu an ne kadar güveniyorsunuz?</h3>
-      <div class="slider-box">
-        <div class="slider-val-badge" id="h1TrustVal">50%</div>
-        <input type="range" min="0" max="100" value="50" class="slider-input" id="h1TrustRange" oninput="document.getElementById('h1TrustVal').textContent = this.value + '%'">
+      <!-- S2: EN ÇOK ŞAŞIRTAN AN -->
+      <div>
+        <label class="q-label">2. Yapay zekada sizi en çok şaşırtan / tuhafınıza giden ne olmuştu?</label>
+        <textarea id="h1SurpriseText" class="text-input" placeholder="Örn: 'Verdiği uydurma kaynak', 'Beni benden iyi anlaması', 'Hızlı tablo yapması' vb."></textarea>
       </div>
 
-      <button class="submit-btn" onclick="submitH1Tanisma()">
-        <span>🚀</span> <span>Oyu Tahtaya Gönder</span>
+      <!-- S3: EN ETKİLEYİCİ KULLANIM ANI -->
+      <div>
+        <label class="q-label">3. Yapay zekayı en etkileyici / en faydalı olarak kullandığınız an neydi?</label>
+        <textarea id="h1ImpressiveText" class="text-input" placeholder="Örn: 'Bir vaka analizinde', 'Ödev özetlerken', 'Yemek tarifi türetirken' vb."></textarea>
+      </div>
+
+      <!-- S4: PROMPT DÜZEYİ (1-5 LIKERT) -->
+      <div>
+        <label class="q-label">4. Şu anki Prompt (Komut) yazma becerinizi nasıl puanlarsınız?</label>
+        <div class="likert-grid" id="h1PreLikert">
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(1, this)">
+            <span class="likert-num">1</span>
+            <span class="likert-desc">Çok Temel</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(2, this)">
+            <span class="likert-num">2</span>
+            <span class="likert-desc">Başlangıç</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(3, this)">
+            <span class="likert-num">3</span>
+            <span class="likert-desc">Orta</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(4, this)">
+            <span class="likert-num">4</span>
+            <span class="likert-desc">İyi</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(5, this)">
+            <span class="likert-num">5</span>
+            <span class="likert-desc">İleri</span>
+          </button>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitH1PreSurvey()">
+        <span>🚀</span> <span>Yanıtları Tahtaya Gönder</span>
       </button>
     </div>
 
-    <!-- H1 - 2. BÖLÜM: MİNİ TURING TESTİ -->
-    <div id="h1SectionTuring" class="poll-card" style="display:none;">
-      <span class="poll-tag">Hafta 1 · Slayt 16 · Mini Turing Testi</span>
-      <h2 class="poll-title">Hangisi Yapay Zeka Tarafından Yazılmıştır?</h2>
-      
-      <div class="vaka-box">
-        <b>Danışan Vakası:</b> "Hocam dün akşam tatlı krizine yenik düşüp 2 dilim baklava yedim, vicdan azabından ölüyorum. Bugün tüm öğünleri kesip sadece yeşil detoks suyu mu içsem?"
-      </div>
+    <!-- H1 - 2. BÖLÜM: DERS SONU PROMPT DÜZEYİ GELİŞİMİ -->
+    <div id="h1SectionPost" class="poll-card" style="display:none;">
+      <span class="poll-tag">Hafta 1 · Kapanış Değerlendirmesi</span>
+      <h2 class="poll-title">Dersin Sonunda: Prompt (Komut) Yetkinlik Düzeyinizi Nasıl Puanlarsınız?</h2>
+      <p class="poll-desc">CLEAR çerçevesi, 6 bileşenli anatomi ve kritik teknikleri gördükten sonra kendinizi nerede görüyorsunuz?</p>
 
-      <div class="options-list">
-        <button class="option-item" onclick="selectOption('h1_turing', 'A', this)">
-          <span>🤖</span> <span><b>Yanıt A Yapay Zeka:</b> "Kesinlikle aç kalmamalısınız. Baklava yüksek glisemik indekse sahiptir... Bol su için, sebze ağırlıklı beslenin ve 45 dk yürüyüş yapın."</span>
+      <div class="likert-grid" id="h1PostLikert">
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(1, this)">
+          <span class="likert-num">1</span>
+          <span class="likert-desc">Çok Temel</span>
         </button>
-        <button class="option-item" onclick="selectOption('h1_turing', 'B', this)">
-          <span>🤖</span> <span><b>Yanıt B Yapay Zeka:</b> "Öncelikle derin bir nefes alıyoruz, hiçbir şey mahvolmadı! :) Diyet bir ceza-ödül mekanizması değildir. Akşama hafif bir zeytinyağlıyla dengeleriz."</span>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(2, this)">
+          <span class="likert-num">2</span>
+          <span class="likert-desc">Başlangıç</span>
         </button>
-      </div>
-
-      <button class="submit-btn" onclick="submitH1Turing()">
-        <span>🎯</span> <span>Turing Tahminimi Gönder</span>
-      </button>
-    </div>
-
-    <!-- H1 - 3. BÖLÜM: RLHF TERBİYE DERSİ -->
-    <div id="h1SectionRlhf" class="poll-card" style="display:none;">
-      <span class="poll-tag">Hafta 1 · Slayt 43 · RLHF Klinik Hakem</span>
-      <h2 class="poll-title">Bir Klinik Diyetisyen Olarak Hangi Model Yanıtını Ödüllendirirsiniz?</h2>
-      
-      <div class="vaka-box">
-        <b>Danışan Sorusu:</b> "Kilo vermek istiyorum, ne yapmalıyım?"
-      </div>
-
-      <div class="options-list">
-        <button class="option-item" onclick="selectOption('h1_rlhf', 'A', this)">
-          <span>🔴</span> <span><b>Model A:</b> "Kesinlikle günde 1200 kaloriyle sınırlı kalmalısın, karbonhidratı tamamen kes."</span>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(3, this)">
+          <span class="likert-num">3</span>
+          <span class="likert-desc">Orta</span>
         </button>
-        <button class="option-item" onclick="selectOption('h1_rlhf', 'B', this)">
-          <span>🟢</span> <span><b>Model B:</b> "Bu, kişisel sağlık durumuna bağlıdır. Bir diyetisyene danışmanı öneririm. Genel ilke olarak..."</span>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(4, this)">
+          <span class="likert-num">4</span>
+          <span class="likert-desc">İyi</span>
+        </button>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(5, this)">
+          <span class="likert-num">5</span>
+          <span class="likert-desc">İleri</span>
         </button>
       </div>
 
-      <button class="submit-btn" onclick="submitH1Rlhf()">
-        <span>⭐</span> <span>Klinik Puanımı Gönder</span>
-      </button>
-    </div>
-
-    <!-- H1 - 4. BÖLÜM: HITL MESLEKİ GELECEK -->
-    <div id="h1SectionHitl" class="poll-card" style="display:none;">
-      <span class="poll-tag">Hafta 1 · Slayt 78 · HITL Modeli</span>
-      <h2 class="poll-title">Gelecekte klinik pratikte yapay zekayı nasıl konumlandıracaksınız?</h2>
-      
-      <div class="options-list">
-        <button class="option-item" onclick="selectOption('h1_hitl', 1, this)">
-          <span>👑</span> <span><b>Human-in-the-Loop:</b> Direksiyonda ve nihai kararda daima ben varım; AI sadece taslak ve hesap asistanımdır.</span>
-        </button>
-        <button class="option-item" onclick="selectOption('h1_hitl', 2, this)">
-          <span>🤖</span> <span><b>Human-on-the-Loop:</b> AI rutin hesapları ve menüleri otomatik yapar; ben yalnızca kritik sapmalarda müdahale ederim.</span>
-        </button>
-        <button class="option-item" onclick="selectOption('h1_hitl', 3, this)">
-          <span>🌿</span> <span><b>Geleneksel Yaklaşım:</b> Mesleki uygulamalarımda AI kullanmamayı veya minimumda tutmayı tercih ederim.</span>
-        </button>
-      </div>
-
-      <button class="submit-btn" onclick="submitH1Hitl()">
-        <span>🚀</span> <span>Tercihimi Gönder</span>
+      <button class="submit-btn" onclick="submitH1PostSurvey()" style="margin-top:8px;">
+        <span>🎯</span> <span>Ders Sonu Puanımı Gönder</span>
       </button>
     </div>
 
@@ -479,8 +559,10 @@ var rawRoom = urlParams.get('room') || '';
 
 // Hangi hafta aktif?
 var currentWeek = 2; // Varsayılan Hafta 2
-if (weekParam === '1' || rawRoom.indexOf('h1') !== -1 || ['tanisma', 'turing', 'rlhf', 'hitl', 'h1_pre', 'h1_turing', 'h1_rlhf', 'h1_hitl'].indexOf(requestedTab) !== -1) {
-  currentWeek = 1;
+if (weekParam === '1' || rawRoom.indexOf('h1') !== -1 || ['tanisma', 'pre', 'post', 'kapanis', 'h1_pre', 'h1_post'].indexOf(requestedTab) !== -1 && weekParam !== '2') {
+  if (weekParam === '1' || rawRoom.indexOf('h1') !== -1 || requestedTab === 'tanisma') {
+    currentWeek = 1;
+  }
 }
 
 var roomId = currentWeek === 1 ? 'bes339-h1' : 'bes339-h2';
@@ -503,11 +585,12 @@ if (currentWeek === 1) {
 var studentId = 'std_' + Math.random().toString(36).substr(2, 9);
 var selectedValues = {
   // Hafta 1
-  h1_freq: null,
-  h1_trust: 50,
-  h1_turing: null,
-  h1_rlhf: null,
-  h1_hitl: null,
+  h1_tools: [],
+  h1_toolOther: '',
+  h1_surprise: '',
+  h1_impressive: '',
+  h1_prePromptLevel: null,
+  h1_postPromptLevel: null,
   // Hafta 2
   preQ1: 35,
   preQ2: null,
@@ -608,52 +691,64 @@ function switchH1Section(sec) {
   var tabs = document.querySelectorAll('#h1Tabs .nav-tab');
   tabs.forEach(function(t){ t.classList.remove('active'); });
 
-  document.getElementById('h1SectionTanisma').style.display = (sec === 'tanisma') ? 'flex' : 'none';
-  document.getElementById('h1SectionTuring').style.display = (sec === 'turing') ? 'flex' : 'none';
-  document.getElementById('h1SectionRlhf').style.display = (sec === 'rlhf') ? 'flex' : 'none';
-  document.getElementById('h1SectionHitl').style.display = (sec === 'hitl') ? 'flex' : 'none';
+  document.getElementById('h1SectionPre').style.display = (sec === 'pre') ? 'flex' : 'none';
+  document.getElementById('h1SectionPost').style.display = (sec === 'post') ? 'flex' : 'none';
 
-  if(sec === 'tanisma' && tabs[0]) tabs[0].classList.add('active');
-  if(sec === 'turing' && tabs[1]) tabs[1].classList.add('active');
-  if(sec === 'rlhf' && tabs[2]) tabs[2].classList.add('active');
-  if(sec === 'hitl' && tabs[3]) tabs[3].classList.add('active');
+  if(sec === 'pre' && tabs[0]) tabs[0].classList.add('active');
+  if(sec === 'post' && tabs[1]) tabs[1].classList.add('active');
 }
 
-function submitH1Tanisma() {
-  selectedValues.h1_trust = parseInt(document.getElementById('h1TrustRange').value, 10);
-  sendPayload('h1_tanisma', {
-    freq: selectedValues.h1_freq || 1,
-    trust: selectedValues.h1_trust
+function selectH1Tool(toolName, el) {
+  var idx = selectedValues.h1_tools.indexOf(toolName);
+  if (idx > -1) {
+    selectedValues.h1_tools.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    selectedValues.h1_tools.push(toolName);
+    el.classList.add('selected');
+  }
+}
+
+function selectH1PreLevel(lvl, el) {
+  selectedValues.h1_prePromptLevel = lvl;
+  var parent = document.getElementById('h1PreLikert');
+  parent.querySelectorAll('.likert-btn').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function selectH1PostLevel(lvl, el) {
+  selectedValues.h1_postPromptLevel = lvl;
+  var parent = document.getElementById('h1PostLikert');
+  parent.querySelectorAll('.likert-btn').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function submitH1PreSurvey() {
+  var otherTool = document.getElementById('h1ToolOther').value.trim();
+  var surprise = document.getElementById('h1SurpriseText').value.trim();
+  var impressive = document.getElementById('h1ImpressiveText').value.trim();
+
+  var tools = selectedValues.h1_tools.slice();
+  if (otherTool && tools.indexOf(otherTool) === -1) {
+    tools.push(otherTool);
+  }
+
+  sendPayload('h1_pre_survey', {
+    tools: tools,
+    otherTool: otherTool,
+    surprise: surprise,
+    impressive: impressive,
+    promptLevel: selectedValues.h1_prePromptLevel || 2
   });
 }
 
-function submitH1Turing() {
-  if(!selectedValues.h1_turing){
-    alert("Lütfen Yapay Zeka olduğunu düşündüğünüz yanıtı seçiniz (Yanıt A veya Yanıt B)!");
+function submitH1PostSurvey() {
+  if (!selectedValues.h1_postPromptLevel) {
+    alert("Lütfen ders sonu prompt yetkinlik seviyenizi seçiniz (1-5)!");
     return;
   }
-  sendPayload('h1_turing', {
-    choice: selectedValues.h1_turing
-  });
-}
-
-function submitH1Rlhf() {
-  if(!selectedValues.h1_rlhf){
-    alert("Lütfen bir model yanıtı seçiniz (Model A veya Model B)!");
-    return;
-  }
-  sendPayload('h1_rlhf', {
-    choice: selectedValues.h1_rlhf
-  });
-}
-
-function submitH1Hitl() {
-  if(!selectedValues.h1_hitl){
-    alert("Lütfen bir model tercihi seçiniz!");
-    return;
-  }
-  sendPayload('h1_hitl', {
-    choice: selectedValues.h1_hitl
+  sendPayload('h1_post_survey', {
+    promptLevel: selectedValues.h1_postPromptLevel
   });
 }
 
@@ -699,14 +794,10 @@ function submitPostSurvey() {
 
 // URL Parametresine göre doğrudan ilgili sekme aç
 if (currentWeek === 1) {
-  if (requestedTab === 'turing' || requestedTab === '2' || requestedTab === 'h1_turing') {
-    switchH1Section('turing');
-  } else if (requestedTab === 'rlhf' || requestedTab === '3' || requestedTab === 'h1_rlhf') {
-    switchH1Section('rlhf');
-  } else if (requestedTab === 'hitl' || requestedTab === '4' || requestedTab === 'h1_hitl') {
-    switchH1Section('hitl');
+  if (requestedTab === 'post' || requestedTab === '2' || requestedTab === 'kapanis' || requestedTab === 'h1_post') {
+    switchH1Section('post');
   } else {
-    switchH1Section('tanisma');
+    switchH1Section('pre');
   }
 } else {
   if (requestedTab === 'roles' || requestedTab === '2' || requestedTab === 'roller') {
