@@ -2295,48 +2295,10 @@ window.addEventListener("wheel", function(e){
     return;
   }
 
-  // Vertical scroll / trackpad gestures (deltaY)
+  // Vertical scroll / trackpad gestures (deltaY): Sadece slayt içeriğini kaydırır, asla slayt atlamaz
   var activeSlide = slides[cur];
-  var isScrollable = activeSlide && (activeSlide.scrollHeight > activeSlide.clientHeight + 20);
-  var atTop = !activeSlide || activeSlide.scrollTop <= 8;
-  var atBottom = !activeSlide || (activeSlide.scrollTop + activeSlide.clientHeight >= activeSlide.scrollHeight - 12);
-
-  if(e.deltaY > 0){
-    // Scrolling DOWN
-    if(isScrollable && !atBottom){
-      // Directly and smoothly scroll active slide via touchpad/mousewheel
-      activeSlide.scrollBy({ top: e.deltaY, behavior: 'auto' });
-      wheelAccumulatorY = 0;
-      return;
-    }
-    // Reached bottom or slide has no vertical scroll -> require deliberate force to change slide
-    if(isWheelLocked) return;
-    wheelAccumulatorY += e.deltaY;
-    if(wheelAccumulatorY > 160){
-      isWheelLocked = true;
-      wheelAccumulatorY = 0;
-      go(1);
-      clearTimeout(wheelCooldownTimer);
-      wheelCooldownTimer = setTimeout(function(){ isWheelLocked = false; }, 650);
-    }
-  } else if(e.deltaY < 0){
-    // Scrolling UP
-    if(isScrollable && !atTop){
-      // Directly and smoothly scroll active slide via touchpad/mousewheel
-      activeSlide.scrollBy({ top: e.deltaY, behavior: 'auto' });
-      wheelAccumulatorY = 0;
-      return;
-    }
-    // Reached top or slide has no vertical scroll -> require deliberate force to change slide
-    if(isWheelLocked) return;
-    wheelAccumulatorY += e.deltaY;
-    if(wheelAccumulatorY < -160){
-      isWheelLocked = true;
-      wheelAccumulatorY = 0;
-      go(-1);
-      clearTimeout(wheelCooldownTimer);
-      wheelCooldownTimer = setTimeout(function(){ isWheelLocked = false; }, 650);
-    }
+  if(activeSlide && Math.abs(e.deltaY) > 0){
+    activeSlide.scrollBy({ top: e.deltaY, behavior: 'auto' });
   }
 }, { passive: true });
 
