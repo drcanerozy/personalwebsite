@@ -30,29 +30,41 @@ SLIDES_ASSETS_DIR.mkdir(exist_ok=True)
 
 # Secure Course Password for Yetişkin Hastalıklarında Beslenme Tedavisi
 DEFAULT_PASSWORD = "COZYYHTBT2026_"
+# Secure Course Password for Bilgisayar ve Yapay Zeka Uygulamaları
+AI_PASSWORD = "COZYBESAI2026_"
 
 def sync_assets():
-    """Copies all simulation HTML files, PNG assets, and logos from Vault to slides/assets/."""
-    print("📦 Sunum asset'leri ve simülasyonları kopyalanıyor...")
+    """Copies all simulation HTML files, PNG assets, and logos from Vault to slides/assets/ if missing."""
+    print("📦 Sunum asset'leri kontrol ediliyor...")
     vault_assets_dir = VAULT_DIR / "Dersler/Yetişkinlerde Beslenme Tedavisi Uygulaması/Sunumlar/assets"
+    ai_assets_dir = VAULT_DIR / "Dersler/Bilgisayar Uygulamaları ve Yapay Zeka/Sunumlar/assets"
     copied_count = 0
     
     if vault_assets_dir.exists():
         for item in vault_assets_dir.iterdir():
             if item.is_file() and not item.name.startswith('.'):
                 dest = SLIDES_ASSETS_DIR / item.name
-                shutil.copy2(item, dest)
-                copied_count += 1
-        print(f"  ✅ {copied_count} asset dosyası '{SLIDES_ASSETS_DIR}' dizinine kopyalandı.")
-    else:
-        print(f"  ⚠️ Vault assets dizini bulunamadı: {vault_assets_dir}")
+                if not dest.exists():
+                    shutil.copy2(item, dest)
+                    copied_count += 1
+
+    # AI assets: copy only assets used by active presentations (skip heavy future week assets)
+    if ai_assets_dir.exists():
+        for item in ai_assets_dir.iterdir():
+            if item.is_file() and not item.name.startswith('.') and not item.name.startswith('faz3_') and not item.name.startswith('veri_gudumlu_'):
+                dest = SLIDES_ASSETS_DIR / item.name
+                if not dest.exists():
+                    shutil.copy2(item, dest)
+                    copied_count += 1
+    print(f"  ✅ {copied_count} yeni asset dosyası '{SLIDES_ASSETS_DIR}' dizinine kopyalandı.")
 
     # Copy faculty logo
     faculty_logo = VAULT_DIR / "Files/Saglik-Bilimleri-Fakultesi-2.png"
     if faculty_logo.exists():
         dest_logo = SLIDES_ASSETS_DIR / "Saglik-Bilimleri-Fakultesi-2.png"
-        shutil.copy2(faculty_logo, dest_logo)
-        print("  ✅ Fakülte logosu kopyalandı.")
+        if not dest_logo.exists():
+            shutil.copy2(faculty_logo, dest_logo)
+            print("  ✅ Fakülte logosu kopyalandı.")
 
 def encrypt_aes_payload(plaintext: str, password: str) -> str:
     """Encrypts plaintext with AES-256 via CryptoJS in Node.js."""
@@ -642,6 +654,290 @@ function togglePasswordVisibility() {
     print(f"  ✅ Kaydedildi: {out_file} ({os.path.getsize(out_file) / 1024:.1f} KB)\n")
     return True
 
+def sync_bilgisayar_yapay_zeka():
+    """Syncs Hafta1_AI_ile_Tanisma_Sunum.html (79 slides) with AES-256 encryption."""
+    src_file = VAULT_DIR / "Dersler/Bilgisayar Uygulamaları ve Yapay Zeka/Sunumlar/Hafta1_AI_ile_Tanisma_Sunum.html"
+    if not src_file.exists():
+        print(f"❌ Kaynak dosya bulunamadı: {src_file}")
+        return False
+
+    print(f"📖 Hafta 1 Yapay Zeka Sunumu işleniyor: {src_file.name}")
+    with open(src_file, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    # 1. Normalize faculty logo and asset paths
+    html = html.replace('../../../Files/Saglik-Bilimleri-Fakultesi-2.png', 'assets/Saglik-Bilimleri-Fakultesi-2.png')
+
+    # 2. Inject HTTPS redirect so students on http:// are sent to https://
+    https_redirect = """<script>if(location.protocol==='http:'&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){location.replace('https:'+location.href.substring(5));}</script>"""
+    html = html.replace('<head>', '<head>\n' + https_redirect, 1)
+
+    # 3. Neutralize MQTT & QR script tags and functions (no live poll needed on website)
+    html = re.sub(r'<script src="[^"]*mqttws31[^"]*"></script>', '', html)
+    html = re.sub(r'<script src="[^"]*qrcode[^"]*"></script>', '', html)
+    html = html.replace('initH1QrCodes();', '/* initH1QrCodes(); disabled */')
+    html = html.replace('connectH1DeckMQTT();', '/* connectH1DeckMQTT(); disabled */')
+
+    # 4. Extract slides from container
+    slides_m = re.search(r'(<div class="slides" id="slides">)(.*?)(</div>\s*<footer class="chrome">)', html, re.DOTALL)
+    if not slides_m:
+        print("❌ 'slides' container bulunamadı!")
+        return False
+
+    prefix = html[:slides_m.start(2)]
+    slides_inner = slides_m.group(2)
+    suffix = html[slides_m.end(2):]
+
+    slide_chunks = re.findall(r'(<section class="slide.*?</section>)', slides_inner, re.DOTALL)
+    total_slides = len(slide_chunks)
+    print(f"  Toplam Slayt: {total_slides}")
+
+    # 5. Clean Slide 3: remove live MQTT badge, QR card, empty response streams; arrange S1 & S4 in 2-col
+    s3 = slide_chunks[2]
+    header_part = """    <section class="slide"><div class="slide-inner">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px;">
+        <div>
+          <p class="eyebrow">Sınıf İçi Deneyim &amp; Dijital Araç Dağılımı</p>
+          <h1 class="slide-title" style="margin-bottom:4px;">Önce <em>birbirimizi tanıyalım</em></h1>
+        </div>
+      </div>"""
+
+    s1_m = re.search(r'(<!-- S1: KULLANILAN ARAÇLAR DAĞILIMI -->\s*<div class="card" id="h1ToolsCard".*?</div>\s*</div>\s*</div>)', s3, re.DOTALL)
+    s4_m = re.search(r'(<!-- S4: PROMPT DÜZEYİ 1-5 HİSTOGRAMI -->\s*<div class="card" id="h1HistCard".*?</div>\s*</div>\s*</div>)', s3, re.DOTALL)
+
+    if s1_m and s4_m:
+        s3_clean = f"""{header_part}
+      <div class="grid-wrap two-col" style="gap:24px; margin-top:12px;">
+        {s1_m.group(1)}
+        {s4_m.group(1)}
+      </div>
+    </div></section>"""
+        slide_chunks[2] = s3_clean
+
+    # 6. Clean Slide 79 (Kapanış): remove live MQTT badges and QR card
+    s79 = slide_chunks[78]
+    s79_header = """    <section class="slide"><div class="slide-inner">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px;">
+        <div>
+          <p class="eyebrow">Ders Sonu Değerlendirmesi · Kapanış Analizi</p>
+          <h1 class="slide-title" style="margin-bottom:4px;">Prompt Yetkinliğiniz <em>Nasıl Değişti?</em></h1>
+        </div>
+      </div>"""
+
+    left_col_m = re.search(r'(<!-- SOL: DERS BAŞI VS DERS SONU HİSTOGRAMLARI -->.*?)(?=\s*<!-- SAĞ:)', s79, re.DOTALL)
+    score_card_m = re.search(r'(<!-- ORTALAMA DEĞİŞİM KARTI -->\s*<div class="card".*?</div>\s*</div>)', s79, re.DOTALL)
+
+    if left_col_m and score_card_m:
+        s79_clean = f"""{s79_header}
+      <div class="grid-wrap two-col" style="gap:24px;">
+        {left_col_m.group(1)}
+        <div style="display:flex; flex-direction:column; gap:16px; justify-content:center;">
+          {score_card_m.group(1)}
+        </div>
+      </div>
+    </div></section>"""
+        slide_chunks[78] = s79_clean
+
+    # 7. Setup Public vs Locked Slides
+    public_preview_slide = """    <section class="slide" id="slide_preview_lock"><div class="slide-inner" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:clamp(50px, 8vh, 90px) 20px;">
+      <div style="width:72px; height:72px; border-radius:20px; background:rgba(30,111,92,0.12); border:1px solid rgba(30,111,92,0.25); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 20px;">🔒</div>
+      <p class="eyebrow" style="justify-content:center;">Önizleme Sınırı · Slayt 10</p>
+      <h1 class="slide-title" style="margin:0 auto 16px; max-width:24ch; text-align:center;">10 Slaytlık Açık Önizleme <em>Tamamlanmıştır</em></h1>
+      <p class="lede" style="max-width:640px; margin:0 auto 28px; text-align:center;">Dersin devamındaki üretken yapay zeka modülleri, vaka analizleri ve klinik simülasyonları görüntülemek için lütfen ders şifrenizi giriniz.</p>
+      <button onclick="openLockModal(10)" style="background:linear-gradient(135deg, var(--teal), var(--teal-deep)); color:#ffffff; font-weight:700; border:none; border-radius:12px; padding:14px 32px; font-size:15px; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease;">
+        🔓 Şifreyi Gir &amp; Derse Devam Et
+      </button>
+    </div></section>"""
+
+    public_slides = slide_chunks[:9] + [public_preview_slide]
+    locked_slides = slide_chunks[9:]
+
+    print(f"  Açık Önizleme: {len(public_slides)} | Şifrelenen Slayt: {len(locked_slides)}")
+
+    locked_html_str = "\\n".join(locked_slides)
+    ciphertext = encrypt_aes_payload(locked_html_str, AI_PASSWORD)
+
+    # Reconstruct HTML with public slides
+    public_slides_html = "\\n" + "\\n".join(public_slides) + "\\n"
+    new_html = prefix + public_slides_html + suffix
+
+    # 8. Intercept go(d) and jump(i) in navigation script
+    orig_jump = "function jump(i){\\n  cur = i; render();\\n  var frags = getFragments(slides[cur]);\\n  fragIndex = frags.length; frags.forEach(revealFragment);\\n}"
+    patched_jump = """function jump(i){
+  if(i >= 9 && !isUnlocked){
+    openLockModal(i);
+    return;
+  }
+  cur = i; render();
+  var frags = getFragments(slides[cur]);
+  fragIndex = frags.length; frags.forEach(revealFragment);
+}"""
+    new_html = new_html.replace(orig_jump, patched_jump)
+
+    orig_go = "function go(d){\\n  var slideEl = slides[cur];"
+    patched_go = """function go(d){
+  if(d > 0 && cur >= 9 && !isUnlocked){
+    openLockModal(10);
+    return;
+  }
+  var slideEl = slides[cur];"""
+    new_html = new_html.replace(orig_go, patched_go)
+
+    # 9. Client lock script and CryptoJS engine
+    ai_lock_script = f"""
+<!-- INLINED ZERO-DEPENDENCY CRYPTOJS ENGINE -->
+<script>
+{CRYPTO_JS_MIN_CODE}
+</script>
+
+<!-- AES-256 ENCRYPTED STUDENT PAYLOAD -->
+<script id="encrypted-payload-data-ai" type="text/plain">
+{ciphertext}
+</script>
+
+{LOCK_MODAL_HTML}
+
+<script>
+/* ================= STUDENT LOCK & CRYPTOJS DECRYPTION ENGINE (AI COURSE) ================= */
+const PRES_ID = "bes_ai_hafta1";
+const PUBLIC_SLIDE_COUNT = 10;
+let isUnlocked = false;
+let pendingTargetSlide = null;
+
+document.addEventListener('DOMContentLoaded', () => {{
+  checkSessionUnlock();
+}});
+
+function getPasswordCandidates(inputStr) {{
+  const p = (inputStr || '').trim();
+  if (!p) return [];
+  const set = new Set();
+  set.add(p);
+  set.add(p.toUpperCase());
+  set.add(p.toLowerCase());
+  set.add(p.toLocaleUpperCase('en-US'));
+  set.add(p.toLocaleUpperCase('tr-TR'));
+  if (!p.endsWith('_')) {{
+    set.add(p + '_');
+    set.add(p.toUpperCase() + '_');
+    set.add(p.toLocaleUpperCase('en-US') + '_');
+  }} else {{
+    const withoutUnderscore = p.replace(/_+$/, '');
+    set.add(withoutUnderscore);
+    set.add(withoutUnderscore.toUpperCase());
+    set.add(withoutUnderscore.toLocaleUpperCase('en-US'));
+  }}
+  return Array.from(set);
+}}
+
+function handleUnlockSubmit(e) {{
+  if (e && e.preventDefault) e.preventDefault();
+  const inp = document.getElementById('student-password-input');
+  const val = inp ? inp.value : '';
+  const scriptTag = document.getElementById('encrypted-payload-data-ai');
+  if (!scriptTag) return;
+  const ciphertext = scriptTag.textContent.trim();
+
+  const candidates = getPasswordCandidates(val);
+  let decrypted = null;
+  for (const cand of candidates) {{
+    try {{
+      const bytes = CryptoJS.AES.decrypt(ciphertext, cand);
+      const dec = bytes.toString(CryptoJS.enc.Utf8);
+      if (dec && dec.length > 50) {{
+        decrypted = dec;
+        break;
+      }}
+    }} catch(err) {{}}
+  }}
+
+  if (decrypted) {{
+    applyDecryptedAiSlides(decrypted);
+    closeLockModal();
+    const target = (pendingTargetSlide !== null && pendingTargetSlide >= 0) ? pendingTargetSlide : 9;
+    pendingTargetSlide = null;
+    jump(Math.min(target, slides.length - 1));
+  }} else {{
+    const errEl = document.getElementById('unlock-error-msg');
+    if (errEl) errEl.style.display = 'block';
+    const card = document.getElementById('modal-card');
+    if (card) {{
+      card.classList.remove('modal-shake');
+      void card.offsetWidth;
+      card.classList.add('modal-shake');
+    }}
+  }}
+}}
+
+function applyDecryptedAiSlides(decryptedHtml) {{
+  if (isUnlocked) return;
+  const lockSlide = document.getElementById('slide_preview_lock');
+  const slidesContainer = document.getElementById('slides');
+  if (lockSlide && lockSlide.parentNode) {{
+    lockSlide.parentNode.removeChild(lockSlide);
+  }}
+  if (slidesContainer) {{
+    slidesContainer.insertAdjacentHTML('beforeend', decryptedHtml);
+  }}
+  slides = document.querySelectorAll(".slide");
+  if (dotsWrap) {{
+    dotsWrap.innerHTML = "";
+    slides.forEach(function(_, i){{
+      const b = document.createElement("button");
+      b.addEventListener("click", function(){{ jump(i); }});
+      dotsWrap.appendChild(b);
+    }});
+  }}
+  isUnlocked = true;
+  try {{
+    localStorage.setItem('unlocked_html_' + PRES_ID, decryptedHtml);
+  }} catch(e) {{}}
+  render();
+}}
+
+function checkSessionUnlock() {{
+  try {{
+    const cached = localStorage.getItem('unlocked_html_' + PRES_ID);
+    if (cached) {{
+      applyDecryptedAiSlides(cached);
+    }}
+  }} catch(e) {{}}
+}}
+
+function openLockModal(targetSlide) {{
+  if (isUnlocked) return;
+  if (targetSlide !== undefined) pendingTargetSlide = targetSlide;
+  const m = document.getElementById('student-lock-modal');
+  if (m) {{
+    m.style.display = 'flex';
+    setTimeout(() => {{
+      const inp = document.getElementById('student-password-input');
+      if (inp) inp.focus();
+    }}, 80);
+  }}
+}}
+
+function closeLockModal() {{
+  const m = document.getElementById('student-lock-modal');
+  if (m) m.style.display = 'none';
+  const err = document.getElementById('unlock-error-msg');
+  if (err) err.style.display = 'none';
+}}
+
+function togglePasswordVisibility() {{
+  const inp = document.getElementById('student-password-input');
+  if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+}}
+</script>
+"""
+    new_html = new_html.replace('</body>', f'{ai_lock_script}\\n</body>')
+
+    out_file = SLIDES_OUTPUT_DIR / "01-bilgisayar-ve-yapay-zeka.html"
+    with open(out_file, "w", encoding="utf-8") as f:
+        f.write(new_html)
+    print(f"  ✅ Kaydedildi: {out_file} ({os.path.getsize(out_file) / 1024:.1f} KB)\\n")
+    return True
+
 def update_markdown_and_rebuild():
     """Updates presentation cards and markdown files, then triggers build.py."""
     print("📝 Web sitesi markdown dosyaları güncelleniyor...")
@@ -691,6 +987,28 @@ order: 2
 - **Şifre:** Ders izlencesinde paylaşılan öğrenci şifresi ile açılır.
 """)
 
+    tr_pres_3 = BASE_DIR / "content/tr/presentations/03-bilgisayar-ve-yapay-zeka.md"
+    with open(tr_pres_3, "w", encoding="utf-8") as f:
+        f.write("""---
+title: "Bilgisayar ve Yapay Zeka Uygulamaları (1. Hafta: AI ile Tanışma)"
+type: "presentation"
+badge: "Lisans Dersi (BES 200)"
+date: "2026-03-01"
+slide_count: "79 Slayt (🔒 AES-256 Korumalı)"
+html_url: "slides/01-bilgisayar-ve-yapay-zeka.html"
+download_url: ""
+summary: "Yapay zekanın beslenme bilimine girişi, temel kavramlar matruşkası, makine öğrenmesi, derin öğrenme, üretken AI (GenAI) ve diyetisyenlik uygulamaları. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
+draft: false
+lang: "tr"
+order: 3
+---
+
+## 💻 Ders Sunumu & Canlı Kilitli Modül
+- **Önizleme Kapsamı (Slayt 1–10):** Yapay zekanın beslenme bilimine girişi, temel kavramlar matruşkası (AI, ML, DL, GenAI) ve diyetisyenlik vizyonu.
+- **Şifreli Modüller (Slayt 11–79):** LLM anatomisi, prompt mühendisliği, besin analizinde yapay zeka, klinik vaka uygulamaları ve etik ilkeler.
+- **Şifre:** Ders izlencesi ve OBS duyuru panosunda ilan edilen öğrenci şifresi (`COZYBESAI2026_`) ile açılır.
+""")
+
     # English cards
     en_pres_1 = BASE_DIR / "content/en/presentations/01-obesity-medical-nutrition-therapy.md"
     en_pres_1.parent.mkdir(parents=True, exist_ok=True)
@@ -728,6 +1046,24 @@ order: 2
 ---
 """)
 
+    en_pres_3 = BASE_DIR / "content/en/presentations/03-computer-and-ai-applications.md"
+    en_pres_3.parent.mkdir(parents=True, exist_ok=True)
+    with open(en_pres_3, "w", encoding="utf-8") as f:
+        f.write("""---
+title: "Computer & AI Applications in Nutrition (Week 1: Intro to AI)"
+type: "presentation"
+badge: "Undergraduate Lecture (NUT 200)"
+date: "2026-03-01"
+slide_count: "79 Slides (🔒 AES-256 Protected)"
+html_url: "slides/01-bilgisayar-ve-yapay-zeka.html"
+download_url: ""
+summary: "Introduction of artificial intelligence to nutritional sciences, core concepts, ML, DL, generative AI, and dietetic practice. First 10 slides public preview; slides 11+ encrypted."
+draft: false
+lang: "en"
+order: 3
+---
+""")
+
     # Rebuild website
     print("🚀 Web sitesi yeniden derleniyor (build.py)...")
     res = subprocess.run(["python3", str(BASE_DIR / "build.py")], capture_output=True, text=True)
@@ -735,10 +1071,11 @@ order: 2
 
 def main():
     print("🔄 Obsidian Vault -> Web Sitesi Sunum Senkronizasyonu Başlatılıyor...\n")
-    print(f"🔑 Şifre: {DEFAULT_PASSWORD}\n")
+    print(f"🔑 Şifreler: YHTBT: {DEFAULT_PASSWORD} | BES AI: {AI_PASSWORD}\n")
     sync_assets()
     sync_konu1_obezite()
     sync_obezite_uygulama()
+    sync_bilgisayar_yapay_zeka()
     update_markdown_and_rebuild()
     print("🎉 Senkronizasyon ve AES-256 Şifreleme Tamamlandı!")
 

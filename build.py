@@ -16,18 +16,26 @@ BASE_DIR = Path(__file__).parent.resolve()
 CONTENT_DIR = BASE_DIR / "content"
 TEMPLATES_DIR = BASE_DIR / "_templates"
 
+_rss_cache = None
+
 def fetch_substack_rss():
     """
     Fetches and parses the latest articles directly from Substack RSS feed (https://drcaner.substack.com/feed).
     Falls back gracefully if network is unavailable.
     """
+    global _rss_cache
+    if _rss_cache is not None:
+        return _rss_cache
+
     url = "https://drcaner.substack.com/feed"
     try:
+        import socket
+        socket.setdefaulttimeout(2.5)
         req = urllib.request.Request(
             url,
             headers={"User-Agent": "Mozilla/5.0 (AcademicWebsiteBuilder/1.0)"}
         )
-        with urllib.request.urlopen(req, timeout=4) as response:
+        with urllib.request.urlopen(req, timeout=2.5) as response:
             xml_data = response.read()
         root = ET.fromstring(xml_data)
         
@@ -84,9 +92,11 @@ def fetch_substack_rss():
                 "read_time": "6-8 dk",
                 "draft": False
             })
-        return feed_articles
+        _rss_cache = feed_articles
+        return _rss_cache
     except Exception:
-        return []
+        _rss_cache = []
+        return _rss_cache
 
 def parse_frontmatter(content):
     """Simple, robust YAML frontmatter parser without external dependencies."""
