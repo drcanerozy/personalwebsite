@@ -12,7 +12,7 @@ classroom_practices: "Psychosocial dimensions of GLP-1 popularity, dietary fanat
 learning_outcomes: "Analyze eating behaviors through a biopsychosocial framework, identify eating disorder risk factors, and develop client-centered mindful nutrition approaches."
 draft: false
 lang: "en"
-order: 2
+order: 5
 ---
 
 ## 🎯 Course Objectives & Vision

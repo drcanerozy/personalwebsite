@@ -12,7 +12,7 @@ classroom_practices: "Ders kapsamında GLP-1 ilaçlarının popülerleşmesinin 
 learning_outcomes: "Yeme davranışlarını biyopsikososyal modelle değerlendirebilme, yeme bozuklukları risk faktörlerini ayırt edebilme ve danışan odaklı farkındalıklı beslenme yaklaşımları geliştirebilme."
 draft: false
 lang: "tr"
-order: 2
+order: 5
 ---
 
 ## 🧠 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar

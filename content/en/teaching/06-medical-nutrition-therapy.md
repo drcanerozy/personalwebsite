@@ -12,7 +12,7 @@ classroom_practices: "Comprehensive Mediterranean & DASH Diet Workshop (Fall sem
 learning_outcomes: "Prescribe patient-tailored medical nutrition therapies in complex metabolic conditions, interpret clinical findings accurately, and lead multidisciplinary case management."
 draft: false
 lang: "en"
-order: 6
+order: 1
 ---
 
 ## 🎯 Course Objectives & Vision

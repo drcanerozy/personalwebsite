@@ -12,7 +12,7 @@ classroom_practices: "Evidence-based content creation on social media, scientifi
 learning_outcomes: "Critically evaluate nutrition news and viral diet trends, produce ethical and accessible science communication materials tailored for diverse target audiences."
 draft: false
 lang: "en"
-order: 3
+order: 6
 ---
 
 ## 🎯 Course Objectives & Vision

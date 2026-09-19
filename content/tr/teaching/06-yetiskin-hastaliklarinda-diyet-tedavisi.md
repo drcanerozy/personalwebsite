@@ -12,7 +12,7 @@ classroom_practices: "Akdeniz & DASH Diyet Planlama Atölyesi (Güz dönemi) ve 
 learning_outcomes: "Karmaşık metabolik ve kronik tablolarda hastaya özgü tıbbi beslenme tedavisi reçete edebilme, klinik bulguları doğru yorumlayarak tedavi sürecini ve multidisipliner vaka yönetimini başarıyla yürütme."
 draft: false
 lang: "tr"
-order: 6
+order: 1
 ---
 
 ## 🩺 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar

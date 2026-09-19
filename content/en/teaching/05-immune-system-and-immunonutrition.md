@@ -14,7 +14,7 @@ student_seminars: "Food Additives & Immune System • Maternal Diet & Immune Epi
 learning_outcomes: "Understand molecular mechanisms of immunonutrients and develop targeted nutritional protocols for acute and chronic inflammatory conditions."
 draft: false
 lang: "en"
-order: 5
+order: 3
 ---
 
 ## 🎯 Course Objectives & Vision

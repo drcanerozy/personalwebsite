@@ -12,7 +12,7 @@ classroom_practices: "Derslerimizde yapay zekanın beslenme bilimine etkilerini 
 learning_outcomes: "Diyetisyenlik mesleğinde yapay zeka ve bilgisayar teknolojilerini bilinçli ve etik biçimde kullanabilme, dijital besin veri tabanlarını yönetebilme ve teknolojiyi danışan süreçlerine entegre edebilme."
 draft: false
 lang: "tr"
-order: 1
+order: 4
 ---
 
 ## 💻 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Bol Uygulama

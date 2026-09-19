@@ -12,7 +12,7 @@ classroom_practices: "Exploring the impact of AI on nutrition science and emergi
 learning_outcomes: "Consciously and ethically utilize AI and computer tools in dietetic practice, navigate digital food databases, and integrate technology into client management workflows."
 draft: false
 lang: "en"
-order: 1
+order: 4
 ---
 
 ## 🎯 Course Objectives & Vision

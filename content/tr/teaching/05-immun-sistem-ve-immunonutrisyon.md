@@ -14,7 +14,7 @@ student_seminars: "Gıda Katkı Maddeleri ve İmmün Sistem • Maternal Diyetin
 learning_outcomes: "İmmünonütrientlerin moleküler etki mekanizmalarını kavrayabilme, akut ve kronik enflamatuar hastalıklara özgü immün destek protokolleri geliştirebilme."
 draft: false
 lang: "tr"
-order: 5
+order: 3
 ---
 
 ## 🛡️ Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar

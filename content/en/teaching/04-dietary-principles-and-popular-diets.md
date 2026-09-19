@@ -14,7 +14,7 @@ student_seminars: "Circadian Rhythm, Sleep & Nutrition • Food Addiction & Crav
 learning_outcomes: "Distinguish evidence-based nutritional protocols from commercial fad diets, manage long-term metabolic and behavioral outcomes of popular diets."
 draft: false
 lang: "en"
-order: 4
+order: 2
 ---
 
 ## 🎯 Course Objectives & Vision

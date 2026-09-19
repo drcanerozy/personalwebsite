@@ -14,7 +14,7 @@ student_seminars: "Sirkadiyen Ritim, Uyku ve Beslenme • Besin Bağımlılığ�
 learning_outcomes: "Bilimsel temeli olan diyet yaklaşımları ile ticari mitleri ayırt edebilme, popüler diyetlerin uzun dönem metabolik etkilerini danışan özelinde yönetebilme."
 draft: false
 lang: "tr"
-order: 4
+order: 2
 ---
 
 ## 🥗 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar

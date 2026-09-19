@@ -12,7 +12,7 @@ classroom_practices: "Sosyal medya bağlamında kanıta dayalı içerik üretme,
 learning_outcomes: "Beslenme haberlerini ve popüler trendleri kanıta dayalı ilkelerle eleştirebilme, hedef kitleye uygun etik ve anlaşılır bilim iletişimi materyalleri üretebilme."
 draft: false
 lang: "tr"
-order: 3
+order: 6
 ---
 
 ## 📢 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
