@@ -1043,16 +1043,19 @@ SLIDES.push({type:'cover',
 });
 
 SLIDES.push({type:'toc', title:'İçindekiler', items:[
+  {n:'00',t:'Modül 0: KVH Biyokimyasal Temelleri & Giriş Mekanizmaları'},
   {n:'01',t:'KVH\'a Giriş, Epidemiyoloji ve Sınıflandırma'},
   {n:'02',t:'Aterosklerozun Moleküler Patogenezi ve Biyobelirteçleri'},
   {n:'03',t:'Koroner Arter Hastalığı (KAH / CAD)'},
   {n:'04',t:'Serebrovasküler Hastalıklar (SVH / İnme) & Disfaji Yönetimi'},
   {n:'05',t:'Periferik Arter Hastalığı (PAH) & İskemik Yara MNT'},
   {n:'06',t:'Kalp Yetmezliği ve Kardiyak Kaşeksi'},
+  {n:'06B',t:'Kardiyomiyopatiler ve Valvüler Kapak Hastalıkları'},
   {n:'07',t:'KVH Tanı Kriterleri ve Farmakoterapi'},
   {n:'08',t:'KVH Beslenme Bakım Süreci — ADIME'},
   {n:'09',t:'KVH TBT: Kanıta Dayalı ve Popüler Diyet Modelleri'},
   {n:'10',t:'KVH İlaç–Besin Etkileşimleri'},
+  {n:'10B',t:'Kardiyometabolik Sendrom (Metabolik Sendrom)'},
   {n:'11',t:'Hipertansiyona Giriş ve Sınıflandırma'},
   {n:'12',t:'HT Patogenezi: RAAS ve Vasküler Tonus'},
   {n:'13',t:'HT Tanı Kriterleri ve Farmakoterapi'},
@@ -1062,6 +1065,133 @@ SLIDES.push({type:'toc', title:'İçindekiler', items:[
   {n:'17',t:'Klinik Vaka Çözümleri'},
   {n:'18',t:'Tartışma ve Sentez'},
 ]});
+
+/* ================= BÖLÜM 00 — MODÜL 0: KVH BİYOKİMYASAL TEMELLERİ VE GİRİŞ MEKANİZMALARI ================= */
+
+SLIDES.push({type:'sec', ch:'00', chTitle:'Modül 0: KVH Biyokimyasal Temelleri ve Giriş Mekanizmaları',
+  outline:[
+    'Lipoprotein metabolizması ve TK/TG havuzları',
+    'Aterojenik lipid şalterleri: SREBP-1c, LDLR ve TFA',
+    'Endotel fizyolojisi, NO yolağı ve eNOS uncoupling',
+    'Makrobesinlerin damar etkisi: AGEs, Fruktoz, TLR4 ve ADMA',
+    'Oksidatif stres, oxLDL ve Köpük Hücre oluşumu',
+    'Antioksidan ağ (Network) ve enzimatik mineral kalkanı',
+    'Kronik inflamasyon: NF-κB, Eikozanoidler ve AMPK/mTOR'
+  ]
+});
+
+SLIDES.push({type:'quote', ch:'00', eyebrow:'Lipoprotein Biyokimyası', title:'Diyetisyen Gözüyle Lipoproteinler Neden Var?',
+  body:`<p>Beslenme ve diyetetik uygulamasında kan lipid tahlillerini değerlendirirken ilk kavranması gereken ilke şudur: <b>Yağlar suda çözünmez, ancak kanımızın büyük kısmı sudan oluşur.</b></p>
+  <p>Sindirilen veya karaciğerde üretilen nötral yağların (trigliserit ve kolesterol esterleri) dokulara taşınabilmesi için etraflarının hidrofilik bir kılıfla kaplanması gerekir; bu taşıyıcı kürelere <b>Lipoprotein</b> denir. Merkezde suda çözünmeyen nötral yağlar (TG ve kolesterol esterleri); dış yüzeyde ise fosfolipidler, serbest kolesterol ve doku reseptörlerinin tanımasını sağlayan <b>Apolipoproteinler (ApoB, ApoA1)</b> yer alır.</p>`,
+  box:{type:'info',title:'Total Kolesterol (TK) ve Trigliserit (TG) Biyokimyasal Havuzları',
+  text:'Kanda serbestçe dolaşan tek bir kolesterol veya trigliserit yoktur! <b>Total Kolesterol (TK)</b> = LDL + HDL + VLDL kolesterolünün toplamıdır. <b>Trigliserit (TG)</b> ise VLDL ve şilomikronlarda taşınan nötral depo yağlarıdır. 12 saatlik açlıkta TG yüksekliği, doğrudan karaciğerde aşırı yağ sentezinin (De Novo Lipojenez), insülin direncinin veya aşırı rafine şeker/fruktoz yükünün en somut göstergesidir.'}
+});
+
+SLIDES.push({type:'flow', ch:'00', eyebrow:'Taşıma Hatları ve Apolipoproteinler', title:'Şilomikrondan HDL\'ye: Diyet ve Karaciğer Otobanları',
+  vertical:false,
+  steps:[
+    {n:'1',t:'Eksojen Hat (Bağırsak)',d:'Şilomikron (ApoB-48) diyet yağlarını taşır. LPL enzimi trigliseriti yıkar, yağ asitleri dokuya geçer; kalıntı karaciğerce yutulur.'},
+    {n:'2',t:'Endojen Hat (Karaciğer)',d:'VLDL (ApoB-100) karaciğerden çıkar. LPL ile trigliseritlerini verdikçe küçülerek önce IDL\'ye, sonra LDL\'ye dönüşür.'},
+    {n:'3',t:'Kolesterol Dağıtımı',d:'LDL (%50 kolesterol) dokulara kolesterol taşır. Hücre doyunca reseptör kapanır; kanda kalan LDL damar duvarına sızıp oksitlenir.'},
+    {n:'4',t:'Tersine Transport (RCT)',d:'HDL (ApoA1), LCAT enzimiyle damar duvarından fazla kolesterolü toplar; safra asidine dönüştürülmek üzere karaciğere taşır.'},
+  ],
+  note:'İnsülin hormonu kılcal damardaki Lipoprotein Lipaz (LPL) enzimini uyararak yemek sonrası kandaki yağların hızla dokulara çekilmesini sağlar.'
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Moleküler Şalterler', title:'Şeker, Doymuş Yağ ve Trans Yağların Karaciğerdeki İmzası', cols:3,
+  cards:[
+    {tag:'DNL Aktivasyonu',h:'Şeker & Fruktoz → SREBP-1c / ChREBP',b:'Aşırı rafine şeker ve fruktoz karaciğerin yağ fabrikası şalterlerini açar. Yağ Asidi Sentaz (FAS) uyarılır; karaciğer gelen şekeri doğrudan yağa dönüştürüp (<b>De Novo Lipojenez — DNL</b>) kana masif <b>VLDL ve Trigliserit</b> pompalar.'},
+    {tag:'Reseptör Kilitlenmesi',h:'Doymuş Yağ (SFA) → LDLR Kapanması',b:'Palmitik (C16:0) ve miristik asit karaciğer içi serbest kolesterolü artırır. Karaciğer daha fazla kolesterol çekmemek için <b>LDL Reseptörlerini (LDLR) kilitler</b>. Kanda LDL birikir, temizlenemez ve fırlar.'},
+    {tag:'Çift Yönlü Yıkım',h:'Trans Yağlar (TFA) → CETP Dengesizliği',b:'Endüstriyel trans yağlar CETP enzimini bozar. Yalnızca LDL\'yi yükseltmekle kalmaz; <b>koruyucu HDL\'yi düşürür</b> ve damar duvarına hızla sızan tehlikeli <b>küçük yoğun LDL (sdLDL)</b> formunu artırır.'},
+  ]
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Beslenme Örüntüsü', title:'"Aterojenik Üçlü" vs. Koruyucu Besin Grupları', cols:2,
+  cards:[
+    {tag:'Aterojenik Üçlü (Triad)',h:'Batı Diyeti (Western Diet) Hasarı',b:'Rafine şeker, fruktoz, doymuş/trans yağ ve düşük lif kombinasyonu:<br><b>1. Yüksek Trigliserit (TG)</b> (DNL uyarımı)<br><b>2. Yüksek Küçük Yoğun LDL (sdLDL)</b> (Damara sızan form)<br><b>3. Düşük / İşlevsiz HDL</b> (CETP ile böbrekte hızlı yıkım)<br>Klinikte aterosklerotik plak oluşumunu başlatan en agresif tablodur.'},
+    {tag:'Koruyucu Müdahaleler',h:'Lifler, Zeytinyağı ve Omega-3 Sinerjisi',b:'• <b>Çözünür Lifler (Beta-glukan, Pektin):</b> Bağırsakta safra asitlerini bağlar; karaciğer safra üretmek için kandan LDL çeker (LDLR açılır, LDL-C düşer).<br>• <b>Sızma Zeytinyağı (Oleik Asit):</b> Polifenolleriyle LDL oksidasyonunu engeller.<br>• <b>Omega-3 (EPA/DHA):</b> Karaciğerde DGAT enzimini inhibe ederek TG\'yi %20–30 düşürür.'},
+  ],
+  note:'Diyetisyen hastaya sadece "yağı kes" demez; yağın kalitesini (SFA/TFA yerine MUFA/PUFA) ve lif sinerjisini yönetir.'
+});
+
+SLIDES.push({type:'quote', ch:'00', eyebrow:'Damarın İç Örtüsü', title:'Endotel: Vücudun 1.5 Kiloluk En Hassas Endokrin Organı',
+  body:`<p>Damarlarımızın iç yüzeyini tek sıra halinde kaplayan endotel tabakası, pasif bir kılıf değil, vücudun en aktif metabolik organlarından biridir. Üç hayati görevi yürütür:</p>
+  <p><b>1. Vasküler Tonus Kontrolü:</b> Kan akımına göre damarı genişletir (<i>vazodilatasyon</i>) veya daraltır (<i>vazokonstriksiyon</i>).<br>
+  <b>2. Anti-Trombotik Yüzey:</b> Kanın pıhtılaşmadan kaymasını sağlayan pürüzsüz teflon yüzey oluşturur.<br>
+  <b>3. Seçici Geçirgenlik ve İltihap Kontrolü:</b> Bağışıklık hücrelerinin damar duvarına yapışmasını ve yangıyı sınırlar.</p>`,
+  box:{type:'info',title:'Klinik Diyetisyen İlkesi',
+  text:'Ateroskleroz, hipertansiyon ve KAH aniden ortaya çıkmaz; tüm kardiyovasküler hastalıklar, beslenme hatalarıyla başlayan Endotel Disfonksiyonu ile patlak verir. Besin ögeleri endotel hücreleriyle doğrudan konuşur!'}
+});
+
+SLIDES.push({type:'flow', ch:'00', eyebrow:'Vazodilatatör Gaz', title:'Nitrik Oksit (NO) Sentezi ve "eNOS Uncoupling" Tehlikesi',
+  vertical:false,
+  steps:[
+    {n:'1',t:'L-Arjinin + BH4',d:'Endotel hücresi diyet kaynaklı L-Arjinin amino asidini ve BH4 kofaktörünü kullanarak eNOS enzimini çalıştırır.'},
+    {n:'2',t:'Nitrik Oksit (NO)',d:'Üretilen NO gazı düz kasa geçer; cGMP\'yi artırıp kalsiyumu düşürerek damarı gevşetir (Vazodilatasyon).'},
+    {n:'3',t:'Oksidatif Stres & Hasar',d:'Aşırı kan şekeri, serbest radikaller veya sigara dumanı BH4 kofaktörünü oksitleyip parçalar.'},
+    {n:'4',t:'eNOS Uncoupling',d:'Enzim eşleşmesi bozulur; NO üretmeyi bırakıp damar duvarına Süperoksit Radikali pompalamaya başlar!'},
+  ],
+  note:'eNOS Uncoupling geliştiğinde, damarı koruması gereken enzim tam tersine damarı içeriden kemiren bir serbest radikal fabrikasına dönüşür.'
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Metabolik Hasar Hatları', title:'Şeker, Doymuş Yağ ve Proteinlerin Damar Duvarındaki İzi', cols:3,
+  cards:[
+    {tag:'Karbonhidrat',h:'AGEs, RAGE ve Fruktoz Tuzağı',b:'Kronik hiperglisemide şekerler damar proteinlerine yapışarak <b>AGEs</b> oluşturur. Endoteldeki RAGE reseptörüne bağlanınca <b>NF-κB iltihap şalteri</b> açılır ve eNOS kilitlenir. Fruktoz ise kontrolsüz yıkılıp ATP tüketir; serum <b>Ürik Asidini</b> fırlatarak eNOS\'u doğrudan inhibe eder.'},
+    {tag:'Doymuş Yağ',h:'Postprandiyal Lipemi & TLR4 Uyarımı',b:'Ağır doymuş yağlı tek bir öğün sonrası kanda serbest yağ asitleri (FFA) fırlar; NADPH oksidaz uyarımıyla <b>4–6 saatlik geçici endotel felci</b> yaşanır. Palmitik asit endoteldeki <b>TLR4</b> reseptörüne bağlanarak bakteri enfeksiyonu alarmı verir ve kronik damar iltihabını başlatır.'},
+    {tag:'Protein / Amino Asit',h:'ADMA Yarışması & Homosistein Tuzağı',b:'Protein yıkım atığı <b>ADMA</b>, eNOS enziminin aktif bölgesine bağlanmak için L-Arjinin ile yarışır (NO sentezi durur). Metiyonin ara ürünü <b>Homosistein</b> ise Folat, B12 ve B6 eksikliğinde kanda birikir (Hiperhomosisteinemi); damarı kireçlendirir ve esnekliğini yok eder.'},
+  ]
+});
+
+SLIDES.push({type:'flow', ch:'00', eyebrow:'Aterom Plağının Doğuşu', title:'Doğal LDL\'den Köpük Hücreye: Oksidatif Saldırı Zinciri',
+  vertical:false,
+  steps:[
+    {n:'1',t:'Native (Doğal) LDL',d:'Dolaşımdaki doğal LDL tek başına damarı tıkamaz; dokulara hormon ve zar kolesterolü taşır.'},
+    {n:'2',t:'Oksidatif Saldırı (ROS)',d:'Serbest radikaller damar duvarındaki LDL\'nin PUFA kılıfına saldırır (Lipid Peroksidasyonu ve MDA oluşumu).'},
+    {n:'3',t:'oxLDL (Bozulmuş Kimlik)',d:'ApoB-100 proteini bozulur; karaciğer LDLR tanıyamaz, kandan temizlenme durur ve damarda birikir.'},
+    {n:'4',t:'Köpük Hücre (Foam Cell)',d:'Makrofajlar Scavenger reseptörleriyle (CD36) doyum freni olmadan oxLDL\'yi yutar; patlayarak aterom plağını başlatır!'},
+  ],
+  note:'Aterogenezin ana tetikleyicisi kolesterolün saf miktarından ziyade, serbest radikallerce oksitlenme (oxLDL) derecesi ve damar yangısıdır.'
+});
+
+SLIDES.push({type:'table', ch:'00', eyebrow:'Biyokimyasal Kalkan', title:'Hücre İçi Antioksidan Enzimler ve Diyet Mineralleri',
+  headers:['Antioksidan Enzim','Görevi / Reaksiyon','Zorunlu Mineral Kofaktörü','Klinik & Besinsel Nüans'],
+  rows:[
+    ['Süperoksit Dismutaz (SOD)','Süperoksit radikalini (O₂•⁻) hidrojen perokside (H₂O₂) çevirir','Sitozol: <b>Çinko (Zn) & Bakır (Cu)</b><br>Mitokondri: <b>Manganez (Mn)</b>','Çinko ve bakır eksikliğinde damar yüzeyindeki ilk savunma kalkanı çöker.'],
+    ['Glutatyon Peroksidaz (GPx)','Toksik lipid peroksitlerini zararsız suya (H₂O) ve alkollere yıkar','<b>SELENYUM (Se)</b>','Selenyum eksikliğinde GPx çalışamaz → Keshan Kardiyomiyopatisi. Glutatyon rejenerasyonu için B2 vitamini şarttır.'],
+    ['Katalaz','Hidrojen peroksidi su ve moleküler oksijene parçalar','<b>DEMİR (Fe)</b>','Ağır demir eksikliği anemisinde hücresel antioksidan kapasitenin düşüşünde rol oynar.'],
+  ],
+  note:'Diyetisyen bilmelidir ki antioksidan enzimler mineral olmadan çalışamaz; mineral eksikliği oksidatif stresi doğrudan tetikler.'
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Takım Oyunu', title:'Antioksidan Yeniden Aktivasyon Ağı ve Gökkuşağı Tabağı', cols:2,
+  cards:[
+    {tag:'Antioksidan Ağ (Network)',h:'E ve C Vitamini Sinerjisi',b:'• <b>E Vitamini (α-Tokoferol):</b> Yağda erir; LDL kılıfında radikali yakalar ama kendisi oksitlenir (etkisizleşir).<br>• <b>C Vitamini (Askorbat):</b> Oksitlenmiş E vitaminine elektron vererek onu <b>yeniden canlandırır ve savaşa döndürür</b>.<br>• <b>Polifenoller & Glutatyon:</b> C vitaminini rejenere eder ve <b>Nrf2 şalterini</b> açarak endojen SOD/GPx üretimini uyarır.'},
+    {tag:'Klinik Gerçek',h:'"Antioksidan Paradoksu" ve Gökkuşağı Tabağı',b:'• <b>Hap Yanılgısı:</b> Yüksek doz sentetik izole E/C vitamini hapları KVH riskini azaltmamış, aksine pro-oksidan hasar yaratmıştır.<br>• <b>Tam Gıda İlkesi (Gökkuşağı Diyeti):</b> Kırmızı (Likopen), Mor (Antosiyanin), Yeşil (Lutein), Turuncu (Beta-karoten). Her renk farklı bir radikali avlar; koruma izole haptan değil, tabağın sinerjisinden gelir.'},
+  ],
+  note:'İzole sentetik vitamin desteği yerine tabağı renklendiren Akdeniz tipi tam gıda örüntüsü esastır.'
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Sinsi İltihap', title:'NF-κB Şalteri, Eikozanoidler ve Enerji Sensörleri', cols:3,
+  cards:[
+    {tag:'Yangın Şalteri',h:'NF-κB & Diyet Pişirme Yöntemi',b:'Diyetsel AGEs (yüksek kuru ısı, kızartma, ızgara) RAGE üzerinden <b>NF-κB şalterini</b> açar; kanda TNF-α, IL-6 ve akyuvarları damara yapıştıran <b>VCAM-1</b> salgılanır. Sulu tencere, buğulama ve haşlama AGEs üretimini en aza indirir.'},
+    {tag:'Eikozanoid Savaşı',h:'n-6 Arakidonik Asit vs. n-3 EPA/DHA',b:'n-6 PUFA (mısır/ayçiçek) COX-2 ile damar daraltıcı ve pıhtılaştırıcı <b>TXA2 / LTB4</b> üretir. Yağlı balıktan gelen n-3 EPA/DHA ise yangını aktif söndüren <b>Resolvin, Protectin ve Maresin (SPM)</b> üretir. İdeal n-6/n-3 oranı 4:1–1:1 olmalıdır (Batı diyeti 20:1!).'},
+    {tag:'Sensörler & hs-CRP',h:'AMPK / SIRT1 vs. mTORC1 & hs-CRP',b:'Kalori dengesi ve polifenoller <b>AMPK ve SIRT1</b>\'i açarak damarı genç tutar; aşırı rafine şeker ve protein <b>mTORC1</b>\'i açıp hücresel çöp temizliğini (otofaji) durdurur. Karaciğerden salınan <b>hs-CRP > 3.0 mg/L</b> ise sinsi damar iltihabının ve kriz riskinin en güçlü bağımsız habercisidir.'},
+  ]
+});
+
+SLIDES.push({type:'quiz', ch:'00', eyebrow:'Biyokimyasal Temeller Kontrolü', title:'Hücreden Damara: Klinik Refleks Testi',
+  questions:[
+    {q:'Diyette yüksek fruktozlu mısır şurubu (HFCS) tüketildiğinde endotelde Nitrik Oksit (NO) sentezinin durmasının birincil nedeni nedir?',
+     opts:['Fruktozun hücresel ATP depolarını tüketip ürik asidi fırlatması ve biriken ürik asidin eNOS enzimini inhibe etmesi','Fruktozun doğrudan HDL parçacıklarına bağlanıp onları parçalaması','Fruktozun mide asidini nötralize ederek emilimi durdurması'],correct:0,
+     explain:'Fruktoz karaciğer ve endotelde kontrolsüz yıkılarak hücresel ATP depolarını tüketir; pürin yıkımıyla serum ürik asidi fırlar. Ürik asit eNOS enzimini doğrudan inhibe ederek vazodilatasyonu kilitler.'},
+    {q:'Ağır doymuş yağlı (kızartma, palm yağı vb.) tek bir öğün tüketildikten sonra damarlarda gelişen postprandiyal endotel felcinin mekanizması nedir?',
+     opts:['Serbest yağ asidi patlamasıyla NADPH oksidaz üzerinden serbest radikal (ROS) fırlaması ve Palmitik asidin TLR4 reseptörünü uyararak yangı başlatması','Kandaki kalsiyum iyonlarının tamamen sıfırlanması','L-Arjinin amino asidinin damara aşırı salgılanması'],correct:0,
+     explain:'Ağır doymuş yağlı öğün sonrası 4-6 saat süren geçici endotel felci yaşanır: FFA akını NADPH oksidazı tetikler (ROS patlaması ile NO yok edilir), Palmitik asit ise TLR4 reseptörüne bağlanarak damar iltihabını (TNF-α, IL-6) başlatır.'},
+  ]
+});
+
+SLIDES.push({type:'prompt', text:'Lipoproteinleri, endotel biyokimyasını, serbest radikalleri ve sinsi damar iltihabını hücresel düzeyde kavradınız.',
+  sub:'Şimdi bu moleküler temellerin klinik haritadaki karşılığına geçiyoruz: KVH Epidemiyolojisi, Sınıflandırma ve ASCVD Mimarisi →'});
 
 /* ================= BÖLÜM 1 — KVH'A GİRİŞ VE EPİDEMİYOLOJİ ================= */
 
@@ -2124,8 +2254,98 @@ SLIDES.push({type:'table', ch:'10', eyebrow:'Toplu Bakış', title:'KVH ilaçlar
   ]
 });
 
-SLIDES.push({type:'prompt', text:'KVH modülünü tamamladınız — ateroskleroz mekanizmasından ilaç etkileşimlerine kadar.',
-  sub:'Şimdi ikinci modüle geçiyoruz: Hipertansiyon →'});
+
+
+/* ================= BÖLÜM 10B — KARDİYOMETABOLİK SENDROM ================= */
+
+SLIDES.push({type:'sec', ch:'10B', chTitle:'Kardiyometabolik Sendrom (Metabolik Sendrom)',
+  outline:[
+    'Sendrom mantığı ve küresel risk katlanması',
+    'IDF & AHA/NHLBI 3/5 Tanı Kriterleri',
+    'Kök patofizyoloji: Visseral Yağ (VAT) ve İnsülin Direnci',
+    'Adipokin dengesizliği: Leptin vs Adiponektin',
+    'MNT reçetesi: %5-10 ağırlık kaybının visseral mucizesi',
+    'Klinik hesaplama matrisi: HOMA-IR, WHtR ve TG/HDL'
+  ]
+});
+
+SLIDES.push({type:'quote', ch:'10B', eyebrow:'Çatı Kavram', title:'Kardiyometabolik Sendrom Nedir ve Neden "Sendrom" Denir?',
+  body:`<p>KVH patolojilerini ve metabolik temelleri gördük. Şimdi tüm bu parçaları tek bir çatı altında birleştiren ana kavramla karşı karşıyayız: <b>Kardiyometabolik Sendrom (Metabolik Sendrom / Sendrom X)</b>.</p>
+  <p>Tek bir organın tek başına hastalanması değildir; bireyde <b>kalp-damar hastalıkları (KVH)</b> ve <b>Tip 2 Diyabet (T2DM)</b> gelişme riskini katlayarak artıran, birbirini besleyen metabolik sapmaların bir arada bulunduğu bir <b>"risk faktörleri takımı/kümesidir"</b>.</p>`,
+  box:{type:'info',title:'Klinik Risk Katlanması',
+  text:'Bir hastada Kardiyometabolik Sendrom tablosu geliştiğinde: <b>Tip 2 Diyabet riski 5 kat</b>, <b>Kalp krizi ve inme (KVH) riski ise 2 ila 3 kat</b> fırlar!'}
+});
+
+SLIDES.push({type:'grid', ch:'10B', eyebrow:'Tanı Kriterleri (3/5 Kuralı)', title:'Kardiyometabolik Sendrom: 5 Kriterden En Az 3\'ü', cols:3,
+  cards:[
+    {tag:'Kriter 1 · Visseral Obezite',h:'Genişlemiş Bel Çevresi',b:'Bel Çevresi: <b>Erkek ≥94 cm</b> (AHA ≥102 cm), <b>Kadın ≥80 cm</b> (AHA ≥88 cm). Karın içi organları saran visseral yağ dokusu (VAT) artışıdır; sistemik metabolik iltihabın ana fabrikasıdır.'},
+    {tag:'Kriter 2 · Kan Basıncı',h:'Yükselmiş Tansiyon',b:'Sistolik (SKB) <b>≥130 mmHg</b> veya Diyastolik (DKB) <b>≥85 mmHg</b> (veya antihipertansif ilaç kullanımı). İnsülin direncinin renal sodyum tutulumu ve damar spazmı sonucudur.'},
+    {tag:'Kriter 3 · Trigliserit',h:'Açlık Hipertrigliseridemisi',b:'Açlık Serum Trigliseriti <b>≥150 mg/dL</b> (veya TG düşürücü ilaç kullanımı). Karaciğerde aşırı yağ sentezinin (De Novo Lipojenez) ve masif VLDL salınımının en net kanıtıdır.'},
+    {tag:'Kriter 4 · Düşük HDL-C',h:'Çöken "Sokak Süpürgesi"',b:'Açlık HDL-Kolesterolü: <b>Erkek <40 mg/dL</b>, <b>Kadın <50 mg/dL</b>. Damar duvarından kolesterol toplayan Tersine Kolesterol Transportunun (RCT) felç olduğunu gösterir.'},
+    {tag:'Kriter 5 · Glukoz Toleransı',h:'Bozulmuş Açlık Glukozu (IFG)',b:'Açlık Kan Şekeri (AKŞ) <b>≥100 mg/dL</b> (veya antidiyabetik ilaç kullanımı). Pankreasın salgıladığı aşırı insüline rağmen karaciğerde glukoz üretiminin baskılanamadığını belgeler.'},
+    {tag:'Klinik Kural',h:'Tanı Eşiği: 3/5',b:'Bu 5 kriterden <b>en az 3 tanesine</b> sahip olan hastaya Kardiyometabolik Sendrom tanısı konur ve agresif multidisipliner beslenme müdahalesi başlatılır.'},
+  ]
+});
+
+SLIDES.push({type:'flow', ch:'10B', eyebrow:'Orkestra Şefi', title:'Visseral Yağlanmadan (VAT) Sistemik Çöküşe Kısır Döngü',
+  vertical:false,
+  steps:[
+    {n:'1',t:'Genişlemiş VAT',d:'Karın içi yağ dokusu büyür; portal vene masif Serbest Yağ Asidi (FFA) ve sitokin (TNF-α, IL-6) fırlatır.'},
+    {n:'2',t:'İnsülin Direnci',d:'Karaciğer ve kasta IRS-1/PI3K sinyali bloke olur; GLUT4 kapıları açılamaz. Glukoz kanda birikir.'},
+    {n:'3',t:'Hiperinsülinemi',d:'Pankreas glukozu sokmak için aşırı insülin salgılar. Yüksek insülin renal sodyum tutulumunu ve yağ depolamayı azdırır.'},
+    {n:'4',t:'Kardiyometabolik Kriz',d:'Karaciğerde VLDL patlar (TG↑, sdLDL↑, HDL↓); damarlar kasılır (HT↑); damar duvarı iltihaplanır (hs-CRP↑)!'},
+  ],
+  note:'Subkutan yağ (SAT — kalça/bacak) masum depolama yağıyken; Visseral yağ (VAT — karın içi) organları saran son derece tehlikeli aktif bir endokrin organdır.'
+});
+
+SLIDES.push({type:'grid', ch:'10B', eyebrow:'Adipokin Hormonları', title:'Leptin Direnci ve Adiponektin Çöküşü', cols:2,
+  cards:[
+    {tag:'Direnç Gelişimi',h:'Leptin Yüksekliği ve Doyma Kaybı',b:'Visseral yağ dokusu büyüdükçe kanda <b>Leptin</b> hormonu tavan yapar. Ancak hipotalamusta leptin direnci geliştiği için beyin bu tokluk sinyalini alamaz; hasta sürekli aç hisseder ve porsiyon kontrolünü kaybeder.'},
+    {tag:'Koruyucu Kalkanın Çöküşü',h:'Adiponektin Kaybı ve Vasküler Hasar',b:'Normalde damar endotelini koruyan, insülin hassasiyetini artıran ve eNOS\\'u uyaran "iyi huylu" hormondur. <b>Visseral yağ dokusu genişledikçe Adiponektin sentezi çöker!</b> Damarlar korunmasız kalır.'},
+  ],
+  note:'Bel çevresi kalınlaştıkça koruyucu adiponektin azalır; bu durum sendromun kardiyovasküler hasar hızını katlar.'
+});
+
+SLIDES.push({type:'quote', ch:'10B', eyebrow:'Kanıta Dayalı MNT', title:'%5–10 Ağırlık Kaybının Visseral ve Metabolik Mucizesi',
+  body:`<p>Kardiyometabolik sendromlu bir hastaya imkansız 20–30 kiloluk hedefler koyup motivasyonunu kırmak büyük bir klinik hatadır.</p>
+  <p>Klinik çalışmalar, mevcut vücut ağırlığının <b>%5 ila %10'unun kaybedilmesinin</b> metabolizmada devrim yarattığını kanıtlamıştır:</p>`,
+  box:{type:'warn',title:'Metabolik Kazanımlar',
+  text:'• Karın içi visseral yağ dokusu (VAT) <b>%30 oranında erir!</b><br>• Karaciğer yağlanması geriler ve HOMA-IR skoru anlamlı düşer.<br>• Sistolik kan basıncı <b>5–10 mmHg</b> geriler.<br>• Serum trigliseritleri <b>%20–30 oranında çöker!</b>'}
+});
+
+SLIDES.push({type:'grid', ch:'10B', eyebrow:'Beslenme Müdahalesi', title:'Karbonhidrat, Yağ Kalitesi ve Akdeniz Modeli', cols:3,
+  cards:[
+    {tag:'Karbonhidrat Stratejisi',h:'Düşük Glisemik İndeks & Lif Kalkanı',b:'Karbonhidrat %45–50 ile sınırlandırılır. Rafine un, şeker ve fruktozlu mısır şurubu (DNL tetikleyicileri) tamamen sıfırlanır. Çözünür lif hedefi: <b>Günde 25–30 gram</b> (Yulaf beta-glukanı, baklagiller, sebze).'},
+    {tag:'Yağ Kalitesi & Triad Çözümü',h:'SFA < %7, Trans %0 ve Marine Omega-3',b:'Doymuş yağlar (SFA) <%7\\'ye çekilerek karaciğer LDLR kapıları açılır. Sızma zeytinyağı (MUFA) temel yağ yapılır. Yüksek Trigliseriti düşürmek için <b>1–2 g/gün Marine Omega-3 (EPA/DHA)</b> desteği sağlanır.'},
+    {tag:'Altın Standart Model',h:'Akdeniz (MeD) & DASH Protokolü',b:'Bol taze sebze, baklagiller, yağlı tohumlar (ceviz, badem), sızma zeytinyağı ve balık içeren <b>Akdeniz tipi beslenme</b>; kardiyometabolik sendromu ve karaciğer yağlanmasını gerileten 1 numaralı kanıta dayalı modeldir.'},
+  ],
+  note:'Hedef sadece kalori kısmak değil; insülin patlamalarını durdurup visseral yağ mobilizasyonunu başlatmaktır.'
+});
+
+SLIDES.push({type:'table', ch:'10B', eyebrow:'Pratik Klinik Araç Kutusu', title:'Diyetisyenin 3 Hayati Hesaplama Formülü',
+  headers:['Metrik / Klinik Parametre','Hesaplama Formülü / Eşik','Klinik Anlamı ve Diyetisyen Refleksi'],
+  rows:[
+    ['HOMA-IR (İnsülin Direnci)','(Açlık Glukozu [mg/dL] × Açlık İnsülini [µU/mL]) / 405<br><b>Eşik: > 2.5</b>','HOMA-IR >2.5 ise hücre kapıları kilitlidir; kompansatuar hiperinsülinemi mevcuttur. Düşük glisemik indeksli beslenme şarttır.'],
+    ['Bel / Boy Oranı (WHtR)','Bel Çevresi (cm) / Boy (cm)<br><b>Hedef: < 0.50</b>','VKİ\'den çok daha üstündür! VKİ normal olsa bile Bel/Boy >0.50 olan hasta <b>"Normal Ağırlıkta Obez (NWO)"</b> ve kardiyometabolik sendromludur.'],
+    ['Trigliserit / HDL Oranı','Serum Trigliseriti (mg/dL) / Serum HDL-C (mg/dL)<br><b>Eşik: > 3.0</b>','TG/HDL >3.0 ise hastanın damarlarında çok hızlı oksitlenen tehlikeli <b>küçük yoğun LDL (sdLDL)</b> parçacıkları fırlamıştır!'],
+  ],
+  note:'Poliklinikte sadece tartıya ve VKİ\'ye bakmak kardiyometabolik sendromlu hastayı kaçırmanıza yol açar; bel/boy oranı ve TG/HDL mutlaka hesaplanmalıdır!'
+});
+
+SLIDES.push({type:'quiz', ch:'10B', eyebrow:'Klinik Muhakeme Kontrolü', title:'Kardiyometabolik Sendrom Kliniği',
+  questions:[
+    {q:'VKİ\'si 23.5 kg/m² (normal aralıkta) olan ancak Bel Çevresi 96 cm, Açlık TG: 175 mg/dL ve Açlık Kan Şekeri 106 mg/dL olan 42 yaşında bir erkek hasta için doğru klinik yaklaşım nedir?',
+     opts:['VKİ normal olduğu için metabolik bir riski yoktur, rutin takip yeterlidir','IDF/AHA kriterlerine göre 3 kriteri sağladığı için "Normal Ağırlıkta Obez" / Kardiyometabolik Sendrom tanısı alır; visseral yağ küçültülmelidir','Sadece kan şekerini düşürmek için insülin tedavisi başlanmalıdır'],correct:1,
+     explain:'Kardiyometabolik sendrom VKİ\'ye değil, visseral yağlanma ve metabolik kriterlere dayanır. Hasta bel çevresi (≥94), TG (≥150) ve AKŞ (≥100) kriterlerini karşılayarak sendrom tanısı alır.'},
+    {q:'Kardiyometabolik sendromlu bir hastada toplam vücut ağırlığının sadece %5-10\'unun kaybedilmesinin sağladığı birincil metabolik kazanım nedir?',
+     opts:['Karın içi visseral yağ kütlesinin (VAT) yaklaşık %30 erimesi, HOMA-IR\'nin düşmesi ve TG\'nin %20-30 gerilemesi','Tüm kolesterol sentezinin tamamen durması','Hücrelerin sadece keton yakmaya başlaması'],correct:0,
+     explain:'%5-10 ağırlık kaybı, metabolik olarak en aktif ve toksik olan visseral yağı (VAT) yaklaşık %30 oranında küçülterek insülin hassasiyetini fırlatır ve lipid profilini düzeltir.'},
+  ]
+});
+
+SLIDES.push({type:'prompt', text:'Kardiyometabolik sendromun visseral yağlanma, insülin direnci ve dislipidemi mimarisini tamamladık.',
+  sub:'Şimdi bu sendromun damar düz kası ve böbrekler üzerindeki en yıkıcı basınç sonucuna odaklanıyoruz: Hipertansiyon →'});
+
 /* ================= BÖLÜM 11 — HİPERTANSİYONA GİRİŞ VE SINIFLANDIRMA ================= */
 
 SLIDES.push({type:'sec', ch:'11', chTitle:'Hipertansiyona Giriş ve Sınıflandırma',
@@ -2900,6 +3120,7 @@ function answerQuiz(qid, chosen, correct){
 /* ================= APP BOOTSTRAP ================= */
 let currentIndex = 0;
 const chapterNames = {
+  '00':'Modül 0: KVH Biyokimyasal Temelleri & Giriş Mekanizmaları',
   '01':'KVH\'a Giriş, Epidemiyoloji ve Sınıflandırma',
   '02':'Aterosklerozun Moleküler Patogenezi ve Biyobelirteçleri',
   '03':'Koroner Arter Hastalığı (KAH / CAD)',
@@ -2911,6 +3132,7 @@ const chapterNames = {
   '08':'KVH Beslenme Bakım Süreci — ADIME',
   '09':'KVH TBT: Kanıta Dayalı ve Popüler Diyet Modelleri',
   '10':'KVH İlaç–Besin Etkileşimleri',
+  '10B':'Kardiyometabolik Sendrom (Metabolik Sendrom)',
   '11':'Hipertansiyona Giriş ve Sınıflandırma',
   '12':'HT Patogenezi: RAAS ve Vasküler Tonus',
   '13':'HT Tanı Kriterleri ve Farmakoterapi',
