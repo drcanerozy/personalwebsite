@@ -1043,7 +1043,7 @@ SLIDES.push({type:'cover',
 });
 
 SLIDES.push({type:'toc', title:'İçindekiler', items:[
-  {n:'00',t:'Modül 0: KVH Biyokimyasal Temelleri & Giriş Mekanizmaları'},
+  {n:'00',t:'Modül 0: Biyokimyasal Temeller, Dislipidemiler & MNT'},
   {n:'01',t:'KVH\'a Giriş, Epidemiyoloji ve Sınıflandırma'},
   {n:'02',t:'Aterosklerozun Moleküler Patogenezi ve Biyobelirteçleri'},
   {n:'03',t:'Koroner Arter Hastalığı (KAH / CAD)'},
@@ -1072,6 +1072,9 @@ SLIDES.push({type:'sec', ch:'00', chTitle:'Modül 0: KVH Biyokimyasal Temelleri 
   outline:[
     'Lipoprotein metabolizması ve TK/TG havuzları',
     'Aterojenik lipid şalterleri: SREBP-1c, LDLR ve TFA',
+    'Genetik ve metabolik dislipidemi fenotipleri (FH, LPL, FCHL, Aterojenik)',
+    'TLC protokolü ve David Jenkins Portföy Diyeti (4 Sütun)',
+    'Statinler, Mevalonat yolağı, CoQ10 tuzağı ve diyetisyen kalkanı',
     'Endotel fizyolojisi, NO yolağı ve eNOS uncoupling',
     'Makrobesinlerin damar etkisi: AGEs, Fruktoz, TLR4 ve ADMA',
     'Oksidatif stres, oxLDL ve Köpük Hücre oluşumu',
@@ -1112,6 +1115,64 @@ SLIDES.push({type:'grid', ch:'00', eyebrow:'Beslenme Örüntüsü', title:'"Ater
     {tag:'Koruyucu Müdahaleler',h:'Lifler, Zeytinyağı ve Omega-3 Sinerjisi',b:'• <b>Çözünür Lifler (Beta-glukan, Pektin):</b> Bağırsakta safra asitlerini bağlar; karaciğer safra üretmek için kandan LDL çeker (LDLR açılır, LDL-C düşer).<br>• <b>Sızma Zeytinyağı (Oleik Asit):</b> Polifenolleriyle LDL oksidasyonunu engeller.<br>• <b>Omega-3 (EPA/DHA):</b> Karaciğerde DGAT enzimini inhibe ederek TG\'yi %20–30 düşürür.'},
   ],
   note:'Diyetisyen hastaya sadece "yağı kes" demez; yağın kalitesini (SFA/TFA yerine MUFA/PUFA) ve lif sinerjisini yönetir.'
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Trafik Kilitlenmesi', title:'Lipoprotein Kilitleri Bozulduğunda: 4 Klinik Dislipidemi Fenotipi', cols:2,
+  cards:[
+    {tag:'Genetik Kilit · Tip IIa',h:'Ailesel Hiperkolesterolemi (FH)',b:'• <b>Bozukluk:</b> Karaciğer hücre yüzeyindeki <b>LDL Reseptörü (LDLR)</b> veya <b>ApoB-100</b> mutasyonludur.<br>• <b>Trafik Tıkanıklığı:</b> Karaciğer kandan LDL\'yi temizleyemez; kanda masif birikir.<br>• <b>Klinik & Laboratuvar:</b> Total Kolesterol &gt;300, <b>LDL-C &gt;190–250+ mg/dL</b> (TG genelde normaldir).<br>• <b>Fiziksel İşaretler:</b> Aşil <b>Tendon Ksantomları</b> ve gözde <b>Korneal Arcus</b>. Genç yaşta (&lt;30 yaş) agresif kalp krizi (MI) riski!'},
+    {tag:'Enzim Kusuru · Tip I',h:'Tip I Ailesel Hiperşilomikronemi',b:'• <b>Bozukluk:</b> Kılcallarda diyet yağlarını parçalayan <b>Lipoprotein Lipaz (LPL)</b> veya kofaktör <b>ApoC-II</b> genetik olarak eksiktir.<br>• <b>Trafik Tıkanıklığı:</b> Şilomikronlar damarda parçalanamaz, kanda birikir.<br>• <b>Klinik & Laboratuvar:</b> <b>Açlık TG &gt;1000–2000+ mg/dL</b>; kan plazması süt gibi beyaz/krema görünümündedir.<br>• <b>En Büyük Tehlike:</b> Aterosklerozdan ziyade pankreas kılcallarının tıkanmasıyla <b>Akut Pankreatit</b>! Katı yağ kısıtlaması (&lt;%10–15) şarttır.'},
+    {tag:'Aşırı Üretim · Tip IIb',h:'Ailesel Kombine Hiperlipidemi (FCHL)',b:'• <b>Bozukluk:</b> Karaciğerin aşırı miktarda <b>ApoB-100 ve VLDL</b> sentezlemesi ve kana pompalamasıdır.<br>• <b>Trafik Tıkanıklığı:</b> Kanda hem aşırı VLDL hem de metabolize oldukça türeyen LDL birikir.<br>• <b>Klinik & Laboratuvar:</b> <b>Hem LDL-Kolesterol hem de Trigliserit seviyeleri birlikte yüksektir</b>.<br>• <b>Klinik Yük:</b> En sık görülen birincil genetik dislipidemidir; erken yaşta ateroskleroz ve koroner arter hastalığı riskini belirgin artırır.'},
+    {tag:'İkincil / Metabolik',h:'Aterojenik Dislipidemi (Metabolik Sendrom)',b:'• <b>Bozukluk:</b> Gen mutasyonundan ziyade; obezite, insülin direnci ve aşırı fruktoz yüküne ikincildir.<br>• <b>Trafik Tıkanıklığı:</b> DNL uyarımıyla karaciğer VLDL pompalar; CETP enzimi VLDL\'deki TG ile LDL/HDL\'deki kolesterolü takas eder.<br>• <b>Aterojenik Triad:</b> <b>1. Yüksek TG</b>, <b>2. Yüksek sdLDL</b> (damara kolay sızıp hızla oksitlenen), <b>3. Düşük/işlevsiz HDL</b>.<br>• <b>Klinik Yük:</b> T2DM ve kardiyovasküler olayların ana tetikleyicisidir.'}
+  ]
+});
+
+SLIDES.push({type:'table', ch:'00', eyebrow:'Klinik Dislipidemi Matrisi', title:'Fenotipler, Biyokimyasal Kusurlar ve Hedef Organ Riskleri',
+  headers:['Dislipidemi Fenotipi','Bozuk Kilit / Enzim','Kanda Biriken','Kritik Biyokimyasal Değer','Birincil Klinik / Organ Riski'],
+  rows:[
+    ['Ailesel Hiperkolesterolemi (FH / IIa)','LDLR Reseptör mutasyonu / ApoB-100 defekti','LDL Parçacığı','<b>Aşırı Yüksek LDL-C (&gt;190–300+ mg/dL)</b><br>Trigliserit genelde normaldir','Erken Ateroskleroz, Prematür KAH, Aşil Tendon Ksantomları'],
+    ['Tip I Hiperşilomikronemi','Lipoprotein Lipaz (LPL) / ApoC-II eksikliği','Şilomikron','<b>Masif Trigliserit (&gt;1000–2000+ mg/dL)</b><br>Plazma süt gibi beyaz görülür','<b>Ölümcül Akut Pankreatit Riski!</b><br>Eruptif ksantomlar, hepatosplenomegali'],
+    ['Ailesel Kombine Hiperlipidemi (FCHL / IIb)','Karaciğer ApoB-100 ve VLDL aşırı üretimi','VLDL ve LDL','<b>Hem Yüksek LDL-C Hem Yüksek TG</b><br>Aterojenik parçacık birikimi','Prematür Koroner Kalp Hastalığı, erken MI riski'],
+    ['Aterojenik Dislipidemi (Metabolik)','İnsülin Direnci & DNL aktivasyonu & CETP','VLDL ve sdLDL<br>(HDL çöker)','<b>Aterojenik Üçlü (Triad):</b><br>Yüksek TG + sdLDL + Düşük HDL','Kardiyometabolik Risk, T2DM, İnme ve sistemik ateroskleroz']
+  ],
+  note:'Klinik Altın Kural: TG &gt;1000 mg/dL olduğunda acil hedef KAH değil, derhal akut pankreatiti engellemektir (yağ &lt;%10–15). LDL-C &gt;190 mg/dL ise aksi kanıtlanana kadar genetik FH şüphesiyle ele alınır.'
+});
+
+SLIDES.push({type:'quote', ch:'00', eyebrow:'Diyetle Lipid Yönetimi', title:'Diyetisyen Sadece "Yağı Kesmez": Karaciğer Reseptörünü ve Emilimi Yönetir',
+  body:`<p>Dislipidemi yönetiminde tıbbi beslenme tedavisi (MNT), sadece "yağı kesmek" değil; <b>üç stratejik biyokimyasal kapıyı yönetmektir:</b></p>
+  <p><b>1. Bağırsaktan Emilim Kilidi:</b> Kolesterolün ve safra asitlerinin geri emilimini (enterohepatik sirkülasyonu) engellemek.<br>
+  <b>2. Karaciğer LDLR Aktivasyonu:</b> Hepatosit içi serbest kolesterolü düşürerek karaciğerin yüzeyindeki LDL reseptörlerini (LDLR) sonuna kadar açmasını sağlamak.<br>
+  <b>3. Dolaşımdan Temizlenme:</b> Kanda dolaşan aterojenik sdLDL parçacıklarının temizlenmesini hızlandırmak ve oksidasyondan korumaktır.</p>`,
+  box:{type:'info',title:'NCEP TLC (Therapeutic Lifestyle Changes) Diyet Standartları',
+  text:'• <b>Toplam Yağ:</b> Enerjinin %25–35’i (MUFA ağırlıklı)<br>• <b>Doymuş Yağ (SFA):</b> Enerjinin <b>&lt; %7’si</b> (LDLR kilitlenmesini engellemek için)<br>• <b>Diyet Kolesterolü:</b> <b>&lt; 200 mg/gün</b><br>• <b>Çözünür Lif:</b> <b>10–25 g/gün</b> (safra asidi bağlayıcı jel yapısı)<br>• <b>Bitkisel Sterol/Stanoller:</b> <b>2.0 g/gün</b> (miçel yarışmacısı)'}
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Statine Eşdeğer Diyet Modeli', title:'David Jenkins Portföy (Portfolio) Diyeti: 4 Sütunla Kolesterolde %20–30 Düşüş', cols:4,
+  cards:[
+    {tag:'Sütun 1 · 2.0 g/gün',h:'Bitkisel Sterol ve Stanoller',b:'Bitkisel steroller kimyasal olarak kolesterole benzer. İnce bağırsakta emilim miçellerine girmek için kolesterolle yarışır ve <b>kolesterolü miçel dışına iterek dışkıyla attırır</b>.<br><b>Sonuç:</b> LDL-C’de <b>%10–15 net düşüş</b>.'},
+    {tag:'Sütun 2 · 10–25 g/gün',h:'Çözünür / Viskoz Lifler',b:'Yulaf/arpa beta-glukanı, pektin ve psyllium bağırsakta jel oluşturup <b>safra asitlerini hapseder ve dışkıyla atar</b>. Karaciğer yeni safra yapmak için kandan kolesterol çekmek zorunda kalır; <b>LDLR reseptörlerini sonuna kadar açar</b>.'},
+    {tag:'Sütun 3 · 25 g/gün',h:'Soya ve Bitkisel Proteinler',b:'Doymuş yağ yüklü hayvansal kırmızı et yerine soya fasulyesi, tofu, soya sütü ve baklagil proteini ikame edilir. Soya isoflavonları ve peptidleri <b>karaciğer içi kolesterol sentezini dengeler</b>; LDL ve VLDL üretimini baskılar.'},
+    {tag:'Sütun 4 · 45 g/gün',h:'Sert Kabuklu Yemişler',b:'Günde 45 g çiğ badem, ceviz veya fındık; zengin MUFA/PUFA, L-Arjinin ve E vitamini içerir. Doymuş yağların yerine eklendiğinde <b>LDL parçacıklarının çapını büyüterek sdLDL formunu azaltır</b> ve oksidasyona direnç kazandırır.'}
+  ],
+  note:'Portföy Diyetinin 4 bileşeni eşzamanlı uygulandığında LDL-C\'de sağlanan %20–30 düşüş, birinci basamak statin ilaçlarının başarısıyla eşdeğer bulunmuştur (Jenkins et al., JAMA).'
+});
+
+SLIDES.push({type:'flow', ch:'00', eyebrow:'İlaç-Besin Etkileşimi', title:'Statin Tedavisi, Mevalonat Yolağı ve CoQ10 Tuzağı',
+  vertical:false,
+  steps:[
+    {n:'1',t:'HMG-CoA Redüktaz Kilidi',d:'Statin ilacı karaciğerde kolesterol sentezinin hız kısıtlayıcı basamağı olan HMG-CoA Redüktaz enzimini kilitler.'},
+    {n:'2',t:'Karaciğer LDLR Açılması',d:'Hücre içi kolesterolü düşen karaciğer kandan LDL emmek için yüzeyindeki LDL Reseptörlerini (LDLR) sonuna kadar açar.'},
+    {n:'3',t:'CoQ10 Sentezinin Çöküşü',d:'Ortak Mevalonat yolağı kilitlendiği için mitokondriyal enerji santrali Koenzim Q10 (Ubikuinon) sentezi %30–40 baskılanır!'},
+    {n:'4',t:'Statin Miyopatisi & Halsizlik',d:'Kas hücrelerinde CoQ10 tükenince enerji üretimi bozulur; yaygın bacak/kas ağrısı, kramplar ve güçsüzlük patlak verir.'},
+  ],
+  note:'DİYETİSYEN KALKANI: 1) Kas ağrısı çeken statin hastasında hekim koordinasyonuyla 100–200 mg/gün CoQ10 desteği planlanır. 2) Karaciğerde CYP3A4 enzimini inhibe edip ilaç toksisitesini artıran GREYFURT ve acı narenciyeler diyetten kesinlikle çıkarılır!'
+});
+
+SLIDES.push({type:'grid', ch:'00', eyebrow:'Klinik Karar Algoritması', title:'Diyetisyenin Klinik Süzgeci: Dislipidemik Hastada Adım Adım Yönetim', cols:3,
+  cards:[
+    {tag:'Adım 1 · Biyokimyasal Tanı',h:'Dislipidemi Tipini Tanıla',b:'• <b>İzole LDL &gt;190 mg/dL:</b> Ailesel Hiperkolesterolemi (FH) şüphesi; aile öyküsü ve tendon ksantomu tara.<br>• <b>TG &gt;1000 mg/dL:</b> Tip I / LPL bozukluğu; pankreatit riski! Yağı derhal &lt;%10–15’e çek.<br>• <b>TG ↑ + HDL ↓ + sdLDL ↑:</b> Aterojenik Dislipidemi / İnsülin direnci; rafine şeker ve fruktozu sıfırla.'},
+    {tag:'Adım 2 · MNT Reçetesi',h:'Portföy Diyetini Reçetele',b:'• <b>Bitkisel Sterol/Stanol:</b> 2.0 g/gün (zenginleştirilmiş yoğurt/sürülebilir yağ).<br>• <b>Çözünür Lif:</b> 10–25 g/gün (yulaf beta-glukanı, psyllium, baklagil).<br>• <b>Soya/Bitkisel Protein:</b> 25 g/gün (tofu, soya sütü, bakliyat).<br>• <b>Çiğ Kuruyemiş:</b> 45 g/gün (badem, ceviz).<br>• <b>SFA:</b> Enerjinin &lt; %7\'si.'},
+    {tag:'Adım 3 · İlaç Etkileşimi',h:'Statin ve Besin Riskini Yönet',b:'• <b>Kas Ağrısı ve Kramp Sorgusu:</b> Statin kullanan hastada miyopati sorgulanır; hekimle koordineli 100–200 mg/gün CoQ10 desteği değerlendirilir.<br>• <b>Greyfurt Yasağı:</b> Atorvastatin/simvastatin alan bireylerde CYP3A4 inhibisyonu ve rabdomiyoliz riskine karşı greyfurt diyetten tamamen çıkarılır.'}
+  ]
 });
 
 SLIDES.push({type:'quote', ch:'00', eyebrow:'Damarın İç Örtüsü', title:'Endotel: Vücudun 1.5 Kiloluk En Hassas Endokrin Organı',
@@ -1187,10 +1248,13 @@ SLIDES.push({type:'quiz', ch:'00', eyebrow:'Biyokimyasal Temeller Kontrolü', ti
     {q:'Ağır doymuş yağlı (kızartma, palm yağı vb.) tek bir öğün tüketildikten sonra damarlarda gelişen postprandiyal endotel felcinin mekanizması nedir?',
      opts:['Serbest yağ asidi patlamasıyla NADPH oksidaz üzerinden serbest radikal (ROS) fırlaması ve Palmitik asidin TLR4 reseptörünü uyararak yangı başlatması','Kandaki kalsiyum iyonlarının tamamen sıfırlanması','L-Arjinin amino asidinin damara aşırı salgılanması'],correct:0,
      explain:'Ağır doymuş yağlı öğün sonrası 4-6 saat süren geçici endotel felci yaşanır: FFA akını NADPH oksidazı tetikler (ROS patlaması ile NO yok edilir), Palmitik asit ise TLR4 reseptörüne bağlanarak damar iltihabını (TNF-α, IL-6) başlatır.'},
+    {q:'David Jenkins\'in Portföy Diyeti\'nde günde 10–25 gram çözünür lif (yulaf beta-glukanı, pektin vb.) tüketilmesinin serum LDL-Kolesterolünü düşürme mekanizması nedir?',
+     opts:['İnce bağırsakta safra asitlerini jel yapıda hapsedip dışkıyla attırması ve karaciğerin yeni safra üretmek için yüzeyindeki LDL reseptörlerini (LDLR) açarak kandan LDL çekmesi','Mide asidini tamamen nötralize ederek protein sindirimini durdurması','Doğrudan kılcal damardaki LPL enzimini tahrip etmesi'],correct:0,
+     explain:'Çözünür ve viskoz lifler bağırsakta safra asitlerini bağlayıp enterohepatik geri emilimi engeller. Karaciğer yeni safra sentezlemek için kolesterole ihtiyaç duyar ve yüzeyindeki LDL reseptörlerini (LDLR) açarak dolaşımdaki LDL-C\'yi hızla karaciğere çeker.'}
   ]
 });
 
-SLIDES.push({type:'prompt', text:'Lipoproteinleri, endotel biyokimyasını, serbest radikalleri ve sinsi damar iltihabını hücresel düzeyde kavradınız.',
+SLIDES.push({type:'prompt', text:'Lipoproteinleri, dislipidemileri, endotel biyokimyasını ve damar iltihabını hücresel düzeyde kavradınız.',
   sub:'Şimdi bu moleküler temellerin klinik haritadaki karşılığına geçiyoruz: KVH Epidemiyolojisi, Sınıflandırma ve ASCVD Mimarisi →'});
 
 /* ================= BÖLÜM 1 — KVH'A GİRİŞ VE EPİDEMİYOLOJİ ================= */
@@ -3120,7 +3184,7 @@ function answerQuiz(qid, chosen, correct){
 /* ================= APP BOOTSTRAP ================= */
 let currentIndex = 0;
 const chapterNames = {
-  '00':'Modül 0: KVH Biyokimyasal Temelleri & Giriş Mekanizmaları',
+  '00':'Modül 0: Biyokimyasal Temeller, Dislipidemiler & MNT',
   '01':'KVH\'a Giriş, Epidemiyoloji ve Sınıflandırma',
   '02':'Aterosklerozun Moleküler Patogenezi ve Biyobelirteçleri',
   '03':'Koroner Arter Hastalığı (KAH / CAD)',
