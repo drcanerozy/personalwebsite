@@ -1708,7 +1708,88 @@ SLIDES.push({type:'table', ch:'06', eyebrow:'Bütüncül Sentez', title:'Büyük
   note:'Her bir patolojinin biyokimyasal yangısı farklıdır; diyetisyen hastayı genel bir "kalp hastası" olarak değil, hücre düzeyindeki bu spesifik metabolik profiline göre besler.'
 });
 
-SLIDES.push({type:'prompt', text:'Ateroskleroz, KAH, İnme, PAH ve Kalp Yetmezliği / Kaşeksinin patofizyolojisini tamamladık.',
+
+
+/* ================= BÖLÜM 06B — KARDİYOMİYOPATİLER VE VALVÜLER KAPAK HASTALIKLARI ================= */
+
+SLIDES.push({type:'sec', ch:'06B', chTitle:'Kardiyomiyopatiler ve Valvüler Kapak Hastalıkları',
+  outline:['5 Temel kardiyomiyopati fenotipi','Besinsel ve toksik kardiyomiyopatiler','Ölümcül klinik tuzak: HCM ve dehidrasyon','Valvüler kapak hastalıkları: Darlık vs Yetersizlik','Mekanik vs Biyoprotez kapaklar: Warfarin ve K vitamini disiplini','İnfektif endokardit ve hiperkatabolizma']});
+
+SLIDES.push({type:'grid', ch:'06B', eyebrow:'Kardiyak Miyokart Bozuklukları', title:'Kardiyomiyopatiler: 5 Temel Fenotip', cols:3,
+  cards:[
+    {tag:'En Sık · Sistolik Çöküş',h:'Dilate Kardiyomiyopati (DCM)',b:'Sol ventrikül küresel genişler, duvar incelir. Kasılma gücü biter (HFrEF, EF < %40). İleri evre kalp yetmezliğinin en yaygın etiyolojisidir.'},
+    {tag:'Genetik · Ani Ölüm Riski',h:'Hipertrofik Kardiyomiyopati (HCM)',b:'Sarkomerik gen mutasyonları. Asimetrik septal hipertrofi; diyastolik doluş bozulur ve sol ventrikül çıkış yolu daralır (LVOTO). Genç sporcularda ani kardiyak ölümün 1 numaralı nedenidir.'},
+    {tag:'Rijit Miyokart',h:'Restriktif Kardiyomiyopati (RCM)',b:'Ventrikül boyutları normale yakın ancak duvar taş gibi serttir (diyastolik doluş felci). Genellikle Amiloidoz, Sarkoidoz veya Hemokromatoz sızıntısıyla gelişir.'},
+    {tag:'Aritmojenik Genetik',h:'ARVC (Sağ Ventrikül)',b:'Sağ ventrikül miyokardının yerini fibröz ve yağ dokusu alır; ölümcül ventriküler taşikardiler ve aritmiler yaratır.'},
+    {tag:'Stres İndüklü',h:'Takotsubo ("Kırık Kalp")',b:'Ağır fiziksel/duygusal stres sonrası masif katekolamin fırtınası; sol ventrikül apeksi balonlaşır, anjiyoda koroner damarlar tamamen açıktır.'},
+    {tag:'Klinik Önemi',h:'Miyokardiyal Çeşitlilik',b:'Kalp yetmezliği tek bir hastalık değildir; kalbin anatomik ve mekanik haritasına göre diyetisyenin sıvı ve elektrolit yaklaşımı baştan aşağı farklılaşır.'},
+  ]
+});
+
+SLIDES.push({type:'grid', ch:'06B', eyebrow:'Nütrisyonel Etiyolojiler', title:'Beslenmeyle İlişkili ve Toksik Kardiyomiyopatiler', cols:3,
+  cards:[
+    {tag:'Asetaldehit & B1',h:'Alkolik Kardiyomiyopati',b:'Kronik aşırı alkol tüketimi (>80g/gün). Etanolün ilk metaboliti <b>Asetaldehit</b> doğrudan miyosit zehirlenmesi ve protein sentez blokajı yapar. Beraberindeki Tiamin (B1) deplesyonu kalbin ATP motorunu çökertir.'},
+    {tag:'Selenyum Eksikliği',h:'Keshan Hastalığı',b:'Toprağında selenyum bulunmayan bölgelerde görülen endemik dilatasyon. <b>Glutatyon Peroksidaz (GPx)</b> enzimi çalışamaz; serbest radikaller membranları parçalar ve viral miyokardite duyarlılık tavan yapar.'},
+    {tag:'Mitokondriyal Kriz',h:'Sekonder ve Metabolik KMP',b:'Hemokromatozda aşırı demir birikimi (Fenton reaksiyonu → ROS). L-Karnitin ve CoQ10 eksikliklerinde miyokardın birincil yakıtı olan yağ asidi β-oksidasyonu felç olur.'},
+  ]
+});
+
+SLIDES.push({type:'quote', ch:'06B', eyebrow:'Ölümcül Klinik Nüans', title:'HCM Hastasında "Kalp Hastasıdır" Deyip Sıvı Kısıtlama Hatası!',
+  body:`<p>Hipertrofik Kardiyomiyopatili (HCM) bir hastada kalınlaşmış septum, sol ventrikülün kanı aortaya pompaladığı çıkış yolunu daraltır (<b>LVOTO — Left Ventricular Outflow Tract Obstruction</b>).</p>
+  <p>Eğer bu hastaya ezbere "kalp yetmezliği diyeti" uygulanıp <b>su ve sodyum kısıtlanırsa veya hasta dehidrate bırakılırsa</b>, intravasküler hacim düşer. Boşalan sol ventrikül iyice küçülür; kalınlaşmış septum aort kapağına yapışarak kanın çıkışını <b>tamamen kilitler</b>. Hasta aniden senkopa (bayılma) girer veya kardiyak arrest olur!</p>`,
+  box:{type:'warn',title:'Hayati Diyetisyen Kuralı',
+  text:'HCM hastalarında belirgin konjestif sıvı yüklenmesi (pulmoner ödem) yoksa RUTİN SIVI KISITLAMASI YASAKTIR; aksine ventrikül hacmini dolu tutmak ve çıkış yolu tıkanıklığını önlemek için yeterli hidrasyon hayati bir kalkan görevi görür!'}
+});
+
+SLIDES.push({type:'grid', ch:'06B', eyebrow:'Valvüler Patolojiler', title:'Kapak Hastalıkları: Darlık (Stenoz) vs. Yetersizlik (Regürjitasyon)', cols:2,
+  cards:[
+    {tag:'Basınç Yüklenmesi (Pressure Overload)',h:'Darlık (Stenoz) — Aort & Mitral',b:'Kapak daralmıştır, tam açılamaz. Kalp kanı ileriye itebilmek için devasa bir basınca karşı çalışır → <b>Konsantrik Hipertrofi</b> (duvar kalınlaşır).<br><br><b>Aort Darlığı Triadı:</b> Anjina (göğüs ağrısı), Senkop (bayılma), Dispne (nefes darlığı).<br><b>Mitral Darlığı:</b> Genellikle Akut Romatizmal Ateş (ARA) kaynaklı; sol atriyum genişler, Atriyal Fibrilasyon (AF) ve pulmoner ödem riski fırlar.'},
+    {tag:'Hacim Yüklenmesi (Volume Overload)',h:'Yetersizlik (Regürjitasyon) — Aort & Mitral',b:'Kapak tam kapanamaz, ileri giden kanın bir kısmı geriye kaçar. Kalp odacıkları sürekli fazla kanla baş başa kalır → <b>Eksantrik Hipertrofi</b> (boşluklar genişler).<br><br><b>Mitral Yetersizliği:</b> Kan sol ventrikülden sol atriyuma kaçar; atriyal volüm yükü ve tromboemboli (pıhtı) riski artar.<br><b>Aort Yetersizliği:</b> Aortadan ventriküle geri kaçış; sol ventrikül zamanla dilate olarak yetmezliğe sürüklenir.'},
+  ]
+});
+
+SLIDES.push({type:'table', ch:'06B', eyebrow:'Cerrahi ve Protez Seçenekleri', title:'Protez Kapak Türleri ve Klinik Yönetim Matrisi',
+  headers:['Özellik / Parametre','Mekanik Protez Kapak','Biyoprotez (Biyolojik) Kapak'],
+  rows:[
+    ['Malzeme & Dayanıklılık','Karbon ve titanyum alaşımı; <b>ömür boyu dayanır</b> (değişim gerekmez)','Sığır (bovine) veya domuz (porcine) perikardı; <b>10–15 yıl ömür</b>'],
+    ['Pıhtılaşma (Tromboz) Riski','<b>ÇOK YÜKSEK</b> (yabancı metal yüzey trombositleri aktive eder)','Düşük (biyolojik endotelize yüzey)'],
+    ['Antikoagülasyon Protokolü','<b>ÖMÜR BOYU Warfarin (Kumadin) kullanımı ZORUNLUDUR</b>','Sadece ameliyat sonrası ilk 3 ay (sonrasında kesilir)'],
+    ['Hedef Laboratuvar (INR)','Aort için: <b>2.0–3.0</b> | Mitral için: <b>2.5–3.5</b>','Rutin antikoagülasyon takibi gerekmez'],
+    ['Nütrisyonel Temas Noktası','<b>Diyetle K Vitamini alımı katı bir disiplinle SABİTLENMELİDİR</b>','K vitamini kısıtlamasına gerek yoktur; yaşlı TAVI hastalarında kaşeksi desteği esastır'],
+  ],
+  note:'Mekanik kapak hastalarında beslenmedeki en ufak bilinçsiz K vitamini dalgalanması inme veya ölümcül iç kanama ile sonuçlanabilir.'
+});
+
+SLIDES.push({type:'flow', ch:'06B', eyebrow:'Hayati İlaç-Besin Disiplini', title:'Warfarin (Kumadin) ve K Vitamini: "Yasaklama, Sabitle!"',
+  vertical:false,
+  steps:[
+    {n:'1',t:'Warfarin & VKORC1',d:'Karaciğerde VKORC1 enzimini bloke eder; Faktör II, VII, IX, X pıhtılaşma proteinlerinin sentezini durdurur.'},
+    {n:'2',t:'Aşırı K Vitamini',d:'Diyette kontrolsüz yeşillik patlaması → Warfarin etkisizleşir, INR düşer (<2.0) → Kapakta pıhtı ve İNME!'},
+    {n:'3',t:'K Vitamini Sıfırlama',d:'K vitamininden korkup yeşilliği tamamen kesmek → Warfarin aşırı güçlenir, INR fırlar (>4.5) → Beyin kanaması!'},
+    {n:'4',t:'Altın Standart',d:'"Yasaklama, Sabitle!" İlkesi: Günlük/haftalık K vitamini porsiyonu sabit tutulur, INR hedefe kilitlenir.'},
+  ],
+  note:'Diyetisyenin görevi hastaya yeşillikleri yasaklamak değil; her gün ve her hafta tutarlı porsiyonda almasını sağlayarak hekimin ilaç dozuyla uyumunu güvenceye almaktır.'
+});
+
+SLIDES.push({type:'quote', ch:'06B', eyebrow:'Enfeksiyon ve Hiperkatabolizma', title:'İnfektif Endokardit: Akut Katabolik Yangı',
+  body:`<p>İnfektif Endokardit; hasarlı veya protez kalp kapakçıklarının mikroorganizmalarca (bakteri/mantar) istila edilerek kapak üzerinde <i>vegetasyon</i> adı verilen iltihabi pıhtı kitlelerinin oluşmasıdır.</p>
+  <p>Ağır ateş, sistemik sepsis ve masif sitokin fırtınası ile seyreder. Vücutta <b>protein yıkımı ve enerji tüketimi tavan yapar</b>.</p>`,
+  box:{type:'info',title:'Nütrisyonel Yönetim İlkesi',
+  text:'Hasta yatakta dinleniyor olsa bile hiperkatabolik stres altındadır. Enerji 35-40 kcal/kg/gün, protein 1.5-2.0 g/kg/gün seviyesine çıkarılmalı; hasta hızla kardiyak kaşeksiye kaymadan erken oral/enteral beslenme desteği başlanmalıdır.'}
+});
+
+SLIDES.push({type:'quiz', ch:'06B', eyebrow:'Klinik Muhakeme Kontrolü', title:'Kardiyomiyopati ve Kapak Kliniği',
+  questions:[
+    {q:'Hipertrofik Kardiyomiyopatili (HCM) bir hastaya ezbere kalp yetmezliği yaklaşımıyla sıkı sıvı kısıtlaması uygulanırsa ne tür ölümcül bir tablo gelişir?',
+     opts:['Akciğer ödemi fırlar','Sol ventrikül boşluğu daralır, septum aort kapağına yapışarak çıkış yolunu (LVOTO) kilitler ve senkop/arrest gelişir','Böbrek yetmezliği tablosu düzelir'],correct:1,
+     explain:'HCM hastasında dehidrasyon, zaten kalınlaşmış septumun sol ventrikül çıkış yolunu tamamen tıkamasına (LVOTO obstrüksiyonu) neden olur. Sıvı yüklenmesi yoksa su kısıtlanmaz!'},
+    {q:'Mekanik mitral kapak ameliyatı olan ve ömür boyu Warfarin kullanan bir hastaya K vitamini beslenme danışmanlığı nasıl verilmelidir?',
+     opts:['Tüm yeşil yapraklı sebzeler ömür boyu tamamen yasaklanmalıdır','K vitamini alımı serbesttir, ilaç dozu her gün yemeğe göre değiştirilir','K vitamini içeren sebzeler yasaklanmaz; haftalık/günlük tüketim porsiyonu sabitlenerek tutarlı alım sağlanır'],correct:2,
+     explain:'K vitaminini tamamen kesmek hafif bir sebze tüketiminde bile INR\'yi altüst eder. Doğru yaklaşım porsiyon tutarlılığı (consistency) sağlayarak INR takibini stabilize etmektir.'},
+  ]
+});
+
+SLIDES.push({type:'prompt', text:'Ateroskleroz, KAH, İnme, PAH, Kalp Yetmezliği, Kardiyomiyopatiler ve Kapak Hastalıklarının klinik dinamiklerini tamamladık.',
   sub:'Peki klinik laboratuvarda bu tabloları hangi biyobelirteçlerle yakalıyor ve hekimlerle hangi farmakolojik protokolleri paylaşıyoruz? →'});
 
 /* ================= BÖLÜM 07 — KVH TANI KRİTERLERİ VE FARMAKOTERAPİ ================= */
@@ -2072,6 +2153,13 @@ SLIDES.push({type:'grid', ch:'11', eyebrow:'Klinik Fenotipler', title:'Aynı has
   ]
 });
 
+SLIDES.push({type:'grid', ch:'11', eyebrow:'ABPM ve Sirkadiyen Ritim', title:'24 Saatlik Holter: Dipper vs. Non-Dipper Fenotipleri', cols:2,
+  cards:[
+    {tag:'Fizyolojik · Koruyucu',h:'Dipper Fenotipi (%10–20 Düşüş)',b:'Gece uykuda sempatik tonusun azalmasıyla kan basıncı gündüze göre %10–20 oranında fizyolojik olarak düşer. Kardiyovasküler sistem gece dinlenir.'},
+    {tag:'Patolojik · Yüksek Risk',h:'Non-Dipper & Riser Fenotipi (<%10)',b:'Gece kan basıncı düşmez (<%10) veya paradoksal olarak yükselir. Otonom nöropati, uyku apnesi veya renal parankim hasarı göstergesidir; <b>inme, sol ventrikül hipertrofisi ve ani kardiyak ölüm riski en yüksek gruptur!</b>'},
+  ]
+});
+
 SLIDES.push({type:'prompt', text:'Semptomsuz seyretmesi, tam olarak bu yüzden tehlikeli.',
   sub:'Peki hücresel düzeyde kan basıncını kim, nasıl yükseltiyor? RAAS fizyolojisine geçiyoruz →'});
 
@@ -2102,8 +2190,10 @@ SLIDES.push({type:'formula', ch:'12', eyebrow:'Tuz Duyarlılığı', title:'Sody
   example:null
 });
 
-SLIDES.push({type:'quote', ch:'12', eyebrow:'Ek Mekanizma', title:'SNS ve insülin direnci: obezitenin HT\'ye köprüsü',
-  body:`<p>Hiperinsülinemi (obezite/prediyabet), beyin sapında sempatik aktivasyonu uyarır (kardiyak debi artar). İnsülin ayrıca böbrek tübüllerinde sodyum geri emilimini doğrudan uyarır (renal sodyum retansiyonu) — bu, obez/insülin dirençli bireylerde hipertansiyonun neden bu kadar sık görüldüğünü açıklar.</p>`
+SLIDES.push({type:'quote', ch:'12', eyebrow:'Ek Mekanizma', title:'Obezite, İnsülin Direnci ve Renal Kompresyon',
+  body:`<p><b>Sempatik Overdrive & Sodyum Retansiyonu:</b> Hiperinsülinemi (obezite/prediyabet) beyin sapında sempatik deşarjı uyarır (kardiyak debi ↑); renal tübüllerde Na⁺/K⁺ ATPaz ve ENaC kanallarını doğrudan uyararak sodyumu kana geri çeker.</p>
+  <p><b>Visseral Yağ ve Renal Kompresyon:</b> Karın içi visseral yağ dokusu (VAT) genişledikçe böbrek parankimini fiziksel olarak sıkıştırır (<i>intrarenal kompresyon</i>). Medüller kan akımı yavaşlayınca böbrek bunu iskemi olarak algılayıp masif <b>Renin</b> salgılar.</p>
+  <p><b>Fruktoz ve Ürik Asit:</b> Yüksek fruktoz yükü hücresel ATP'yi tüketip serum ürik asidini fırlatır; ürik asit eNOS'u inhibe ederek vasküler elastikiyet kaybını hızlandırır.</p>`
 });
 
 SLIDES.push({type:'quiz', ch:'12', eyebrow:'Bölüm Kontrolü', title:'RAAS mekanizmasını test edin',
@@ -2219,7 +2309,7 @@ SLIDES.push({type:'prompt', text:'DASH\'in mineral mantığını artık biliyors
 /* ================= BÖLÜM 15 — HT İLAÇ-BESİN ETKİLEŞİMLERİ ================= */
 
 SLIDES.push({type:'sec', ch:'15', chTitle:'HT İlaç–Besin Etkileşimleri',
-  outline:['ACEi/ARB ve hiperkalemi (hayati uyarı)','Diüretikler ve elektrolit dalgalanmaları','Meyan kökü ve pseudoaldosteronizm']});
+  outline:['ACEi/ARB ve hiperkalemi (hayati uyarı)','Diüretikler ve elektrolit dalgalanmaları','Meyan kökü ve pseudoaldosteronizm','CCB–Greyfurt ve Hidralazin–B6']});
 
 SLIDES.push({type:'flow', ch:'15', eyebrow:'HAYATİ UYARI', title:'ACEi/ARB + KCl diyet tuzu = ölümcül kombinasyon',
   vertical:false,
@@ -2244,6 +2334,13 @@ SLIDES.push({type:'flow', ch:'15', eyebrow:'Bitkisel Etkileşim', title:'Meyan K
     {n:'2',t:'Kortizol Birikir',d:'Kortizol, kortizona dönüşemez.'},
     {n:'3',t:'Pseudoaldosteronizm',d:'Biriken kortizol, mineralokortikoid reseptörlerine Aldosteron gibi bağlanır.'},
     {n:'4',t:'Sonuç',d:'Aşırı Na+/su tutulumu ve masif K+ atılımı → Dirençli HT Krizi + şiddetli hipokalemi.'},
+  ]
+});
+
+SLIDES.push({type:'grid', ch:'15', eyebrow:'Önemli İlaç-Besin Çarpışmaları', title:'CCB–Greyfurt ve Hidralazin–B6 Etkileşimleri', cols:2,
+  cards:[
+    {tag:'CYP3A4 İnhibisyonu',h:'Amlodipin / Nifedipin & Greyfurt',b:'Greyfurttaki furanokumarinler bağırsaktaki <b>CYP3A4</b> enzimini kilitler. İlacın ilk geçiş metabolizması durur; plazma düzeyi toksik seviyeye fırlayarak <b>ani şiddetli hipotansiyon, senkop ve refleks taşikardiye</b> yol açar.'},
+    {tag:'Vitamin Deplesyonu',h:'Hidralazin & Piridoksin (B6)',b:'Hidralazin, B6 vitamini (PLP) ile hidrazon kompleksi oluşturup idrarla atılımını fırlatır. Hastada <b>periferik nöropati</b> gelişmemesi için tedavi süresince <b>25–50 mg/gün B6 vitamini</b> desteği gereklidir.'},
   ]
 });
 
@@ -2809,6 +2906,7 @@ const chapterNames = {
   '04':'Serebrovasküler Hastalıklar (SVH / İnme) & Disfaji Yönetimi',
   '05':'Periferik Arter Hastalığı (PAH) & İskemik Yara MNT',
   '06':'Kalp Yetmezliği ve Kardiyak Kaşeksi',
+  '06B':'Kardiyomiyopatiler ve Valvüler Kapak Hastalıkları',
   '07':'KVH Tanı Kriterleri ve Farmakoterapi',
   '08':'KVH Beslenme Bakım Süreci — ADIME',
   '09':'KVH TBT: Kanıta Dayalı ve Popüler Diyet Modelleri',
