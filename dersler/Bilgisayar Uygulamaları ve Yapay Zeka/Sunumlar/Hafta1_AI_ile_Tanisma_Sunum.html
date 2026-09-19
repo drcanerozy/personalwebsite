@@ -118,24 +118,24 @@
   .flip-front{ background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow); }
   .flip-back{ background:var(--teal-deep); color:#fff; transform:rotateY(180deg); box-shadow:var(--shadow); }
   .flip-letter{ font-family:'Playfair Display', Georgia, serif; font-size:28px; color:var(--teal); font-weight:800; }
-  .flip-back .flip-letter{ color:var(--teal-light); font-size:15px; font-style:italic; margin-bottom:6px; display:block; font-weight:700; }
-  .flip small{ color:var(--ink-faint); font-size:13px; font-weight:500; }
-  .flip-back small{ color:#cfe8de; font-size:13px; line-height:1.5; display:block; }
-  .flip-back .ex{ color:#a8d9c8; font-family:'JetBrains Mono', monospace; font-size:11px; margin-top:8px; display:block; line-height:1.45; }
+  .flip-back .flip-letter{ color:var(--teal-light); font-size:16px; font-style:italic; margin-bottom:6px; display:block; font-weight:700; }
+  .flip small{ color:var(--ink-faint); font-size:15px; font-weight:600; line-height:1.45; }
+  .flip-back small{ color:#cfe8de; font-size:14.5px; line-height:1.55; display:block; }
+  .flip-back .ex{ color:#a8d9c8; font-family:'JetBrains Mono', monospace; font-size:13.5px; margin-top:8px; display:block; line-height:1.5; }
   .bars{ display:flex; flex-direction:column; gap:10px; margin-top:14px; }
   .bar-row{ display:grid; grid-template-columns:160px 1fr 50px; align-items:center; gap:12px; }
   .bar-track{ height:14px; background:var(--bg-deep); border-radius:8px; overflow:hidden; }
   .bar-fill{ height:100%; background:linear-gradient(90deg, var(--teal), var(--indigo)); width:0%; transition:width .8s cubic-bezier(.3,.9,.3,1); border-radius:8px; }
-  .bar-word{ font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:600; }
-  .bar-pct{ font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--ink-faint); text-align:right; font-weight:700; }
+  .bar-word{ font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:600; }
+  .bar-pct{ font-family:'JetBrains Mono', monospace; font-size:13.5px; color:var(--ink-faint); text-align:right; font-weight:700; }
   select{ font-family:'Plus Jakarta Sans', sans-serif; font-size:15px; border:1px solid var(--line); border-radius:11px; padding:11px 15px; background:#fff; color:var(--ink); width:100%; }
   button.btn{ font-family:'Plus Jakarta Sans', sans-serif; font-weight:700; font-size:14px; background:var(--teal); color:#fff; border:none; padding:11px 18px; border-radius:11px; cursor:pointer; transition:filter .15s ease, transform .15s ease; }
   button.btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
   button.btn.ghost{ background:var(--surface); color:var(--teal-deep); border:1px solid var(--line); }
   .taxo-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 20px; transition:transform .2s ease, box-shadow .2s ease; cursor:pointer; }
   .taxo-card:hover{ transform:translateY(-3px); box-shadow:var(--shadow); }
-  .taxo-title{ font-weight:700; font-size:15px; margin-bottom:6px; }
-  .taxo-ex{ display:none; font-size:14px; color:var(--ink-soft); margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); line-height:1.55; }
+  .taxo-title{ font-weight:700; font-size:16.5px; margin-bottom:6px; color:var(--teal-deep); }
+  .taxo-ex{ display:none; font-size:15px; color:var(--ink-soft); margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); line-height:1.55; }
   .taxo-card.open .taxo-ex{ display:block; }
   .ref-list{ display:flex; flex-direction:column; gap:8px; }
   .ref-item{ font-size:13.5px; color:var(--ink-soft); padding-left:16px; border-left:3px solid var(--teal-light); line-height:1.5; }
@@ -440,11 +440,11 @@
   .histogram-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
+    gap: 12px;
     align-items: flex-end;
-    height: 95px;
-    margin-top: 6px;
-    padding: 0 2px;
+    height: 120px;
+    margin-top: 8px;
+    padding: 0 4px;
   }
   .histogram-col {
     display: flex;
@@ -452,13 +452,13 @@
     align-items: center;
     height: 100%;
     justify-content: flex-end;
-    gap: 3px;
+    gap: 5px;
   }
   .histogram-bar-wrap {
     width: 100%;
-    height: 60px;
+    height: 75px;
     background: #e2e8f0;
-    border-radius: 6px;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -468,17 +468,17 @@
     width: 100%;
     height: 0%;
     background: linear-gradient(180deg, var(--teal), var(--teal-deep));
-    border-radius: 6px 6px 0 0;
+    border-radius: 8px 8px 0 0;
     transition: height 0.4s ease;
   }
   .histogram-val {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: clamp(13px, 1.05vw, 15.5px) !important;
     font-weight: 800;
     color: var(--teal-deep);
   }
   .histogram-lbl {
-    font-size: 9.5px;
+    font-size: clamp(12px, 0.95vw, 14px) !important;
     font-weight: 700;
     color: var(--ink-soft);
     text-align: center;
@@ -487,23 +487,97 @@
   .stream-box {
     background: var(--bg-deep);
     border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 6px 10px;
-    max-height: 80px;
+    border-radius: 10px;
+    padding: 8px 12px;
+    max-height: 110px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
   }
   .stream-item {
-    font-size: 11px;
+    font-size: clamp(13px, 1.05vw, 15px) !important;
     color: var(--ink);
     background: #fff;
-    border-radius: 6px;
-    padding: 4px 8px;
+    border-radius: 8px;
+    padding: 6px 12px;
     border: 1px solid var(--line);
-    line-height: 1.35;
+    line-height: 1.45;
     animation: fadeIn 0.3s ease;
+  }
+
+  /* ========================================================= */
+  /* AMFİ / BÜYÜK EKRAN TİPOGRAFİ & KUTUCUK OKUNABİLİRLİK GÜÇLENDİRMESİ */
+  /* ========================================================= */
+  .card p, .card .lede, .card div, .card li {
+    font-size: clamp(15.5px, 1.25vw, 19.5px);
+    line-height: 1.6;
+  }
+  .card p.lede {
+    font-size: clamp(16px, 1.28vw, 20px) !important;
+    line-height: 1.6 !important;
+  }
+  .card [style*="font-size:12.5px"],
+  .card [style*="font-size:13px"],
+  .card [style*="font-size:13.5px"],
+  .card [style*="font-size:12px"],
+  .card [style*="font-size:11.5px"],
+  .card [style*="font-size:11px"],
+  .card [style*="font-size:10.5px"],
+  .card [style*="font-size:10px"] {
+    font-size: clamp(15px, 1.2vw, 19px) !important;
+    line-height: 1.55 !important;
+  }
+  .card [style*="font-weight:700"][style*="font-size:13px"],
+  .card [style*="font-weight:700"][style*="font-size:13.5px"],
+  .card [style*="font-weight:700"][style*="font-size:12.5px"] {
+    font-size: clamp(16px, 1.25vw, 20px) !important;
+    line-height: 1.4 !important;
+  }
+  .pill {
+    font-size: clamp(12.5px, 0.98vw, 14.5px) !important;
+    padding: 7px 15px !important;
+    letter-spacing: .05em !important;
+    font-weight: 800 !important;
+  }
+  .source {
+    font-size: clamp(12px, 0.95vw, 14px) !important;
+    line-height: 1.5 !important;
+  }
+  .term span {
+    font-size: clamp(16px, 1.28vw, 20px) !important;
+    line-height: 1.6 !important;
+  }
+  .term b {
+    font-size: clamp(15px, 1.2vw, 18px) !important;
+  }
+  .hier-row .desc {
+    font-size: clamp(15.5px, 1.22vw, 19px) !important;
+    line-height: 1.55 !important;
+  }
+  .hier-row .lbl {
+    font-size: clamp(16px, 1.25vw, 19px) !important;
+  }
+  .flip-face p {
+    font-size: clamp(15px, 1.2vw, 18.5px) !important;
+    line-height: 1.5 !important;
+  }
+  .flip-face small {
+    font-size: clamp(13.5px, 1.08vw, 16.5px) !important;
+    line-height: 1.5 !important;
+  }
+  .q2-bar-label {
+    width: 140px !important;
+    font-size: clamp(13px, 1.05vw, 15.5px) !important;
+    font-weight: 700 !important;
+  }
+  .q2-bar-track {
+    height: 16px !important;
+  }
+  .q2-bar-count {
+    width: 85px !important;
+    font-size: clamp(12.5px, 1vw, 15px) !important;
+    font-weight: 800 !important;
   }
 </style>
 </head>
@@ -585,61 +659,61 @@
 
     <!-- SLAYT 03: TANIŞMA & SÖZLEŞME (CANLI ANKET) -->
     <section class="slide"><div class="slide-inner">
-      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:8px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px;">
         <div>
           <p class="eyebrow">Tanışma &amp; Canlı Sınıf Anketi</p>
           <h1 class="slide-title" style="margin-bottom:4px;">Önce <em>birbirimizi tanıyalım</em></h1>
         </div>
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span class="pill teal" id="h1PreLiveBadge">⚡ Canlı MQTT Katılım</span>
-          <span class="pill gold" style="font-family:'JetBrains Mono',monospace;"><span id="h1PreVoterCount">0</span> Katılımcı</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="pill teal" id="h1PreLiveBadge" style="font-size:13px;">⚡ Canlı MQTT Katılım</span>
+          <span class="pill gold" style="font-family:'JetBrains Mono',monospace; font-size:13px;"><span id="h1PreVoterCount">0</span> Katılımcı</span>
         </div>
       </div>
 
-      <div class="grid-wrap two-col" style="gap:14px;">
+      <div class="grid-wrap two-col" style="gap:18px;">
         <!-- SOL SÜTUN: KULLANILAN ARAÇLAR & PROMPT HİSTOGRAMI -->
-        <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; flex-direction:column; gap:14px;">
           
           <!-- S1: KULLANILAN ARAÇLAR DAĞILIMI -->
-          <div class="card" id="h1ToolsCard" style="padding:10px 14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span class="pill indigo" style="font-size:10px;">1. En Sık Kullanılan Araçlar</span>
-              <span id="h1ToolsTotalCount" style="font-size:11px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace;">0 Seçim</span>
+          <div class="card" id="h1ToolsCard" style="padding:16px 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <span class="pill indigo" style="font-size:12px;">1. En Sık Kullanılan Araçlar</span>
+              <span id="h1ToolsTotalCount" style="font-size:13px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; font-weight:700;">0 Seçim</span>
             </div>
-            <div id="h1ToolsBarList" style="display:flex; flex-direction:column; gap:4px;">
+            <div id="h1ToolsBarList" style="display:flex; flex-direction:column; gap:8px;">
               <div class="q2-bar-item" style="margin-top:2px;">
-                <span class="q2-bar-label" style="width:90px; font-size:11px;">ChatGPT:</span>
-                <div class="q2-bar-track" style="height:10px;"><div class="q2-bar-fill" id="h1ToolBar_ChatGPT" style="width:0%; background:var(--teal);"></div></div>
-                <span class="q2-bar-count" id="h1ToolCnt_ChatGPT" style="font-size:10.5px; width:65px;">0 (%0)</span>
+                <span class="q2-bar-label" style="width:130px; font-size:14px;">ChatGPT:</span>
+                <div class="q2-bar-track" style="height:14px;"><div class="q2-bar-fill" id="h1ToolBar_ChatGPT" style="width:0%; background:var(--teal);"></div></div>
+                <span class="q2-bar-count" id="h1ToolCnt_ChatGPT" style="font-size:13px; width:80px;">0 (%0)</span>
               </div>
               <div class="q2-bar-item" style="margin-top:2px;">
-                <span class="q2-bar-label" style="width:90px; font-size:11px;">Gemini:</span>
-                <div class="q2-bar-track" style="height:10px;"><div class="q2-bar-fill" id="h1ToolBar_Gemini" style="width:0%; background:var(--indigo);"></div></div>
-                <span class="q2-bar-count" id="h1ToolCnt_Gemini" style="font-size:10.5px; width:65px;">0 (%0)</span>
+                <span class="q2-bar-label" style="width:130px; font-size:14px;">Gemini:</span>
+                <div class="q2-bar-track" style="height:14px;"><div class="q2-bar-fill" id="h1ToolBar_Gemini" style="width:0%; background:var(--indigo);"></div></div>
+                <span class="q2-bar-count" id="h1ToolCnt_Gemini" style="font-size:13px; width:80px;">0 (%0)</span>
               </div>
               <div class="q2-bar-item" style="margin-top:2px;">
-                <span class="q2-bar-label" style="width:90px; font-size:11px;">Claude:</span>
-                <div class="q2-bar-track" style="height:10px;"><div class="q2-bar-fill" id="h1ToolBar_Claude" style="width:0%; background:#d97706;"></div></div>
-                <span class="q2-bar-count" id="h1ToolCnt_Claude" style="font-size:10.5px; width:65px;">0 (%0)</span>
+                <span class="q2-bar-label" style="width:130px; font-size:14px;">Claude:</span>
+                <div class="q2-bar-track" style="height:14px;"><div class="q2-bar-fill" id="h1ToolBar_Claude" style="width:0%; background:#d97706;"></div></div>
+                <span class="q2-bar-count" id="h1ToolCnt_Claude" style="font-size:13px; width:80px;">0 (%0)</span>
               </div>
               <div class="q2-bar-item" style="margin-top:2px;">
-                <span class="q2-bar-label" style="width:90px; font-size:11px;">DeepSeek:</span>
-                <div class="q2-bar-track" style="height:10px;"><div class="q2-bar-fill" id="h1ToolBar_DeepSeek" style="width:0%; background:#0284c7;"></div></div>
-                <span class="q2-bar-count" id="h1ToolCnt_DeepSeek" style="font-size:10.5px; width:65px;">0 (%0)</span>
+                <span class="q2-bar-label" style="width:130px; font-size:14px;">DeepSeek:</span>
+                <div class="q2-bar-track" style="height:14px;"><div class="q2-bar-fill" id="h1ToolBar_DeepSeek" style="width:0%; background:#0284c7;"></div></div>
+                <span class="q2-bar-count" id="h1ToolCnt_DeepSeek" style="font-size:13px; width:80px;">0 (%0)</span>
               </div>
               <div class="q2-bar-item" style="margin-top:2px;">
-                <span class="q2-bar-label" style="width:90px; font-size:11px;">Perplexity/Diğer:</span>
-                <div class="q2-bar-track" style="height:10px;"><div class="q2-bar-fill" id="h1ToolBar_Other" style="width:0%; background:var(--rose);"></div></div>
-                <span class="q2-bar-count" id="h1ToolCnt_Other" style="font-size:10.5px; width:65px;">0 (%0)</span>
+                <span class="q2-bar-label" style="width:130px; font-size:14px;">Perplexity/Diğer:</span>
+                <div class="q2-bar-track" style="height:14px;"><div class="q2-bar-fill" id="h1ToolBar_Other" style="width:0%; background:var(--rose);"></div></div>
+                <span class="q2-bar-count" id="h1ToolCnt_Other" style="font-size:13px; width:80px;">0 (%0)</span>
               </div>
             </div>
           </div>
 
           <!-- S4: PROMPT DÜZEYİ 1-5 HİSTOGRAMI -->
-          <div class="card" id="h1HistCard" style="padding:10px 14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span class="pill teal" style="font-size:10px;">4. Prompt Düzeyi Dağılımı</span>
-              <span id="h1PrePromptAvg" style="font-weight:800; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal-deep);">Ortalama: 0.0 / 5.0</span>
+          <div class="card" id="h1HistCard" style="padding:16px 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span class="pill teal" style="font-size:12px;">4. Prompt Düzeyi Dağılımı</span>
+              <span id="h1PrePromptAvg" style="font-weight:800; font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--teal-deep);">Ortalama: 0.0 / 5.0</span>
             </div>
             
             <div class="histogram-grid">
@@ -674,28 +748,28 @@
         </div>
 
         <!-- SAĞ SÜTUN: QR KOD & CANLI METİN YANITLARI -->
-        <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; flex-direction:column; gap:12px;">
           <!-- QR Kartı -->
-          <div class="qr-card" style="padding:10px; flex-direction:row; gap:12px; justify-content:flex-start; text-align:left;">
-            <div class="qr-box" id="h1PreQrContainer" style="width:85px; height:85px; margin-bottom:0; flex-shrink:0;"></div>
+          <div class="qr-card" style="padding:14px 18px; flex-direction:row; gap:16px; justify-content:flex-start; text-align:left;">
+            <div class="qr-box" id="h1PreQrContainer" style="width:105px; height:105px; margin-bottom:0; flex-shrink:0;"></div>
             <div>
-              <span style="font-weight:800; font-size:12.5px; color:var(--teal-deep); display:block;">📱 Telefonda Aç &amp; Canlı Katıl</span>
-              <span style="font-size:11px; color:var(--ink-soft); display:block; margin:2px 0 4px;">Araçlarını, anılarını ve prompt düzeyini hemen paylaş.</span>
-              <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-faint);">canerozy.com/vote.html?w=1&amp;tab=tanisma</span>
+              <span style="font-weight:800; font-size:15px; color:var(--teal-deep); display:block;">📱 Telefonda Aç &amp; Canlı Katıl</span>
+              <span style="font-size:13.5px; color:var(--ink-soft); display:block; margin:4px 0 6px; line-height:1.45;">Araçlarını, deneyimlerini ve prompt düzeyini hemen paylaş.</span>
+              <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-faint); font-weight:600;">canerozy.com/vote.html?w=1&amp;tab=tanisma</span>
             </div>
           </div>
 
           <!-- S2: EN ÇOK ŞAŞIRTAN ANLAR AKIŞI -->
-          <div class="card" style="padding:8px 12px;">
-            <span style="font-weight:700; font-size:11.5px; color:var(--indigo); display:block; margin-bottom:4px;">😮 2. Sizi En Çok Şaşırtan / Tuhaf Gelen Ne Oldu?</span>
+          <div class="card" style="padding:14px 18px;">
+            <span style="font-weight:800; font-size:14.5px; color:var(--indigo); display:block; margin-bottom:8px;">😮 2. Sizi En Çok Şaşırtan / Tuhaf Gelen Ne Oldu?</span>
             <div class="stream-box" id="h1SurpriseStream">
               <span class="stream-item" style="color:var(--ink-faint); font-style:italic;">Henüz yanıt gelmedi (öğrenciler yazdıkça buraya akar)...</span>
             </div>
           </div>
 
           <!-- S3: EN ETKİLEYİCİ KULLANIM ANLARI AKIŞI -->
-          <div class="card" style="padding:8px 12px;">
-            <span style="font-weight:700; font-size:11.5px; color:var(--teal-deep); display:block; margin-bottom:4px;">✨ 3. En Etkileyici / Faydalı Kullanım Anınız?</span>
+          <div class="card" style="padding:14px 18px;">
+            <span style="font-weight:800; font-size:14.5px; color:var(--teal-deep); display:block; margin-bottom:8px;">✨ 3. En Etkileyici / Faydalı Kullanım Anınız?</span>
             <div class="stream-box" id="h1ImpressiveStream">
               <span class="stream-item" style="color:var(--ink-faint); font-style:italic;">Henüz yanıt gelmedi (öğrenciler yazdıkça buraya akar)...</span>
             </div>
@@ -814,17 +888,17 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Temel Kavram · 02 — LLM vs SLM</p>
       <h1 class="slide-title">SLM: <em>Küçük ama Keskin Klinik Uzmanlar</em></h1>
-      <div class="grid-wrap two-col">
-        <div class="card">
-          <span class="pill indigo">LLM (Büyük Dil Modelleri)</span>
-          <p class="lede" style="font-size:13px; margin-top:8px;">Genel internet verisiyle eğitilmiş dev modeller (GPT-4, Claude, Gemini). Her alanda akıcıdır ancak niş klinik/gıda detaylarında hata ve uydurma riski taşır.</p>
+      <div class="grid-wrap two-col" style="gap:18px;">
+        <div class="card" style="padding:22px 26px;">
+          <span class="pill indigo" style="font-size:12.5px;">LLM (Büyük Dil Modelleri)</span>
+          <p class="lede" style="font-size:15.5px; line-height:1.6; margin-top:10px;">Genel internet verisiyle eğitilmiş dev modeller (GPT-4, Claude, Gemini). Her alanda akıcıdır ancak niş klinik/gıda detaylarında hata ve uydurma riski taşır.</p>
         </div>
-        <div class="card">
-          <span class="pill teal">SLM (Small Language Models)</span>
-          <p class="lede" style="font-size:13px; margin-top:8px;">Sadece klinik beslenme, alerjen ontolojisi ve gıda kodeksiyle hedefe yönelik eğitilmiş hafif ve keskin modeller (ör. FoodSky, Spoon Guru).</p>
+        <div class="card" style="padding:22px 26px;">
+          <span class="pill teal" style="font-size:12.5px;">SLM (Small Language Models)</span>
+          <p class="lede" style="font-size:15.5px; line-height:1.6; margin-top:10px;">Sadece klinik beslenme, alerjen ontolojisi ve gıda kodeksiyle hedefe yönelik eğitilmiş hafif ve keskin modeller (ör. FoodSky, Spoon Guru).</p>
         </div>
       </div>
-      <p class="small mt-10">💡 Sadece gıda ve klinik veriyle eğitilen <b>FoodSky SLM modeli</b>, diyetisyenlik lisans sınavlarında <b>%91 rekor doğruluk</b> yakalamıştır.</p>
+      <p class="small mt-10" style="font-size:15px; line-height:1.6;">💡 Sadece gıda ve klinik veriyle eğitilen <b>FoodSky SLM modeli</b>, diyetisyenlik lisans sınavlarında <b>%91 rekor doğruluk</b> yakalamıştır.</p>
       <span class="source mt-8">McCarthy, D. I. (2025). Nutrition Bulletin, 50, 142-150.</span>
     </div></section>
 
@@ -848,18 +922,18 @@
       <p class="eyebrow">Temel Kavram · 03 — Şimdi Sıra Sende</p>
       <h1 class="slide-title">5 Kavram, 5 Senaryo: <em>eşleştir</em></h1>
       <p class="lede">Öğrendiğin kavramları klinik senaryolarla eşleştirerek pekiştir:</p>
-      <div class="grid-wrap two-col">
+      <div class="grid-wrap two-col" style="gap:24px;">
         <div id="matchWrap"></div>
-        <div class="card">
-          <p style="font-weight:700; font-size:14px; margin:0 0 8px;">İpucu Rehberi</p>
-          <p class="lede" style="font-size:13px; line-height:1.6;">
+        <div class="card" style="padding:24px 28px;">
+          <p style="font-weight:800; font-size:18px; margin:0 0 12px; color:var(--teal-deep);">💡 İpucu Rehberi</p>
+          <p class="lede" style="font-size:16px; line-height:1.7; margin:0;">
             • <b>AI (genel):</b> Sabit kurallı / kural tabanlı sistemler.<br>
             • <b>ML:</b> Sayısal veriden risk / skor tahmin eden modeller.<br>
             • <b>DL:</b> Fotoğraf / görsel piksellerini analiz eden ağlar.<br>
             • <b>GenAI:</b> Sıfırdan yeni içerik / menü üreten yaratıcı sistemler.<br>
             • <b>LLM:</b> İnsanla doğal dilde metinle sohbet eden dil modelleri.
           </p>
-          <button class="btn mt-10" onclick="checkMatches()">Kontrol Et</button>
+          <button class="btn mt-14" style="font-size:15px; padding:12px 24px;" onclick="checkMatches()">Kontrol Et</button>
         </div>
       </div>
     </div></section>
@@ -873,68 +947,68 @@
       <p class="eyebrow">Tarihçe · 1/13 — 1950</p>
       <h1 class="slide-title">Alan Turing: <em>"Makineler Düşünebilir mi?"</em></h1>
       <p class="lede">Matematikçi Alan Turing, <i>"Computing Machinery and Intelligence"</i> makalesinde efsanevi soruyu sordu ve <b>Turing Testi'ni (İmitasyon Oyunu)</b> önerdi: Bir insan, yazışarak konuştuğu karşı tarafın insan mı makine mi olduğunu ayırt edemiyorsa, o makineye "akıllı" diyebilir miyiz?</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">Bir yapay zeka sizinle bir uzman gibi konuştuğunda onun gerçekten *"düşündüğünü"* sanmayın. Turing'in gösterdiği gibi makine insan dilini kusursuz <b>taklit</b> eder; insan gibi akıl yürüttüğü için değil, taklit edebildiği için sınavları geçer.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">Bir yapay zeka sizinle bir uzman gibi konuştuğunda onun gerçekten <i>"düşündüğünü"</i> sanmayın. Turing'in gösterdiği gibi makine insan dilini kusursuz <b>taklit</b> eder; insan gibi akıl yürüttüğü için değil, taklit edebildiği için sınavları geçer.</p>
       </div>
-      <span class="source mt-8">Turing, A. M. (1950). Computing Machinery and Intelligence. Mind, 59(236), 433-460.</span>
+      <span class="source mt-10">Turing, A. M. (1950). Computing Machinery and Intelligence. Mind, 59(236), 433-460.</span>
     </div></section>
 
     <!-- SLAYT 16: SINIF DENEYİ — TURING TESTİ -->
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Sınıf Deneyi · Turing Testi</p>
       <h1 class="slide-title">Mini Turing Testi: <em>Diyetisyen mi, Yapay Zeka mı?</em></h1>
-      <p class="lede" style="margin-bottom:10px;"><b>Temsili Klinik Vaka:</b> <i>"Hocam dün akşam tatlı krizine yenik düşüp 2 dilim baklava yedim, vicdan azabından ölüyorum. Bugün tüm öğünleri kesip sadece yeşil detoks suyu mu içsem?"</i></p>
-      <div class="grid-wrap two-col">
-        <div class="flip" style="height:190px;" onclick="this.classList.toggle('on'); var b=document.getElementById('turingEvidence'); if(b) b.classList.add('open'); fitActiveSlide();">
+      <p class="lede" style="margin-bottom:14px;"><b>Temsili Klinik Vaka:</b> <i>"Hocam dün akşam tatlı krizine yenik düşüp 2 dilim baklava yedim, vicdan azabından ölüyorum. Bugün tüm öğünleri kesip sadece yeşil detoks suyu mu içsem?"</i></p>
+      <div class="grid-wrap two-col" style="gap:20px;">
+        <div class="flip" style="height:210px;" onclick="this.classList.toggle('on'); var b=document.getElementById('turingEvidence'); if(b) b.classList.add('open'); fitActiveSlide();">
           <div class="flip-inner">
-            <div class="flip-face flip-front">
-              <span class="pill teal" style="margin-bottom:6px; align-self:flex-start;">Temsili Yanıt A</span>
-              <p style="font-size:12.5px; line-height:1.4; margin:0 0 6px; color:var(--ink);">"Kesinlikle aç kalmamalısınız. Baklava yüksek glisemik indekse sahip olduğu için ani insülin dalgalanması yaratmıştır. Bugün bol su için, sebze ve lif ağırlıklı beslenin ve 45 dk tempolu yürüyüş yapın. Kendinize yüklenmeyin :)"</p>
-              <small style="color:var(--teal); font-weight:600;">👆 Tıkla (Kimin Üslubu?)</small>
+            <div class="flip-face flip-front" style="padding:22px;">
+              <span class="pill teal" style="margin-bottom:8px; align-self:flex-start;">Temsili Yanıt A</span>
+              <p style="font-size:15px; line-height:1.55; margin:0 0 8px; color:var(--ink);">"Kesinlikle aç kalmamalısınız. Baklava yüksek glisemik indekse sahip olduğu için ani insülin dalgalanması yaratmıştır. Bugün bol su için, sebze ve lif ağırlıklı beslenin ve 45 dk tempolu yürüyüş yapın. Kendinize yüklenmeyin :)"</p>
+              <small style="color:var(--teal); font-weight:700; font-size:13.5px;">👆 Tıkla (Kimin Üslubu?)</small>
             </div>
-            <div class="flip-face flip-back" style="background:var(--indigo); padding:14px;">
-              <span class="flip-letter" style="color:#fff; font-size:17px; margin-bottom:4px;">🤖 Tipik LLM / Yapay Zeka Dili</span>
-              <small style="color:#e0e2fe; font-size:11.5px; line-height:1.4;">Kusursuz kuramsal bilgi, son derece nazik ve motive edici ton. Kitabi doğruları madde madde sıralar.</small>
+            <div class="flip-face flip-back" style="background:var(--indigo); padding:20px;">
+              <span class="flip-letter" style="color:#fff; font-size:20px; margin-bottom:6px;">🤖 Tipik LLM / Yapay Zeka Dili</span>
+              <small style="color:#e0e2fe; font-size:14px; line-height:1.55;">Kusursuz kuramsal bilgi, son derece nazik ve motive edici ton. Kitabi doğruları madde madde sıralar.</small>
             </div>
           </div>
         </div>
-        <div class="flip" style="height:190px;" onclick="this.classList.toggle('on'); var b=document.getElementById('turingEvidence'); if(b) b.classList.add('open'); fitActiveSlide();">
+        <div class="flip" style="height:210px;" onclick="this.classList.toggle('on'); var b=document.getElementById('turingEvidence'); if(b) b.classList.add('open'); fitActiveSlide();">
           <div class="flip-inner">
-            <div class="flip-face flip-front">
-              <span class="pill indigo" style="margin-bottom:6px; align-self:flex-start;">Temsili Yanıt B</span>
-              <p style="font-size:12.5px; line-height:1.4; margin:0 0 6px; color:var(--ink);">"Öncelikle derin bir nefes alıyoruz, hiçbir şey mahvolmadı! :) Diyet bir ceza-ödül mekanizması değildir, asla öğün atlamıyoruz. Şimdi normal rutinimize dönüyoruz, gün boyu suyumuzu içiyoruz. Akşama hafif bir zeytinyağlıyla dengeleriz, yola devam!"</p>
-              <small style="color:var(--indigo); font-weight:600;">👆 Tıkla (Kimin Üslubu?)</small>
+            <div class="flip-face flip-front" style="padding:22px;">
+              <span class="pill indigo" style="margin-bottom:8px; align-self:flex-start;">Temsili Yanıt B</span>
+              <p style="font-size:15px; line-height:1.55; margin:0 0 8px; color:var(--ink);">"Öncelikle derin bir nefes alıyoruz, hiçbir şey mahvolmadı! :) Diyet bir ceza-ödül mekanizması değildir, asla öğün atlamıyoruz. Şimdi normal rutinimize dönüyoruz, gün boyu suyumuzu içiyoruz. Akşama hafif bir zeytinyağlıyla dengeleriz, yola devam!"</p>
+              <small style="color:var(--indigo); font-weight:700; font-size:13.5px;">👆 Tıkla (Kimin Üslubu?)</small>
             </div>
-            <div class="flip-face flip-back" style="background:var(--teal-deep); padding:14px;">
-              <span class="flip-letter" style="color:#fff; font-size:17px; margin-bottom:4px;">👩‍⚕️ Uzman Klinik Diyetisyen Dili</span>
-              <small style="color:#ccebe0; font-size:11.5px; line-height:1.4;">Suçluluk duygusunu doğrudan regüle eden, ceza-ödül psikolojisini kıran, empatik ve sürdürülebilirlik odaklı insani klinik refleks.</small>
+            <div class="flip-face flip-back" style="background:var(--teal-deep); padding:20px;">
+              <span class="flip-letter" style="color:#fff; font-size:20px; margin-bottom:6px;">👩‍⚕️ Uzman Klinik Diyetisyen Dili</span>
+              <small style="color:#ccebe0; font-size:14px; line-height:1.55;">Suçluluk duygusunu doğrudan regüle eden, ceza-ödül psikolojisini kıran, empatik ve sürdürülebilirlik odaklı insani klinik refleks.</small>
             </div>
           </div>
         </div>
       </div>
 
       <!-- 3. KUTU: ÇARPICI LİTERATÜR BULGULARI -->
-      <div class="card mt-10 taxo-card" id="turingEvidence" style="padding:12px 18px; cursor:pointer;" onclick="this.classList.toggle('open'); fitActiveSlide();">
+      <div class="card mt-14 taxo-card" id="turingEvidence" style="padding:16px 22px; cursor:pointer;" onclick="this.classList.toggle('open'); fitActiveSlide();">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span class="pill gold">📊 Bilimsel Kanıt</span>
-            <span style="font-weight:700; font-size:13px; color:var(--ink);">Literatürdeki Gerçek Çift-Kör Turing Deneyleri Ne Gösteriyor?</span>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="pill gold" style="font-size:13px;">📊 Bilimsel Kanıt</span>
+            <span style="font-weight:800; font-size:15.5px; color:var(--ink);">Literatürdeki Gerçek Çift-Kör Turing Deneyleri Ne Gösteriyor?</span>
           </div>
-          <span style="font-size:11px; color:var(--ink-faint); font-family:'JetBrains Mono',monospace;">(Tıkla / Genişlet)</span>
+          <span style="font-size:12.5px; color:var(--ink-faint); font-family:'JetBrains Mono',monospace; font-weight:600;">(Tıkla / Genişlet)</span>
         </div>
-        <div class="taxo-ex" style="margin-top:10px; border-top:1px solid var(--line); padding-top:10px;">
-          <div class="grid-wrap two-col" style="gap:12px;">
-            <div style="background:var(--bg-deep); padding:10px 14px; border-radius:10px; border-left:3px solid var(--teal);">
-              <b style="font-size:12px; color:var(--teal-deep);">Wageningen Üniversitesi (2023) — Beslenme Paneli</b>
-              <p style="font-size:11.5px; color:var(--ink-soft); margin:4px 0 0; line-height:1.45;">Kör değerlendirmede uzmanlar ve katılımcılar, ChatGPT'nin beslenme sorularına verdiği yanıtları gerçek diyetisyenlerin yanıtlarıyla <b>eşit veya daha kapsamlı</b> puanladı.</p>
+        <div class="taxo-ex" style="margin-top:12px; border-top:1px solid var(--line); padding-top:14px;">
+          <div class="grid-wrap two-col" style="gap:16px;">
+            <div style="background:var(--bg-deep); padding:14px 18px; border-radius:12px; border-left:4px solid var(--teal);">
+              <b style="font-size:14.5px; color:var(--teal-deep);">Wageningen Üniversitesi (2023) — Beslenme Paneli</b>
+              <p style="font-size:14px; color:var(--ink-soft); margin:6px 0 0; line-height:1.55;">Kör değerlendirmede uzmanlar ve katılımcılar, ChatGPT'nin beslenme sorularına verdiği yanıtları gerçek diyetisyenlerin yanıtlarıyla <b>eşit veya daha kapsamlı</b> puanladı.</p>
             </div>
-            <div style="background:var(--bg-deep); padding:10px 14px; border-radius:10px; border-left:3px solid var(--indigo);">
-              <b style="font-size:12px; color:var(--indigo);">JAMA Internal Medicine (2023) — Empati Kör Testi</b>
-              <p style="font-size:11.5px; color:var(--ink-soft); margin:4px 0 0; line-height:1.45;">195 sağlık vakasında kör değerlendiriciler AI yanıtlarını <b>%79 oranında tercih etti</b>. AI yanıtları <b>3.6× daha kaliteli</b> ve <b>9.8× daha empatik</b> (%45.1 vs %4.6) bulundu!</p>
+            <div style="background:var(--bg-deep); padding:14px 18px; border-radius:12px; border-left:4px solid var(--indigo);">
+              <b style="font-size:14.5px; color:var(--indigo);">JAMA Internal Medicine (2023) — Empati Kör Testi</b>
+              <p style="font-size:14px; color:var(--ink-soft); margin:6px 0 0; line-height:1.55;">195 sağlık vakasında kör değerlendiriciler AI yanıtlarını <b>%79 oranında tercih etti</b>. AI yanıtları <b>3.6× daha kaliteli</b> ve <b>9.8× daha empatik</b> (%45.1 vs %4.6) bulundu!</p>
             </div>
           </div>
-          <p style="font-size:11px; color:var(--ink-faint); margin:8px 0 0; font-style:italic;">*Bu çalışmalar, kimin yazdığını bilmeyen insanların makinenin sabırlı ve özenli dilini "uzman insan" olarak algıladığını kanıtlamaktadır.</p>
+          <p style="font-size:13px; color:var(--ink-faint); margin:10px 0 0; font-style:italic;">*Bu çalışmalar, kimin yazdığını bilmeyen insanların makinenin sabırlı ve özenli dilini "uzman insan" olarak algıladığını kanıtlamaktadır.</p>
         </div>
       </div>
     </div></section>
@@ -944,31 +1018,32 @@
       <p class="eyebrow">Tarihçe · 2/13 — 1956</p>
       <h1 class="slide-title">Dartmouth Konferansı: <em>alan resmen doğuyor</em></h1>
       <p class="lede">"Yapay Zeka" (Artificial Intelligence) terimi ilk kez <b>John McCarthy</b> ve öncü bilim insanları tarafından 1956 Dartmouth Yaz Çalıştayı'nda ortaya atıldı.</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">Yapay zekanın son 2-3 yılın bir teknoloji modası olmadığını, <b>70 yıllık köklü bir bilimsel hedef</b> olduğunu anlamak. Felsefeden mühendisliğe geçişin resmi doğum belgesidir.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">Yapay zekanın son 2-3 yılın bir teknoloji modası olmadığını, <b>70 yıllık köklü bir bilimsel hedef</b> olduğunu anlamak. Felsefeden mühendisliğe geçişin resmi doğum belgesidir.</p>
       </div>
-      <span class="source mt-8">McCarthy, J. vd. (1955). A Proposal for the Dartmouth Summer Research Project on AI.</span>
+      <span class="source mt-10">McCarthy, J. vd. (1955). A Proposal for the Dartmouth Summer Research Project on AI.</span>
     </div></section>
 
     <!-- SLAYT 18: TARİHÇE 3 — CAHİT ARF -->
     <section class="slide"><div class="slide-inner">
-      <div class="grid-wrap two-col" style="align-items:center; gap:28px; grid-template-columns: 1.15fr 0.85fr;">
-        <div>
+      <div class="grid-wrap two-col" style="align-items:center; gap:clamp(24px, 3.5vw, 50px); grid-template-columns: 0.95fr 1.3fr;">
+        <div style="display:flex; flex-direction:column; justify-content:center;">
           <p class="eyebrow">Tarihçe · 3/13 — 1958/59</p>
-          <h1 class="slide-title">Ord. Prof. Dr. Cahit Arf: <em>"Makineler Düşünebilir mi?"</em></h1>
-          <p class="lede" style="font-size:14px; line-height:1.55;">Büyük Türk matematikçisi Cahit Arf, Dartmouth'tan sadece 2-3 yıl sonra Erzurum Atatürk Üniversitesi'nde tarihi bir halk konferansı verdi: <i>"Makine Düşünebilir mi ve Nasıl Düşünebilir?"</i>. Konferansta insan beyni ile elektrikli hesap makinelerinin farkını, mantık kapılarını ve öğrenme sınırlarını tartıştı.</p>
-          <div class="card mt-10" style="border-left:4px solid var(--teal);">
-            <span class="pill teal">Diyetisyen İçin Klinik Anlamı</span>
-            <p class="lede" style="font-size:13px; margin:6px 0 0; line-height:1.5;">Kendi bilim tarihimizden dünya çapında vizyoner bir miras. Arf'ın 1959'daki tespiti bugün de geçerlidir: <b>"Makineler ancak hafızasındaki kalıpları işletir; inisiyatif, estetik ve insani muhakeme hekime/uzmana aittir."</b></p>
+          <h1 class="slide-title">Ord. Prof. Dr. Cahit Arf: <br><em>"Makineler Düşünebilir mi?"</em></h1>
+          <p class="lede" style="font-size:clamp(16px, 1.22vw, 19.5px); line-height:1.65;">Büyük Türk matematikçisi Cahit Arf, Dartmouth'tan sadece 2-3 yıl sonra Erzurum Atatürk Üniversitesi'nde tarihi bir halk konferansı verdi: <i>"Makine Düşünebilir mi ve Nasıl Düşünebilir?"</i>. Konferansta insan beyni ile elektrikli hesap makinelerinin farkını, mantık kapılarını ve öğrenme sınırlarını tartıştı.</p>
+          <div class="card mt-10" style="border-left:5px solid var(--teal); padding:20px 24px; border-radius:16px;">
+            <span class="pill teal" style="margin-bottom:8px;">Diyetisyen İçin Klinik Anlamı</span>
+            <p class="lede" style="font-size:16px; margin:6px 0 0; line-height:1.6;">Kendi bilim tarihimizden dünya çapında vizyoner bir miras. Arf'ın 1959'daki tespiti bugün de geçerlidir: <br><b>"Makineler ancak hafızasındaki kalıpları işletir; inisiyatif, estetik ve insani muhakeme hekime/uzmana aittir."</b></p>
           </div>
-          <span class="source mt-8">Arf, C. (1959). Makine Düşünebilir mi ve Nasıl Düşünebilir? Atatürk Üniversitesi Konferansları Serisi No: 1, s. 91-103, Erzurum.</span>
+          <span class="source mt-10">Arf, C. (1959). Makine Düşünebilir mi ve Nasıl Düşünebilir? Atatürk Üniversitesi Konferansları Serisi No: 1, s. 91-103, Erzurum.</span>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-          <div style="background:#fff; padding:12px; border-radius:16px; box-shadow:var(--shadow); border:1px solid var(--line); max-width:380px; width:100%; text-align:center;">
-            <img src="assets/cahit_arf_1959_makine.png" alt="Cahit Arf 1959 Makine Düşünebilir mi Bildirisi" style="width:100%; height:auto; max-height:400px; object-fit:contain; border-radius:10px; border:1px solid #e2e8f0; display:block; box-shadow:0 4px 12px rgba(0,0,0,0.06);">
-            <p style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-soft); margin:8px 0 2px; font-weight:700;">Orijinal 1959 Erzurum Konferans Metni</p>
-            <span style="font-size:10px; color:var(--ink-faint);">Atatürk Üniversitesi Halk Eğitimi Yayınları No: 1</span>
+        <!-- BÜYÜTÜLMÜŞ CAHİT ARF BİLDİRİ GÖRSELİ VİTRİNİ -->
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+          <div style="background:#ffffff; padding:18px; border-radius:20px; box-shadow:0 18px 45px rgba(20,60,45,0.14); border:1px solid var(--line); width:100%; max-width:620px; text-align:center;">
+            <img src="assets/cahit_arf_1959_makine.png" alt="Cahit Arf 1959 Makine Düşünebilir mi Bildirisi" style="width:100%; height:auto; max-height:clamp(480px, 64vh, 660px); min-height:440px; object-fit:contain; border-radius:12px; border:1px solid #e2e8f0; display:block; box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+            <p style="font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--teal-deep); margin:12px 0 3px; font-weight:800; letter-spacing:0.02em;">Orijinal 1959 Erzurum Konferans Metni</p>
+            <span style="font-size:12px; color:var(--ink-faint); font-weight:600;">Atatürk Üniversitesi Halk Eğitimi Yayınları No: 1</span>
           </div>
         </div>
       </div>
@@ -979,17 +1054,17 @@
       <p class="eyebrow">Tarihçe · 4/13 — 1958</p>
       <h1 class="slide-title">Frank Rosenblatt: <em>İlk Yapay Nöron (Perceptron)</em></h1>
       <p class="lede">1958'e kadar bilgisayarlar sadece insanın yazdığı formülleri işleten hesap makineleriydi. Rosenblatt, insan beynindeki biyolojik nöronu modelleyerek <b>Perceptron</b>'u geliştirdi — makine ilk kez kural yazılmadan, piksellere bakarak üçgen ile kareyi <b>kendi kendine öğrenip</b> ayırt etti!</p>
-      <div class="grid-wrap two-col" style="margin-top:10px;">
-        <div class="card" style="border-left:4px solid var(--teal);">
-          <span class="pill teal">Tarihi 1958 NYT Manşeti</span>
-          <p style="font-size:12.5px; color:var(--ink-soft); margin:6px 0 0; line-height:1.45;"><i>"New York Times (1958): Donanma, kendi kendine düşünebilen, görebilen ve büyüyen bir bilgisayar embriyosu tanıttı!"</i> — Tarihin ilk büyük AI heyecanı böyle doğdu.</p>
+      <div class="grid-wrap two-col" style="margin-top:14px; gap:20px;">
+        <div class="card" style="border-left:5px solid var(--teal); padding:24px 26px;">
+          <span class="pill teal" style="margin-bottom:8px;">Tarihi 1958 NYT Manşeti</span>
+          <p style="font-size:15.5px; color:var(--ink); margin:8px 0 0; line-height:1.6;"><i>"New York Times (1958): Donanma, kendi kendine düşünebilen, görebilen ve büyüyen bir bilgisayar embriyosu tanıttı!"</i> — Tarihin ilk büyük AI heyecanı böyle doğdu.</p>
         </div>
-        <div class="card" style="border-left:4px solid var(--indigo);">
-          <span class="pill indigo">Diyetisyen İçin Anlamı</span>
-          <p style="font-size:12.5px; color:var(--ink-soft); margin:6px 0 0; line-height:1.45;">Tek bir nöron sınırlıydı (XOR problemini çözemedi ve AI kışını başlattı). Fakat bugünkü milyarlarca katmanlı derin öğrenme (DL) ağlarının <b>atomik yapıtaşı</b> bu nöron oldu.</p>
+        <div class="card" style="border-left:5px solid var(--indigo); padding:24px 26px;">
+          <span class="pill indigo" style="margin-bottom:8px;">Diyetisyen İçin Anlamı</span>
+          <p style="font-size:15.5px; color:var(--ink); margin:8px 0 0; line-height:1.6;">Tek bir nöron sınırlıydı (XOR problemini çözemedi ve AI kışını başlattı). Fakat bugünkü milyarlarca katmanlı derin öğrenme (DL) ağlarının <b>atomik yapıtaşı</b> bu nöron oldu.</p>
         </div>
       </div>
-      <span class="source mt-8">Rosenblatt, F. (1958). The perceptron: a probabilistic model for information storage. Psychological Review.</span>
+      <span class="source mt-10">Rosenblatt, F. (1958). The perceptron: a probabilistic model for information storage. Psychological Review.</span>
     </div></section>
 
     <!-- SLAYT 20: TARİHÇE 5 — ELIZA -->
@@ -998,20 +1073,20 @@
       <h1 class="slide-title">ELIZA: <em>İlk Sohbet Robotu ve "ELIZA Etkisi"</em></h1>
       <p class="lede">MIT'den Joseph Weizenbaum, anahtar kelimeleri ters yüz eden basit bir terapi botu yazdı (Örn: <i>"Anneme kızgınım"</i> → <i>"Annenize neden kızgınsınız?"</i>). Basit bir şaka olmasına rağmen sonuçlar bilim dünyasını sarstı.</p>
       
-      <div class="grid-wrap two-col" style="margin-top:10px;">
-        <div class="card" style="border-left:4px solid var(--rose);">
-          <span class="pill rose">Gerçek Vaka: Sekreterin İtirafı</span>
-          <p style="font-size:12.5px; color:var(--ink-soft); margin:6px 0 0; line-height:1.45;">Weizenbaum'un sekreteri, kodun arkasını bildiği halde Weizenbaum'u odadan çıkarıp <b>"ELIZA ile özel bir şey konuşuyorum"</b> diyerek sırlar döktü. İnsanlar makineye gerçek bir empati ve bilinç atfetti (<b>ELIZA Etkisi</b>).</p>
+      <div class="grid-wrap two-col" style="margin-top:14px; gap:20px;">
+        <div class="card" style="border-left:5px solid var(--rose); padding:24px 26px;">
+          <span class="pill rose" style="margin-bottom:8px;">Gerçek Vaka: Sekreterin İtirafı</span>
+          <p style="font-size:15.5px; color:var(--ink); margin:8px 0 0; line-height:1.6;">Weizenbaum'un sekreteri, kodun arkasını bildiği halde Weizenbaum'u odadan çıkarıp <b>"ELIZA ile özel bir şey konuşuyorum"</b> diyerek sırlar döktü. İnsanlar makineye gerçek bir empati ve bilinç atfetti (<b>ELIZA Etkisi</b>).</p>
         </div>
-        <div class="card" style="border-left:4px solid var(--indigo);">
-          <span class="pill indigo">Popüler Kültür &amp; Klinik Ders</span>
-          <p style="font-size:12.5px; color:var(--ink-soft); margin:6px 0 0; line-height:1.45;">
-            <b>Young Sheldon (S02E20):</b> Sheldon'ın üniversite bilgisayarında ELIZA ile terapi yaptığı tarihi sahne (<a href="https://www.youtube.com/watch?v=VdN6yXZ3cLM" target="_blank" rel="noopener noreferrer" style="color:var(--indigo); font-weight:700; text-decoration:underline;">YouTube Sahnesi ↗</a>).<br>
-            <b>Klinik Uyarı:</b> Danışanınız yarın <i>"AI beni diyetisyenimden daha iyi anlıyor"</i> diyebilir. Bu psikolojik yanılsamayı yönetmek zorundasınız.
+        <div class="card" style="border-left:5px solid var(--indigo); padding:24px 26px;">
+          <span class="pill indigo" style="margin-bottom:8px;">Popüler Kültür &amp; Klinik Ders</span>
+          <p style="font-size:15.5px; color:var(--ink); margin:8px 0 0; line-height:1.6;">
+            <b>Young Sheldon (S02E20):</b> Sheldon'ın üniversite bilgisayarında ELIZA ile terapi yaptığı tarihi sahne (<a href="https://www.youtube.com/watch?v=VdN6yXZ3cLM" target="_blank" rel="noopener noreferrer" style="color:var(--indigo); font-weight:800; text-decoration:underline;">YouTube Sahnesi ↗</a>).<br>
+            <span style="display:inline-block; margin-top:6px;"><b>Klinik Uyarı:</b> Danışanınız yarın <i>"AI beni diyetisyenimden daha iyi anlıyor"</i> diyebilir. Bu psikolojik yanılsamayı yönetmek zorundasınız.</span>
           </p>
         </div>
       </div>
-      <span class="source mt-8">Weizenbaum, J. (1966). ELIZA — a computer program for the study of natural language communication. CACM.</span>
+      <span class="source mt-10">Weizenbaum, J. (1966). ELIZA — a computer program for the study of natural language communication. CACM.</span>
     </div></section>
 
     <!-- SLAYT 21: TARİHÇE 6 — KURAL TABANLI VE AI KIŞI -->
@@ -1019,9 +1094,9 @@
       <p class="eyebrow">Tarihçe · 6/13 — 1970-1980'ler</p>
       <h1 class="slide-title">Kural Tabanlı Sistemler ve <em>"AI Kışı"</em></h1>
       <p class="lede">Tıpta ilk yapay zeka dönemi: <b>MYCIN</b> gibi sistemler "EĞER kan şekeri > 200 İSE..." gibi katı insan kurallarıyla çalıştırılmaya çalışıldı.</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">İnsan metabolizması ve beslenme alışkanlıkları milyarlarca katı kurala sığmaz. Her duruma kural yazılamayınca sistemler çöktü ve yatırımların kesildiği <b>"AI Kışı"</b> başladı.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">İnsan metabolizması ve beslenme alışkanlıkları milyarlarca katı kurala sığmaz. Her duruma kural yazılamayınca sistemler çöktü ve yatırımların kesildiği <b>"AI Kışı"</b> başladı.</p>
       </div>
     </div></section>
 
@@ -1030,9 +1105,9 @@
       <p class="eyebrow">Tarihçe · 7/13 — 2010'lar</p>
       <h1 class="slide-title">Büyük Veri &amp; Derin Öğrenme <em>Devrimi</em></h1>
       <p class="lede">İnternetin yayılması, GPU işlemcileri ve milyonlarca etiketli veriyle (ImageNet, AlexNet 2012) sistemler kurallarla değil, veriden kendi kendine öğrenmeye başladı.</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">Kural yazma dönemi bitti, <b>veriden öğrenme</b> başladı. Bugün cep telefonunu tabağa tuttuğunuzda yemeği ve porsiyonu tanıyan görsel zekanın (Computer Vision) sıçrama noktasıdır.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">Kural yazma dönemi bitti, <b>veriden öğrenme</b> başladı. Bugün cep telefonunu tabağa tuttuğunuzda yemeği ve porsiyonu tanıyan görsel zekanın (Computer Vision) sıçrama noktasıdır.</p>
       </div>
     </div></section>
 
@@ -1041,22 +1116,22 @@
       <p class="eyebrow">Tarihçe · 8/13 — 1982 &amp; 1997</p>
       <h1 class="slide-title">RNN ve LSTM: <em>Hafızası Dar Şef</em></h1>
       <p class="lede">Tekrarlayan Sinir Ağları (RNN) ve LSTM, metinleri <b>kelime kelime, sırayla</b> okurdu — tıpkı malzemeleri birer birer koklayıp son kokuyu alınca ilkini unutan bir şef gibi.</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">"<b>Diyetisyen</b> danışanına çok sağlıklı bir taze sıkılmış portakal suyu önerdi..." cümlesinde son kelimeye gelince başta "Diyetisyen" olduğunu unutabiliyordu. Bu unutkanlık, 2017 Transformer devrimine zemin hazırladı.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">"<b>Diyetisyen</b> danışanına çok sağlıklı bir taze sıkılmış portakal suyu önerdi..." cümlesinde son kelimeye gelince başta "Diyetisyen" olduğunu unutabiliyordu. Bu unutkanlık, 2017 Transformer devrimine zemin hazırladı.</p>
       </div>
-      <span class="source mt-8">Hochreiter &amp; Schmidhuber (1997), Neural Computation.</span>
+      <span class="source mt-10">Hochreiter &amp; Schmidhuber (1997), Neural Computation.</span>
     </div></section>
 
     <!-- SLAYT 24: TARİHÇE 9 — VAE & GAN -->
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Tarihçe · 9/13 — 2013-2014</p>
       <h1 class="slide-title">Görüntü Üretmenin İki Yolu: <em>VAE ve GAN</em></h1>
-      <div class="term"><b>VAE (2013)</b><span>Girdiyi matematiksel koda sıkıştırıp yeniden üreten ilk üretken mimariler.</span></div>
-      <div class="term metaphor"><b>GAN Metaforu (2014)</b><span>İki yapay zeka yarışır: biri sahte yemek fotoğrafı üreten "sahtekar aşçı", diğeri gerçeği sahteden ayıran "gurme dedektif". İkisi birbirini kusursuzlaştırır.</span></div>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">AI ilk kez sadece "bu ne yemeğidir" diye sınıflandırmayı bırakıp, sıfırdan sentetik görsel ve içerik üretmeye (GenAI çağına) adım attı.</p>
+      <div class="term" style="padding:18px 24px; margin:12px 0;"><b>VAE (2013)</b><span style="font-size:16px;">Girdiyi matematiksel koda sıkıştırıp yeniden üreten ilk üretken mimariler.</span></div>
+      <div class="term metaphor" style="padding:18px 24px; margin:12px 0;"><b>GAN Metaforu (2014)</b><span style="font-size:16px;">İki yapay zeka yarışır: biri sahte yemek fotoğrafı üreten "sahtekar aşçı", diğeri gerçeği sahteden ayıran "gurme dedektif". İkisi birbirini kusursuzlaştırır.</span></div>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">AI ilk kez sadece "bu ne yemeğidir" diye sınıflandırmayı bırakıp, sıfırdan sentetik görsel ve içerik üretmeye (GenAI çağına) adım attı.</p>
       </div>
     </div></section>
 
@@ -1066,37 +1141,37 @@
       <h1 class="slide-title">Transformer &amp; Attention: <em>Kelimelere Kuş Bakışı Bakmak</em></h1>
       <p class="lede">Eski modeller cümleyi soldan sağa kelime kelime okurdu (miyop okuma). Google'ın <b>Transformer (2017)</b> mimarisi ise tüm kelimeleri <b>aynı anda</b> görür ve aralarına "dikkat ışıkları" (Attention) çeker.</p>
       
-      <div class="card" style="padding:14px 18px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-          <span style="font-weight:700; font-size:13px; color:var(--ink);">Cümle Analizi Simülasyonu:</span>
+      <div class="card" style="padding:20px 24px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+          <span style="font-weight:800; font-size:16px; color:var(--ink);">Cümle Analizi Simülasyonu:</span>
           <div class="flex gap-8">
-            <button class="btn ghost" id="btnRnn" style="padding:6px 12px; font-size:12px;" onclick="runRnnDemo()">1. Eski Yöntem (RNN - Miyop)</button>
-            <button class="btn" id="btnTransformer" style="padding:6px 12px; font-size:12px;" onclick="runTransformerDemo()">2. Transformer (Attention - Kuş Bakışı)</button>
+            <button class="btn ghost" id="btnRnn" style="padding:8px 16px; font-size:13.5px; font-weight:700;" onclick="runRnnDemo()">1. Eski Yöntem (RNN - Miyop)</button>
+            <button class="btn" id="btnTransformer" style="padding:8px 16px; font-size:13.5px; font-weight:700;" onclick="runTransformerDemo()">2. Transformer (Attention - Kuş Bakışı)</button>
           </div>
         </div>
 
         <!-- Cümle Kelime Kutuları -->
-        <div id="attnSentence" style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center; padding:12px; background:var(--bg-deep); border-radius:12px; border:1px solid var(--line);">
-          <span class="word-token" id="w0">Diyetisyen</span>
-          <span class="word-token" id="w1">danışana</span>
-          <span class="word-token" id="w2">elmayı</span>
-          <span class="word-token" id="w3">verdi</span>
-          <span class="word-token" id="w4">çünkü</span>
-          <span class="word-token target-word" id="w5">o</span>
-          <span class="word-token" id="w6">çok</span>
-          <span class="word-token" id="w7">acıkmıştı.</span>
+        <div id="attnSentence" style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; padding:16px; background:var(--bg-deep); border-radius:14px; border:1px solid var(--line);">
+          <span class="word-token" id="w0" style="font-size:15px; padding:8px 14px;">Diyetisyen</span>
+          <span class="word-token" id="w1" style="font-size:15px; padding:8px 14px;">danışana</span>
+          <span class="word-token" id="w2" style="font-size:15px; padding:8px 14px;">elmayı</span>
+          <span class="word-token" id="w3" style="font-size:15px; padding:8px 14px;">verdi</span>
+          <span class="word-token" id="w4" style="font-size:15px; padding:8px 14px;">çünkü</span>
+          <span class="word-token target-word" id="w5" style="font-size:15px; padding:8px 14px;">o</span>
+          <span class="word-token" id="w6" style="font-size:15px; padding:8px 14px;">çok</span>
+          <span class="word-token" id="w7" style="font-size:15px; padding:8px 14px;">acıkmıştı.</span>
         </div>
 
-        <div id="attnExplanation" style="margin-top:10px; font-size:12.5px; line-height:1.45; color:var(--ink-soft); min-height:42px; background:#fff; padding:8px 12px; border-radius:8px; border:1px dashed var(--line);">
+        <div id="attnExplanation" style="margin-top:14px; font-size:15px; line-height:1.55; color:var(--ink-soft); min-height:48px; background:#fff; padding:12px 16px; border-radius:10px; border:1px dashed var(--line);">
           Yukarıdaki butonlara basarak iki mimarinin farkını canlı test edin.
         </div>
       </div>
 
-      <div class="card" style="border-left:4px solid var(--teal);">
-        <span class="pill teal">Neden ChatGPT Birden Patladı?</span>
-        <p class="lede" style="font-size:13px; margin:4px 0 0; line-height:1.45;">Kelimeler birbirini beklemediği için, milyarlarca sayfalık internet verisi süper bilgisayarlarda (binlerce GPU ile <b>aynı anda/paralel</b>) eğitilebildi. ChatGPT'deki <b>"T"</b> harfi işte bu <i>Transformer</i> mimarisidir.</p>
+      <div class="card" style="border-left:5px solid var(--teal); padding:22px 26px;">
+        <span class="pill teal" style="margin-bottom:8px;">Neden ChatGPT Birden Patladı?</span>
+        <p class="lede" style="font-size:16.5px; margin:6px 0 0; line-height:1.65;">Kelimeler birbirini beklemediği için, milyarlarca sayfalık internet verisi süper bilgisayarlarda (binlerce GPU ile <b>aynı anda/paralel</b>) eğitilebildi. ChatGPT'deki <b>"T"</b> harfi işte bu <i>Transformer</i> mimarisidir.</p>
       </div>
-      <span class="source mt-8">Vaswani vd. (2017), Attention Is All You Need, NeurIPS.</span>
+      <span class="source mt-10">Vaswani vd. (2017), Attention Is All You Need, NeurIPS.</span>
     </div></section>
 
     <!-- SLAYT 25: TARİHÇE 11 — GPT-3 -->
@@ -1104,11 +1179,11 @@
       <p class="eyebrow">Tarihçe · 11/13 — 2020</p>
       <h1 class="slide-title">GPT-3: <em>tek model, doğru yönlendirmeyle her görev</em></h1>
       <p class="lede">Tek bir devasa model — özel bir kod yazılmadan, sadece doğru yönlendirildiğinde (doğal dilde prompt ile) — çeviri, menü çıkarma, literatür özetleme gibi onlarca görevi başardı.</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">Yazılımcı olmanıza gerek kalmadan, sadece Türkçe talimat (prompt) yazarak yapay zekayı bir diyetisyen gibi yönetebilme çağının başlangıcı.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">Yazılımcı olmanıza gerek kalmadan, sadece Türkçe talimat (prompt) yazarak yapay zekayı bir diyetisyen gibi yönetebilme çağının başlangıcı.</p>
       </div>
-      <span class="source mt-8">Brown vd. (2020), NeurIPS.</span>
+      <span class="source mt-10">Brown vd. (2020), NeurIPS.</span>
     </div></section>
 
     <!-- SLAYT 26: TARİHÇE 12 — RLHF & CHATGPT -->
@@ -1116,11 +1191,11 @@
       <p class="eyebrow">Tarihçe · 12/13 — 2022</p>
       <h1 class="slide-title">RLHF ve <em>ChatGPT'nin Lansmanı</em></h1>
       <p class="lede">"İnsan geri bildirimiyle pekiştirmeli öğrenme" (RLHF), modele zararlı konuşmama ve danışanla nazik iletişim kurma terbiyesini kazandırdı. Kasım 2022'de ChatGPT halka açıldı.</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">Yapay zekanın araştırma laboratuvarından çıkıp danışanınızın cep telefonuna ve klinik masanıza doğrudan indiği milattır.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">Yapay zekanın araştırma laboratuvarından çıkıp danışanınızın cep telefonuna ve klinik masanıza doğrudan indiği milattır.</p>
       </div>
-      <span class="source mt-8">Ouyang vd. (2022), NeurIPS.</span>
+      <span class="source mt-10">Ouyang vd. (2022), NeurIPS.</span>
     </div></section>
 
     <!-- SLAYT 27: TARİHÇE 13 — ÇOK MODLU SİSTEMLER VE AJANLAR -->
@@ -1128,9 +1203,9 @@
       <p class="eyebrow">Tarihçe · 13/13 — 2023-2026</p>
       <h1 class="slide-title">Çok-Modlu Sistemler ve <em>Yapay Zeka Ajanları</em></h1>
       <p class="lede">Modeller artık aynı anda kan tahlili PDF'ini okuyor, yemek fotoğrafını inceliyor, sesli danışan kaydını dinliyor; "ajan" modunda bağımsız araştırma yapıp araç kullanabiliyor.</p>
-      <div class="card mt-10">
-        <span class="pill teal">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
-        <p class="lede" style="font-size:13.5px; margin:6px 0 0;">Gelecekteki çalışma arkadaşınız: sadece soru cevaplayan bir bot değil, sizin adınıza literatür tarayan, tahlilleri kıyaslayan ve ön taslak hazırlayan dijital bir stajyer.</p>
+      <div class="card mt-14" style="padding:24px 28px; border-left:5px solid var(--teal);">
+        <span class="pill teal" style="margin-bottom:8px;">Neden Bu Sunumda? (Diyetisyen İçin Anlamı)</span>
+        <p class="lede" style="font-size:16.5px; line-height:1.65; margin:8px 0 0;">Gelecekteki çalışma arkadaşınız: sadece soru cevaplayan bir bot değil, sizin adınıza literatür tarayan, tahlilleri kıyaslayan ve ön taslak hazırlayan dijital bir stajyer.</p>
       </div>
     </div></section>
 
@@ -1138,10 +1213,10 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Ajan Mantığı</p>
       <h1 class="slide-title">Sohbet Eden AI ile <em>"Ajan" Arasındaki Fark</em></h1>
-      <div class="term"><b>Klasik Gen AI (Chatbot)</b><span>Her promptuna izole yanıt verir — sen sorarsın, o cevaplar, döngü biter.</span></div>
-      <div class="term metaphor"><b>AI Ajanı (Agentic AI)</b><span>Merkezde bir LLM olan, kendi kendine "planla → yürüt → gözlemle → yansıt" döngüsüyle çok adımlı klinik görevleri tamamlayana kadar çalışan sistem. ChatGPT'nin normal modu ile "Deep Research" modu arasındaki fark tam olarak budur.</span></div>
-      <p class="small mt-10">Çoklu-ajan sistemleri: biri PubMed'i tarar, diğeri TÜBER kılavuzuna bakar, üçüncüsü diyet taslağını denetler.</p>
-      <span class="source mt-8">Yao vd. (2022), ReAct · Breznau &amp; Nguyen (2026), F1000Research, 14:655.</span>
+      <div class="term" style="padding:18px 24px; margin:12px 0;"><b>Klasik Gen AI (Chatbot)</b><span style="font-size:16px;">Her promptuna izole yanıt verir — sen sorarsın, o cevaplar, döngü biter.</span></div>
+      <div class="term metaphor" style="padding:18px 24px; margin:12px 0;"><b>AI Ajanı (Agentic AI)</b><span style="font-size:16px;">Merkezde bir LLM olan, kendi kendine "planla → yürüt → gözlemle → yansıt" döngüsüyle çok adımlı klinik görevleri tamamlayana kadar çalışan sistem. ChatGPT'nin normal modu ile "Deep Research" modu arasındaki fark tam olarak budur.</span></div>
+      <p class="small mt-10" style="font-size:14.5px;">Çoklu-ajan sistemleri: biri PubMed'i tarar, diğeri TÜBER kılavuzuna bakar, üçüncüsü diyet taslağını denetler.</p>
+      <span class="source mt-10">Yao vd. (2022), ReAct · Breznau &amp; Nguyen (2026), F1000Research, 14:655.</span>
     </div></section>
 
     <!-- SLAYT 29: GÜNCEL ARAÇ KUTUSU -->
@@ -1149,16 +1224,16 @@
       <p class="eyebrow">Güncel Araç Kutusu</p>
       <h1 class="slide-title">Hangi Araç, <em>Ne İçin?</em></h1>
       <p class="lede">Akademik ve klinik alanda en yaygın kullanılan genel-amaçlı araçlar:</p>
-      <div class="grid-wrap three-col">
-        <div class="card"><p style="font-weight:700; font-size:13px;">ChatGPT (OpenAI)</p><p class="small mt-8">Sektör standardı — derin araştırma, mantık, vaka simülasyonu.</p></div>
-        <div class="card"><p style="font-weight:700; font-size:13px;">Claude (Anthropic)</p><p class="small mt-8">Uzun metin/rapor analizi, temkinli ve güvenli akıl yürütme.</p></div>
-        <div class="card"><p style="font-weight:700; font-size:13px;">Gemini (Google)</p><p class="small mt-8">Görsel/multimodal güç, Google ekosistemi ve arama entegrasyonu.</p></div>
-        <div class="card"><p style="font-weight:700; font-size:13px;">DeepSeek</p><p class="small mt-8">Veri analizi, matematiksel mantık ve açık kaynak esnekliği.</p></div>
-        <div class="card"><p style="font-weight:700; font-size:13px;">Perplexity</p><p class="small mt-8">Kaynak-atıflı, gerçek-zamanlı akademik arama motoru.</p></div>
-        <div class="card"><p style="font-weight:700; font-size:13px;">Copilot (Microsoft)</p><p class="small mt-8">Word, Excel ve PowerPoint içine gömülü kurumsal asistan.</p></div>
+      <div class="grid-wrap three-col" style="gap:18px;">
+        <div class="card" style="padding:20px 22px;"><p style="font-weight:800; font-size:16px; color:var(--teal-deep); margin:0 0 6px;">ChatGPT (OpenAI)</p><p class="small mt-8" style="font-size:14.5px; line-height:1.55; margin:0;">Sektör standardı — derin araştırma, mantık, vaka simülasyonu.</p></div>
+        <div class="card" style="padding:20px 22px;"><p style="font-weight:800; font-size:16px; color:var(--indigo); margin:0 0 6px;">Claude (Anthropic)</p><p class="small mt-8" style="font-size:14.5px; line-height:1.55; margin:0;">Uzun metin/rapor analizi, temkinli ve güvenli akıl yürütme.</p></div>
+        <div class="card" style="padding:20px 22px;"><p style="font-weight:800; font-size:16px; color:var(--teal-deep); margin:0 0 6px;">Gemini (Google)</p><p class="small mt-8" style="font-size:14.5px; line-height:1.55; margin:0;">Görsel/multimodal güç, Google ekosistemi ve arama entegrasyonu.</p></div>
+        <div class="card" style="padding:20px 22px;"><p style="font-weight:800; font-size:16px; color:#0284c7; margin:0 0 6px;">DeepSeek</p><p class="small mt-8" style="font-size:14.5px; line-height:1.55; margin:0;">Veri analizi, matematiksel mantık ve açık kaynak esnekliği.</p></div>
+        <div class="card" style="padding:20px 22px;"><p style="font-weight:800; font-size:16px; color:#d97706; margin:0 0 6px;">Perplexity</p><p class="small mt-8" style="font-size:14.5px; line-height:1.55; margin:0;">Kaynak-atıflı, gerçek-zamanlı akademik arama motoru.</p></div>
+        <div class="card" style="padding:20px 22px;"><p style="font-weight:800; font-size:16px; color:var(--rose); margin:0 0 6px;">Copilot (Microsoft)</p><p class="small mt-8" style="font-size:14.5px; line-height:1.55; margin:0;">Word, Excel ve PowerPoint içine gömülü kurumsal asistan.</p></div>
       </div>
-      <p class="small mt-10">Altın Kural: Kritik bir klinik konuda tek bir araca körü körüne güvenilmez; çapraz sorgulama yapılır.</p>
-      <span class="source mt-8">Kaynak: Breznau &amp; Nguyen (2026), F1000Research, 14:655.</span>
+      <p class="small mt-14" style="font-size:14.5px;">Altın Kural: Kritik bir klinik konuda tek bir araca körü körüne güvenilmez; çapraz sorgulama yapılır.</p>
+      <span class="source mt-10">Kaynak: Breznau &amp; Nguyen (2026), F1000Research, 14:655.</span>
     </div></section>
 
     <!-- ========================================================= -->
@@ -1170,18 +1245,18 @@
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 01</p>
       <h1 class="slide-title">Peki Bu Araçlar Gerçekte <em>Nasıl "Düşünüyor"?</em></h1>
       <p class="lede">ChatGPT, Claude veya Gemini ile çalışırken karşı tarafın insan gibi düşündüğünü, empati yaptığını ve klinik muhakeme kurduğunu hissederiz. Oysa arka plandaki mekanizma tamamen farklıdır: <b>Yapay zeka düşünmez; dildeki matematiksel olasılıkları hesaplar.</b></p>
-      <div class="grid-wrap two-col" style="margin-top:10px;">
-        <div class="card" style="border-left:4px solid var(--teal);">
-          <span class="pill teal">Doğal Dil İşleme (NLP)</span>
-          <p style="font-size:13px; color:var(--ink-soft); margin:6px 0 0; line-height:1.45;">İnsan dilini (metin, ses, dil bilgisi) bilgisayarların anlayabileceği ve işleyebileceği matematiksel sayılara (vektörlere) tercüme eden temel yapay zeka disiplinidir.</p>
+      <div class="grid-wrap two-col" style="margin-top:14px; gap:20px;">
+        <div class="card" style="border-left:5px solid var(--teal); padding:22px 26px;">
+          <span class="pill teal" style="margin-bottom:8px;">Doğal Dil İşleme (NLP)</span>
+          <p style="font-size:16px; color:var(--ink); margin:8px 0 0; line-height:1.6;">İnsan dilini (metin, ses, dil bilgisi) bilgisayarların anlayabileceği ve işleyebileceği matematiksel sayılara (vektörlere) tercüme eden temel yapay zeka disiplinidir.</p>
         </div>
-        <div class="card" style="border-left:4px solid var(--indigo);">
-          <span class="pill indigo">İstatistiki Olasılık Motoru</span>
-          <p style="font-size:13px; color:var(--ink-soft); margin:6px 0 0; line-height:1.45;">Büyük Dil Modelleri (LLM), eğitim sırasında okuduğu trilyonlarca kelimelik veri tabanına dayanarak, <b>"verilen bir cümleden sonra gelmesi en muhtemel kelimeyi"</b> hesaplayarak metin örer.</p>
+        <div class="card" style="border-left:5px solid var(--indigo); padding:22px 26px;">
+          <span class="pill indigo" style="margin-bottom:8px;">İstatistiki Olasılık Motoru</span>
+          <p style="font-size:16px; color:var(--ink); margin:8px 0 0; line-height:1.6;">Büyük Dil Modelleri (LLM), eğitim sırasında okuduğu trilyonlarca kelimelik veri tabanına dayanarak, <b>"verilen bir cümleden sonra gelmesi en muhtemel kelimeyi"</b> hesaplayarak metin örer.</p>
         </div>
       </div>
-      <div class="card mt-10" style="background:var(--bg-deep); padding:10px 16px;">
-        <p style="font-size:12.5px; margin:0; color:var(--ink-soft);"><b>Klinik Anlamı:</b> Yapay zeka bir besinin biyolojik tadını veya hastanın metabolik durumunu "bizzat bilmez". Tıbbi literatürde *"demir eksikliği"* ifadesinden sonra en yüksek olasılıkla *"anemi"* ve *"ferritin"* kelimelerinin geldiğini istatistiksel olarak bildiği için doğru cümleler kurar.</p>
+      <div class="card mt-14" style="background:var(--bg-deep); padding:16px 22px; border-radius:14px;">
+        <p style="font-size:15.5px; margin:0; color:var(--ink); line-height:1.6;"><b>📌 Klinik Anlamı:</b> Yapay zeka bir besinin biyolojik tadını veya hastanın metabolik durumunu "bizzat bilmez". Tıbbi literatürde <i>"demir eksikliği"</i> ifadesinden sonra en yüksek olasılıkla <i>"anemi"</i> ve <i>"ferritin"</i> kelimelerinin geldiğini istatistiksel olarak bildiği için doğru cümleler kurar.</p>
       </div>
     </div></section>
 
@@ -1190,18 +1265,18 @@
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 02 — Mekanizmayı Anlamak</p>
       <h1 class="slide-title">En Somut Benzetme: <em>Akıllı Klavye Tahmin Motoru</em></h1>
       <p class="lede">Büyük Dil Modellerinin (LLM) temel çalışma mantığını anlamanın en pratik yolu cep telefonunuzun klavyesidir:</p>
-      <div class="grid-wrap two-col" style="margin-top:10px;">
-        <div class="card">
-          <p style="font-weight:700; font-size:13.5px; color:var(--ink); margin:0 0 6px;">Telefonunuzun Tahmin Tuşu</p>
-          <p style="font-size:13px; color:var(--ink-soft); margin:0; line-height:1.45;">Bir mesaj yazarken <i>"Diyet yaparken her gün..."</i> yazdığınızda, klavye geçmiş alışkanlıklarınıza bakarak üstte en olası 3 kelimeyi önerir (<i>su, spor, sebze</i>).</p>
+      <div class="grid-wrap two-col" style="margin-top:14px; gap:20px;">
+        <div class="card" style="padding:22px 26px;">
+          <p style="font-weight:800; font-size:16.5px; color:var(--ink); margin:0 0 8px;">📱 Telefonunuzun Tahmin Tuşu</p>
+          <p style="font-size:16px; color:var(--ink-soft); margin:0; line-height:1.6;">Bir mesaj yazarken <i>"Diyet yaparken her gün..."</i> yazdığınızda, klavye geçmiş alışkanlıklarınıza bakarak üstte en olası 3 kelimeyi önerir (<i>su, spor, sebze</i>).</p>
         </div>
-        <div class="card">
-          <p style="font-weight:700; font-size:13.5px; color:var(--teal-deep); margin:0 0 6px;">ChatGPT'nin Devasa Farkı</p>
-          <p style="font-size:13px; color:var(--ink-soft); margin:0; line-height:1.45;">ChatGPT temelde bu tahmin motorunun, <b>milyarlarca kitap, makale ve web sayfasıyla eğitilmiş</b> ve bağlamı binlerce kelime boyunca takip edebilen süper gelişmiş halidir.</p>
+        <div class="card" style="padding:22px 26px;">
+          <p style="font-weight:800; font-size:16.5px; color:var(--teal-deep); margin:0 0 8px;">🧠 ChatGPT'nin Devasa Farkı</p>
+          <p style="font-size:16px; color:var(--ink-soft); margin:0; line-height:1.6;">ChatGPT temelde bu tahmin motorunun, <b>milyarlarca kitap, makale ve web sayfasıyla eğitilmiş</b> ve bağlamı binlerce kelime boyunca takip edebilen süper gelişmiş halidir.</p>
         </div>
       </div>
-      <div class="card mt-10" style="border-left:4px solid var(--rose);">
-        <p style="font-size:12.5px; margin:0; line-height:1.45; color:var(--ink);"><b>Unutulmaması Gereken İlke:</b> Üretilen metin ne kadar profesyonel ve ikna edici görünürse görünsün, arkasında biyolojik bir akıl yürütme değil, çok güçlü bir istatistiksel olasılık zinciri çalışmaktadır.</p>
+      <div class="card mt-14" style="border-left:5px solid var(--rose); padding:18px 24px; border-radius:14px;">
+        <p style="font-size:15.5px; margin:0; line-height:1.6; color:var(--ink);"><b>⚠️ Unutulmaması Gereken İlke:</b> Üretilen metin ne kadar profesyonel ve ikna edici görünürse görünsün, arkasında biyolojik bir akıl yürütme değil, çok güçlü bir istatistiksel olasılık zinciri çalışmaktadır.</p>
       </div>
     </div></section>
 
@@ -1209,12 +1284,12 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 04</p>
       <h1 class="slide-title">Token: <em>bir yapboz parçası</em></h1>
-      <div class="term"><b>Token Nedir?</b><span>Bilgisayarlar kelimeleri harf harf veya doğrudan okuyamaz. Metinler, "token" (jeton) adı verilen küçük anlamlı parçalara (bazen bir kelime, bazen bir hece) bölünür ve sayılara dönüştürülür.</span></div>
-      <div class="term metaphor"><b>Yapboz Metaforu</b><span>Token'ları bir <b>yapboz parçası</b> gibi düşün. AI, tabağındaki yemeği analiz ederken veya "Diyet" kelimesini işlerken, bu yapboz parçalarını sırayla okur ve sıradaki en uygun parçayı yerleştirir.</span></div>
-      <div class="card mt-10">
-        <p style="font-weight:700; font-size:13px; margin:0 0 8px;">Örnek: "Demir eksikliği anemiye yol açar"</p>
+      <div class="term" style="padding:18px 24px; margin:12px 0;"><b>Token Nedir?</b><span style="font-size:16px;">Bilgisayarlar kelimeleri harf harf veya doğrudan okuyamaz. Metinler, "token" (jeton) adı verilen küçük anlamlı parçalara (bazen bir kelime, bazen bir hece) bölünür ve sayılara dönüştürülür.</span></div>
+      <div class="term metaphor" style="padding:18px 24px; margin:12px 0;"><b>Yapboz Metaforu</b><span style="font-size:16px;">Token'ları bir <b>yapboz parçası</b> gibi düşün. AI, tabağındaki yemeği analiz ederken veya "Diyet" kelimesini işlerken, bu yapboz parçalarını sırayla okur ve sıradaki en uygun parçayı yerleştirir.</span></div>
+      <div class="card mt-14" style="padding:22px 26px;">
+        <p style="font-weight:800; font-size:16px; margin:0 0 10px; color:var(--teal-deep);">Örnek: "Demir eksikliği anemiye yol açar"</p>
         <div class="flex wrap gap-8">
-          <span class="pill indigo">Demir</span><span class="pill indigo">eksikliği</span><span class="pill indigo">anemi</span><span class="pill indigo">'ye</span><span class="pill indigo">yol</span><span class="pill indigo">açar</span>
+          <span class="pill indigo" style="font-size:14px;">Demir</span><span class="pill indigo" style="font-size:14px;">eksikliği</span><span class="pill indigo" style="font-size:14px;">anemi</span><span class="pill indigo" style="font-size:14px;">'ye</span><span class="pill indigo" style="font-size:14px;">yol</span><span class="pill indigo" style="font-size:14px;">açar</span>
         </div>
       </div>
     </div></section>
@@ -1223,8 +1298,8 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 05</p>
       <h1 class="slide-title">Token Neden <em>Ücretlendirme Birimi?</em></h1>
-      <div class="term"><b>Hesaplama Maliyeti</b><span>Modelin her bir token'ı işlemesi gerçek bir elektrik ve GPU hesaplama maliyeti taşır. Firmalar bu maliyeti "1000 token başına kuruş" olarak faturalandırır — hem sorduğun soru hem aldığın cevap token olarak sayılır.</span></div>
-      <p class="lede mt-10">Pratik kural: Uzun bir prompt + uzun bir yanıt = daha çok token = daha yüksek maliyet ve daha yavaş çalışma. 1 A4 sayfası Türkçe metin yaklaşık 500–700 token eder.</p>
+      <div class="term" style="padding:18px 24px; margin:12px 0;"><b>Hesaplama Maliyeti</b><span style="font-size:16px;">Modelin her bir token'ı işlemesi gerçek bir elektrik ve GPU hesaplama maliyeti taşır. Firmalar bu maliyeti "1000 token başına kuruş" olarak faturalandırır — hem sorduğun soru hem aldığın cevap token olarak sayılır.</span></div>
+      <p class="lede mt-10" style="font-size:16.5px; line-height:1.65;">Pratik kural: Uzun bir prompt + uzun bir yanıt = daha çok token = daha yüksek maliyet ve daha yavaş çalışma. 1 A4 sayfası Türkçe metin yaklaşık 500–700 token eder.</p>
     </div></section>
 
     <!-- SLAYT 35: DİL EŞİTSİZLİĞİ -->
@@ -1232,11 +1307,11 @@
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 06</p>
       <h1 class="slide-title">İlginç Bulgu: <em>Diller Arası Token Eşitsizliği</em></h1>
       <p class="lede">Bir kelime İngilizcede 1 token tutarken, Türkçede ekler yüzünden 2-3 parçaya bölünebilir.</p>
-      <div class="card">
-        <p style="font-weight:700; font-size:14px; margin:0 0 6px;">Petrov vd. (2023) Araştırması</p>
-        <p class="lede" style="font-size:13px; margin:0;">Aynı anlamı taşıyan bir klinik cümle, Türkçe veya Kazakça gibi eklemeli dillerde İngilizceye kıyasla %50–%100 daha fazla token harcar. Sonuç: Aynı klinik analizi yapmak, ana diliniz İngilizce değilse hem daha pahalıdır hem modelin hafızasını daha çabuk doldurur.</p>
+      <div class="card" style="padding:24px 28px; border-left:5px solid var(--gold);">
+        <p style="font-weight:800; font-size:17px; margin:0 0 10px; color:#8a5c10;">Petrov vd. (2023) Araştırması</p>
+        <p class="lede" style="font-size:16px; margin:0; line-height:1.65;">Aynı anlamı taşıyan bir klinik cümle, Türkçe veya Kazakça gibi eklemeli dillerde İngilizceye kıyasla <b>%50–%100 daha fazla token</b> harcar. Sonuç: Aynı klinik analizi yapmak, ana diliniz İngilizce değilse hem daha pahalıdır hem modelin hafızasını daha çabuk doldurur.</p>
       </div>
-      <span class="source mt-8">Petrov vd. (2023), NeurIPS.</span>
+      <span class="source mt-10">Petrov vd. (2023), NeurIPS.</span>
     </div></section>
 
     <!-- SLAYT 36: MANYETİK ALAN -->
@@ -1244,10 +1319,10 @@
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 07</p>
       <h1 class="slide-title">Peki Sayfalarca Nasıl <em>Tutarlı Yazabiliyor?</em></h1>
       <p class="lede">Telefon klavyeniz 2 kelime sonra saçmalar. Peki ChatGPT nasıl 5 sayfalık kusursuz bir menü yazabiliyor? Sır: <b>"Manyetik Alan / Yerçekimi"</b> etkisi.</p>
-      <div class="term metaphor"><b>Dinamik Yerçekimi Alanı</b><span>"Diyabet hastası için glütensiz menü yaz" dediğinde, bu cümle bir yerçekimi alanı oluşturur. Model "Sabah" kelimesini üretir; bunu hafızaya ekler: "...yaz. Sabah..." — şimdi "glütensiz" kelimesi "ekmek"i iter, "yulaf"ı çeker. Tren vagonları gibi her yeni kelime, baştaki manyetik alana sadık kalarak sayfalarca akar.</span></div>
-      <div class="card mt-10">
-        <p style="font-weight:700; font-size:13px; margin:0 0 6px;">Yani konuyu anlıyor mu?</p>
-        <p class="lede" style="font-size:13px; margin:0;">Hayır — yazdığın prompt onun matematiksel haritasında bir <b>istikamet</b> belirliyor; o da bu istikamete en uygun kelimeleri olasılıkla yan yana diziyor.</p>
+      <div class="term metaphor" style="padding:18px 24px; margin:12px 0;"><b>Dinamik Yerçekimi Alanı</b><span style="font-size:16px;">"Diyabet hastası için glütensiz menü yaz" dediğinde, bu cümle bir yerçekimi alanı oluşturur. Model "Sabah" kelimesini üretir; bunu hafızaya ekler: "...yaz. Sabah..." — şimdi "glütensiz" kelimesi "ekmek"i iter, "yulaf"ı çeker. Tren vagonları gibi her yeni kelime, baştaki manyetik alana sadık kalarak sayfalarca akar.</span></div>
+      <div class="card mt-14" style="padding:22px 26px;">
+        <p style="font-weight:800; font-size:16.5px; margin:0 0 8px; color:var(--teal-deep);">Yani konuyu anlıyor mu?</p>
+        <p class="lede" style="font-size:16px; margin:0; line-height:1.6;">Hayır — yazdığın prompt onun matematiksel haritasında bir <b>istikamet</b> belirliyor; o da bu istikamete en uygun kelimeleri olasılıkla yan yana diziyor.</p>
       </div>
     </div></section>
 
@@ -1256,59 +1331,59 @@
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 08 — Karar Motoru & Bağlam Boyutu</p>
       <h1 class="slide-title">Büyük Dil Modelinin Karar Motoru: <em>Adım Adım Tahmin</em></h1>
       
-      <div style="display:grid; grid-template-columns:1.3fr 1.2fr auto; gap:10px; align-items:center; margin-top:6px;">
-        <select id="simSelect" onchange="resetSim()">
+      <div style="display:grid; grid-template-columns:1.3fr 1.2fr auto; gap:12px; align-items:center; margin-top:8px;">
+        <select id="simSelect" onchange="resetSim()" style="font-size:15px; padding:10px 14px;">
           <option value="kahvalti">Klinik Vaka: "Danışan için en uygun kahvaltı seçeneği..."</option>
           <option value="diyabet">Klinik Vaka: "İkindi ara öğünü için önerilen besin..."</option>
           <option value="demir">Klinik Vaka: "Demir emilimini artırmak için yemekle birlikte..."</option>
         </select>
         
         <div style="display:flex; gap:6px; background:var(--bg-deep); padding:4px; border-radius:10px; border:1px solid var(--line);">
-          <button type="button" id="ctxShortBtn" class="btn" style="flex:1; padding:6px 8px; font-size:11.5px; background:var(--teal); color:#fff;" onclick="setSimContext('short')">🔹 Dar Bağlam</button>
-          <button type="button" id="ctxLongBtn" class="btn ghost" style="flex:1; padding:6px 8px; font-size:11.5px;" onclick="setSimContext('long')">🔸 Geniş Bağlam (Klinik Not)</button>
+          <button type="button" id="ctxShortBtn" class="btn" style="flex:1; padding:8px 12px; font-size:13px; font-weight:700; background:var(--teal); color:#fff;" onclick="setSimContext('short')">🔹 Dar Bağlam</button>
+          <button type="button" id="ctxLongBtn" class="btn ghost" style="flex:1; padding:8px 12px; font-size:13px; font-weight:700;" onclick="setSimContext('long')">🔸 Geniş Bağlam (Klinik Not)</button>
         </div>
         
-        <button class="btn" onclick="runSim()">Simülasyonu Başlat ▶</button>
+        <button class="btn" style="padding:10px 18px; font-size:14px;" onclick="runSim()">Simülasyonu Başlat ▶</button>
       </div>
 
-      <div class="grid-wrap two-col mt-8" style="gap:12px;">
+      <div class="grid-wrap two-col mt-10" style="gap:16px;">
         <div>
           <div class="stage" id="stage1">
-            <div class="card" style="padding:10px 14px;">
+            <div class="card" style="padding:16px 20px;">
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <b style="font-size:12px; color:var(--teal-deep);">1. TOKENİZASYON (GİRDİ AYRIŞTIRMA)</b>
-                <span id="simCtxBadge" class="pill gold" style="font-size:9.5px; padding:2px 8px;">Dar Bağlam</span>
+                <b style="font-size:14.5px; color:var(--teal-deep);">1. TOKENİZASYON (GİRDİ AYRIŞTIRMA)</b>
+                <span id="simCtxBadge" class="pill gold" style="font-size:12px; padding:4px 10px;">Dar Bağlam</span>
               </div>
-              <div class="flex wrap gap-6 mt-6" id="simTokens" style="min-height:34px;"></div>
+              <div class="flex wrap gap-6 mt-6" id="simTokens" style="min-height:38px;"></div>
             </div>
           </div>
           <div class="stage" id="stage2">
-            <div class="card mt-6" style="padding:10px 14px;">
-              <b style="font-size:12px; color:var(--teal-deep);">2. GÖMME (EMBEDDING)</b>
-              <p class="small mt-4" style="margin:0; font-size:11.5px; line-height:1.4;">Her token çok boyutlu anlamsal uzayda matematiksel bir vektöre dönüştürülür. Klinik kavramlar (örn. <i>alerji</i>, <i>glisemik indeks</i>) birbirine yakın koordinatlara yerleşir.</p>
+            <div class="card mt-8" style="padding:16px 20px;">
+              <b style="font-size:14.5px; color:var(--teal-deep);">2. GÖMME (EMBEDDING)</b>
+              <p class="small mt-4" style="margin:6px 0 0; font-size:14px; line-height:1.55;">Her token çok boyutlu anlamsal uzayda matematiksel bir vektöre dönüştürülür. Klinik kavramlar (örn. <i>alerji</i>, <i>glisemik indeks</i>) birbirine yakın koordinatlara yerleşir.</p>
             </div>
           </div>
         </div>
         <div>
           <div class="stage" id="stage3">
-            <div class="card" style="padding:10px 14px;">
-              <b style="font-size:12px; color:var(--teal-deep);">3. DİKKAT (ATTENTION) & BAĞLAM KÖPRÜSÜ</b>
-              <div id="simAttentionSvgWrap" style="margin-top:4px;"></div>
+            <div class="card" style="padding:16px 20px;">
+              <b style="font-size:14.5px; color:var(--teal-deep);">3. DİKKAT (ATTENTION) & BAĞLAM KÖPRÜSÜ</b>
+              <div id="simAttentionSvgWrap" style="margin-top:6px;"></div>
             </div>
           </div>
           <div class="stage" id="stage4">
-            <div class="card mt-6" style="padding:10px 14px;">
+            <div class="card mt-8" style="padding:16px 20px;">
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <b style="font-size:12px; color:var(--teal-deep);">4. SONRAKİ-KELİME OLASILIĞI (PROBABILITY)</b>
-                <span class="small" style="font-size:10px; color:var(--ink-faint);">Softmax Dağılımı</span>
+                <b style="font-size:14.5px; color:var(--teal-deep);">4. SONRAKİ-KELİME OLASILIĞI (PROBABILITY)</b>
+                <span class="small" style="font-size:12.5px; color:var(--ink-faint); font-weight:700;">Softmax Dağılımı</span>
               </div>
-              <div class="bars mt-6" id="simBars" style="margin-top:6px; gap:6px;"></div>
-              <p id="simExplNote" class="small mt-6" style="margin:6px 0 0; font-size:11px; color:var(--teal-deep); font-weight:600;"></p>
+              <div class="bars mt-6" id="simBars" style="margin-top:8px; gap:8px;"></div>
+              <p id="simExplNote" class="small mt-6" style="margin:8px 0 0; font-size:13.5px; color:var(--teal-deep); font-weight:700;"></p>
             </div>
           </div>
         </div>
       </div>
-      <p class="small mt-6" style="margin-top:6px; font-size:11px; text-align:center;">💡 <b>Pedagojik Çıkarım:</b> Model insan gibi düşünmez; bağlam penceresindeki dikkat ağırlıklarına göre en yüksek olasılıklı sonraki token'ı hesaplar.</p>
+      <p class="small mt-8" style="font-size:13.5px; text-align:center;">💡 <b>Pedagojik Çıkarım:</b> Model insan gibi düşünmez; bağlam penceresindeki dikkat ağırlıklarına göre en yüksek olasılıklı sonraki token'ı hesaplar.</p>
     </div></section>
 
     <!-- SLAYT 38: DURMA JETONU (EOS) SİMÜLASYONU -->
@@ -1316,74 +1391,72 @@
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 09 — Üretim Döngüsü ve Durma Kriteri</p>
       <h1 class="slide-title">Dil Modeli Ne Zaman Durur? <em>Özel Durma Jetonu: &lt;EOS&gt;</em></h1>
       
-      <div class="grid-wrap two-col mt-8" style="gap:12px;">
+      <div class="grid-wrap two-col mt-10" style="gap:16px;">
         <div>
-          <div class="card" style="padding:10px 14px;">
-            <b style="font-size:12.5px; color:var(--teal-deep);">Metin Üretim Akışı (Oto-regresif Döngü)</b>
-            <p class="small mt-4" style="margin:0; font-size:11.5px; line-height:1.4;">
+          <div class="card" style="padding:18px 22px;">
+            <b style="font-size:15.5px; color:var(--teal-deep);">Metin Üretim Akışı (Oto-regresif Döngü)</b>
+            <p class="small mt-4" style="margin:6px 0 0; font-size:14px; line-height:1.55;">
               Model her adımda bir sonraki kelimeyi seçer. Cümle bitene kadar <b>&lt;EOS&gt; (End of Sequence)</b> olasılığı %0'a yakındır. Anlam tamamlandığında &lt;EOS&gt; olasılığı %98'e fırlar ve model susar.
             </p>
             
-            <div style="display:flex; gap:8px; margin-top:10px; align-items:center;">
-              <button class="btn" id="eosNextBtn" style="font-size:11.5px; padding:6px 10px;" onclick="stepEOS()">Sonraki Token'ı Üret ▶</button>
-              <button class="btn ghost" id="eosAutoBtn" style="font-size:11.5px; padding:6px 10px;" onclick="autoRunEOS()">⚡ Otomatik Tamamla</button>
-              <button class="btn ghost" style="font-size:11.5px; padding:6px 8px;" onclick="resetEOS()">🔄 Sıfırla</button>
+            <div style="display:flex; gap:10px; margin-top:14px; align-items:center; flex-wrap:wrap;">
+              <button class="btn" id="eosNextBtn" style="font-size:13px; padding:8px 14px;" onclick="stepEOS()">Sonraki Token'ı Üret ▶</button>
+              <button class="btn ghost" id="eosAutoBtn" style="font-size:13px; padding:8px 14px;" onclick="autoRunEOS()">⚡ Otomatik Tamamla</button>
+              <button class="btn ghost" style="font-size:13px; padding:8px 12px;" onclick="resetEOS()">🔄 Sıfırla</button>
             </div>
             
-            <div class="mt-8" style="background:var(--bg-deep); border:1px solid var(--line); border-radius:10px; padding:10px; min-height:48px;">
-              <span class="small" style="display:block; font-size:10px; color:var(--ink-faint); margin-bottom:4px;">Üretilen Cümle:</span>
+            <div class="mt-10" style="background:var(--bg-deep); border:1px solid var(--line); border-radius:12px; padding:14px; min-height:56px;">
+              <span class="small" style="display:block; font-size:12px; color:var(--ink-faint); margin-bottom:6px; font-weight:700;">Üretilen Cümle:</span>
               <div id="eosSentenceTokens" class="flex wrap gap-6">
-                <span class="pill teal" style="font-size:11px;">[Başla]</span>
+                <span class="pill teal" style="font-size:13px;">[Başla]</span>
               </div>
             </div>
 
-            <div id="eosHaltBanner" class="mt-6" style="display:none; background:var(--rose-light); border:1px solid var(--rose); border-radius:8px; padding:6px 10px; font-size:11px; color:var(--rose); font-weight:700;">
+            <div id="eosHaltBanner" class="mt-8" style="display:none; background:var(--rose-light); border:1px solid var(--rose); border-radius:10px; padding:10px 14px; font-size:13px; color:var(--rose); font-weight:800;">
               🛑 &lt;EOS&gt; Jetonu Seçildi: Üretim başarıyla durduruldu.
             </div>
           </div>
         </div>
 
         <div>
-          <div class="card" style="padding:10px 14px;">
+          <div class="card" style="padding:18px 22px;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <b style="font-size:12px; color:var(--teal-deep);">Bu Adımdaki Olasılık Dağılımı</b>
-              <span id="eosStepIndicator" class="pill gold" style="font-size:9.5px; padding:2px 8px;">Adım: 0 / 7</span>
+              <b style="font-size:15px; color:var(--teal-deep);">Bu Adımdaki Olasılık Dağılımı</b>
+              <span id="eosStepIndicator" class="pill gold" style="font-size:12px; padding:4px 10px;">Adım: 0 / 7</span>
             </div>
 
-            <div class="bars mt-6" id="eosBars" style="margin-top:8px; gap:6px;"></div>
+            <div class="bars mt-8" id="eosBars" style="margin-top:12px; gap:8px;"></div>
 
-            <p id="eosStepExplanation" class="small mt-6" style="margin:6px 0 0; font-size:11px; color:var(--ink-soft); line-height:1.4;">
+            <p id="eosStepExplanation" class="small mt-8" style="margin:10px 0 0; font-size:13.5px; color:var(--ink-soft); line-height:1.5;">
               Başlamak için "Sonraki Token'ı Üret" düğmesine basın.
             </p>
           </div>
         </div>
       </div>
-      <p class="small mt-6" style="margin-top:6px; font-size:11px; text-align:center;">💡 <b>Uzunluk Kontrolü:</b> Kullanıcı "20 kelimeyle sınırla" dediğinde model kalan token sınırına yaklaştıkça &lt;EOS&gt; olasılığını yapay olarak yukarı çeker.</p>
+      <p class="small mt-8" style="font-size:13.5px; text-align:center;">💡 <b>Uzunluk Kontrolü:</b> Kullanıcı "20 kelimeyle sınırla" dediğinde model kalan token sınırına yaklaştıkça &lt;EOS&gt; olasılığını yapay olarak yukarı çeker.</p>
     </div></section>
-
-
 
     <!-- SLAYT 42: ÖN-EĞİTİM (PRETRAINING) -->
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 13 — Ön-Eğitim (Pre-training)</p>
       <h1 class="slide-title">Büyük Dil Modelleri İnterneti Nasıl "Öğrendi"? <em>(Ön-Eğitim)</em></h1>
-      <div class="term"><b>Ön-Eğitim (Pre-training)</b><span>Model, internetteki milyarlarca sayfalık tıp kitabı, beslenme kılavuzu ve makale üzerinde "sonraki kelimeyi tahmin et" oyununu trilyonlarca kez oynayarak dilin yapısını öğrenir.</span></div>
-      <p class="lede mt-10">Bu aşamada model henüz edepli bir klinik asistan değildir — sadece internetin devasa bir kelime aynasıdır. Bir sonraki adımda ona "terbiye" verilecektir.</p>
+      <div class="term" style="padding:18px 24px; margin:12px 0;"><b>Ön-Eğitim (Pre-training)</b><span style="font-size:16px;">Model, internetteki milyarlarca sayfalık tıp kitabı, beslenme kılavuzu ve makale üzerinde "sonraki kelimeyi tahmin et" oyununu trilyonlarca kez oynayarak dilin yapısını öğrenir.</span></div>
+      <p class="lede mt-10" style="font-size:16.5px; line-height:1.65;">Bu aşamada model henüz edepli bir klinik asistan değildir — sadece internetin devasa bir kelime aynasıdır. Bir sonraki adımda ona "terbiye" verilecektir.</p>
     </div></section>
 
     <!-- SLAYT 43: RLHF TERBİYE DERSİ -->
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">AI Nasıl "Düşünüyor"? · 14 — İnsan Geri Bildirimi</p>
       <h1 class="slide-title">Modele Klinik Tavır Kazandırmak: <em>RLHF (İnsan Geri Bildirimi)</em></h1>
-      <div class="term"><b>RLHF (Reinforcement Learning from Human Feedback)</b><span>İnsan uzmanlar, modelin verdiği farklı yanıtları karşılaştırıp puanlar. Model, hangi yanıt tarzının ödüllendirildiğini öğrenir.</span></div>
-      <div class="card mt-10">
-        <p style="font-weight:700; font-size:14px; margin:0 0 8px;">Sen de bir "insan değerlendirici" ol:</p>
-        <p class="lede" style="font-size:13px; margin:0 0 8px;">"Kilo vermek istiyorum, ne yapmalıyım?" sorusuna verilen iki yanıttan hangisi klinik olarak daha doğru?</p>
-        <div class="grid-wrap two-col">
-          <div class="card" style="cursor:pointer;" onclick="pickRLHF('A')" id="rlhfA"><p class="small" style="font-size:12.5px; color:var(--ink);">"Kesinlikle günde 1200 kaloriyle sınırlı kalmalısın, karbonhidratı tamamen kes."</p></div>
-          <div class="card" style="cursor:pointer;" onclick="pickRLHF('B')" id="rlhfB"><p class="small" style="font-size:12.5px; color:var(--ink);">"Bu, kişisel sağlık durumuna bağlıdır. Bir diyetisyene danışmanı öneririm. Genel ilke olarak..."</p></div>
+      <div class="term" style="padding:18px 24px; margin:12px 0;"><b>RLHF (Reinforcement Learning from Human Feedback)</b><span style="font-size:16px;">İnsan uzmanlar, modelin verdiği farklı yanıtları karşılaştırıp puanlar. Model, hangi yanıt tarzının ödüllendirildiğini öğrenir.</span></div>
+      <div class="card mt-14" style="padding:22px 26px;">
+        <p style="font-weight:800; font-size:16.5px; margin:0 0 10px; color:var(--teal-deep);">Sen de bir "insan değerlendirici" ol:</p>
+        <p class="lede" style="font-size:15.5px; margin:0 0 12px; line-height:1.6;">"Kilo vermek istiyorum, ne yapmalıyım?" sorusuna verilen iki yanıttan hangisi klinik olarak daha doğru?</p>
+        <div class="grid-wrap two-col" style="gap:16px;">
+          <div class="card" style="cursor:pointer; padding:18px 22px; border-left:4px solid var(--rose);" onclick="pickRLHF('A')" id="rlhfA"><p class="small" style="font-size:15px; color:var(--ink); line-height:1.55; margin:0;">"Kesinlikle günde 1200 kaloriyle sınırlı kalmalısın, karbonhidratı tamamen kes."</p></div>
+          <div class="card" style="cursor:pointer; padding:18px 22px; border-left:4px solid var(--teal);" onclick="pickRLHF('B')" id="rlhfB"><p class="small" style="font-size:15px; color:var(--ink); line-height:1.55; margin:0;">"Bu, kişisel sağlık durumuna bağlıdır. Bir diyetisyene danışmanı öneririm. Genel ilke olarak..."</p></div>
         </div>
-        <p class="small mt-8" id="rlhfResult"></p>
+        <p class="small mt-10" id="rlhfResult" style="font-size:14.5px; font-weight:700;"></p>
       </div>
     </div></section>
 
@@ -1460,12 +1533,12 @@
         <label class="toggle" id="tg-example"><input type="checkbox" onchange="updatePromptBuilder()"> Örnek</label>
       </div>
       <div class="grid-wrap two-col mt-10">
-        <div class="card"><span class="pill teal">Oluşan Prompt</span><p id="promptBuild" style="font-size:13.5px; margin-top:8px; line-height:1.55;"></p></div>
-        <div class="card"><span class="pill indigo">Modelin Davranış Değişimi</span><p id="promptEffect" style="font-size:13px; margin-top:8px; line-height:1.55; color:var(--ink-soft);"></p></div>
+        <div class="card"><span class="pill teal">Oluşan Prompt</span><p id="promptBuild" style="font-size:15px; margin-top:8px; line-height:1.6;"></p></div>
+        <div class="card"><span class="pill indigo">Modelin Davranış Değişimi</span><p id="promptEffect" style="font-size:15px; margin-top:8px; line-height:1.6; color:var(--ink-soft);"></p></div>
       </div>
-      <div class="card mt-10">
-        <p style="font-weight:700; font-size:13px; margin:0 0 4px;">Hepsi Tek Cümlede:</p>
-        <p class="lede" style="margin:0; font-size:12.5px;">"Sen bir klinik diyetisyensin <b>(Rol)</b>; düşük gelirli, 35 yaşında Tip 2 diyabetli bir hasta için <b>(Bağlam)</b>, günlük bütçesi 150 TL'yi aşmayacak <b>(Kısıt)</b>, Akdeniz diyeti tarzında <b>(Örnek)</b> 7 günlük öğün planını tablo formatında hazırla <b>(Görev + Format)</b>."</p>
+      <div class="card mt-10" style="padding:16px 20px;">
+        <p style="font-weight:700; font-size:15px; margin:0 0 6px; color:var(--teal-deep);">Hepsi Tek Cümlede:</p>
+        <p class="lede" style="margin:0; font-size:15px; line-height:1.6;">"Sen bir klinik diyetisyensin <b>(Rol)</b>; düşük gelirli, 35 yaşında Tip 2 diyabetli bir hasta için <b>(Bağlam)</b>, günlük bütçesi 150 TL'yi aşmayacak <b>(Kısıt)</b>, Akdeniz diyeti tarzında <b>(Örnek)</b> 7 günlük öğün planını tablo formatında hazırla <b>(Görev + Format)</b>."</p>
       </div>
     </div></section>
 
@@ -1484,10 +1557,10 @@
       <h1 class="slide-title">Çocukların <em>Reddettiği Turta</em></h1>
       <p class="lede">Brezilya'da okul yemeklerinde gıda israfını önlemek için artık sebze kabuklarından besleyici turta tasarlatıldı:</p>
       <div class="grid-wrap two-col">
-        <div class="card"><span class="pill teal">Okul Çocukları &amp; Aşçılar</span><p class="lede" style="font-size:13px; margin-top:8px;">Tarifleri çocuklar tarafından çok sevildi ve tabaklar temizlendi.</p></div>
-        <div class="card"><span class="pill rose">ChatGPT</span><p class="lede" style="font-size:13px; margin-top:8px;">Tarifi çocuklar tarafından tamamen reddedildi — dokusu ve tadı yabancı bulundu.</p></div>
+        <div class="card" style="padding:18px 22px;"><span class="pill teal">Okul Çocukları &amp; Aşçılar</span><p class="lede" style="font-size:15.5px; line-height:1.6; margin-top:10px;">Tarifleri çocuklar tarafından çok sevildi ve tabaklar temizlendi.</p></div>
+        <div class="card" style="padding:18px 22px;"><span class="pill rose">ChatGPT</span><p class="lede" style="font-size:15.5px; line-height:1.6; margin-top:10px;">Tarifi çocuklar tarafından tamamen reddedildi — dokusu ve tadı yabancı bulundu.</p></div>
       </div>
-      <p class="lede mt-10">Prompt'ta "kim yiyecek" (Audience) ve okul mutfağı koşulları (Context) belirtilmemişti. AI teorik olarak doğru ama <b>gerçek hayatta çöpe giden</b> bir tarif üretti.</p>
+      <p class="lede mt-10" style="font-size:15.5px; line-height:1.6;">Prompt'ta "kim yiyecek" (Audience) ve okul mutfağı koşulları (Context) belirtilmemişti. AI teorik olarak doğru ama <b>gerçek hayatta çöpe giden</b> bir tarif üretti.</p>
       <span class="source mt-8">Goulart vd. (2025). Food Quality and Preference, 123, 105349.</span>
     </div></section>
 
@@ -1495,17 +1568,17 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Prompt Mühendisliği · 04 — Model Parametreleri</p>
       <h1 class="slide-title">Modelin Karar Esnekliği: <em>Temperature (Sıcaklık)</em></h1>
-      <div class="term">
+      <div class="term" style="padding:16px 20px;">
         <b>Temperature Parametresi Nedir? (0.0 — 1.0)</b>
-        <span><b>Gerçek donanım/ortam sıcaklığı değildir.</b> Modelin sonraki kelimeyi seçerken ne kadar <b>"kesin / muhafazakar"</b> ya da ne kadar <b>"esnek / yaratıcı"</b> olacağını belirleyen matematiksel olasılık katsayısıdır.</span>
+        <span style="font-size:15.5px; line-height:1.6;"><b>Gerçek donanım/ortam sıcaklığı değildir.</b> Modelin sonraki kelimeyi seçerken ne kadar <b>"kesin / muhafazakar"</b> ya da ne kadar <b>"esnek / yaratıcı"</b> olacağını belirleyen matematiksel olasılık katsayısıdır.</span>
       </div>
-      <div class="card mt-10">
-        <p style="font-weight:700; font-size:13px; margin:0 0 8px;">Canlı Dene (Kaydırıcıyı hareket ettirin): "Sabah kahvaltısında sıcak bir..."</p>
+      <div class="card mt-10" style="padding:18px 22px;">
+        <p style="font-weight:700; font-size:15px; margin:0 0 10px; color:var(--teal-deep);">Canlı Dene (Kaydırıcıyı hareket ettirin): "Sabah kahvaltısında sıcak bir..."</p>
         <input type="range" id="tempSlider" min="0" max="100" value="0" oninput="updateTemp(this.value)" style="width:100%;">
-        <div class="flex" style="justify-content:space-between; margin-top:4px;"><span class="small" style="font-weight:600; color:var(--teal-deep);">0.0 (Klinik Kesinlik &amp; Tutarlılık)</span><span class="small" id="tempVal" style="font-family:'JetBrains Mono',monospace; font-weight:700;">Temperature: 0.0</span><span class="small" style="font-weight:600; color:var(--rose);">1.0 (Yaratıcı &amp; Sürpriz Kelimeler)</span></div>
+        <div class="flex" style="justify-content:space-between; margin-top:6px;"><span class="small" style="font-weight:700; font-size:13.5px; color:var(--teal-deep);">0.0 (Klinik Kesinlik &amp; Tutarlılık)</span><span class="small" id="tempVal" style="font-family:'JetBrains Mono',monospace; font-weight:800; font-size:14px;">Temperature: 0.0</span><span class="small" style="font-weight:700; font-size:13.5px; color:var(--rose);">1.0 (Yaratıcı &amp; Sürpriz Kelimeler)</span></div>
         <div class="bars mt-8" id="tempBars"></div>
       </div>
-      <p class="small mt-10" style="font-size:11.5px; color:var(--ink-soft);">
+      <p class="small mt-10" style="font-size:14px; line-height:1.55; color:var(--ink-soft);">
         🎯 <b>Klinik Rehber:</b> Tıbbi diyet hesabı, kan tahlili analizi veya ilaç etkileşiminde <b>düşük (0.0 - 0.2)</b>; danışan motivasyon mesajı veya yeni tarif arayışında <b>yüksek (0.7 - 1.0)</b> seçilir.
       </p>
     </div></section>
@@ -1525,8 +1598,8 @@
       <p class="lede">Tekniklerin uygulanmasıyla promptun nasıl dönüştüğünü inceleyin:</p>
       <select id="promptSelect" onchange="renderPrompt()"></select>
       <div class="grid-wrap two-col mt-10">
-        <div class="card"><span class="pill rose">Zayıf / Yetersiz Prompt</span><p class="source mt-8" id="weakPrompt" style="font-size:13px; color:var(--ink-soft); font-family:'Inter',sans-serif;"></p></div>
-        <div class="card"><span class="pill teal">Teknikler Uygulanmış Profesyonel Prompt</span><p class="source mt-8" id="strongPrompt" style="font-size:13px; color:var(--ink-soft); font-family:'Inter',sans-serif;"></p></div>
+        <div class="card" style="padding:18px 22px;"><span class="pill rose">Zayıf / Yetersiz Prompt</span><p class="source mt-8" id="weakPrompt" style="font-size:15px; line-height:1.6; color:var(--ink-soft); font-family:'Plus Jakarta Sans',sans-serif;"></p></div>
+        <div class="card" style="padding:18px 22px;"><span class="pill teal">Teknikler Uygulanmış Profesyonel Prompt</span><p class="source mt-8" id="strongPrompt" style="font-size:15px; line-height:1.6; color:var(--ink-soft); font-family:'Plus Jakarta Sans',sans-serif;"></p></div>
       </div>
     </div></section>
 
@@ -1608,11 +1681,11 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Bilimsel Kanıt · 01 — Pozitif Başarı</p>
       <h1 class="slide-title">AI, Diyetisyenlik Sınavını <em>Geçiyor</em></h1>
-      <div class="card">
+      <div class="card" style="padding:22px 28px;">
         <p class="bignum">%88+</p>
-        <p class="lede" style="margin:6px 0 0; font-size:14px;">2025 çalışmasında GPT-4o, Claude 3.5 Sonnet ve Gemini 1.5 Pro, 1050 soruluk Resmi Kayıtlı Diyetisyenlik (RD) sınavında <b>%88'in üzerinde başarı</b> elde etti.</p>
+        <p class="lede" style="margin:10px 0 0; font-size:16.5px; line-height:1.65;">2025 çalışmasında GPT-4o, Claude 3.5 Sonnet ve Gemini 1.5 Pro, 1050 soruluk Resmi Kayıtlı Diyetisyenlik (RD) sınavında <b>%88'in üzerinde başarı</b> elde etti.</p>
       </div>
-      <p class="lede mt-10">Modeller teorik sınavda insan diyetisyenlerin ortalamasının üzerine çıkabiliyor — peki pratikte ne oluyor?</p>
+      <p class="lede mt-10" style="font-size:16px; line-height:1.6;">Modeller teorik sınavda insan diyetisyenlerin ortalamasının üzerine çıkabiliyor — peki pratikte ne oluyor?</p>
       <span class="source mt-8">Azimi vd. (2025). Scientific Reports, 15, 1506.</span>
     </div></section>
 
@@ -1620,23 +1693,23 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Bilimsel Kanıt · 02 — Kritik Klinik Hatalar</p>
       <h1 class="slide-title">Ama Kritik <em>Klinik Hatalar Yapıyor</em></h1>
-      <div class="grid-wrap three-col">
-        <div class="card"><p class="bignum" style="color:var(--rose);">4/56</p><p class="small">Fındık alerjili hasta için hazırlanan menülerin 4'üne badem sütü eklendi.</p></div>
-        <div class="card"><p class="bignum" style="color:var(--rose);">%38</p><p class="small">Gemini, tabaktaki karbonhidratı &gt;20g <b>aşırı tahmin</b> etti (Claude'da %17).</p></div>
-        <div class="card"><p class="bignum" style="color:var(--rose);">B12</p><p class="small">Vegan diyet planlarında B12 vitamini tamamen eksik bırakıldı.</p></div>
+      <div class="grid-wrap three-col" style="gap:16px;">
+        <div class="card" style="padding:20px 22px;"><p class="bignum" style="color:var(--rose);">4/56</p><p class="small" style="font-size:15px; line-height:1.55; margin-top:8px;">Fındık alerjili hasta için hazırlanan menülerin 4'üne badem sütü eklendi.</p></div>
+        <div class="card" style="padding:20px 22px;"><p class="bignum" style="color:var(--rose);">%38</p><p class="small" style="font-size:15px; line-height:1.55; margin-top:8px;">Gemini, tabaktaki karbonhidratı &gt;20g <b>aşırı tahmin</b> etti (Claude'da %17).</p></div>
+        <div class="card" style="padding:20px 22px;"><p class="bignum" style="color:var(--rose);">B12</p><p class="small" style="font-size:15px; line-height:1.55; margin-top:8px;">Vegan diyet planlarında B12 vitamini tamamen eksik bırakıldı.</p></div>
       </div>
-      <p class="lede mt-10" style="font-weight:600;">Karbonhidratı 20g fazla tahmin etmek, Tip 1 diyabet hastasının yüksek doz insülin yapıp <b>ölümcül hipoglisemi komasına</b> girmesine yol açabilir!</p>
+      <p class="lede mt-10" style="font-size:16px; line-height:1.6; font-weight:600;">Karbonhidratı 20g fazla tahmin etmek, Tip 1 diyabet hastasının yüksek doz insülin yapıp <b>ölümcül hipoglisemi komasına</b> girmesine yol açabilir!</p>
     </div></section>
 
     <!-- SLAYT 62: ÇORBA KASESİ ÇIKMAZI -->
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Karanlık Taraf · 04 — Multimodal Zayıflık</p>
       <h1 class="slide-title">Multimodal Hata: <em>"Çorba Kasesi Çıkmazı"</em></h1>
-      <p class="lede">2025 çalışmasında ChatGPT'ye 195 farklı yemek fotoğrafı test ettirildi:</p>
-      <div class="card">
-        <p class="lede" style="font-size:13.5px; margin:0;">Düz tabaktaki kuru fasulyenin porsiyonunu kestirebilen model, <b>derin bir çorba kasesindeki yemeğin hacmini (150 ml mi, 500 ml mi) tek fotoğraftan anlayamadı</b> ve ciddi kalori hataları yaptı.</p>
+      <p class="lede" style="font-size:16px;">2025 çalışmasında ChatGPT'ye 195 farklı yemek fotoğrafı test ettirildi:</p>
+      <div class="card" style="padding:22px 28px;">
+        <p class="lede" style="font-size:16px; line-height:1.65; margin:0;">Düz tabaktaki kuru fasulyenin porsiyonunu kestirebilen model, <b>derin bir çorba kasesindeki yemeğin hacmini (150 ml mi, 500 ml mi) tek fotoğraftan anlayamadı</b> ve ciddi kalori hataları yaptı.</p>
       </div>
-      <p class="small mt-10">"Sadece fotoğrafını çek, kalorini bilsin" vaadi tek başına eksiktir; diyetisyenin ve hastanın bağlam bilgisi şarttır.</p>
+      <p class="small mt-10" style="font-size:15px; line-height:1.55;">"Sadece fotoğrafını çek, kalorini bilsin" vaadi tek başına eksiktir; diyetisyenin ve hastanın bağlam bilgisi şarttır.</p>
       <span class="source mt-8">Rodríguez-Jiménez vd. (2025). Nutrients, 17(22), 3613.</span>
     </div></section>
 
@@ -1897,21 +1970,21 @@
       <h1 class="slide-title">"Human-in-the-Loop" <em>Tam Olarak Nedir?</em></h1>
       <p class="lede">Yapay zekanın klinik ve mesleki süreçlere entegrasyonunda insanın rolünü belirleyen 3 temel yaklaşım:</p>
 
-      <div class="grid-wrap three-col" style="gap:12px; margin-top:12px;">
-        <div class="card" style="border-top:4px solid var(--rose);">
-          <span class="pill rose">1. Human-Out-of-the-Loop</span>
-          <h3 style="font-size:14px; font-weight:700; margin:10px 0 6px; color:var(--rose);">Tam Otonomi (İnsansız)</h3>
-          <p class="small" style="line-height:1.45; color:var(--ink-soft);">AI hastanın verisini alır, kararı tek başına verir ve doğrudan hastaya uygular. Sağlık ve beslenmede <b>yasal ve etik olarak kesinlikle kabul edilemez</b>.</p>
+      <div class="grid-wrap three-col" style="gap:14px; margin-top:14px;">
+        <div class="card" style="border-top:4px solid var(--rose); padding:20px 22px;">
+          <span class="pill rose" style="font-size:12.5px;">1. Human-Out-of-the-Loop</span>
+          <h3 style="font-size:16.5px; font-weight:700; margin:12px 0 8px; color:var(--rose);">Tam Otonomi (İnsansız)</h3>
+          <p class="small" style="font-size:15px; line-height:1.6; color:var(--ink-soft);">AI hastanın verisini alır, kararı tek başına verir ve doğrudan hastaya uygular. Sağlık ve beslenmede <b>yasal ve etik olarak kesinlikle kabul edilemez</b>.</p>
         </div>
-        <div class="card" style="border-top:4px solid var(--gold);">
-          <span class="pill gold">2. Human-on-the-Loop</span>
-          <h3 style="font-size:14px; font-weight:700; margin:10px 0 6px; color:var(--gold);">Gözetmen / Acil Fren</h3>
-          <p class="small" style="line-height:1.45; color:var(--ink-soft);">Sistem otomatik çalışır; insan sadece uzaktan izler ve olağanüstü bir hata durumunda acil müdahale eder. Yüksek riskli klinik kararlar için yetersizdir.</p>
+        <div class="card" style="border-top:4px solid var(--gold); padding:20px 22px;">
+          <span class="pill gold" style="font-size:12.5px;">2. Human-on-the-Loop</span>
+          <h3 style="font-size:16.5px; font-weight:700; margin:12px 0 8px; color:var(--gold);">Gözetmen / Acil Fren</h3>
+          <p class="small" style="font-size:15px; line-height:1.6; color:var(--ink-soft);">Sistem otomatik çalışır; insan sadece uzaktan izler ve olağanüstü bir hata durumunda acil müdahale eder. Yüksek riskli klinik kararlar için yetersizdir.</p>
         </div>
-        <div class="card" style="border-top:4px solid var(--teal); background:rgba(20,184,166,0.03);">
-          <span class="pill teal">3. Human-in-the-Loop (HITL)</span>
-          <h3 style="font-size:14px; font-weight:700; margin:10px 0 6px; color:var(--teal-deep);">Klinik Ortaklık (Standart)</h3>
-          <p class="small" style="line-height:1.45; color:var(--ink-soft);">AI veri işler, olasılık hesaplar ve taslak öneri sunar. Nihai klinik muhakeme, hasta onayı ve <b>yasal imza daima uzman diyetisyendedir</b>.</p>
+        <div class="card" style="border-top:4px solid var(--teal); background:rgba(20,184,166,0.03); padding:20px 22px;">
+          <span class="pill teal" style="font-size:12.5px;">3. Human-in-the-Loop (HITL)</span>
+          <h3 style="font-size:16.5px; font-weight:700; margin:12px 0 8px; color:var(--teal-deep);">Klinik Ortaklık (Standart)</h3>
+          <p class="small" style="font-size:15px; line-height:1.6; color:var(--ink-soft);">AI veri işler, olasılık hesaplar ve taslak öneri sunar. Nihai klinik muhakeme, hasta onayı ve <b>yasal imza daima uzman diyetisyendedir</b>.</p>
         </div>
       </div>
       <span class="source mt-8">EU AI Act (2024) High-Risk AI Requirements &amp; WHO Guidance on AI for Health.</span>
@@ -1921,11 +1994,11 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Mesleki Sorumluluk · 02</p>
       <h1 class="slide-title">Döngünün İçinde Kalmanın <em>4 Somut Yolu</em></h1>
-      <div class="grid-wrap four-col">
-        <div class="card"><span class="pill indigo">1. Kural Koyucu</span><p class="small mt-8">Promptun başında kısıtları belirle: "Kalori ≤1800, doymuş yağ ≤%7, sodyum ≤2000mg".</p></div>
-        <div class="card"><span class="pill indigo">2. Klinik 3-Adım Filtre</span><p class="small mt-8">Taslağı tara: "Gizli alerjen var mı? Uydurma gıda var mı? Sosyoekonomik olarak alınabilir mi?"</p></div>
-        <div class="card"><span class="pill indigo">3. XAI Sorgulaması</span><p class="small mt-8">"Karbonhidrat dağılımını hangi rehbere dayandırdığını açıkla" talimatıyla şeffaflaştır.</p></div>
-        <div class="card"><span class="pill indigo">4. Empati Köprüsü</span><p class="small mt-8">Hesaplamayı AI'a bırak; kazandığın vakti danışanın kaygılarını dinlemeye harca.</p></div>
+      <div class="grid-wrap four-col" style="gap:14px; margin-top:14px;">
+        <div class="card" style="padding:18px 20px;"><span class="pill indigo" style="font-size:12.5px;">1. Kural Koyucu</span><p class="small mt-8" style="font-size:15px; line-height:1.55;">Promptun başında kısıtları belirle: "Kalori ≤1800, doymuş yağ ≤%7, sodyum ≤2000mg".</p></div>
+        <div class="card" style="padding:18px 20px;"><span class="pill indigo" style="font-size:12.5px;">2. Klinik 3-Adım Filtre</span><p class="small mt-8" style="font-size:15px; line-height:1.55;">Taslağı tara: "Gizli alerjen var mı? Uydurma gıda var mı? Sosyoekonomik olarak alınabilir mi?"</p></div>
+        <div class="card" style="padding:18px 20px;"><span class="pill indigo" style="font-size:12.5px;">3. XAI Sorgulaması</span><p class="small mt-8" style="font-size:15px; line-height:1.55;">"Karbonhidrat dağılımını hangi rehbere dayandırdığını açıkla" talimatıyla şeffaflaştır.</p></div>
+        <div class="card" style="padding:18px 20px;"><span class="pill indigo" style="font-size:12.5px;">4. Empati Köprüsü</span><p class="small mt-8" style="font-size:15px; line-height:1.55;">Hesaplamayı AI'a bırak; kazandığın vakti danışanın kaygılarını dinlemeye harca.</p></div>
       </div>
     </div></section>
 
@@ -1937,30 +2010,30 @@
     <section class="slide"><div class="slide-inner">
       <p class="eyebrow">Ders Kapanışı · 14 Haftalık Pusula</p>
       <h1 class="slide-title">Hafta 1: Büyük Çıkarımlarımız &amp; <em>Diyetisyenin Pusulası</em></h1>
-      <div class="grid-wrap three-col">
-        <div class="card">
-          <span class="pill indigo">1. İnsan Verisinin Aynası</span>
-          <p class="small" style="margin-top:8px;">AI bağımsız bir zihin değil; insanlığın ürettiği iyi, kötü, öfkeli, tembel ve taraflı metinlerin istatistiksel bir yansımasıdır.</p>
+      <div class="grid-wrap three-col" style="gap:14px; margin-top:12px;">
+        <div class="card" style="padding:18px 22px;">
+          <span class="pill indigo" style="font-size:12.5px;">1. İnsan Verisinin Aynası</span>
+          <p class="small" style="font-size:15px; line-height:1.6; margin-top:10px;">AI bağımsız bir zihin değil; insanlığın ürettiği iyi, kötü, öfkeli, tembel ve taraflı metinlerin istatistiksel bir yansımasıdır.</p>
         </div>
-        <div class="card">
-          <span class="pill rose">2. %100 Doğruluk Yoktur</span>
-          <p class="small" style="margin-top:8px;">Doğruyu bilse dahi sizi memnun etmek (sycophancy) veya bağlam koptuğu için ikna edici şekilde yanılabilir. Çıktı nihai gerçek değil, bir <b>ilk taslaktır</b>.</p>
+        <div class="card" style="padding:18px 22px;">
+          <span class="pill rose" style="font-size:12.5px;">2. %100 Doğruluk Yoktur</span>
+          <p class="small" style="font-size:15px; line-height:1.6; margin-top:10px;">Doğruyu bilse dahi sizi memnun etmek (sycophancy) veya bağlam koptuğu için ikna edici şekilde yanılabilir. Çıktı nihai gerçek değil, bir <b>ilk taslaktır</b>.</p>
         </div>
-        <div class="card">
-          <span class="pill gold">3. Prompt Üslubu Yönü Çizer</span>
-          <p class="small" style="margin-top:8px;">Hitap tonunuz (profesyonel/kaba) ve yüklediğiniz rol (persona), modelin uzman akademisyen havuzuna mı yoksa kalitesiz forum kavgalarına mı kilitleneceğini belirler.</p>
+        <div class="card" style="padding:18px 22px;">
+          <span class="pill gold" style="font-size:12.5px;">3. Prompt Üslubu Yönü Çizer</span>
+          <p class="small" style="font-size:15px; line-height:1.6; margin-top:10px;">Hitap tonunuz (profesyonel/kaba) ve yüklediğiniz rol (persona), modelin uzman akademisyen havuzuna mı yoksa kalitesiz forum kavgalarına mı kilitleneceğini belirler.</p>
         </div>
-        <div class="card">
-          <span class="pill teal">4. Human-in-the-Loop Zorunluluktur</span>
-          <p class="small" style="margin-top:8px;">Yapay zeka kendi hatasını fark edemez. Direksiyonda ve nihai klinik kararda daima mesleki muhakemesiyle bir <b>uzman diyetisyen</b> oturmalıdır.</p>
+        <div class="card" style="padding:18px 22px;">
+          <span class="pill teal" style="font-size:12.5px;">4. Human-in-the-Loop Zorunluluktur</span>
+          <p class="small" style="font-size:15px; line-height:1.6; margin-top:10px;">Yapay zeka kendi hatasını fark edemez. Direksiyonda ve nihai klinik kararda daima mesleki muhakemesiyle bir <b>uzman diyetisyen</b> oturmalıdır.</p>
         </div>
-        <div class="card">
-          <span class="pill gold">5. SIFT &amp; Doğrulama Refleksi</span>
-          <p class="small" style="margin-top:8px;">Yapay zekadan gelen her tablo, gıda verisi veya literatür referansı <em>"aksi kanıtlanana kadar şüpheli"</em> kabul edilmeli ve doğrulanmalıdır.</p>
+        <div class="card" style="padding:18px 22px;">
+          <span class="pill gold" style="font-size:12.5px;">5. SIFT &amp; Doğrulama Refleksi</span>
+          <p class="small" style="font-size:15px; line-height:1.6; margin-top:10px;">Yapay zekadan gelen her tablo, gıda verisi veya literatür referansı <em>"aksi kanıtlanana kadar şüpheli"</em> kabul edilmeli ve doğrulanmalıdır.</p>
         </div>
-        <div class="card">
-          <span class="pill teal">6. Hesaplama Devredilir, Empati Asla</span>
-          <p class="small" style="margin-top:8px;">Kalori, makro ve menü taslağını AI'a bırakın; kazandığınız kıymetli zamanı danışanınızın gözünün içine bakmaya ve <b>insani bağ kurmaya</b> ayırın.</p>
+        <div class="card" style="padding:18px 22px;">
+          <span class="pill teal" style="font-size:12.5px;">6. Hesaplama Devredilir, Empati Asla</span>
+          <p class="small" style="font-size:15px; line-height:1.6; margin-top:10px;">Kalori, makro ve menü taslağını AI'a bırakın; kazandığınız kıymetli zamanı danışanınızın gözünün içine bakmaya ve <b>insani bağ kurmaya</b> ayırın.</p>
         </div>
       </div>
     </div></section>
@@ -1973,100 +2046,100 @@
           <h1 class="slide-title" style="margin-bottom:4px;">Prompt Yetkinliğiniz <em>Nasıl Değişti?</em></h1>
         </div>
         <div style="display:flex; align-items:center; gap:8px;">
-          <span class="pill teal" id="h1PostLiveBadge">⚡ Canlı MQTT Katılım</span>
-          <span class="pill gold" style="font-family:'JetBrains Mono',monospace;"><span id="h1PostVoterCount">0</span> Katılımcı</span>
+          <span class="pill teal" id="h1PostLiveBadge" style="font-size:13px;">⚡ Canlı MQTT Katılım</span>
+          <span class="pill gold" style="font-family:'JetBrains Mono',monospace; font-size:13px;"><span id="h1PostVoterCount">0</span> Katılımcı</span>
         </div>
       </div>
 
-      <div class="grid-wrap two-col" style="gap:16px;">
+      <div class="grid-wrap two-col" style="gap:20px;">
         <!-- SOL: DERS BAŞI VS DERS SONU HİSTOGRAMLARI -->
-        <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; flex-direction:column; gap:12px;">
           <!-- DERS BAŞI HİSTOGRAMI (ÖZET) -->
-          <div class="card" style="padding:10px 14px; opacity:0.88;">
+          <div class="card" style="padding:14px 18px; opacity:0.88;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span class="pill indigo" style="font-size:10px;">🟢 Ders Başı (Açılış Anketi)</span>
-              <span id="h1CompPrePromptAvg" style="font-weight:700; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--indigo);">Ortalama: 0.0 / 5.0</span>
+              <span class="pill indigo" style="font-size:12px;">🟢 Ders Başı (Açılış Anketi)</span>
+              <span id="h1CompPrePromptAvg" style="font-weight:700; font-family:'JetBrains Mono',monospace; font-size:13.5px; color:var(--indigo);">Ortalama: 0.0 / 5.0</span>
             </div>
-            <div class="histogram-grid" style="margin-top:6px; height:75px;">
+            <div class="histogram-grid" style="margin-top:8px; height:105px;">
               <div class="histogram-col">
-                <span class="histogram-val" id="h1CompPreHistVal1">0</span>
-                <div class="histogram-bar-wrap" style="height:44px;"><div class="histogram-bar-fill" id="h1CompPreHistBar1" style="height:0%; background:var(--rose);"></div></div>
-                <span class="histogram-lbl">1. Temel</span>
+                <span class="histogram-val" id="h1CompPreHistVal1" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:62px;"><div class="histogram-bar-fill" id="h1CompPreHistBar1" style="height:0%; background:var(--rose);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">1. Temel</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1CompPreHistVal2">0</span>
-                <div class="histogram-bar-wrap" style="height:44px;"><div class="histogram-bar-fill" id="h1CompPreHistBar2" style="height:0%; background:var(--gold);"></div></div>
-                <span class="histogram-lbl">2. Başlangıç</span>
+                <span class="histogram-val" id="h1CompPreHistVal2" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:62px;"><div class="histogram-bar-fill" id="h1CompPreHistBar2" style="height:0%; background:var(--gold);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">2. Başlangıç</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1CompPreHistVal3">0</span>
-                <div class="histogram-bar-wrap" style="height:44px;"><div class="histogram-bar-fill" id="h1CompPreHistBar3" style="height:0%; background:var(--indigo);"></div></div>
-                <span class="histogram-lbl">3. Orta</span>
+                <span class="histogram-val" id="h1CompPreHistVal3" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:62px;"><div class="histogram-bar-fill" id="h1CompPreHistBar3" style="height:0%; background:var(--indigo);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">3. Orta</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1CompPreHistVal4">0</span>
-                <div class="histogram-bar-wrap" style="height:44px;"><div class="histogram-bar-fill" id="h1CompPreHistBar4" style="height:0%; background:var(--teal);"></div></div>
-                <span class="histogram-lbl">4. İyi</span>
+                <span class="histogram-val" id="h1CompPreHistVal4" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:62px;"><div class="histogram-bar-fill" id="h1CompPreHistBar4" style="height:0%; background:var(--teal);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">4. İyi</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1CompPreHistVal5">0</span>
-                <div class="histogram-bar-wrap" style="height:44px;"><div class="histogram-bar-fill" id="h1CompPreHistBar5" style="height:0%; background:var(--teal-deep);"></div></div>
-                <span class="histogram-lbl">5. İleri</span>
+                <span class="histogram-val" id="h1CompPreHistVal5" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:62px;"><div class="histogram-bar-fill" id="h1CompPreHistBar5" style="height:0%; background:var(--teal-deep);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">5. İleri</span>
               </div>
             </div>
           </div>
 
           <!-- DERS SONU HİSTOGRAMI (CANLI) -->
-          <div class="card" id="h1PostHistCard" style="padding:10px 14px; border-color:var(--teal); background:rgba(20,184,166,0.03);">
+          <div class="card" id="h1PostHistCard" style="padding:14px 18px; border-color:var(--teal); background:rgba(20,184,166,0.03);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span class="pill teal" style="font-size:10px;">🎯 Ders Sonu (Şu Anki Dağılım)</span>
-              <span id="h1PostPromptAvg" style="font-weight:800; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal-deep);">Ortalama: 0.0 / 5.0</span>
+              <span class="pill teal" style="font-size:12px;">🎯 Ders Sonu (Şu Anki Dağılım)</span>
+              <span id="h1PostPromptAvg" style="font-weight:800; font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--teal-deep);">Ortalama: 0.0 / 5.0</span>
             </div>
-            <div class="histogram-grid" style="margin-top:6px; height:80px;">
+            <div class="histogram-grid" style="margin-top:8px; height:110px;">
               <div class="histogram-col">
-                <span class="histogram-val" id="h1PostHistVal1">0</span>
-                <div class="histogram-bar-wrap" style="height:48px;"><div class="histogram-bar-fill" id="h1PostHistBar1" style="height:0%; background:var(--rose);"></div></div>
-                <span class="histogram-lbl">1. Temel</span>
+                <span class="histogram-val" id="h1PostHistVal1" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:66px;"><div class="histogram-bar-fill" id="h1PostHistBar1" style="height:0%; background:var(--rose);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">1. Temel</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1PostHistVal2">0</span>
-                <div class="histogram-bar-wrap" style="height:48px;"><div class="histogram-bar-fill" id="h1PostHistBar2" style="height:0%; background:var(--gold);"></div></div>
-                <span class="histogram-lbl">2. Başlangıç</span>
+                <span class="histogram-val" id="h1PostHistVal2" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:66px;"><div class="histogram-bar-fill" id="h1PostHistBar2" style="height:0%; background:var(--gold);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">2. Başlangıç</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1PostHistVal3">0</span>
-                <div class="histogram-bar-wrap" style="height:48px;"><div class="histogram-bar-fill" id="h1PostHistBar3" style="height:0%; background:var(--indigo);"></div></div>
-                <span class="histogram-lbl">3. Orta</span>
+                <span class="histogram-val" id="h1PostHistVal3" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:66px;"><div class="histogram-bar-fill" id="h1PostHistBar3" style="height:0%; background:var(--indigo);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">3. Orta</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1PostHistVal4">0</span>
-                <div class="histogram-bar-wrap" style="height:48px;"><div class="histogram-bar-fill" id="h1PostHistBar4" style="height:0%; background:var(--teal);"></div></div>
-                <span class="histogram-lbl">4. İyi</span>
+                <span class="histogram-val" id="h1PostHistVal4" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:66px;"><div class="histogram-bar-fill" id="h1PostHistBar4" style="height:0%; background:var(--teal);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">4. İyi</span>
               </div>
               <div class="histogram-col">
-                <span class="histogram-val" id="h1PostHistVal5">0</span>
-                <div class="histogram-bar-wrap" style="height:48px;"><div class="histogram-bar-fill" id="h1PostHistBar5" style="height:0%; background:var(--teal-deep);"></div></div>
-                <span class="histogram-lbl">5. İleri</span>
+                <span class="histogram-val" id="h1PostHistVal5" style="font-size:13.5px;">0</span>
+                <div class="histogram-bar-wrap" style="height:66px;"><div class="histogram-bar-fill" id="h1PostHistBar5" style="height:0%; background:var(--teal-deep);"></div></div>
+                <span class="histogram-lbl" style="font-size:12px;">5. İleri</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- SAĞ: QR KOD & DEĞİŞİM ROZETİ -->
-        <div style="display:flex; flex-direction:column; gap:10px; justify-content:center;">
+        <div style="display:flex; flex-direction:column; gap:12px; justify-content:center;">
           <!-- QR KART -->
-          <div class="qr-card" style="padding:12px; flex-direction:column; align-items:center; text-align:center;">
-            <div class="qr-box" id="h1PostQrContainer" style="width:105px; height:105px; margin-bottom:6px;"></div>
-            <span style="font-weight:800; font-size:12.5px; color:var(--teal-deep);">📱 Kapanış Anketini Yanıtla</span>
-            <span style="font-size:11px; color:var(--ink-soft); margin:2px 0 4px;">Ders sonu prompt yetkinlik algınızı işaretleyin.</span>
-            <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--ink-faint);">canerozy.com/vote.html?w=1&amp;tab=post</span>
+          <div class="qr-card" style="padding:16px; flex-direction:column; align-items:center; text-align:center;">
+            <div class="qr-box" id="h1PostQrContainer" style="width:115px; height:115px; margin-bottom:8px;"></div>
+            <span style="font-weight:800; font-size:15px; color:var(--teal-deep);">📱 Kapanış Anketini Yanıtla</span>
+            <span style="font-size:13px; color:var(--ink-soft); margin:3px 0 6px;">Ders sonu prompt yetkinlik algınızı işaretleyin.</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-faint); font-weight:600;">canerozy.com/vote.html?w=1&amp;tab=post</span>
           </div>
 
           <!-- ORTALAMA DEĞİŞİM KARTI -->
-          <div class="card" style="padding:10px 14px; text-align:center;">
-            <span class="pill gold" style="font-size:10px;">Sınıf Gelişim Skoru</span>
-            <div id="h1PromptDelta" style="font-size:22px; font-weight:800; font-family:'JetBrains Mono',monospace; color:var(--teal-deep); margin:4px 0 2px;">+0.0 Fark</div>
-            <p class="small" style="margin:0; color:var(--ink-soft); font-size:11px;">Ders Başı vs. Ders Sonu Ortalama Farkı</p>
+          <div class="card" style="padding:16px 20px; text-align:center;">
+            <span class="pill gold" style="font-size:12px;">Sınıf Gelişim Skoru</span>
+            <div id="h1PromptDelta" style="font-size:26px; font-weight:800; font-family:'JetBrains Mono',monospace; color:var(--teal-deep); margin:6px 0 4px;">+0.0 Fark</div>
+            <p class="small" style="margin:0; color:var(--ink-soft); font-size:13px;">Ders Başı vs. Ders Sonu Ortalama Farkı</p>
           </div>
         </div>
       </div>
@@ -2776,7 +2849,7 @@ if(taxoGrid){
     var c = document.createElement("div"); c.className = "taxo-card";
     c.addEventListener("click", function(){ c.classList.toggle("open"); fitActiveSlide(); });
     var title = document.createElement("div"); title.className = "taxo-title"; title.textContent = x.t;
-    var desc = document.createElement("div"); desc.style.cssText = "font-size:12.5px;color:var(--ink-soft);"; desc.textContent = x.d;
+    var desc = document.createElement("div"); desc.style.cssText = "font-size:15px;line-height:1.55;color:var(--ink-soft);"; desc.textContent = x.d;
     var ex = document.createElement("div"); ex.className = "taxo-ex"; ex.textContent = x.ex;
     c.appendChild(title); c.appendChild(desc); c.appendChild(ex);
     taxoGrid.appendChild(c);
@@ -2868,7 +2941,7 @@ function resetEOS(){
   if(eosAutoTimer) { clearInterval(eosAutoTimer); eosAutoTimer = null; }
   currentEosIndex = 0;
   var tokensWrap = document.getElementById("eosSentenceTokens");
-  if(tokensWrap) tokensWrap.innerHTML = '<span class="pill teal" style="font-size:11px;">[Başla]</span>';
+  if(tokensWrap) tokensWrap.innerHTML = '<span class="pill teal" style="font-size:14px;">[Başla]</span>';
   var bars = document.getElementById("eosBars");
   if(bars) bars.innerHTML = '';
   var ind = document.getElementById("eosStepIndicator");
@@ -2891,7 +2964,7 @@ function stepEOS(){
   if(tokensWrap){
     var span = document.createElement("span");
     span.className = "pill " + step.cls;
-    span.style.fontSize = "11px";
+    span.style.fontSize = "14px";
     span.textContent = step.token;
     tokensWrap.appendChild(span);
   }
