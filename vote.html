@@ -326,6 +326,96 @@
     from { opacity: 0; transform: translateY(-4px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* ======================================================== */
+  /* BES339 15 DİYET × 4 BOYUT MATRİS TABLOSU STİLLERİ       */
+  /* ======================================================== */
+  .matrix-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    background: #090d16;
+    margin-top: 6px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 440px;
+    font-size: 12px;
+  }
+  .matrix-table th {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 4px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--card-border);
+    text-align: center;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .matrix-table th.col-diet {
+    position: sticky;
+    left: 0;
+    background: #0f172a;
+    z-index: 3;
+    text-align: left;
+    padding-left: 12px;
+    min-width: 125px;
+    border-right: 1.5px solid var(--card-border);
+  }
+  .matrix-table td {
+    padding: 6px 3px;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+    text-align: center;
+  }
+  .matrix-table tr:hover td {
+    background: rgba(30, 41, 59, 0.45);
+  }
+  .matrix-table td.cell-diet {
+    position: sticky;
+    left: 0;
+    background: #0b1120;
+    z-index: 2;
+    text-align: left;
+    padding-left: 12px;
+    border-right: 1.5px solid var(--card-border);
+    white-space: nowrap;
+  }
+  .matrix-table tr:hover td.cell-diet {
+    background: #131d31;
+  }
+  .cell-select {
+    width: 100%;
+    max-width: 66px;
+    height: 32px;
+    background: #1e293b;
+    border: 1.5px solid #334155;
+    border-radius: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: center;
+    text-align-last: center;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .cell-select:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 2px var(--teal-glow);
+  }
+  .cell-select.pos-high { background: rgba(16, 185, 129, 0.3); color: #34d399; border-color: #059669; }
+  .cell-select.pos-mid  { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border-color: #10b981; }
+  .cell-select.pos-low  { background: rgba(16, 185, 129, 0.1); color: #a7f3d0; border-color: #34d399; }
+  .cell-select.zero     { background: #1e293b; color: #94a3b8; border-color: #334155; }
+  .cell-select.neg-low  { background: rgba(244, 63, 94, 0.1); color: #fecdd3; border-color: #fb7185; }
+  .cell-select.neg-mid  { background: rgba(244, 63, 94, 0.2); color: #fda4af; border-color: #f43f5e; }
+  .cell-select.neg-high { background: rgba(244, 63, 94, 0.3); color: #fb7185; border-color: #e11d48; }
+
 </style>
 </head>
 <body>
@@ -589,1040 +679,895 @@
   </div>
 
 
-  <!-- ======================================================== -->
+    <!-- ======================================================== -->
   <!-- BES339 POPÜLER DİYETLER VE ALGI ANKETİ CONTAINER         -->
   <!-- ======================================================== -->
-  <div id="populerContainer" style="display:none; flex-direction:column; gap:16px;">
-    <!-- SEKMELER -->
-    <div class="nav-tabs two-tabs" id="populerTabs">
-      <button class="nav-tab active" onclick="switchPopulerSection('diets')">1. 15 Popüler Diyet</button>
-      <button class="nav-tab" onclick="switchPopulerSection('dilemmas')">2. 4 Bilişsel İkilem</button>
+  <div id="populerContainer" style="display:none; flex-direction:column; gap:20px;">
+
+    <!-- 1. BÖLÜM: 15 POPÜLER DİYET DEĞERLENDİRME MATRİSİ -->
+    <div class="poll-card" style="padding:16px 14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <span class="poll-tag">BES 339 · 1. BÖLÜM</span>
+        <span style="font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--teal); font-weight:700;">15 DİYET × 4 BOYUT</span>
+      </div>
+      <h2 class="poll-title" style="font-size:16px;">Popüler Diyetler Değerlendirme Matrisi</h2>
+      <p class="poll-desc" style="font-size:12.5px; margin-bottom:10px;">
+        15 popüler diyeti 4 boyutta <strong>-3 ile +3</strong> arasında puanlayınız. Kutucuklara dokunarak değeri hızlıca seçebilirsiniz.
+      </p>
+
+      <!-- 4 Boyut Rehberi -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:6px; margin-bottom:12px; font-size:10.5px; font-weight:600;">
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#a7f3d0;">
+          🧠 <strong>Bilgi:</strong> 0 (Fikrim yok) ➔ +3 (Uzmanım)
+        </div>
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#6ee7b7;">
+          🥗 <strong>Sağlık:</strong> -3 (Zararlı) ➔ +3 (Çok Sağlıklı)
+        </div>
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#93c5fd;">
+          🔬 <strong>Kanıt:</strong> -3 (Safsata) ➔ +3 (Güçlü Kanıt)
+        </div>
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#fcd34d;">
+          💊 <strong>Reçete:</strong> -3 (Asla) ➔ +3 (İlk Tercih)
+        </div>
+      </div>
+
+      <!-- MATRİS TABLOSU -->
+      <div class="matrix-wrapper">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th class="col-diet">DİYET</th>
+              <th>🧠 Bilgi<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+              <th>🥗 Sağlık<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+              <th>🔬 Kanıt<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+              <th>💊 Reçete<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-diet="akdeniz">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Akdeniz</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Geleneksel / Kardiyo</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="dash">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">DASH</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Hipertansiyon & Mineral</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="nordic">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Nordic</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">İskandinav / Yerel</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="portfolyo">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Portfolyo</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Sterol & Kolesterol</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="anti_inf">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Anti-inflamatuvar</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Mikrobiyota & İmmün</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="if_oruc">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Aralıklı Oruç (IF)</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">16:8 Sirkadiyen</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="keto">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Ketojenik</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Düşük KH / Ketoz</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="atkins">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Atkins</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Yüksek Pro & Yağ</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="dusuk_yag">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Düşük Yağlı</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Klasik Low-Fat</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="glutensiz">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Glutensiz</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Non-Çölyak Popüler</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="paleo">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Paleolitik</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Taş Devri / Atasal</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="raw_food">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Raw Food</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Çiğ / Canlı Enzim</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="karnivor">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Karnivor</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Sıfır Bitki / Saf Et</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="vegan">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Vegan</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Tamamen Bitkisel</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="dusuk_fodmap">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Düşük FODMAP</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">IBS & Fermente KH</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:8px; text-align:right;">
+        <span style="font-size:11px; color:#64748b; font-style:italic;">* Puanları değiştirmek için kutucuklara dokunun. Varsayılan değer 0'dır (Nötr).</span>
+      </div>
     </div>
 
-    <!-- 1. BÖLÜM: 15 POPÜLER DİYET PUANLAMA -->
-    <div id="populerSectionDiets" class="poll-card">
-      <span class="poll-tag">BES 339 · Açılış Algı Haritası</span>
-      <h2 class="poll-title">Popüler Diyetleri Sağlık ve Reçete Açısından Değerlendirin</h2>
-      <p class="poll-desc">Diyetleri -3 ile +3 arasında puanlayarak kaydırın. (0 = Nötr / Kararsızım)</p>
-
-      <div id="dietsListContainer" style="max-height:65vh; overflow-y:auto; padding-right:4px;">
-        
-      <div class="diet-poll-card" id="diet_akdeniz" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Akdeniz Diyeti</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Kardiyovasküler & Geleneksel Altın Standart</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_akdeniz" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('akdeniz', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_akdeniz" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('akdeniz', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('akdeniz', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('akdeniz', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
+    <!-- 2. BÖLÜM: 4 TEMEL BİLİŞSEL İKİLEM (AYRI SAYFA YOK, DİREKT AŞAĞIDA) -->
+    <div class="poll-card" style="padding:18px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <span class="poll-tag">BES 339 · 2. BÖLÜM</span>
+        <span style="font-size:11px; font-family:'JetBrains Mono',monospace; color:#f59e0b; font-weight:700;">4 KARAR TUZAĞI</span>
       </div>
-    
-      <div class="diet-poll-card" id="diet_dash" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">DASH Diyeti</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Hipertansiyon & Klinik Kanıta Dayalı</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_dash" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dash', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_dash" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dash', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('dash', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('dash', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_nordic" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Nordic (İskandinav) Diyeti</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Bölgesel & Çilek, Somon, Çavdar</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_nordic" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('nordic', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_nordic" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('nordic', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('nordic', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('nordic', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_portfolyo" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Portfolyo Diyeti</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Klinik Kolesterol Düşürücü Dörtlü</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_portfolyo" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('portfolyo', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_portfolyo" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('portfolyo', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('portfolyo', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('portfolyo', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_anti_inf" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Anti-inflamatuvar Diyet</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Sistemik İnflamasyon & Polifenoller</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_anti_inf" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('anti_inf', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_anti_inf" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('anti_inf', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('anti_inf', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('anti_inf', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_if_oruc" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Aralıklı Oruç (IF 16:8)</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Zaman Kısıtlı Beslenme & Otofaji</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_if_oruc" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('if_oruc', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_if_oruc" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('if_oruc', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('if_oruc', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('if_oruc', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_keto" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Ketojenik Diyet</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Çok Düşük KH (<%5) & Yüksek Yağ, Ketozis</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_keto" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('keto', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_keto" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('keto', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('keto', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('keto', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_atkins" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Atkins Diyeti</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Yüksek Protein & Kademeli Karbonhidrat</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_atkins" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('atkins', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_atkins" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('atkins', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('atkins', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('atkins', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_dusuk_yag" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Düşük Yağlı (Low-Fat) Diyet</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Klasik 1990'lar Modeli (<%20 Yağ)</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_dusuk_yag" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_yag', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_dusuk_yag" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_yag', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('dusuk_yag', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('dusuk_yag', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_glutensiz" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Glutensiz Diyet</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Çölyaksız Bireylerde Popüler Kullanım</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_glutensiz" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('glutensiz', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_glutensiz" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('glutensiz', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('glutensiz', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('glutensiz', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_paleo" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Paleolitik Diyet</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Avcı-Toplayıcı Biyomimetik & Tahılsız</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_paleo" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('paleo', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_paleo" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('paleo', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('paleo', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('paleo', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_raw_food" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Çiğ Beslenme (Raw Food)</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Pişmemiş Gıda (>%70) & Canlı Enzimler</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_raw_food" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('raw_food', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_raw_food" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('raw_food', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('raw_food', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('raw_food', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_karnivor" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Karnivor Diyet</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Sıfır Karbonhidrat, Yalnızca Hayvansal</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_karnivor" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('karnivor', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_karnivor" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('karnivor', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('karnivor', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('karnivor', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_vegan" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Vegan / Bitki Temelli</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Tüm Hayvansal Gıdaların Dışlanması</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_vegan" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('vegan', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_vegan" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('vegan', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('vegan', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('vegan', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      <div class="diet-poll-card" id="diet_dusuk_fodmap" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Düşük FODMAP Diyeti</h4>
-          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Fermente Olabilir Karbonhidrat Kısıtlaması</span>
-        </div>
-
-        <!-- 1. Sağlık Etkisi Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Sağlık Etkisi:</span>
-            <strong id="val_health_dusuk_fodmap" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_fodmap', 'health', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Çok Zararlı)</span>
-            <span>0</span>
-            <span>+3 (Çok Sağlıklı)</span>
-          </div>
-        </div>
-
-        <!-- 2. Reçete Eder miydim Slider -->
-        <div style="margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
-            <span>Reçete Eder miydim?:</span>
-            <strong id="val_prescribe_dusuk_fodmap" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
-          </div>
-          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_fodmap', 'prescribe', this.value)">
-          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
-            <span>-3 (Asla Yazmam)</span>
-            <span>0</span>
-            <span>+3 (İlk Tercihim)</span>
-          </div>
-        </div>
-
-        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
-        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
-          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
-              <select onchange="updateDietVal('dusuk_fodmap', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Hiç Duymadım)</option>
-                <option value="-1">-1 (Az Biliyorum)</option>
-                <option value="0" selected>0 (Fikrim Var)</option>
-                <option value="1">+1 (İyi Biliyorum)</option>
-                <option value="3">+3 (Çok Yetkinim)</option>
-              </select>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
-              <select onchange="updateDietVal('dusuk_fodmap', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
-                <option value="-3">-3 (Safsata/Yok)</option>
-                <option value="-1">-1 (Zayıf/Yetersiz)</option>
-                <option value="0" selected>0 (Çelişkili)</option>
-                <option value="1">+1 (Orta Düzey)</option>
-                <option value="3">+3 (GRADE A Güçlü)</option>
-              </select>
-            </div>
-          </div>
-        </details>
-      </div>
-    
-      </div>
-
-      <button class="submit-btn" onclick="switchPopulerSection('dilemmas')" style="margin-top:6px; background:#3b82f6;">
-        <span>İleri: 4 Bilişsel İkileme Geç ➔</span>
-      </button>
-    </div>
-
-    <!-- 2. BÖLÜM: 4 BİLİŞSEL İKİLEM -->
-    <div id="populerSectionDilemmas" class="poll-card" style="display:none;">
-      <span class="poll-tag">BES 339 · Karar Tuzakları</span>
-      <h2 class="poll-title">4 Temel Bilişsel İkilem</h2>
-      <p class="poll-desc">Aşağıdaki vaka senaryolarında ilk klinik refleksinizi dürüstçe seçiniz:</p>
+      <h2 class="poll-title" style="font-size:16px;">Bilişsel Önyargı ve Klinik Karar İkilemleri</h2>
+      <p class="poll-desc" style="font-size:12.5px; margin-bottom:14px;">
+        Aşağıdaki 4 klinik ikilemde içgüdüsel refleksinizi dürüstçe işaretleyiniz.
+      </p>
 
       <!-- İKİLEM 1 -->
-      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 1 · Doğallık Yanılgısı</span>
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 1 · Doğallık Yanılgısı (Naturalistic Fallacy)</span>
         <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Atasal Diyet mi, Modern Formüle Beslenme mi?</h4>
-        <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
-          30.000 yıl önce yaşamış avcı-toplayıcı bir atamızın birebir tükettiği diyet ile günümüz biyokimya laboratuvarlarında insan fizyolojisi için sıfırdan formüle edilmiş tam dengeli bir medikal beslenme solüsyonu önünüze gelse hangisini "daha kusursuz" bulursunuz?
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
+          Biri "Doğada 200.000 yıldır yediğimiz avcı-toplayıcı besinler en sağlıklısıdır" diyor. Diğeri "Tüm mikro-makro besinleri mükemmel dengelenmiş yapay-tıbbi bir içecek daha sağlıklıdır" diyor. Hangisine daha yakınsınız?
         </p>
         <div class="options-list">
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'A', this)">
-            <span>🌿</span> <span>A) Kesinlikle Atasal Diyet (Evrim milyonlarca yılda yanılmış olamaz)</span>
+            <span>🌿</span> <span>A) Kesinlikle Atasal Diyet (Evrim yanılmış olamaz)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'B', this)">
-            <span>🌱</span> <span>B) Muhtemelen Atasal Diyet</span>
+            <span>🍃</span> <span>B) Muhtemelen Atasal Diyet (Doğala yakın olmak güvenlidir)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'C', this)">
-            <span>🔬</span> <span>C) Kesinlikle Modern Formüle Beslenme (Tüm risk ve eksiklikler kontrol altında)</span>
+            <span>🧪</span> <span>C) Kesinlikle Modern Formül (Tüm riskler kontrol altında)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'D', this)">
-            <span>🧪</span> <span>D) Muhtemelen Modern Formüle Beslenme</span>
+            <span>🔬</span> <span>D) Muhtemelen Modern Formül (Bilimsel optimizasyon)</span>
           </button>
         </div>
       </div>
 
       <!-- İKİLEM 2 -->
-      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 2 · Ahlaki Saflık (Ortoreksiya)</span>
-        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Katı/Anksiyeteli Diyet mi, Esnek/Metabolik Sağlık mı?</h4>
-        <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
-          <b>1. Birey:</b> Sıfır şeker/katkı tüketen ancak sürekli yemek anksiyetesi ve sosyal izolasyon yaşayan.<br>
-          <b>2. Birey:</b> Haftada 2 gün canı istediğinde hazır kek yiyen, esnek beslenen, spor yapan ve kan lipidleri kusursuz olan.<br>
-          Klinik olarak hangisinin beslenme durumunu daha sağlıklı kabul edersiniz?
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 2 · Ahlaki Saflık (Ortoreksiya)</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Katı/Anksiyeteli Diyet mi, Esnek Metabolik Sağlık mı?</h4>
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
+          1. Birey: Sıfır katkı, sıfır şeker, ancak sosyal ortamlardan kaçan ve sürekli yemek anksiyetesi yaşayan biri.<br>
+          2. Birey: %80 dengeli, bazen pizza-tatlı yiyen, kan biyomarkerları normal ve ruhsal olarak çok huzurlu biri. Sizce hangisi "daha sağlıklı"?
         </p>
         <div class="options-list">
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'A', this)">
-            <span>🛡️</span> <span>A) 1. Birey (Vücuduna hiçbir 'toksin/katkı' sokmuyor)</span>
+            <span>🥗</span> <span>A) 1. Birey (Biyolojik olarak vücuduna toksin sokmuyor)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'B', this)">
-            <span>⚖️</span> <span>B) 2. Birey (Metabolik sağlığı iyi ve psikolojik ilişkisi esnek)</span>
+            <span>🧘</span> <span>B) 2. Birey (Sağlık ruhsal-sosyal bütünlüktür, tahlilleri de iyi)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'C', this)">
-            <span>🤝</span> <span>C) İkisi de eşit derecede sağlıklıdır</span>
+            <span>⚖️</span> <span>C) İkisi de eşit derecede sağlıklı/sağlıksız</span>
           </button>
         </div>
       </div>
 
       <!-- İKİLEM 3 -->
-      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 3 · Tek Suçlu İndirgemeciliği</span>
-        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Kronik Hastalıkların ve Obezitenin 'Tek Bir Baş Sorumlusu' Var mıdır?</h4>
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 3 · Tek Suçlu İndirgemeciliği</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Kronik Hastalıkların Tek Bir 'Baş Sorumlusu' Var mı?</h4>
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
+          Modern dünyada obezite ve diyabet patlamasını tek bir unsura bağlayacak olsanız içgüdünüz ne söylerdi?
+        </p>
         <div class="options-list">
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'A', this)">
             <span>🍬</span> <span>A) Şeker ve Rafine Karbonhidratlar (İnsülin Hipotezi)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'B', this)">
-            <span>🌻</span> <span>B) Endüstriyel Tohum Yağları / Omega-6 (İnflamasyon Hipotezi)</span>
+            <span>🌻</span> <span>B) Endüstriyel Tohum Yağları (Omega-6 İnflamasyonu)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'C', this)">
             <span>🥩</span> <span>C) Doymuş Yağ ve Kırmızı Et (Lipit-Kalp Hipotezi)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'D', this)">
-            <span>🏭</span> <span>D) Ultra İşlenmiş Gıdaların Hiper-Lezzetli Matrisi (NOVA 4)</span>
+            <span>🏭</span> <span>D) Ultra İşlenmiş Gıda Matrisi (NOVA 4 Endüstrisi)</span>
           </button>
           <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'E', this)">
-            <span>🌐</span> <span>E) Tek bir besin ögesini suçlamak bilim dışıdır; sorun gıda çevresi ve hareketsizliktir</span>
+            <span>🌍</span> <span>E) Tek bir suçlu aramak bilim dışıdır (Bütünsel çevre & hareketsizlik)</span>
           </button>
         </div>
       </div>
 
       <!-- İKİLEM 4 -->
-      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
-        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 4 · Otorite & N=1 Anlatısı</span>
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 4 · Otorite & N=1 Anlatısı</span>
         <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Karizmatik Hekim Deneyimi mi, 10.000 Kişilik Kohort mu?</h4>
-        <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
           Ünlü bir hekim "Bu diyetle 15 kilo verdim, zihnim açıldı, tüm hastalarıma öneriyorum" diyor. Ancak 10.000 kişilik kohort çalışması uzun vadede KV riski %18 artırdığını gösteriyor. İçinizdeki diyetisyen adayı kime daha çok inanmak istiyor?
         </p>
         <div class="options-list">
@@ -1635,10 +1580,12 @@
         </div>
       </div>
 
-      <button class="submit-btn" onclick="submitPopulerSurvey()" style="margin-top:10px;">
+      <!-- TEK VE BÜYÜK GÖNDER BUTONU -->
+      <button class="submit-btn" onclick="submitPopulerSurvey()" style="font-size:15.5px; padding:17px; margin-top:10px; box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);">
         <span>🚀</span> <span>Tüm Yanıtlarımı Canlı Tahtaya Gönder</span>
       </button>
     </div>
+
   </div>
 
 </div>
@@ -1674,25 +1621,21 @@ var populerData = {
   }
 };
 
-function updateDietVal(dietId, metric, val) {
-  val = parseInt(val, 10);
-  if (!populerData.diets[dietId]) populerData.diets[dietId] = {};
+function onMatrixChange(el, dietId, metric) {
+  var val = parseInt(el.value, 10);
+  if (!populerData.diets[dietId]) {
+    populerData.diets[dietId] = { health: 0, prescribe: 0, knowledge: 0, evidence: 0 };
+  }
   populerData.diets[dietId][metric] = val;
 
-  var labelEl = document.getElementById('val_' + metric + '_' + dietId);
-  if (labelEl) {
-    if (metric === 'health') {
-      var text = val > 0 ? ('+' + val + ' (Sağlıklı)') : (val < 0 ? (val + ' (Zararlı)') : '0 (Nötr)');
-      var color = val > 0 ? '#10b981' : (val < 0 ? '#f43f5e' : '#94a3b8');
-      labelEl.textContent = text;
-      labelEl.style.color = color;
-    } else if (metric === 'prescribe') {
-      var text = val > 0 ? ('+' + val + ' (Yazarım)') : (val < 0 ? (val + ' (Yazmam)') : '0 (Belki)');
-      var color = val > 0 ? '#38bdf8' : (val < 0 ? '#f43f5e' : '#94a3b8');
-      labelEl.textContent = text;
-      labelEl.style.color = color;
-    }
-  }
+  el.className = 'cell-select';
+  if (val === 3) el.classList.add('pos-high');
+  else if (val === 2) el.classList.add('pos-mid');
+  else if (val === 1) el.classList.add('pos-low');
+  else if (val === 0) el.classList.add('zero');
+  else if (val === -1) el.classList.add('neg-low');
+  else if (val === -2) el.classList.add('neg-mid');
+  else if (val === -3) el.classList.add('neg-high');
 }
 
 function selectPopulerDilemma(dimId, choice, el) {
@@ -1700,18 +1643,6 @@ function selectPopulerDilemma(dimId, choice, el) {
   var parent = el.closest('.options-list');
   parent.querySelectorAll('.option-item').forEach(function(b){ b.classList.remove('selected'); });
   el.classList.add('selected');
-}
-
-function switchPopulerSection(sec) {
-  var tabs = document.querySelectorAll('#populerTabs .nav-tab');
-  tabs.forEach(function(t){ t.classList.remove('active'); });
-
-  document.getElementById('populerSectionDiets').style.display = (sec === 'diets') ? 'flex' : 'none';
-  document.getElementById('populerSectionDilemmas').style.display = (sec === 'dilemmas') ? 'flex' : 'none';
-
-  if (sec === 'diets' && tabs[0]) tabs[0].classList.add('active');
-  if (sec === 'dilemmas' && tabs[1]) tabs[1].classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function submitPopulerSurvey() {
