@@ -32,6 +32,8 @@ SLIDES_ASSETS_DIR.mkdir(exist_ok=True)
 DEFAULT_PASSWORD = "COZYYHTBT2026_"
 # Secure Course Password for Bilgisayar ve Yapay Zeka Uygulamaları
 AI_PASSWORD = "COZYBESAI2026_"
+# Secure Course Password for Diyet İlkeleri ve Popüler Diyetler
+POP_DIETS_PASSWORD = "COZYPOP2026_"
 
 def sync_assets():
     """Copies all simulation HTML files, PNG assets, and logos from Vault to slides/assets/ if missing."""
@@ -930,13 +932,29 @@ function togglePasswordVisibility() {{
 }}
 </script>
 """
-    new_html = new_html.replace('</body>', f'{ai_lock_script}\\n</body>')
+    new_html = new_html.replace('</body>', f'{ai_lock_script}\n</body>')
 
     out_file = SLIDES_OUTPUT_DIR / "01-bilgisayar-ve-yapay-zeka.html"
     with open(out_file, "w", encoding="utf-8") as f:
         f.write(new_html)
     print(f"  ✅ Kaydedildi: {out_file} ({os.path.getsize(out_file) / 1024:.1f} KB)\\n")
     return True
+
+def sync_beslenmenin_evrimi():
+    """Syncs beslenmenin_evrimi_sunum.html (101 slides) with AES-256 encryption."""
+    src_file = SLIDES_OUTPUT_DIR / "beslenmenin_evrimi_sunum.html"
+    if not src_file.exists():
+        print(f"❌ Kaynak dosya bulunamadı: {src_file}")
+        return False
+
+    print(f"📖 Beslenmenin Evrimi Sunumu işleniyor: {src_file.name}")
+    try:
+        res = subprocess.run(["python3", str(BASE_DIR / "scripts/generate_encrypted_evrim.py")], capture_output=True, text=True, check=True)
+        print("  " + res.stdout.replace("\n", "\n  ").strip())
+        return True
+    except Exception as e:
+        print(f"❌ Beslenmenin Evrimi şifreleme hatası: {e}")
+        return False
 
 def update_markdown_and_rebuild():
     """Updates presentation cards and markdown files, then triggers build.py."""
@@ -1009,6 +1027,29 @@ order: 3
 - **Şifre:** Ders izlencesi ve OBS duyuru panosunda ilan edilen öğrenci şifresi (`COZYBESAI2026_`) ile açılır.
 """)
 
+    tr_pres_4 = BASE_DIR / "content/tr/presentations/04-beslenmenin-evrimi.md"
+    tr_pres_4.parent.mkdir(parents=True, exist_ok=True)
+    with open(tr_pres_4, "w", encoding="utf-8") as f:
+        f.write("""---
+title: "Beslenmenin Evrimi (Biyolojik Kökenlerden Modern Diyetetik Modellerine)"
+type: "presentation"
+badge: "Lisans Dersi (BES 339)"
+date: "2026-03-05"
+slide_count: "101 Slayt (🔒 AES-256 Korumalı)"
+html_url: "slides/01-beslenmenin-evrimi.html"
+download_url: ""
+summary: "İnsan beslenmesinin primatlardan ve homininlerden günümüze evrimsel yolculuğu; pişirme hipotezi, pahalı doku kuramı, tarım devrimi, beslenme dönüşümü ve modern diyetetik modelleri. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
+draft: false
+lang: "tr"
+order: 4
+---
+
+## 🧬 Ders Sunumu & Canlı Kilitli Modül
+- **Önizleme Kapsamı (Slayt 1–10):** Beslenmenin evrimsel biyolojik kökenleri, primatlar ve hominin beslenme modelleri, taş aletler ve kemik iliği devrimi, pişirme hipotezi (cooking hypothesis) ve pahalı doku kuramı.
+- **Şifreli Modüller (Slayt 11–101):** Neolitik tarım devrimi, antik dünyada ekmek ve bira fermantasyonu, beslenme biliminin doğuşu ve kimyasal devrim, küresel beslenme dönüşümü, ultra işlenmiş gıdalar (UPF) ve modern popüler diyet yaklaşımları.
+- **Şifre:** Diyet İlkeleri ve Popüler Diyetler (BES 339) dersi için OBS duyuru panosunda ilan edilen öğrenci şifresi (`COZYPOP2026_`) ile açılır.
+""")
+
     # English cards
     en_pres_1 = BASE_DIR / "content/en/presentations/01-obesity-medical-nutrition-therapy.md"
     en_pres_1.parent.mkdir(parents=True, exist_ok=True)
@@ -1064,6 +1105,24 @@ order: 3
 ---
 """)
 
+    en_pres_4 = BASE_DIR / "content/en/presentations/04-evolution-of-nutrition.md"
+    en_pres_4.parent.mkdir(parents=True, exist_ok=True)
+    with open(en_pres_4, "w", encoding="utf-8") as f:
+        f.write("""---
+title: "The Evolution of Nutrition: From Biological Origins to Modern Dietetics"
+type: "presentation"
+badge: "Undergraduate Lecture (NUT 339)"
+date: "2026-03-05"
+slide_count: "101 Slides (🔒 AES-256 Protected)"
+html_url: "slides/01-beslenmenin-evrimi.html"
+download_url: ""
+summary: "Evolutionary trajectory of human nutrition from primates and hominins to contemporary diets; cooking hypothesis, expensive tissue hypothesis, agricultural revolution, and popular diets. First 10 slides public preview; slides 11+ encrypted."
+draft: false
+lang: "en"
+order: 4
+---
+""")
+
     # Rebuild website
     print("🚀 Web sitesi yeniden derleniyor (build.py)...")
     res = subprocess.run(["python3", str(BASE_DIR / "build.py")], capture_output=True, text=True)
@@ -1071,11 +1130,12 @@ order: 3
 
 def main():
     print("🔄 Obsidian Vault -> Web Sitesi Sunum Senkronizasyonu Başlatılıyor...\n")
-    print(f"🔑 Şifreler: YHTBT: {DEFAULT_PASSWORD} | BES AI: {AI_PASSWORD}\n")
+    print(f"🔑 Şifreler: YHTBT: {DEFAULT_PASSWORD} | BES AI: {AI_PASSWORD} | BES POP: {POP_DIETS_PASSWORD}\n")
     sync_assets()
     sync_konu1_obezite()
     sync_obezite_uygulama()
     sync_bilgisayar_yapay_zeka()
+    sync_beslenmenin_evrimi()
     update_markdown_and_rebuild()
     print("🎉 Senkronizasyon ve AES-256 Şifreleme Tamamlandı!")
 

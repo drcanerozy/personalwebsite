@@ -31,3 +31,8 @@ order: 2
   - *GLP-1 İlaçları ve Beslenme*
   - *Kişiselleştirilmiş Beslenme ve Bireye Özgü Diyetler*
   - *Beslenme Biliminde Yapay Zekadan Faydalanma*
+
+## 📊 İnteraktif Ders Sunumu & Öğrenci Önizlemesi
+Bu dersin 101 slaytlık kapsamlı interaktif web sunumuna aşağıdaki bağlantıdan erişebilirsiniz. **İlk 10 slayt açık önizleme** olarak sunulmakta, 11. slayttan itibaren tarihsel beslenme dönüşümü, evrimsel biyoloji analizleri ve modern diyetetik modelleri **AES-256** öğrenci şifresiyle korunmaktadır.
+
+👉 [**BES 339: Beslenmenin Evrimi İnteraktif Ders Sunumunu Tam Ekran Aç (HTML)**](../slides/01-beslenmenin-evrimi.html) *(Öğrenci Kilit Ekranı Korumalı — Şifre: `COZYPOP2026_`)*

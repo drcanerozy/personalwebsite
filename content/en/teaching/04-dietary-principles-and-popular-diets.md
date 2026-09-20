@@ -19,3 +19,8 @@ order: 2
 
 ## 🎯 Course Objectives & Vision
 Examines popular diet trends through rigorous thermodynamic, metabolic, and physiological evidence to build sound clinical reasoning.
+
+## 📊 Interactive Lecture Presentation & Preview
+You can access the 101-slide interactive presentation below. **The first 10 slides are available as an open public preview**, while subsequent modules covering the agricultural revolution, nutrition transition, and popular diet evaluations are protected with **AES-256** student password encryption.
+
+👉 [**BES 339: Evolution of Nutrition Interactive Presentation (HTML)**](../slides/01-beslenmenin-evrimi.html) *(Student Password Protected — Passcode: `COZYPOP2026_`)*
