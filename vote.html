@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>BES339 Canlı Oylama · Bilgisayar Uygulamaları ve Yapay Zeka</title>
+<title>Canlı Sınıf Oylaması · Dr. Caner Özyıldırım</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -334,17 +334,57 @@
   <!-- ÜST BİLGİ -->
   <header class="header">
     <div class="header-brand">
-      <span id="weekIcon">🤖</span> <span id="weekTitle">BES339 · Canlı Oylama</span>
+      <span id="weekIcon">🎓</span> <span id="weekTitle">Canlı Sınıf Oylaması</span>
     </div>
-    <div class="status-badge" id="statusBadge">
-      <span class="status-dot" id="statusDot"></span>
-      <span id="statusText">Bağlanıyor...</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button onclick="showCourseSelector()" style="background:#0b1120; border:1px solid var(--card-border); color:var(--text-muted); font-size:11px; font-weight:700; padding:4px 8px; border-radius:6px; cursor:pointer;" title="Dersi Değiştir">Ders Değiştir</button>
+      <div class="status-badge" id="statusBadge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Bağlanıyor...</span>
+      </div>
     </div>
   </header>
 
   <!-- BAŞARI BİLDİRİMİ -->
   <div class="success-banner" id="successBanner">
     ✅ Yanıtlarınız tahtaya anında iletildi! Teşekkürler.
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- DERS SEÇİM EKRANI (Parametresiz Doğrudan Girişler İçin)    -->
+  <!-- ======================================================== -->
+  <div id="courseSelectorContainer" style="display:none; flex-direction:column; gap:14px;">
+    <div class="poll-card">
+      <span class="poll-tag">DERS VE ANKET SEÇİMİ</span>
+      <h2 class="poll-title">Katılmak İstediğiniz Dersi Seçiniz</h2>
+      <p class="poll-desc">Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü Canlı Anket &amp; Oylama Platformu</p>
+      
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <button type="button" class="tool-btn" onclick="selectCourseMode('bes339')" style="padding:16px; text-align:left; display:flex; align-items:center; gap:14px; background:#0b1120; border:1.5px solid #059669; border-radius:12px;">
+          <span style="font-size:28px;">🥗</span>
+          <div>
+            <div style="font-weight:700; color:#34d399; font-size:15px;">BES339 · Diyet İlkeleri ve Popüler Diyetler</div>
+            <div style="color:#94a3b8; font-size:12px; margin-top:2px;">Popüler Diyetler Algı Haritası ve Bilişsel İkilemler Anketi</div>
+          </div>
+        </button>
+
+        <button type="button" class="tool-btn" onclick="selectCourseMode('bes200_h1')" style="padding:16px; text-align:left; display:flex; align-items:center; gap:14px; background:#0b1120; border:1.5px solid #0284c7; border-radius:12px;">
+          <span style="font-size:28px;">🤖</span>
+          <div>
+            <div style="font-weight:700; color:#38bdf8; font-size:15px;">BES200 · Bilgisayar ve Yapay Zeka (Hafta 1)</div>
+            <div style="color:#94a3b8; font-size:12px; margin-top:2px;">AI Araçları Tanışma ve Ders Sonu Gelişim Anketi</div>
+          </div>
+        </button>
+
+        <button type="button" class="tool-btn" onclick="selectCourseMode('bes200_h2')" style="padding:16px; text-align:left; display:flex; align-items:center; gap:14px; background:#0b1120; border:1.5px solid #8b5cf6; border-radius:12px;">
+          <span style="font-size:28px;">🧬</span>
+          <div>
+            <div style="font-weight:700; color:#c084fc; font-size:15px;">BES200 · Bilgisayar ve Yapay Zeka (Hafta 2)</div>
+            <div style="color:#94a3b8; font-size:12px; margin-top:2px;">Tıbbın ve Beslenmenin Dönüşümü Oylaması</div>
+          </div>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- ======================================================== -->
@@ -548,37 +588,1221 @@
 
   </div>
 
+
+  <!-- ======================================================== -->
+  <!-- BES339 POPÜLER DİYETLER VE ALGI ANKETİ CONTAINER         -->
+  <!-- ======================================================== -->
+  <div id="populerContainer" style="display:none; flex-direction:column; gap:16px;">
+    <!-- SEKMELER -->
+    <div class="nav-tabs two-tabs" id="populerTabs">
+      <button class="nav-tab active" onclick="switchPopulerSection('diets')">1. 15 Popüler Diyet</button>
+      <button class="nav-tab" onclick="switchPopulerSection('dilemmas')">2. 4 Bilişsel İkilem</button>
+    </div>
+
+    <!-- 1. BÖLÜM: 15 POPÜLER DİYET PUANLAMA -->
+    <div id="populerSectionDiets" class="poll-card">
+      <span class="poll-tag">BES 339 · Açılış Algı Haritası</span>
+      <h2 class="poll-title">Popüler Diyetleri Sağlık ve Reçete Açısından Değerlendirin</h2>
+      <p class="poll-desc">Diyetleri -3 ile +3 arasında puanlayarak kaydırın. (0 = Nötr / Kararsızım)</p>
+
+      <div id="dietsListContainer" style="max-height:65vh; overflow-y:auto; padding-right:4px;">
+        
+      <div class="diet-poll-card" id="diet_akdeniz" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Akdeniz Diyeti</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Kardiyovasküler & Geleneksel Altın Standart</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_akdeniz" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('akdeniz', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_akdeniz" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('akdeniz', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('akdeniz', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('akdeniz', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_dash" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">DASH Diyeti</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Hipertansiyon & Klinik Kanıta Dayalı</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_dash" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dash', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_dash" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dash', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('dash', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('dash', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_nordic" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Nordic (İskandinav) Diyeti</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Bölgesel & Çilek, Somon, Çavdar</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_nordic" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('nordic', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_nordic" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('nordic', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('nordic', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('nordic', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_portfolyo" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Portfolyo Diyeti</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Klinik Kolesterol Düşürücü Dörtlü</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_portfolyo" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('portfolyo', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_portfolyo" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('portfolyo', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('portfolyo', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('portfolyo', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_anti_inf" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Anti-inflamatuvar Diyet</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Sistemik İnflamasyon & Polifenoller</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_anti_inf" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('anti_inf', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_anti_inf" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('anti_inf', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('anti_inf', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('anti_inf', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_if_oruc" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Aralıklı Oruç (IF 16:8)</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Zaman Kısıtlı Beslenme & Otofaji</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_if_oruc" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('if_oruc', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_if_oruc" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('if_oruc', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('if_oruc', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('if_oruc', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_keto" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Ketojenik Diyet</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Çok Düşük KH (<%5) & Yüksek Yağ, Ketozis</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_keto" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('keto', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_keto" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('keto', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('keto', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('keto', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_atkins" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Atkins Diyeti</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Yüksek Protein & Kademeli Karbonhidrat</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_atkins" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('atkins', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_atkins" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('atkins', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('atkins', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('atkins', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_dusuk_yag" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Düşük Yağlı (Low-Fat) Diyet</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Klasik 1990'lar Modeli (<%20 Yağ)</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_dusuk_yag" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_yag', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_dusuk_yag" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_yag', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('dusuk_yag', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('dusuk_yag', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_glutensiz" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Glutensiz Diyet</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Çölyaksız Bireylerde Popüler Kullanım</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_glutensiz" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('glutensiz', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_glutensiz" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('glutensiz', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('glutensiz', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('glutensiz', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_paleo" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Paleolitik Diyet</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Avcı-Toplayıcı Biyomimetik & Tahılsız</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_paleo" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('paleo', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_paleo" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('paleo', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('paleo', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('paleo', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_raw_food" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Çiğ Beslenme (Raw Food)</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Pişmemiş Gıda (>%70) & Canlı Enzimler</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_raw_food" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('raw_food', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_raw_food" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('raw_food', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('raw_food', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('raw_food', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_karnivor" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Karnivor Diyet</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Sıfır Karbonhidrat, Yalnızca Hayvansal</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_karnivor" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('karnivor', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_karnivor" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('karnivor', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('karnivor', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('karnivor', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_vegan" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Vegan / Bitki Temelli</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Tüm Hayvansal Gıdaların Dışlanması</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_vegan" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('vegan', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_vegan" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('vegan', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('vegan', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('vegan', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      <div class="diet-poll-card" id="diet_dusuk_fodmap" style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <h4 style="color:#fff; font-size:14.5px; font-weight:700;">Düşük FODMAP Diyeti</h4>
+          <span style="font-size:10px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:6px; background:rgba(20,184,166,0.15); color:#14b8a6; border:1px solid rgba(20,184,166,0.3);">Fermente Olabilir Karbonhidrat Kısıtlaması</span>
+        </div>
+
+        <!-- 1. Sağlık Etkisi Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Sağlık Etkisi:</span>
+            <strong id="val_health_dusuk_fodmap" style="color:#10b981; font-family:'JetBrains Mono',monospace;">0 (Nötr)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_fodmap', 'health', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Çok Zararlı)</span>
+            <span>0</span>
+            <span>+3 (Çok Sağlıklı)</span>
+          </div>
+        </div>
+
+        <!-- 2. Reçete Eder miydim Slider -->
+        <div style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:11.5px; color:#94a3b8; margin-bottom:4px;">
+            <span>Reçete Eder miydim?:</span>
+            <strong id="val_prescribe_dusuk_fodmap" style="color:#38bdf8; font-family:'JetBrains Mono',monospace;">0 (Belki)</strong>
+          </div>
+          <input type="range" min="-3" max="3" value="0" step="1" class="slider-input" oninput="updateDietVal('dusuk_fodmap', 'prescribe', this.value)">
+          <div style="display:flex; justify-content:space-between; font-size:9.5px; color:#64748b; margin-top:2px;">
+            <span>-3 (Asla Yazmam)</span>
+            <span>0</span>
+            <span>+3 (İlk Tercihim)</span>
+          </div>
+        </div>
+
+        <!-- İsteğe Bağlı Bilgi & Kanıt Düzeyi Açılır Panel -->
+        <details style="border-top:1px dashed #334155; padding-top:6px; margin-top:6px;">
+          <summary style="font-size:11px; color:#94a3b8; cursor:pointer;">+ Bilgi & Kanıt Puanı Ekle (İsteğe Bağlı)</summary>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Bilgi Düzeyim:</span>
+              <select onchange="updateDietVal('dusuk_fodmap', 'knowledge', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Hiç Duymadım)</option>
+                <option value="-1">-1 (Az Biliyorum)</option>
+                <option value="0" selected>0 (Fikrim Var)</option>
+                <option value="1">+1 (İyi Biliyorum)</option>
+                <option value="3">+3 (Çok Yetkinim)</option>
+              </select>
+            </div>
+            <div>
+              <span style="font-size:10px; color:#cbd5e1;">Kanıt Düzeyi:</span>
+              <select onchange="updateDietVal('dusuk_fodmap', 'evidence', this.value)" style="width:100%; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px; padding:4px; font-size:11px; margin-top:2px;">
+                <option value="-3">-3 (Safsata/Yok)</option>
+                <option value="-1">-1 (Zayıf/Yetersiz)</option>
+                <option value="0" selected>0 (Çelişkili)</option>
+                <option value="1">+1 (Orta Düzey)</option>
+                <option value="3">+3 (GRADE A Güçlü)</option>
+              </select>
+            </div>
+          </div>
+        </details>
+      </div>
+    
+      </div>
+
+      <button class="submit-btn" onclick="switchPopulerSection('dilemmas')" style="margin-top:6px; background:#3b82f6;">
+        <span>İleri: 4 Bilişsel İkileme Geç ➔</span>
+      </button>
+    </div>
+
+    <!-- 2. BÖLÜM: 4 BİLİŞSEL İKİLEM -->
+    <div id="populerSectionDilemmas" class="poll-card" style="display:none;">
+      <span class="poll-tag">BES 339 · Karar Tuzakları</span>
+      <h2 class="poll-title">4 Temel Bilişsel İkilem</h2>
+      <p class="poll-desc">Aşağıdaki vaka senaryolarında ilk klinik refleksinizi dürüstçe seçiniz:</p>
+
+      <!-- İKİLEM 1 -->
+      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 1 · Doğallık Yanılgısı</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Atasal Diyet mi, Modern Formüle Beslenme mi?</h4>
+        <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+          30.000 yıl önce yaşamış avcı-toplayıcı bir atamızın birebir tükettiği diyet ile günümüz biyokimya laboratuvarlarında insan fizyolojisi için sıfırdan formüle edilmiş tam dengeli bir medikal beslenme solüsyonu önünüze gelse hangisini "daha kusursuz" bulursunuz?
+        </p>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'A', this)">
+            <span>🌿</span> <span>A) Kesinlikle Atasal Diyet (Evrim milyonlarca yılda yanılmış olamaz)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'B', this)">
+            <span>🌱</span> <span>B) Muhtemelen Atasal Diyet</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'C', this)">
+            <span>🔬</span> <span>C) Kesinlikle Modern Formüle Beslenme (Tüm risk ve eksiklikler kontrol altında)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'D', this)">
+            <span>🧪</span> <span>D) Muhtemelen Modern Formüle Beslenme</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- İKİLEM 2 -->
+      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 2 · Ahlaki Saflık (Ortoreksiya)</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Katı/Anksiyeteli Diyet mi, Esnek/Metabolik Sağlık mı?</h4>
+        <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+          <b>1. Birey:</b> Sıfır şeker/katkı tüketen ancak sürekli yemek anksiyetesi ve sosyal izolasyon yaşayan.<br>
+          <b>2. Birey:</b> Haftada 2 gün canı istediğinde hazır kek yiyen, esnek beslenen, spor yapan ve kan lipidleri kusursuz olan.<br>
+          Klinik olarak hangisinin beslenme durumunu daha sağlıklı kabul edersiniz?
+        </p>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'A', this)">
+            <span>🛡️</span> <span>A) 1. Birey (Vücuduna hiçbir 'toksin/katkı' sokmuyor)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'B', this)">
+            <span>⚖️</span> <span>B) 2. Birey (Metabolik sağlığı iyi ve psikolojik ilişkisi esnek)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'C', this)">
+            <span>🤝</span> <span>C) İkisi de eşit derecede sağlıklıdır</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- İKİLEM 3 -->
+      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 3 · Tek Suçlu İndirgemeciliği</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Kronik Hastalıkların ve Obezitenin 'Tek Bir Baş Sorumlusu' Var mıdır?</h4>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'A', this)">
+            <span>🍬</span> <span>A) Şeker ve Rafine Karbonhidratlar (İnsülin Hipotezi)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'B', this)">
+            <span>🌻</span> <span>B) Endüstriyel Tohum Yağları / Omega-6 (İnflamasyon Hipotezi)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'C', this)">
+            <span>🥩</span> <span>C) Doymuş Yağ ve Kırmızı Et (Lipit-Kalp Hipotezi)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'D', this)">
+            <span>🏭</span> <span>D) Ultra İşlenmiş Gıdaların Hiper-Lezzetli Matrisi (NOVA 4)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'E', this)">
+            <span>🌐</span> <span>E) Tek bir besin ögesini suçlamak bilim dışıdır; sorun gıda çevresi ve hareketsizliktir</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- İKİLEM 4 -->
+      <div style="background:#0b1120; border:1px solid #334155; border-radius:12px; padding:14px; margin-bottom:12px;">
+        <span style="font-size:11px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 4 · Otorite & N=1 Anlatısı</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Karizmatik Hekim Deneyimi mi, 10.000 Kişilik Kohort mu?</h4>
+        <p style="font-size:12px; color:#cbd5e1; line-height:1.45; margin-bottom:10px;">
+          Ünlü bir hekim "Bu diyetle 15 kilo verdim, zihnim açıldı, tüm hastalarıma öneriyorum" diyor. Ancak 10.000 kişilik kohort çalışması uzun vadede KV riski %18 artırdığını gösteriyor. İçinizdeki diyetisyen adayı kime daha çok inanmak istiyor?
+        </p>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d4', 'A', this)">
+            <span>🎙️</span> <span>A) İtiraf edeyim, hekimin karizmatik deneyimi ve hikayesi beni daha çok cezbediyor</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d4', 'B', this)">
+            <span>📊</span> <span>B) İstatistiğe ve kohort çalışmasına güvenirim, n=1 deneyimleri kılavuz olamaz</span>
+          </button>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitPopulerSurvey()" style="margin-top:10px;">
+        <span>🚀</span> <span>Tüm Yanıtlarımı Canlı Tahtaya Gönder</span>
+      </button>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// URL Parametreleri
-var urlParams = new URLSearchParams(window.location.search);
-var weekParam = urlParams.get('w') || urlParams.get('week') || urlParams.get('h');
-var requestedTab = (urlParams.get('tab') || urlParams.get('step') || urlParams.get('section') || '').toLowerCase();
-var rawRoom = urlParams.get('room') || '';
 
-// Hangi hafta aktif?
-var currentWeek = 2; // Varsayılan Hafta 2
-if (weekParam === '1' || rawRoom.indexOf('h1') !== -1 || ['tanisma', 'pre', 'post', 'kapanis', 'h1_pre', 'h1_post'].indexOf(requestedTab) !== -1 && weekParam !== '2') {
-  if (weekParam === '1' || rawRoom.indexOf('h1') !== -1 || requestedTab === 'tanisma') {
-    currentWeek = 1;
+// =========================================================
+// BES339 POPÜLER DİYETLER ANKET MANTIĞI
+// =========================================================
+var populerData = {
+  diets: {
+    akdeniz: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    dash: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    nordic: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    portfolyo: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    anti_inf: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    if_oruc: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    keto: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    atkins: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    dusuk_yag: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    glutensiz: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    paleo: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    raw_food: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    karnivor: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    vegan: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    dusuk_fodmap: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 }
+  },
+  dilemmas: {
+    d1: null,
+    d2: null,
+    d3: null,
+    d4: null
+  }
+};
+
+function updateDietVal(dietId, metric, val) {
+  val = parseInt(val, 10);
+  if (!populerData.diets[dietId]) populerData.diets[dietId] = {};
+  populerData.diets[dietId][metric] = val;
+
+  var labelEl = document.getElementById('val_' + metric + '_' + dietId);
+  if (labelEl) {
+    if (metric === 'health') {
+      var text = val > 0 ? ('+' + val + ' (Sağlıklı)') : (val < 0 ? (val + ' (Zararlı)') : '0 (Nötr)');
+      var color = val > 0 ? '#10b981' : (val < 0 ? '#f43f5e' : '#94a3b8');
+      labelEl.textContent = text;
+      labelEl.style.color = color;
+    } else if (metric === 'prescribe') {
+      var text = val > 0 ? ('+' + val + ' (Yazarım)') : (val < 0 ? (val + ' (Yazmam)') : '0 (Belki)');
+      var color = val > 0 ? '#38bdf8' : (val < 0 ? '#f43f5e' : '#94a3b8');
+      labelEl.textContent = text;
+      labelEl.style.color = color;
+    }
   }
 }
 
-var roomId = currentWeek === 1 ? 'bes339-h1' : 'bes339-h2';
-if (rawRoom) roomId = rawRoom;
+function selectPopulerDilemma(dimId, choice, el) {
+  populerData.dilemmas[dimId] = choice;
+  var parent = el.closest('.options-list');
+  parent.querySelectorAll('.option-item').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
 
-// Hafta Container ve Başlıkları Ayarla
-if (currentWeek === 1) {
-  document.getElementById('week1Container').style.display = 'flex';
-  document.getElementById('week2Container').style.display = 'none';
-  document.getElementById('weekTitle').textContent = 'BES339 · H1: AI ile Tanışma';
-  document.getElementById('weekIcon').textContent = '🤖';
+function switchPopulerSection(sec) {
+  var tabs = document.querySelectorAll('#populerTabs .nav-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+
+  document.getElementById('populerSectionDiets').style.display = (sec === 'diets') ? 'flex' : 'none';
+  document.getElementById('populerSectionDilemmas').style.display = (sec === 'dilemmas') ? 'flex' : 'none';
+
+  if (sec === 'diets' && tabs[0]) tabs[0].classList.add('active');
+  if (sec === 'dilemmas' && tabs[1]) tabs[1].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function submitPopulerSurvey() {
+  sendPayload('populer_diyetler_survey', {
+    diets: populerData.diets,
+    dilemmas: populerData.dilemmas
+  });
+}
+
+// URL Parametreleri
+var urlParams = new URLSearchParams(window.location.search);
+var courseParam = (urlParams.get('c') || urlParams.get('course') || '').toLowerCase();
+var weekParam = (urlParams.get('w') || urlParams.get('week') || urlParams.get('h') || '').toLowerCase();
+var requestedTab = (urlParams.get('tab') || urlParams.get('step') || urlParams.get('section') || '').toLowerCase();
+var rawRoom = urlParams.get('room') || '';
+
+var currentWeek = null;
+var roomId = 'bes339-populer';
+
+function applyCourseRoute(mode) {
+  var selectorEl = document.getElementById('courseSelectorContainer');
+  var w1El = document.getElementById('week1Container');
+  var w2El = document.getElementById('week2Container');
+  var popEl = document.getElementById('populerContainer');
+
+  if (selectorEl) selectorEl.style.display = 'none';
+  if (w1El) w1El.style.display = 'none';
+  if (w2El) w2El.style.display = 'none';
+  if (popEl) popEl.style.display = 'none';
+
+  if (mode === 'bes339' || mode === 'populer') {
+    currentWeek = 'populer';
+    roomId = 'bes339-populer';
+    if (popEl) popEl.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES339 · Popüler Diyetler';
+    document.getElementById('weekIcon').textContent = '🥗';
+    document.title = 'BES339 Canlı Anket · Popüler Diyetler';
+  } else if (mode === 'bes200_h1' || mode === '1') {
+    currentWeek = 1;
+    roomId = 'bes339-h1';
+    if (w1El) w1El.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES200 · H1: AI ile Tanışma';
+    document.getElementById('weekIcon').textContent = '🤖';
+    document.title = 'BES200 · Hafta 1 Canlı Oylama';
+  } else if (mode === 'bes200_h2' || mode === '2') {
+    currentWeek = 2;
+    roomId = 'bes339-h2';
+    if (w2El) w2El.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES200 · H2: Beslenmenin Dönüşümü';
+    document.getElementById('weekIcon').textContent = '🧬';
+    document.title = 'BES200 · Hafta 2 Canlı Oylama';
+  } else {
+    if (selectorEl) selectorEl.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'Canlı Sınıf Oylaması';
+    document.getElementById('weekIcon').textContent = '🎓';
+    document.title = 'Canlı Sınıf Oylaması · Dr. Caner Özyıldırım';
+  }
+
+  if (rawRoom) roomId = rawRoom;
+
+  if (isConnected) {
+    document.getElementById("statusText").textContent = "Canlı Oda: " + roomId.toUpperCase();
+  }
+}
+
+function selectCourseMode(mode) {
+  applyCourseRoute(mode);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showCourseSelector() {
+  applyCourseRoute('selector');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Başlangıç Rota Tespiti
+var isPopulerRoute = (courseParam === 'bes339' || courseParam === 'populer' || weekParam === 'populer' || weekParam === 'pd' || rawRoom.indexOf('populer') !== -1);
+var isH1Route = (courseParam === 'bes200' && weekParam === '1') || weekParam === '1' || rawRoom.indexOf('h1') !== -1 || ['tanisma', 'pre', 'post', 'kapanis'].indexOf(requestedTab) !== -1;
+var isH2Route = (courseParam === 'bes200' && weekParam === '2') || weekParam === '2' || rawRoom.indexOf('h2') !== -1;
+
+if (isPopulerRoute) {
+  applyCourseRoute('bes339');
+} else if (isH1Route) {
+  applyCourseRoute('bes200_h1');
+} else if (isH2Route) {
+  applyCourseRoute('bes200_h2');
+} else if (courseParam === 'bes200') {
+  applyCourseRoute('bes200_h2');
 } else {
-  document.getElementById('week1Container').style.display = 'none';
-  document.getElementById('week2Container').style.display = 'flex';
-  document.getElementById('weekTitle').textContent = 'BES339 · H2: Beslenmenin Dönüşümü';
-  document.getElementById('weekIcon').textContent = '🧬';
+  // Parametre yoksa doğrudan ders seçim ekranını göster!
+  applyCourseRoute('selector');
 }
 
 // Benzersiz Öğrenci Kimliği

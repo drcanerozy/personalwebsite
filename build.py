@@ -502,6 +502,11 @@ def generate_html(lang="tr"):
             detail_blocks.append(f"<p><strong>🚀 {'Kazanımlar:' if is_tr else 'Outcomes:'}</strong> {c_outcomes}</p>")
         if c_notebooklm:
             detail_blocks.append(f"<p class='pt-2'><a href='{c_notebooklm}' target='_blank' rel='noopener noreferrer' class='inline-flex items-center space-x-1.5 px-3 py-1 bg-purple-50 text-purple-700 hover:bg-purple-100 rounded-lg text-xs font-semibold border border-purple-200 transition'><i class='fa-solid fa-robot'></i><span>{'Yapay Zeka Destekli Ders Notları (NotebookLM)' if is_tr else 'AI Interactive Notebook (NotebookLM)'} &rarr;</span></a></p>")
+        c_slides_url = course.get("slides_url", "")
+        if c_slides_url:
+            c_slides_title = course.get("slides_title", "İnteraktif Ders Sunumu (Canlı İzle)" if is_tr else "Interactive Presentation (Live)")
+            slides_link = c_slides_url.replace("../", ui["asset_prefix"])
+            detail_blocks.append(f"<p class='pt-2'><a href='{slides_link}' target='_blank' class='inline-flex items-center space-x-1.5 px-3 py-1 bg-amber-50 text-amber-900 hover:bg-amber-100 rounded-lg text-xs font-semibold border border-amber-300 transition'><i class='fa-solid fa-play text-amber-700 text-[10px]'></i><span>{c_slides_title} &rarr;</span></a></p>")
         if c_syllabus:
             detail_blocks.append(f"<p class='pt-2'><a href='{ui['asset_prefix']}{c_syllabus}' target='_blank' class='inline-flex items-center space-x-1 text-academic-700 font-semibold hover:underline'><i class='fa-solid fa-file-pdf'></i><span>{'Ders İzlencesi (PDF)' if is_tr else 'Syllabus (PDF)'}</span></a></p>")
             
@@ -1654,6 +1659,25 @@ def generate_single_course_html(course, lang="tr"):
                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
         </div>""" if notebooklm else ""
+
+    slides_url = course.get("slides_url", "")
+    slides_title = course.get("slides_title", "")
+    slides_badge = course.get("slides_badge", "")
+    slides_box = f"""
+        <div class="p-5 bg-amber-50/80 rounded-xl border border-amber-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+                <h3 class="font-bold text-amber-950 text-sm flex items-center">
+                    <i class="fa-solid fa-chalkboard-user mr-2 text-amber-700"></i> {slides_title if slides_title else ("Bu dersin interaktif web sunumu var!" if is_tr else "This course has an interactive web presentation!")}
+                </h3>
+                <p class="text-xs text-amber-800 mt-1 leading-relaxed">
+                    {slides_badge if slides_badge else ("İlk 10 slaytı açık önizleme olarak inceleyebilir; devamındaki kilitli modüllere ders şifrenizle erişebilirsiniz." if is_tr else "Explore the first 10 slides as a public preview; unlock subsequent modules with your course passcode.")}
+                </p>
+            </div>
+            <a href="{slides_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 text-white text-xs font-bold rounded-lg transition shadow-sm whitespace-nowrap">
+                <span>{"Sunumu Canlı İzle (HTML)" if is_tr else "View Live Slides (HTML)"}</span>
+                <i class="fa-solid fa-play text-[10px]"></i>
+            </a>
+        </div>""" if slides_url else ""
         
     syllabus_btn = f"""
         <a href="{asset_prefix}{syllabus}" target="_blank" class="inline-flex items-center space-x-2 px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition shadow-sm">
@@ -1763,6 +1787,9 @@ def generate_single_course_html(course, lang="tr"):
 
             <!-- 2. Mor Renkli Dijital Not Defteri Kutusu (Varsa) -->
             {notebook_box}
+
+            <!-- 2.1 İnteraktif Web Sunumu Kutusu (Varsa) -->
+            {slides_box}
 
             <!-- 3. Bu Dersi Nasıl İşliyoruz? & Sınıf İçi Deneyim -->
             {f'<div class="pt-6 border-t border-slate-100">' + body_html + '</div>' if body_html else ''}
