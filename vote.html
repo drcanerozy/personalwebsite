@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Canlı Sınıf Oylaması · Dr. Caner Özyıldırım</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -427,7 +430,7 @@
       <span id="weekIcon">🎓</span> <span id="weekTitle">Canlı Sınıf Oylaması</span>
     </div>
     <div style="display:flex; align-items:center; gap:8px;">
-      <button onclick="showCourseSelector()" style="background:#0b1120; border:1px solid var(--card-border); color:var(--text-muted); font-size:11px; font-weight:700; padding:4px 8px; border-radius:6px; cursor:pointer;" title="Dersi Değiştir">Ders Değiştir</button>
+      <button id="courseSwitchBtn" onclick="toggleCourse()" style="background:#0b1120; border:1px solid var(--card-border); color:var(--text-muted); font-size:11px; font-weight:700; padding:4px 8px; border-radius:6px; cursor:pointer;" title="Dersi Değiştir">🤖 AI Dersi Oylaması</button>
       <div class="status-badge" id="statusBadge">
         <span class="status-dot" id="statusDot"></span>
         <span id="statusText">Bağlanıyor...</span>
@@ -1680,6 +1683,8 @@ function applyCourseRoute(mode) {
     document.getElementById('weekTitle').textContent = 'BES339 · Popüler Diyetler';
     document.getElementById('weekIcon').textContent = '🥗';
     document.title = 'BES339 Canlı Anket · Popüler Diyetler';
+    var btn = document.getElementById('courseSwitchBtn');
+    if (btn) btn.textContent = '🤖 AI Dersi Oylaması';
   } else if (mode === 'bes200_h1' || mode === '1') {
     currentWeek = 1;
     roomId = 'bes339-h1';
@@ -1687,6 +1692,8 @@ function applyCourseRoute(mode) {
     document.getElementById('weekTitle').textContent = 'BES200 · H1: AI ile Tanışma';
     document.getElementById('weekIcon').textContent = '🤖';
     document.title = 'BES200 · Hafta 1 Canlı Oylama';
+    var btn = document.getElementById('courseSwitchBtn');
+    if (btn) btn.textContent = '🥗 Popüler Diyetler Anketi';
   } else if (mode === 'bes200_h2' || mode === '2') {
     currentWeek = 2;
     roomId = 'bes339-h2';
@@ -1694,11 +1701,16 @@ function applyCourseRoute(mode) {
     document.getElementById('weekTitle').textContent = 'BES200 · H2: Beslenmenin Dönüşümü';
     document.getElementById('weekIcon').textContent = '🧬';
     document.title = 'BES200 · Hafta 2 Canlı Oylama';
+    var btn = document.getElementById('courseSwitchBtn');
+    if (btn) btn.textContent = '🥗 Popüler Diyetler Anketi';
   } else {
-    if (selectorEl) selectorEl.style.display = 'flex';
-    document.getElementById('weekTitle').textContent = 'Canlı Sınıf Oylaması';
-    document.getElementById('weekIcon').textContent = '🎓';
-    document.title = 'Canlı Sınıf Oylaması · Dr. Caner Özyıldırım';
+    // Varsayılan olarak Popüler Diyetleri aç
+    currentWeek = 'populer';
+    roomId = 'bes339-populer';
+    if (popEl) popEl.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES339 · Popüler Diyetler';
+    document.getElementById('weekIcon').textContent = '🥗';
+    document.title = 'BES339 Canlı Anket · Popüler Diyetler';
   }
 
   if (rawRoom) roomId = rawRoom;
@@ -1708,32 +1720,35 @@ function applyCourseRoute(mode) {
   }
 }
 
+function toggleCourse() {
+  if (currentWeek === 'populer') {
+    applyCourseRoute('bes200_h2');
+  } else {
+    applyCourseRoute('bes339');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function selectCourseMode(mode) {
   applyCourseRoute(mode);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showCourseSelector() {
-  applyCourseRoute('selector');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  toggleCourse();
 }
 
 // Başlangıç Rota Tespiti
-var isPopulerRoute = (courseParam === 'bes339' || courseParam === 'populer' || weekParam === 'populer' || weekParam === 'pd' || rawRoom.indexOf('populer') !== -1);
 var isH1Route = (courseParam === 'bes200' && weekParam === '1') || weekParam === '1' || rawRoom.indexOf('h1') !== -1 || ['tanisma', 'pre', 'post', 'kapanis'].indexOf(requestedTab) !== -1;
-var isH2Route = (courseParam === 'bes200' && weekParam === '2') || weekParam === '2' || rawRoom.indexOf('h2') !== -1;
+var isH2Route = (courseParam === 'bes200' && weekParam === '2') || weekParam === '2' || rawRoom.indexOf('h2') !== -1 || courseParam === 'bes200';
 
-if (isPopulerRoute) {
-  applyCourseRoute('bes339');
-} else if (isH1Route) {
+if (isH1Route) {
   applyCourseRoute('bes200_h1');
 } else if (isH2Route) {
   applyCourseRoute('bes200_h2');
-} else if (courseParam === 'bes200') {
-  applyCourseRoute('bes200_h2');
 } else {
-  // Parametre yoksa doğrudan ders seçim ekranını göster!
-  applyCourseRoute('selector');
+  // Parametre olsun veya olmasın: VARSAYILAN OLARAK BES339 POPÜLER DİYETLER ANKETİNİ AÇ!
+  applyCourseRoute('bes339');
 }
 
 // Benzersiz Öğrenci Kimliği
