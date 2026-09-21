@@ -274,7 +274,7 @@ function handleUnlockSubmit(e) {{
     const decryptedJson = decryptPayload(encryptedPayloadCiphertext, password);
     const lockedList = JSON.parse(decryptedJson);
     applyDecryptedSlides(lockedList);
-    try {{ localStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJson); }} catch(e) {{}}
+    try {{ sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJson); }} catch(e) {{}}
     closeLockModal();
     if (pendingTargetSlide !== null) {{
       const target = pendingTargetSlide;
@@ -301,7 +301,7 @@ function handleUnlockSubmit(e) {{
 
 function checkSessionUnlock() {{
   try {{
-    const cached = localStorage.getItem('unlocked_pres_' + PRES_ID);
+    const cached = sessionStorage.getItem('unlocked_pres_' + PRES_ID);
     if (cached) applyDecryptedSlides(JSON.parse(cached));
   }} catch(e) {{}}
 }}

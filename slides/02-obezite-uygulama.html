@@ -3365,7 +3365,7 @@ async function handleUnlockSubmit(e) {
 
   try {
     applyDecryptedUygulama(decryptedJs);
-    localStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJs);
+    sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJs);
     isUnlocked = true;
     closeLockModal();
     
@@ -3387,7 +3387,7 @@ async function handleUnlockSubmit(e) {
 }
 
 function checkSessionUnlock() {
-  const cached = localStorage.getItem('unlocked_pres_' + PRES_ID);
+  const cached = sessionStorage.getItem('unlocked_pres_' + PRES_ID);
   if (cached) {
     try {
       applyDecryptedUygulama(cached);

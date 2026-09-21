@@ -2324,14 +2324,14 @@ function applyDecryptedAiSlides(decryptedHtml) {
   }
   isUnlocked = true;
   try {
-    localStorage.setItem('unlocked_html_' + PRES_ID, decryptedHtml);
+    sessionStorage.setItem('unlocked_html_' + PRES_ID, decryptedHtml);
   } catch(e) {}
   render();
 }
 
 function checkSessionUnlock() {
   try {
-    const cached = localStorage.getItem('unlocked_html_' + PRES_ID);
+    const cached = sessionStorage.getItem('unlocked_html_' + PRES_ID);
     if (cached) {
       applyDecryptedAiSlides(cached);
     }
