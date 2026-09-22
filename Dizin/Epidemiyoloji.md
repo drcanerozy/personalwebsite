@@ -1,4 +1,0 @@
-
-
-## İlgili Notlar
-- [[Protein Kalitesi]]

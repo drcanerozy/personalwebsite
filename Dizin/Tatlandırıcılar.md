@@ -1,3 +1,0 @@
-
-
-## İlgili Notlar

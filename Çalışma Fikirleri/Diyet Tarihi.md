@@ -1,4 +1,0 @@
----
-Kategori: Kitap-Egitim
----
-
