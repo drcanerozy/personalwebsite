@@ -2067,13 +2067,13 @@ function renderRefEnergyFormulas(container){
       <tr><th>Formül</th><th>Eşitlik Yapısı</th><th>Hangi Ağırlık Girilir?</th><th>Avantaj & Kılavuz Derecesi</th></tr>
       <tr>
         <td><b>Mifflin-St Jeor</b><br><span class="tag" style="font-size:10px;">⭐ ALTIN STANDART</span></td>
-        <td>• Erkek: 10×Ağ + 6.25×Boy - 5×Yaş + 5<br>• Kadın: 10×Ağ + 6.25×Boy - 5×Yaş - 161</td>
+        <td>• Erkek: 10 × Ağ (kg) + 6.25 × Boy (cm) - 5 × Yaş (yıl) + 5<br>• Kadın: 10 × Ağ (kg) + 6.25 × Boy (cm) - 5 × Yaş (yıl) - 161</td>
         <td><b>Gerçek (Aktüel) Ağırlık</b></td>
         <td>⭐ <b>AND & EASO 1. Tercih:</b> Obezitede %70-82 doğruluk. Yağsız kütleyi korur.</td>
       </tr>
       <tr>
         <td><b>Harris-Benedict</b><br><span class="tag bad" style="font-size:10px;">Overestimation Riski</span></td>
-        <td>• Erkek: 88.36 + 13.40×Ağ + 4.80×Boy - 5.68×Yaş<br>• Kadın: 447.59 + 9.25×Ağ + 3.10×Boy - 4.33×Yaş</td>
+        <td>• Erkek: 88.36 + 13.40 × Ağ (kg) + 4.80 × Boy (cm) - 5.68 × Yaş (yıl)<br>• Kadın: 447.59 + 9.25 × Ağ (kg) + 3.10 × Boy (cm) - 4.33 × Yaş (yıl)</td>
         <td><b>Düzeltilmiş Ağırlık (ABW)</b></td>
         <td>Gerçek ağırlıkla kullanılırsa enerjiyi <b>%7 – %27 fazla (şişirilmiş)</b> hesaplar!</td>
       </tr>
@@ -2085,17 +2085,20 @@ function renderRefEnergyFormulas(container){
       </tr>
       <tr>
         <td><b>IOM / DRI (EER)</b><br><span class="tag amber" style="font-size:10px;">Doğrudan TDEE</span></td>
-        <td>• Erkek: 662 - 9.53×Yaş + PA×(15.91×Ağ + 539.6×Boy_m)<br>• Kadın: 354 - 6.91×Yaş + PA×(9.36×Ağ + 726×Boy_m)</td>
+        <td>• Erkek: 662 - 9.53 × Yaş (yıl) + PA × (15.91 × Ağ (kg) + 539.6 × Boy (m))<br>• Kadın: 354 - 6.91 × Yaş (yıl) + PA × (9.36 × Ağ (kg) + 726 × Boy (m))</td>
         <td><b>Gerçek Ağırlık</b></td>
         <td>Doğrudan toplam harcamayı (TDEE) verir; aktivite ile ayrıca çarpmaya gerek bırakmaz.</td>
       </tr>
       <tr>
         <td><b>Pratik 24 Formülleri</b></td>
-        <td>• Erkek: 24 × Ağ<br>• Kadın: 24 × 0.95 × Ağ (=22.8 × Ağ)<br>• Yaşlı Kadın: 20.5 × Ağ | Yaşlı Erkek: 21.6 × Ağ</td>
+        <td>• Erkek: 24 × Ağ (kg)<br>• Kadın: 24 × 0.95 × Ağ (kg) (= 22.8 × Ağ [kg])<br>• Yaşlı Kadın: 20.5 × Ağ (kg) | Yaşlı Erkek: 21.6 × Ağ (kg)</td>
         <td><b>Düzeltilmiş Ağırlık (ABW)</b></td>
         <td>Saniyeler içinde hızlı vizit ve poliklinik taraması sağlar.</td>
       </tr>
     </table>
+    <div style="margin-top:14px;padding:10px 14px;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.25);border-radius:10px;font-size:12px;color:var(--ink);text-align:left;line-height:1.6;">
+      💡 <b>Öğrenci Kılavuzu &amp; Birim Dikkat Noktası:</b> <b>Ağ:</b> Vücut ağırlığı <b>(kg)</b> | <b>Boy:</b> Mifflin-St Jeor ve Harris-Benedict'te <u>santimetre (cm)</u>, IOM/DRI formülünde ise <u>metre (m)</u> cinsinden girilmelidir! | <b>Yaş:</b> <u>Yıl</u> | <b>LBM:</b> Yağsız vücut kütlesi <b>(kg)</b>.
+    </div>
   </div>`;
 }
 
@@ -2109,15 +2112,15 @@ function renderRefWeights(container){
           • <b>Hamwi Formülü:</b><br>
           &nbsp;&nbsp;Kadın: 45.5 kg + 0.91 × (Boy cm - 152.4)<br>
           &nbsp;&nbsp;Erkek: 48.0 kg + 1.10 × (Boy cm - 152.4)<br>
-          • <b>İdeal BKİ Metodu:</b> IBW = Hedef BKİ (22.5 kg/m²) × Boy² (m²)<br>
-          • <b>%IBW:</b> (Gerçek Ağırlık ÷ IBW) × 100 (%120 üzeri obezitedir).
+          • <b>İdeal BKİ Metodu:</b> IBW (kg) = Hedef BKİ (22.5 kg/m²) × Boy² (m²)<br>
+          • <b>%IBW:</b> [Gerçek Ağırlık (kg) ÷ IBW (kg)] × 100 (%120 üzeri obezitedir).
         </p>
       </div>
       <div class="card">
         <b class="sans" style="color:var(--teal-dark);font-size:14.5px;">2. Düzeltilmiş Ağırlık (ABW)</b>
         <p class="sans" style="font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.7;">
           • <b>Formül:</b><br>
-          &nbsp;&nbsp;<b>ABW = IBW + 0.25 × (Gerçek Ağırlık - IBW)</b><br>
+          &nbsp;&nbsp;<b>ABW (kg) = IBW (kg) + 0.25 × [Gerçek Ağırlık (kg) - IBW (kg)]</b><br>
           &nbsp;&nbsp;<span style="font-size:11.5px;color:var(--ink-soft);">(Gerektiğinde 0.40 katsayısı da kullanılır)</span><br>
           • <b>Neden Kullanılır?</b> Yağ dokusunun metabolik olarak aktif olan %25'lik vasküler/hücresel kitlesini hesaba katar.<br>
           • <b>Kullanım:</b> Harris-Benedict formülünde ve protein hesabında (1.2-1.5 g/kg ABW).
