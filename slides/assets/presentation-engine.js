@@ -219,6 +219,59 @@
       return;
     }
 
+    // Mevcut sayfanın dosya adı / slug'ını belirle
+    const pathParts = window.location.pathname.split('/');
+    const currentFileName = pathParts[pathParts.length - 1] || '';
+    const slugBase = currentFileName.replace(/\.html$/, '');
+
+    // Olası statik PDF aday yolları (vault PDF klasöründen aktarılan tam sunum PDF'leri)
+    const candidatePdfUrls = [
+      `pdf/${slugBase}.pdf`,
+      `pdf/Konu1_Obezite_Sunum_Notlar.pdf`,
+      `assets/pdf/${slugBase}.pdf`,
+      `../dersler/Yetişkinlerde Beslenme Tedavisi Uygulaması/Sunumlar/PDF/${slugBase}.pdf`
+    ];
+
+    // Belirli bilinen eşleştirmeler
+    if (slugBase.indexOf('obezite-ve-tibbi-beslenme-tedavisi') !== -1) {
+      candidatePdfUrls.unshift('pdf/01-obezite-ve-tibbi-beslenme-tedavisi.pdf');
+      candidatePdfUrls.unshift('pdf/Konu1_Obezite_Sunum_Notlar.pdf');
+    }
+
+    // İlk adayı kontrol et ve doğrudan indir
+    function tryStaticPdfDownload(urls, onNotFound) {
+      if (!urls || urls.length === 0) {
+        onNotFound();
+        return;
+      }
+      const testUrl = urls[0];
+      fetch(testUrl, { method: 'HEAD' })
+        .then(res => {
+          if (res.ok) {
+            // Statik PDF mevcut! Doğrudan dosya indirmesini başlat
+            const a = document.createElement('a');
+            a.href = testUrl;
+            a.download = testUrl.split('/').pop();
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          } else {
+            tryStaticPdfDownload(urls.slice(1), onNotFound);
+          }
+        })
+        .catch(() => {
+          tryStaticPdfDownload(urls.slice(1), onNotFound);
+        });
+    }
+
+    tryStaticPdfDownload(candidatePdfUrls, () => {
+      // Statik PDF bulunamazsa dinamik metin notu üreticisine fallback yap
+      renderDynamicTextPdf();
+    });
+  };
+
+  function renderDynamicTextPdf() {
     ensureHtml2Pdf(() => {
       const pdfBtns = document.querySelectorAll('#header-pdf-btn, .pdf-download-btn');
       pdfBtns.forEach(btn => {
