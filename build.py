@@ -491,7 +491,6 @@ def generate_html(lang="tr"):
         
         # Title links directly to presentation
         title_html = f"<a href='{p_live}' target='_blank' rel='noopener noreferrer' class='hover:text-emerald-700 transition flex items-center justify-between group'><span>{p_title}</span><i class='fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-700 transition ml-2'></i></a>" if p_live else p_title
-        dl_btn = f"<a href='{p_dl}' target='_blank' class='text-academic-700 font-semibold hover:underline flex items-center space-x-1'><i class='fa-solid fa-download'></i><span>{ui['download_slide_btn']}</span></a>" if p_dl else ""
 
         card = f"""
                 <div class="bg-warmBg rounded-xl border border-slate-200 p-6 flex flex-col justify-between hover:shadow-md hover:border-academic-700 transition">
@@ -509,9 +508,6 @@ def generate_html(lang="tr"):
                     </div>
                     <div class="mt-5 pt-4 border-t border-slate-200 flex flex-wrap justify-between items-center gap-2 text-xs">
                         <span class="text-slate-500 font-mono text-[11px]"><i class="fa-solid fa-file-powerpoint text-amber-600 mr-1"></i> {p_slides}</span>
-                        <div class="flex items-center space-x-3">
-                            {dl_btn}
-                        </div>
                     </div>
                 </div>"""
         pres_html.append(card)

@@ -5,7 +5,6 @@ badge: "Undergraduate Module (NUT 339)"
 date: "2026-09-20"
 slide_count: "102 Slides (🔒 AES-256 Protected)"
 html_url: "slides/01-beslenmenin-evrimi.html"
-download_url: "https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf/01-beslenmenin-evrimi.pdf"
 summary: "Beslenmenin Evrimi interactive web presentation. First 10 slides public preview; slides 11+ encrypted."
 draft: false
 lang: "en"
