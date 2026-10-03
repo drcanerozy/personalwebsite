@@ -19,6 +19,8 @@ order: 4
 Designed for undergraduate dietetics students to explore how modern digital tools and AI can enhance clinical workflows, client education, and evidence-based nutrition practice through interactive hands-on learning.
 
 ## 📊 Interactive Lecture Slides & Student Preview
-Access the 20-slide interactive web presentation via the link below. The **first 10 slides are public preview**, while slides 11+ are encrypted with **AES-256-GCM** and unlocked with the course password.
+Access the interactive web presentations via the links below. The **first 10 slides are public preview**, while slides 11+ are encrypted with **AES-256-GCM** and unlocked with the course password (`COZYBESAI2026_`). After entering the password (or via the button on the cover), students can also download the complete slides as **text-only PDF lecture notes**.
 
-👉 [**Open BES 200 Interactive Lecture Slides (HTML)**](../../slides/01-bilgisayar-ve-yapay-zeka.html) *(Student Lock Screen Protected)*
+- 👉 [**Week 1: Introduction to Computer & AI in Nutrition (HTML)**](../../slides/01-bilgisayar-ve-yapay-zeka.html) *(20 Slides • 🔒 Password Protected • PDF Download Supported)*
+- 👉 [**Week 2: How AI is Transforming Nutrition Science (HTML)**](../../slides/02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.html) *(73 Slides • 🔒 Password Protected • PDF Download Supported)*
+

@@ -10,8 +10,8 @@ topics: "Yapay zekanın beslenme ve diyetetiğe etkileri, diyet planlama ve besi
 lab_ai_practice: "Bol uygulamalı sınıf içi atölyeler; yapay zeka araçlarıyla menü/diyet analizi, danışan bilgilendirme broşürleri tasarlama, besin bileşim veri tabanları kullanımı ve interaktif vaka çalışmaları."
 classroom_practices: "Derslerimizde yapay zekanın beslenme bilimine etkilerini ve güncel gelişmeleri inceliyor; diyetisyenlik pratiğinde doğrudan kullanabileceğimiz dijital araçlarla bol bol vaka çözümü, diyet analizi ve içerik üretimi uygulamaları yapıyoruz."
 learning_outcomes: "Diyetisyenlik mesleğinde yapay zeka ve bilgisayar teknolojilerini bilinçli ve etik biçimde kullanabilme, dijital besin veri tabanlarını yönetebilme ve teknolojiyi danışan süreçlerine entegre edebilme."
-slides_url: "../slides/01-bilgisayar-ve-yapay-zeka.html"
-slides_title: "BES 200: Yapay Zeka ile Tanışma Sunumu (79 Slayt)"
+slides_url: "../slides/02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.html"
+slides_title: "BES 200: Hafta 2 — Yapay Zeka Beslenme Bilimini Nasıl Dönüştürüyor? (73 Slayt - Canlı İzle)"
 slides_badge: "İlk 10 slayt açık önizleme • 🔒 AES-256 Korumalı • Şifre: COZYBESAI2026_"
 draft: false
 lang: "tr"
@@ -25,7 +25,9 @@ order: 4
 - **Akademik Literatür Tarama:** Güncel bilimsel kanıtlara hızlı ve doğru ulaşmak için dijital araştırma araçlarını kullanma.
 - **Etik, Doğruluk ve Güvenilirlik:** Yapay zekanın ürettiği bilgilerin beslenme bilimi süzgecinden geçirilmesi ve mesleki sorumluluk sınırları.
 
-## 📊 İnteraktif Ders Sunumu & Öğrenci Önizlemesi
-Bu dersin 20 slaytlık interaktif web sunumuna aşağıdaki bağlantıdan erişebilirsiniz. **İlk 10 slayt açık önizleme** olarak sunulmakta, 11. slayttan itibaren vaka analizleri ve simülatörler **AES-256-GCM** öğrenci şifresiyle korunmaktadır.
+## 📊 İnteraktif Ders Sunumları & Öğrenci Önizlemesi
+Bu dersin interaktif web sunumlarına aşağıdaki bağlantılardan erişebilirsiniz. **İlk 10 slayt açık önizleme** olarak sunulmakta, 11. slayttan itibaren vaka analizleri ve simülatörler **AES-256-GCM** öğrenci şifresiyle korunmaktadır. Şifreyi girdikten sonra veya kapak sayfasındaki butondan tüm sunumu **salt metin PDF ders notu** olarak tek tıkla indirebilirsiniz.
 
-👉 [**BES 200: İnteraktif Ders Sunumunu Tam Ekran Aç (HTML)**](../slides/01-bilgisayar-ve-yapay-zeka.html) *(Öğrenci Kilit Ekranı Korumalı)*
+- 👉 [**Hafta 1: Bilgisayar ve Yapay Zekaya Giriş (HTML)**](../slides/01-bilgisayar-ve-yapay-zeka.html) *(20 Slayt • 🔒 Öğrenci Kilit Korumalı • PDF İndirme Destekli)*
+- 👉 [**Hafta 2: Yapay Zeka Beslenme Bilimini Nasıl Dönüştürüyor? (HTML)**](../slides/02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.html) *(73 Slayt • 🔒 Öğrenci Kilit Korumalı • PDF İndirme Destekli)*
+

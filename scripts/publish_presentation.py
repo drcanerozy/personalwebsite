@@ -374,9 +374,238 @@ function togglePasswordVisibility() {{
         body_pos = new_html.rfind("</body>")
         final_html = new_html[:body_pos] + client_script + "\n" + new_html[body_pos:]
     else:
-        # Standart HTML section tabanlı mimari
-        total_slides = 50 # varsayılan
-        final_html = html
+        # STANDART HTML SECTION TABANLI MİMARİ (<section class="slide">)
+        slide_pattern = re.compile(r'(<section\b[^>]*class=["\'][^"\']*slide[^"\']*["\'][^>]*>.*?</section>)', re.DOTALL | re.IGNORECASE)
+        slides = slide_pattern.findall(html)
+        if not slides:
+            # Fallback: <div class="slide">
+            slide_pattern = re.compile(r'(<div\b[^>]*class=["\'][^"\']*slide[^"\']*["\'][^>]*>.*?</div>\s*<!--\s*end-slide\s*-->)', re.DOTALL | re.IGNORECASE)
+            slides = slide_pattern.findall(html)
+
+        total_slides = len(slides) if slides else 50
+        print(f"📊 Toplam Section Slayt Sayısı: {total_slides}")
+
+        if slides and total_slides > 10:
+            public_slides = slides[:10]
+            locked_slides = slides[10:]
+            locked_html = "\n".join(locked_slides)
+            ciphertext = encrypt_aes_payload(locked_html, password)
+
+            lock_slide_html = f"""
+    <section class="slide" id="slide_preview_lock"><div class="slide-inner" style="text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:clamp(50px, 8vh, 90px) 20px;">
+      <div style="width:72px; height:72px; border-radius:20px; background:rgba(30,111,92,0.12); border:1px solid rgba(30,111,92,0.25); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 20px;">🔒</div>
+      <p class="eyebrow" style="justify-content:center;">Önizleme Sınırı · Slayt 10</p>
+      <h1 class="slide-title" style="margin:0 auto 16px; max-width:24ch; text-align:center;">10 Slaytlık Açık Önizleme <em>Tamamlanmıştır</em></h1>
+      <p class="lede" style="max-width:640px; margin:0 auto 28px; text-align:center;">Dersin devamındaki {course_info['code']} modüllerini, vaka analizlerini ve uygulamaları görüntülemek için lütfen ders şifrenizi giriniz.</p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <button onclick="openLockModal(10)" style="background:linear-gradient(135deg, var(--teal), var(--teal-deep)); color:#ffffff; font-weight:700; border:none; border-radius:12px; padding:14px 28px; font-size:14px; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease;">
+          🔓 Şifreyi Gir &amp; Derse Devam Et
+        </button>
+        <button onclick="triggerPresentationPdfDownload()" style="background:#1e293b; color:#fbbf24; font-weight:700; border:none; border-radius:12px; padding:14px 24px; font-size:14px; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease;">
+          📄 Notları PDF İndir
+        </button>
+      </div>
+    </div></section>
+"""
+            # Slaytları HTML'de değiştir
+            first_slide_pos = html.find(slides[0])
+            last_slide_pos = html.find(slides[-1]) + len(slides[-1])
+            new_html = html[:first_slide_pos] + "\n".join(public_slides) + "\n" + lock_slide_html + html[last_slide_pos:]
+
+            # Navigasyon kontrollerine kilit kancası enjekte et
+            if "function go(d){" in new_html and "openLockModal" not in new_html[new_html.find("function go(d){"):new_html.find("function go(d){") + 250]:
+                new_html = new_html.replace(
+                    "function go(d){",
+                    "function go(d){\n  if(d > 0 && !isUnlocked && cur >= 9){ openLockModal(10); return; }"
+                )
+            if "function jump(i){" in new_html and "openLockModal" not in new_html[new_html.find("function jump(i){"):new_html.find("function jump(i){") + 250]:
+                new_html = new_html.replace(
+                    "function jump(i){",
+                    "function jump(i){\n  if(!isUnlocked && i >= 10){ openLockModal(i); return; }"
+                )
+
+            # Header ve Kapak sayfasına Kilit ve PDF butonları ekle
+            if '<div class="week-tag"' in new_html and 'id="header-lock-btn"' not in new_html:
+                hdr_btn_html = """    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="header-lock-btn" onclick="openLockModal()" title="Ders Şifresini Gir" style="padding:6px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;background:var(--gold-light, #fef3c7);border:1px solid rgba(201,138,31,0.4);color:#8a5c10;cursor:pointer;border-radius:8px;transition:all 0.15s ease;">
+        <span>🔒</span> <span class="hidden sm:inline">Ders Şifresi</span>
+      </button>
+      <button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" style="padding:6px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;background:var(--surface, #ffffff);border:1px solid var(--line, #e2e8f0);color:var(--ink, #1e293b);cursor:pointer;border-radius:8px;transition:all 0.15s ease;">
+        <span style="color:#dc2626;">📄</span> <span class="hidden sm:inline">PDF İndir</span>
+      </button>
+    </div>
+"""
+                new_html = new_html.replace('<div class="week-tag"', hdr_btn_html + '    <div class="week-tag"')
+
+            modal_html = get_lock_modal_html(course_info["code"], course_info["name_tr"])
+            dom_client_script = f"""
+<!-- INLINED CRYPTOJS ENGINE -->
+<script>
+{crypto_js_code}
+</script>
+
+<script id="encrypted-payload-data" type="text/plain">
+{ciphertext}
+</script>
+
+{modal_html}
+
+<script>
+var PRES_ID = "{pres_id}";
+var PUBLIC_SLIDE_COUNT = 10;
+var TOTAL_SLIDES_COUNT = {total_slides};
+var isUnlocked = false;
+var pendingTargetSlide = null;
+var encryptedPayloadCiphertext = "";
+
+document.addEventListener('DOMContentLoaded', () => {{
+  const scriptTag = document.getElementById('encrypted-payload-data');
+  if (scriptTag) encryptedPayloadCiphertext = scriptTag.textContent.trim();
+  checkSessionUnlock();
+}});
+
+function getPasswordCandidates(inputStr) {{
+  const p = (inputStr || '').trim();
+  if (!p) return [];
+  const set = new Set([p, p.toUpperCase(), p.toLowerCase(), p.toLocaleUpperCase('tr-TR')]);
+  if (!p.endsWith('_')) set.add(p + '_');
+  else set.add(p.replace(/_+$/, ''));
+  return Array.from(set);
+}}
+
+function decryptPayload(ciphertext, passwordInput) {{
+  for (const cand of getPasswordCandidates(passwordInput)) {{
+    try {{
+      const dec = CryptoJS.AES.decrypt(ciphertext, cand).toString(CryptoJS.enc.Utf8);
+      if (dec && dec.length > 50) return dec;
+    }} catch(e) {{}}
+  }}
+  throw new Error("Şifre çözülemedi.");
+}}
+
+function handleUnlockSubmit(e) {{
+  if (e && e.preventDefault) e.preventDefault();
+  const input = document.getElementById('student-password-input');
+  const password = input ? input.value.trim() : '';
+  const errorEl = document.getElementById('unlock-error-msg');
+  const submitBtn = document.getElementById('unlock-submit-btn');
+  const modalCard = document.getElementById('modal-card');
+
+  if (!password) return;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '⏳ Şifre Çözülüyor...';
+  if (errorEl) errorEl.style.display = 'none';
+
+  try {{
+    const decryptedHtml = decryptPayload(encryptedPayloadCiphertext, password);
+    applyDecryptedDomSlides(decryptedHtml);
+    try {{ sessionStorage.setItem('unlocked_html_' + PRES_ID, decryptedHtml); }} catch(e) {{}}
+    closeLockModal();
+    if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+    if (window.pendingDownloadPdf) {{
+      window.pendingDownloadPdf = false;
+      setTimeout(triggerPresentationPdfDownload, 350);
+    }}
+    if (pendingTargetSlide !== null) {{
+      const target = pendingTargetSlide;
+      pendingTargetSlide = null;
+      if (typeof jump === 'function') jump(target);
+    }} else {{
+      if (typeof jump === 'function') jump(PUBLIC_SLIDE_COUNT);
+    }}
+  }} catch(err) {{
+    if (errorEl) {{
+      errorEl.textContent = '⚠️ Hatalı şifre! Lütfen {course_info["code"]} ders şifrenizi kontrol ediniz.';
+      errorEl.style.display = 'block';
+    }}
+    if (modalCard) {{
+      modalCard.classList.remove('modal-shake');
+      void modalCard.offsetWidth;
+      modalCard.classList.add('modal-shake');
+    }}
+  }} finally {{
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '🔓 Şifreyi Çöz &amp; Derse Devam Et';
+  }}
+}}
+
+function applyDecryptedDomSlides(decryptedHtml) {{
+  if (isUnlocked) return;
+  const lockSlide = document.getElementById('slide_preview_lock');
+  const slidesContainer = document.querySelector('.slides') || document.getElementById('slides');
+  if (lockSlide && lockSlide.parentNode) {{
+    lockSlide.parentNode.removeChild(lockSlide);
+  }}
+  if (slidesContainer) {{
+    slidesContainer.insertAdjacentHTML('beforeend', decryptedHtml);
+  }}
+  if (typeof slides !== 'undefined') {{
+    slides = document.querySelectorAll(".slide");
+  }}
+  if (typeof dotsWrap !== 'undefined' && dotsWrap) {{
+    dotsWrap.innerHTML = "";
+    document.querySelectorAll(".slide").forEach(function(_, i){{
+      const b = document.createElement("button");
+      b.addEventListener("click", function(){{ if(typeof jump === 'function') jump(i); }});
+      dotsWrap.appendChild(b);
+    }});
+  }}
+  isUnlocked = true;
+  if (typeof render === 'function') render();
+  if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+}}
+
+function checkSessionUnlock() {{
+  try {{
+    const cached = sessionStorage.getItem('unlocked_html_' + PRES_ID);
+    if (cached) {{
+      applyDecryptedDomSlides(cached);
+      if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+    }}
+  }} catch(e) {{}}
+}}
+
+function openLockModal(targetSlide, forPdf) {{
+  if (forPdf) window.pendingDownloadPdf = true;
+  if (isUnlocked) {{
+    if (window.pendingDownloadPdf) {{
+      window.pendingDownloadPdf = false;
+      triggerPresentationPdfDownload();
+    }}
+    return;
+  }}
+  if (targetSlide !== undefined && targetSlide !== null) pendingTargetSlide = targetSlide;
+  const m = document.getElementById('student-lock-modal');
+  if (m) {{
+    const desc = m.querySelector('p');
+    if (window.pendingDownloadPdf && desc) {{
+      desc.textContent = "Ders notlarını PDF olarak indirmek ve tüm sunumu görüntülemek için lütfen {course_info['code']} ders şifrenizi giriniz.";
+    }}
+    m.style.display = 'flex';
+    setTimeout(() => {{
+      const inp = document.getElementById('student-password-input');
+      if (inp) inp.focus();
+    }}, 80);
+  }}
+}}
+
+function closeLockModal() {{
+  const m = document.getElementById('student-lock-modal');
+  if (m) m.style.display = 'none';
+  const err = document.getElementById('unlock-error-msg');
+  if (err) err.style.display = 'none';
+}}
+
+function togglePasswordVisibility() {{
+  const inp = document.getElementById('student-password-input');
+  if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
+}}
+</script>
+"""
+            body_pos = new_html.rfind("</body>")
+            final_html = new_html[:body_pos] + dom_client_script + "\n" + new_html[body_pos:]
+        else:
+            final_html = html
 
     # Head içine motor kütüphanelerini ekle
     engine_scripts = """    <!-- PDF Export & Presentation Security Engine -->
