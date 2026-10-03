@@ -17,6 +17,10 @@
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- PDF Export & Presentation Security Engine -->
+    <script src="assets/html2pdf.bundle.min.js"></script>
+    <script src="assets/presentation-engine.js"></script>
+    
     <!-- Google Fonts: Merriweather, Playfair Display, Plus Jakarta Sans, JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -148,6 +152,18 @@
                 <span class="text-stone-300">/</span>
                 <span id="counter-total" class="text-stone-600 font-medium">102</span>
             </div>
+
+            <!-- Kilit Durumu / Şifre Giriş Butonu -->
+            <button id="header-lock-btn" onclick="openLockModal()" title="Ders Şifresini Gir" class="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl text-xs font-mono font-medium transition flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <span id="header-lock-icon">🔒</span>
+                <span id="header-lock-text" class="hidden sm:inline">Ders Şifresi</span>
+            </button>
+
+            <!-- PDF Ders Notu İndir Butonu -->
+            <button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" class="px-3 py-1.5 bg-white/80 hover:bg-stone-50 text-stone-800 hover:text-stone-900 rounded-xl text-xs font-mono font-medium transition border border-stone-200/80 flex items-center space-x-1.5 shadow-2xs cursor-pointer">
+                <i class="fa-solid fa-file-pdf text-red-600 text-xs"></i>
+                <span id="header-pdf-text" class="hidden sm:inline">PDF İndir</span>
+            </button>
 
             <!-- Fihrist / Genel Bakış Butonu -->
             <button onclick="toggleOverviewModal()" title="Tüm Slaytları Gör (G veya M)" class="px-3 py-1.5 bg-white/80 hover:bg-white text-stone-700 hover:text-stone-900 rounded-xl text-xs font-mono font-medium transition border border-stone-200/80 flex items-center space-x-2 shadow-2xs">
@@ -2103,6 +2119,22 @@ const bullets = slide.bullets || [];
                         centerBox.appendChild(itm);
                     });
 
+                    if (num === 1) {
+                        const actionBox = document.createElement('div');
+                        actionBox.className = 'flex flex-wrap items-center justify-center gap-4 pt-3';
+                        actionBox.innerHTML = `
+                            <button type="button" onclick="openLockModal()" class="cover-lock-btn px-6 py-3 rounded-2xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs sm:text-sm font-sans flex items-center space-x-2 shadow-sm transition cursor-pointer">
+                                <span>🔒</span>
+                                <span>${isUnlocked ? 'Sunum Kilidi Açık (102 Slayt)' : 'Ders Şifresini Gir & Tüm Sunumu Aç'}</span>
+                            </button>
+                            <button type="button" onclick="triggerPresentationPdfDownload()" class="pdf-download-btn px-6 py-3 rounded-2xl bg-stone-900 hover:bg-black text-amber-100 font-bold text-xs sm:text-sm font-sans flex items-center space-x-2 shadow-sm transition cursor-pointer">
+                                <i class="fa-solid fa-file-arrow-down text-amber-400"></i>
+                                <span>Ders Notlarını PDF İndir</span>
+                            </button>
+                        `;
+                        centerBox.appendChild(actionBox);
+                    }
+
                     bodyEl.appendChild(centerBox);
                     return;
                 }
@@ -2222,10 +2254,16 @@ const bullets = slide.bullets || [];
                             <p class="text-[11px] text-amber-800">Devamındaki modüller (Slayt 11-102) BES 339 öğrenci şifresiyle korunmaktadır.</p>
                         </div>
                     </div>
-                    <button type="button" onclick="openLockModal(10)" class="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 text-white text-xs font-bold rounded-xl transition shadow-sm shrink-0 flex items-center justify-center space-x-2 cursor-pointer">
-                        <span>🔓</span>
-                        <span>Ders Şifresini Gir &amp; Devam Et</span>
-                    </button>
+                    <div class="flex flex-wrap items-center gap-2 shrink-0">
+                        <button type="button" onclick="openLockModal(10)" class="px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 text-white text-xs font-bold rounded-xl transition shadow-sm flex items-center justify-center space-x-2 cursor-pointer">
+                            <span>🔓</span>
+                            <span>Ders Şifresini Gir &amp; Devam Et</span>
+                        </button>
+                        <button type="button" onclick="triggerPresentationPdfDownload()" class="px-3.5 py-2 bg-stone-900 hover:bg-black text-amber-100 text-xs font-bold rounded-xl transition shadow-sm flex items-center justify-center space-x-1.5 cursor-pointer">
+                            <i class="fa-solid fa-file-pdf text-red-500"></i>
+                            <span>Notları PDF İndir</span>
+                        </button>
+                    </div>
                 `;
                 bodyEl.appendChild(lockBanner);
             }
@@ -2818,6 +2856,11 @@ function handleUnlockSubmit(e) {
     applyDecryptedSlides(lockedList);
     try { sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJson); } catch(e) {}
     closeLockModal();
+    if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+    if (window.pendingDownloadPdf) {
+      window.pendingDownloadPdf = false;
+      setTimeout(triggerPresentationPdfDownload, 350);
+    }
     if (pendingTargetSlide !== null) {
       const target = pendingTargetSlide;
       pendingTargetSlide = null;
@@ -2844,7 +2887,10 @@ function handleUnlockSubmit(e) {
 function checkSessionUnlock() {
   try {
     const cached = sessionStorage.getItem('unlocked_pres_' + PRES_ID);
-    if (cached) applyDecryptedSlides(JSON.parse(cached));
+    if (cached) {
+      applyDecryptedSlides(JSON.parse(cached));
+      if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+    }
   } catch(e) {}
 }
 
@@ -2859,13 +2905,25 @@ function applyDecryptedSlides(lockedList) {
   if (totalCounter) totalCounter.innerText = String(totalSlides);
   if (typeof buildOverviewGrid === 'function') buildOverviewGrid();
   if (typeof renderSlide === 'function') renderSlide();
+  if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
 }
 
-function openLockModal(targetSlide) {
-  if (isUnlocked) return;
-  if (targetSlide !== undefined) pendingTargetSlide = targetSlide;
+function openLockModal(targetSlide, forPdf) {
+  if (forPdf) window.pendingDownloadPdf = true;
+  if (isUnlocked) {
+    if (window.pendingDownloadPdf) {
+      window.pendingDownloadPdf = false;
+      triggerPresentationPdfDownload();
+    }
+    return;
+  }
+  if (targetSlide !== undefined && targetSlide !== null) pendingTargetSlide = targetSlide;
   const m = document.getElementById('student-lock-modal');
   if (m) {
+    const desc = m.querySelector('p');
+    if (window.pendingDownloadPdf && desc) {
+      desc.textContent = "Ders notlarını PDF olarak indirmek ve tüm sunumu görüntülemek için lütfen BES 339 ders şifrenizi giriniz.";
+    }
     m.style.display = 'flex';
     setTimeout(() => {
       const inp = document.getElementById('student-password-input');

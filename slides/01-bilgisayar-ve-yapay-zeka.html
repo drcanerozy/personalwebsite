@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700;1,800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
-<!-- Paho MQTT WebSocket Client & QRCode Library -->
-
-
+<!-- PDF Export & Presentation Security Engine -->
+<script src="assets/html2pdf.bundle.min.js"></script>
+<script src="assets/presentation-engine.js"></script>
 <style>
   :root{
     --bg: #F6FAF7; --bg-deep: #EEF5EF; --surface: #FFFFFF;
@@ -589,9 +589,17 @@
       <button id="tocBtn" style="padding:5px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;background:var(--teal-light);border:1px solid rgba(30,111,92,0.3);color:var(--teal-deep);cursor:pointer;border-radius:6px;transition:all 0.15s ease;">
         <span style="font-size:13px;">☰</span> <span>İçindekiler</span>
       </button>
-      <div class="brand"><span class="dot"></span> Bilgisayar Uygulamaları ve AI · BES339</div>
+      <div class="brand"><span class="dot"></span> Bilgisayar Uygulamaları ve AI · BES 200</div>
     </div>
-    <div class="week-tag" id="weekLabel">Hafta 01 · Giriş</div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="header-lock-btn" onclick="openLockModal()" title="Ders Şifresini Gir" style="padding:6px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;background:var(--gold-light);border:1px solid rgba(201,138,31,0.4);color:#8a5c10;cursor:pointer;border-radius:8px;transition:all 0.15s ease;">
+        <span>🔒</span> <span class="hidden sm:inline">Ders Şifresi</span>
+      </button>
+      <button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" style="padding:6px 12px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);color:var(--ink);cursor:pointer;border-radius:8px;transition:all 0.15s ease;">
+        <span style="color:#dc2626;">📄</span> <span class="hidden sm:inline">PDF İndir</span>
+      </button>
+      <div class="week-tag" id="weekLabel">Hafta 01 · Giriş</div>
+    </div>
   </header>
   <div id="sec-rail"><div id="sec-bar"></div></div>
 
@@ -622,6 +630,15 @@
           <div style="font-size: 13px; font-weight: 600; color: var(--teal-deep); letter-spacing: 0.02em;">
             Beslenme ve Diyetetik Bölümü
           </div>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-top:22px; flex-wrap:wrap;">
+          <button type="button" onclick="openLockModal()" class="cover-lock-btn" style="padding:10px 22px; font-size:13px; font-weight:700; border-radius:10px; background:var(--teal); color:#fff; border:none; cursor:pointer; box-shadow:var(--shadow);">
+            🔒 Ders Şifresini Gir &amp; Tüm Sunumu Aç
+          </button>
+          <button type="button" onclick="triggerPresentationPdfDownload()" class="pdf-download-btn" style="padding:10px 22px; font-size:13px; font-weight:700; border-radius:10px; background:var(--surface); color:var(--ink); border:1px solid var(--line); cursor:pointer; box-shadow:var(--shadow);">
+            📄 Ders Notlarını PDF İndir
+          </button>
         </div>
         <div style="margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
           <a href="https://canerozy.com" target="_blank" style="text-decoration: none; font-size: 12.5px; font-weight: 600; color: var(--ink); background: var(--teal-light); border: 1px solid rgba(30,111,92,0.3); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
@@ -777,9 +794,14 @@
       <p class="eyebrow" style="justify-content:center;">Önizleme Sınırı · Slayt 10</p>
       <h1 class="slide-title" style="margin:0 auto 16px; max-width:24ch; text-align:center;">10 Slaytlık Açık Önizleme <em>Tamamlanmıştır</em></h1>
       <p class="lede" style="max-width:640px; margin:0 auto 28px; text-align:center;">Dersin devamındaki üretken yapay zeka modülleri, vaka analizleri ve klinik simülasyonları görüntülemek için lütfen ders şifrenizi giriniz.</p>
-      <button onclick="openLockModal(10)" style="background:linear-gradient(135deg, var(--teal), var(--teal-deep)); color:#ffffff; font-weight:700; border:none; border-radius:12px; padding:14px 32px; font-size:15px; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease;">
-        🔓 Şifreyi Gir &amp; Derse Devam Et
-      </button>
+      <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <button onclick="openLockModal(10)" style="background:linear-gradient(135deg, var(--teal), var(--teal-deep)); color:#ffffff; font-weight:700; border:none; border-radius:12px; padding:14px 28px; font-size:14px; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease;">
+          🔓 Şifreyi Gir &amp; Derse Devam Et
+        </button>
+        <button onclick="triggerPresentationPdfDownload()" style="background:#1e293b; color:#fbbf24; font-weight:700; border:none; border-radius:12px; padding:14px 24px; font-size:14px; cursor:pointer; box-shadow:var(--shadow); transition:transform .15s ease;">
+          📄 Notları PDF İndir
+        </button>
+      </div>
     </div></section>\n</div>
 
   <footer class="chrome">
@@ -834,6 +856,10 @@ function hideFragment(frag){
   frag.classList.remove("on"); frag.classList.remove("open");
 }
 function go(d){
+  if(d > 0 && !isUnlocked && cur >= 9){
+    openLockModal(10);
+    return;
+  }
   var slideEl = slides[cur];
   var frags = getFragments(slideEl);
   if(d > 0){
@@ -847,6 +873,11 @@ function go(d){
       cur++; render();
       var newFrags = getFragments(slides[cur]);
       fragIndex = 0; newFrags.forEach(hideFragment);
+      if(!isUnlocked && cur >= 10){
+        openLockModal(cur);
+      }
+    } else if(!isUnlocked){
+      openLockModal(10);
     }
   } else {
     if(fragIndex > 0){
@@ -863,6 +894,10 @@ function go(d){
   }
 }
 function jump(i){
+  if(!isUnlocked && i >= 10){
+    openLockModal(i);
+    return;
+  }
   cur = i; render();
   var frags = getFragments(slides[cur]);
   fragIndex = frags.length; frags.forEach(revealFragment);
@@ -2288,6 +2323,11 @@ function handleUnlockSubmit(e) {
   if (decrypted) {
     applyDecryptedAiSlides(decrypted);
     closeLockModal();
+    if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+    if (window.pendingDownloadPdf) {
+      window.pendingDownloadPdf = false;
+      setTimeout(triggerPresentationPdfDownload, 350);
+    }
     const target = (pendingTargetSlide !== null && pendingTargetSlide >= 0) ? pendingTargetSlide : 9;
     pendingTargetSlide = null;
     jump(Math.min(target, slides.length - 1));
@@ -2327,6 +2367,7 @@ function applyDecryptedAiSlides(decryptedHtml) {
     sessionStorage.setItem('unlocked_html_' + PRES_ID, decryptedHtml);
   } catch(e) {}
   render();
+  if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
 }
 
 function checkSessionUnlock() {
@@ -2334,15 +2375,27 @@ function checkSessionUnlock() {
     const cached = sessionStorage.getItem('unlocked_html_' + PRES_ID);
     if (cached) {
       applyDecryptedAiSlides(cached);
+      if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
     }
   } catch(e) {}
 }
 
-function openLockModal(targetSlide) {
-  if (isUnlocked) return;
-  if (targetSlide !== undefined) pendingTargetSlide = targetSlide;
+function openLockModal(targetSlide, forPdf) {
+  if (forPdf) window.pendingDownloadPdf = true;
+  if (isUnlocked) {
+    if (window.pendingDownloadPdf) {
+      window.pendingDownloadPdf = false;
+      triggerPresentationPdfDownload();
+    }
+    return;
+  }
+  if (targetSlide !== undefined && targetSlide !== null) pendingTargetSlide = targetSlide;
   const m = document.getElementById('student-lock-modal');
   if (m) {
+    const desc = m.querySelector('p');
+    if (window.pendingDownloadPdf && desc) {
+      desc.textContent = "Ders notlarını PDF olarak indirmek ve tüm sunumu görüntülemek için lütfen BES 200 ders şifrenizi giriniz.";
+    }
     m.style.display = 'flex';
     setTimeout(() => {
       const inp = document.getElementById('student-password-input');

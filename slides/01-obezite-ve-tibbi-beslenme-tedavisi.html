@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,450;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700;1,800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+<!-- PDF Export & Presentation Security Engine -->
+<script src="assets/html2pdf.bundle.min.js"></script>
+<script src="assets/presentation-engine.js"></script>
 <script>
 /* Chart.js 4.5.1 (inlined for offline use) */
 /*!
@@ -552,6 +555,14 @@
   <div style="display:flex; align-items:center; gap:16px;">
     <div id="topBarTopic" style="font-size:13px; font-weight:600; color:var(--tan-mute); font-family:var(--sans);">
       <span class="tag" style="background:var(--accent-soft); color:var(--accent); font-weight:700; padding:4px 12px; border-radius:6px; border:1px solid var(--accent-soft-border);">Giriş ve Epidemiyoloji</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="header-lock-btn" onclick="openLockModal()" title="Ders Şifresini Gir" style="padding:6px 12px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:rgba(217,119,6,0.15); border:1px solid rgba(217,119,6,0.4); color:#fbbf24; cursor:pointer; border-radius:8px; transition:all 0.15s ease;">
+        <span>🔒</span> <span class="hidden sm:inline">Ders Şifresi</span>
+      </button>
+      <button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" style="padding:6px 12px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:var(--surface); border:1px solid rgba(255,255,255,0.15); color:var(--cream); cursor:pointer; border-radius:8px; transition:all 0.15s ease;">
+        <span style="color:#ef4444;">📄</span> <span class="hidden sm:inline">PDF İndir</span>
+      </button>
     </div>
     <div class="navbtns" style="display:flex; gap:8px; align-items:center;">
       <button class="navbtn ghost" id="topPrevBtn" style="padding:5px 12px; font-size:12px;">← Geri</button>
@@ -1205,11 +1216,11 @@ function update(){
   const prevBtn = document.getElementById('prevBtn');
   if(prevBtn) prevBtn.disabled = current===0;
   const nextBtn = document.getElementById('nextBtn');
-  if(nextBtn) nextBtn.disabled = current===total-1;
+  if(nextBtn) nextBtn.disabled = isUnlocked ? (current===total-1) : false;
   const topPrevBtn = document.getElementById('topPrevBtn');
   if(topPrevBtn) topPrevBtn.disabled = current===0;
   const topNextBtn = document.getElementById('topNextBtn');
-  if(topNextBtn) topNextBtn.disabled = current===total-1;
+  if(topNextBtn) topNextBtn.disabled = isUnlocked ? (current===total-1) : false;
   const progressFill = document.getElementById('progress-fill');
   if(progressFill) progressFill.style.width = ((current)/(total-1)*100)+'%';
   const secBar = document.getElementById('sec-bar');
