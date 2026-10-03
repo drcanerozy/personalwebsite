@@ -737,7 +737,9 @@ function renderCover(s){
     '<div class="kicker" style="text-align:center;">' + (s.kicker||"Yetişkin Hastalıklarında Beslenme Tedavisi · Konu 1") + '</div>' +
     '<h1 style="text-align:center; margin:0 auto 16px; max-width:20ch;">' + (s.title||'').replace(/\n/g,'<br>') + '</h1>' +
     '<div class="sub" style="text-align:center; margin:0 auto 20px; max-width:56ch; line-height:1.55;">' + (s.sub||'') + '</div>' +
-    '        <div style="margin: 22px auto 0; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;">          <div style="font-size: 14.5px; font-weight: 700; color: var(--cream); background: rgba(31,111,100,0.09); border: 1px solid rgba(31,111,100,0.25); padding: 7px 22px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px;">            <span>👨‍🏫</span> <span>Ders Sorumlusu: Dr. Arş. Gör. Caner ÖZYILDIRIM</span>          </div>          <div style="font-size: 13px; font-weight: 600; color: var(--tan-mute); letter-spacing: 0.02em;">            Beslenme ve Diyetetik Bölümü          </div>        </div>        <div style="margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">          <a href="https://canerozy.com" target="_blank" style="text-decoration: none; font-size: 12.5px; font-weight: 600; color: var(--cream); background: rgba(31,111,100,0.09); border: 1px solid rgba(31,111,100,0.25); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">            <span>🌐</span> <span>canerozy.com</span>          </a>          <a href="https://instagram.com/canerozy" target="_blank" style="text-decoration: none; font-size: 12.5px; font-weight: 600; color: #E1306C; background: rgba(225,48,108,0.08); border: 1px solid rgba(225,48,108,0.25); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">            <span>📸</span> <span>@canerozy</span>          </a>        </div></div>';
+    '        <div style="margin: 22px auto 0; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;">          <div style="font-size: 14.5px; font-weight: 700; color: var(--cream); background: rgba(31,111,100,0.09); border: 1px solid rgba(31,111,100,0.25); padding: 7px 22px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px;">            <span>👨‍🏫</span> <span>Ders Sorumlusu: Dr. Arş. Gör. Caner ÖZYILDIRIM</span>          </div>          <div style="font-size: 13px; font-weight: 600; color: var(--tan-mute); letter-spacing: 0.02em;">            Beslenme ve Diyetetik Bölümü          </div>        </div>' +
+    '        <div style="display:flex; align-items:center; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap;"><button type="button" onclick="openLockModal()" class="cover-lock-btn" style="padding:10px 22px; font-size:13px; font-weight:700; border-radius:10px; background:var(--accent); color:#fff; border:none; cursor:pointer; box-shadow:var(--shadow);">🔒 Ders Şifresini Gir &amp; Tüm Sunumu Aç</button><button type="button" onclick="triggerPresentationPdfDownload()" class="pdf-download-btn" style="padding:10px 22px; font-size:13px; font-weight:700; border-radius:10px; background:var(--surface); color:var(--cream); border:1px solid rgba(255,255,255,0.15); cursor:pointer; box-shadow:var(--shadow);">📄 Ders Notlarını PDF İndir</button></div>' +
+    '        <div style="margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">          <a href="https://canerozy.com" target="_blank" style="text-decoration: none; font-size: 12.5px; font-weight: 600; color: var(--cream); background: rgba(31,111,100,0.09); border: 1px solid rgba(31,111,100,0.25); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">            <span>🌐</span> <span>canerozy.com</span>          </a>          <a href="https://instagram.com/canerozy" target="_blank" style="text-decoration: none; font-size: 12.5px; font-weight: 600; color: #E1306C; background: rgba(225,48,108,0.08); border: 1px solid rgba(225,48,108,0.25); padding: 5px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">            <span>📸</span> <span>@canerozy</span>          </a>        </div></div>';
 }
 
 function renderToc(s){
@@ -1595,6 +1597,11 @@ async function handleUnlockSubmit(e) {
       pendingTargetSlide = null;
       go(target);
     } else {
+      if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+      if (window.pendingDownloadPdf) {
+        window.pendingDownloadPdf = false;
+        setTimeout(triggerPresentationPdfDownload, 350);
+      }
       go(PUBLIC_SLIDE_COUNT);
     }
   } catch(renderErr) {
@@ -1614,6 +1621,7 @@ function checkSessionUnlock() {
       const lockedList = JSON.parse(cached);
       applyDecryptedSlides(lockedList);
       isUnlocked = true;
+      if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
     } catch(e) { console.error("Cache okunamadı:", e); }
   }
 }
@@ -1646,14 +1654,31 @@ function applyDecryptedSlides(lockedList) {
   });
   if(window.MathJax && window.MathJax.typesetPromise) window.MathJax.typesetPromise();
   update();
+  if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
 }
 
-function openLockModal(targetSlide) {
-  if (isUnlocked) return;
-  if (targetSlide !== undefined) pendingTargetSlide = targetSlide;
+function openLockModal(targetSlide, forPdf) {
+  if (forPdf) window.pendingDownloadPdf = true;
+  if (isUnlocked) {
+    if (window.pendingDownloadPdf) {
+      window.pendingDownloadPdf = false;
+      triggerPresentationPdfDownload();
+    }
+    return;
+  }
+  if (targetSlide !== undefined && targetSlide !== null) pendingTargetSlide = targetSlide;
   const m = document.getElementById('student-lock-modal');
-  m.style.display = 'flex';
-  setTimeout(() => document.getElementById('student-password-input').focus(), 80);
+  if (m) {
+    const desc = m.querySelector('p');
+    if (window.pendingDownloadPdf && desc) {
+      desc.textContent = "Ders notlarını PDF olarak indirmek ve tüm sunumu görüntülemek için lütfen BES 317 ders şifrenizi giriniz.";
+    }
+    m.style.display = 'flex';
+    setTimeout(() => {
+      const inp = document.getElementById('student-password-input');
+      if (inp) inp.focus();
+    }, 80);
+  }
 }
 
 function closeLockModal() {

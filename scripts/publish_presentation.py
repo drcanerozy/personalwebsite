@@ -189,10 +189,16 @@ def process_and_encrypt(input_path: Path, course_key: str, custom_password: str 
                             <p class="text-[11px] text-amber-800">Devamındaki modüller (Slayt 11-{total_slides}) {course_info['code']} öğrenci şifresiyle korunmaktadır.</p>
                         </div>
                     </div>
-                    <button type="button" onclick="openLockModal(10)" class="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 text-white text-xs font-bold rounded-xl transition shadow-sm shrink-0 flex items-center justify-center space-x-2 cursor-pointer">
-                        <span>🔓</span>
-                        <span>Ders Şifresini Gir &amp; Devam Et</span>
-                    </button>
+                    <div class="flex flex-wrap items-center gap-2 shrink-0">
+                        <button type="button" onclick="openLockModal(10)" class="px-4 py-2 bg-gradient-to-r from-amber-700 to-amber-800 hover:from-amber-800 hover:to-amber-900 text-white text-xs font-bold rounded-xl transition shadow-sm flex items-center justify-center space-x-2 cursor-pointer">
+                            <span>🔓</span>
+                            <span>Ders Şifresini Gir &amp; Devam Et</span>
+                        </button>
+                        <button type="button" onclick="triggerPresentationPdfDownload()" class="px-3.5 py-2 bg-stone-900 hover:bg-black text-amber-100 text-xs font-bold rounded-xl transition shadow-sm flex items-center justify-center space-x-1.5 cursor-pointer">
+                            <span>📄</span>
+                            <span>Notları PDF İndir</span>
+                        </button>
+                    </div>
                 `;
                 bodyEl.appendChild(lockBanner);
             }}
@@ -276,6 +282,11 @@ function handleUnlockSubmit(e) {{
     applyDecryptedSlides(lockedList);
     try {{ sessionStorage.setItem('unlocked_pres_' + PRES_ID, decryptedJson); }} catch(e) {{}}
     closeLockModal();
+    if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+    if (window.pendingDownloadPdf) {{
+      window.pendingDownloadPdf = false;
+      setTimeout(triggerPresentationPdfDownload, 350);
+    }}
     if (pendingTargetSlide !== null) {{
       const target = pendingTargetSlide;
       pendingTargetSlide = null;
@@ -302,7 +313,10 @@ function handleUnlockSubmit(e) {{
 function checkSessionUnlock() {{
   try {{
     const cached = sessionStorage.getItem('unlocked_pres_' + PRES_ID);
-    if (cached) applyDecryptedSlides(JSON.parse(cached));
+    if (cached) {{
+      applyDecryptedSlides(JSON.parse(cached));
+      if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
+    }}
   }} catch(e) {{}}
 }}
 
@@ -317,13 +331,25 @@ function applyDecryptedSlides(lockedList) {{
   if (totalCounter) totalCounter.innerText = String(totalSlides);
   if (typeof buildOverviewGrid === 'function') buildOverviewGrid();
   if (typeof renderSlide === 'function') renderSlide();
+  if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
 }}
 
-function openLockModal(targetSlide) {{
-  if (isUnlocked) return;
-  if (targetSlide !== undefined) pendingTargetSlide = targetSlide;
+function openLockModal(targetSlide, forPdf) {{
+  if (forPdf) window.pendingDownloadPdf = true;
+  if (isUnlocked) {{
+    if (window.pendingDownloadPdf) {{
+      window.pendingDownloadPdf = false;
+      triggerPresentationPdfDownload();
+    }}
+    return;
+  }}
+  if (targetSlide !== undefined && targetSlide !== null) pendingTargetSlide = targetSlide;
   const m = document.getElementById('student-lock-modal');
   if (m) {{
+    const desc = m.querySelector('p');
+    if (window.pendingDownloadPdf && desc) {{
+      desc.textContent = "Ders notlarını PDF olarak indirmek ve tüm sunumu görüntülemek için lütfen {course_info['code']} ders şifrenizi giriniz.";
+    }}
     m.style.display = 'flex';
     setTimeout(() => {{
       const inp = document.getElementById('student-password-input');
@@ -351,6 +377,17 @@ function togglePasswordVisibility() {{
         # Standart HTML section tabanlı mimari
         total_slides = 50 # varsayılan
         final_html = html
+
+    # Head içine motor kütüphanelerini ekle
+    engine_scripts = """    <!-- PDF Export & Presentation Security Engine -->
+    <script src="assets/html2pdf.bundle.min.js"></script>
+    <script src="assets/presentation-engine.js"></script>
+"""
+    if "presentation-engine.js" not in final_html:
+        if "</head>" in final_html:
+            final_html = final_html.replace("</head>", engine_scripts + "</head>")
+        elif "<head>" in final_html:
+            final_html = final_html.replace("<head>", "<head>\n" + engine_scripts)
 
     # Dosyayı kaydet
     out_name = f"{slugify(pres_title)}.html"
