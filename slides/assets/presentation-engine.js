@@ -224,18 +224,33 @@
     const currentFileName = pathParts[pathParts.length - 1] || '';
     const slugBase = currentFileName.replace(/\.html$/, '');
 
-    // Olası statik PDF aday yolları (vault PDF klasöründen aktarılan tam sunum PDF'leri)
+    // GitHub Repo Bilgisi (raw.githubusercontent yüksek hızlı CDN dağıtımı için)
+    const rawGithubBase = 'https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf';
+
+    // Olası statik PDF aday yolları (önce raw.githubusercontent süper hızlı CDN, sonra yerel fallback)
     const candidatePdfUrls = [
-      `pdf/${slugBase}.pdf`,
-      `pdf/Konu1_Obezite_Sunum_Notlar.pdf`,
-      `assets/pdf/${slugBase}.pdf`,
-      `../dersler/Yetişkinlerde Beslenme Tedavisi Uygulaması/Sunumlar/PDF/${slugBase}.pdf`
+      `${rawGithubBase}/${slugBase}.pdf`,
+      `pdf/${slugBase}.pdf`
     ];
 
     // Belirli bilinen eşleştirmeler
     if (slugBase.indexOf('obezite-ve-tibbi-beslenme-tedavisi') !== -1) {
-      candidatePdfUrls.unshift('pdf/01-obezite-ve-tibbi-beslenme-tedavisi.pdf');
-      candidatePdfUrls.unshift('pdf/Konu1_Obezite_Sunum_Notlar.pdf');
+      candidatePdfUrls.unshift(`${rawGithubBase}/01-obezite-ve-tibbi-beslenme-tedavisi.pdf`);
+      candidatePdfUrls.unshift(`${rawGithubBase}/Konu1_Obezite_Sunum_Notlar.pdf`);
+      candidatePdfUrls.push('pdf/01-obezite-ve-tibbi-beslenme-tedavisi.pdf');
+    }
+
+    // PDF indirme durumunu butonlarda göster
+    const pdfBtns = document.querySelectorAll('#header-pdf-btn, .pdf-download-btn');
+    pdfBtns.forEach(btn => {
+      btn.dataset.origHtml = btn.innerHTML;
+      btn.innerHTML = '⚡ PDF İndiriliyor...';
+    });
+
+    function resetPdfBtns() {
+      pdfBtns.forEach(btn => {
+        if (btn.dataset.origHtml) btn.innerHTML = btn.dataset.origHtml;
+      });
     }
 
     // İlk adayı kontrol et ve doğrudan indir
@@ -248,7 +263,7 @@
       fetch(testUrl, { method: 'HEAD' })
         .then(res => {
           if (res.ok) {
-            // Statik PDF mevcut! Doğrudan dosya indirmesini başlat
+            // Yüksek hızlı CDN üzerinden doğrudan indirmeyi tetikle
             const a = document.createElement('a');
             a.href = testUrl;
             a.download = testUrl.split('/').pop();
@@ -256,6 +271,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            setTimeout(resetPdfBtns, 2000);
           } else {
             tryStaticPdfDownload(urls.slice(1), onNotFound);
           }
