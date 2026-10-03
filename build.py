@@ -44,16 +44,17 @@ def fetch_substack_rss():
             posts = json.loads(response.read().decode("utf-8"))
         
         for p in posts:
+            post_type = p.get("type", "newsletter")
+            # Sadece blog yazıları/postları alınmalı; podcast yayınları ayrı sayfada/bölümde paylaşılıyor
+            if post_type == "podcast" or p.get("podcast_url"):
+                continue
+
             title = (p.get("title") or "").strip()
             link = p.get("canonical_url") or f"https://drcaner.substack.com/p/{p.get('slug', '')}"
             date_raw = p.get("post_date") or ""
             date_str = date_raw[:10] if date_raw else ""
             summary = (p.get("description") or "").strip()
             cover_img = p.get("cover_image") or ""
-            post_type = p.get("type", "newsletter")
-            
-            # Badge logic
-            badge = "Podcast" if post_type == "podcast" else "Substack"
             
             feed_articles.append({
                 "title": title,
@@ -61,7 +62,7 @@ def fetch_substack_rss():
                 "date": date_str,
                 "summary": summary,
                 "image_url": cover_img,
-                "badge": badge,
+                "badge": "Substack",
                 "read_time": "6-8 dk",
                 "draft": False
             })
@@ -86,6 +87,14 @@ def fetch_substack_rss():
         root = ET.fromstring(xml_data)
         
         for item in root.findall(".//item"):
+            # Eğer enclosure ses dosyasıysa podcasttir, hariç tut
+            enclosure = item.find("enclosure")
+            if enclosure is not None:
+                enc_type = enclosure.get("type", "").lower()
+                enc_url = enclosure.get("url", "").lower()
+                if enc_type.startswith("audio/") or enc_url.endswith(".mp3"):
+                    continue
+
             title = item.findtext("title", "").strip()
             link = item.findtext("link", "").strip()
             pub_date = item.findtext("pubDate", "").strip()
@@ -109,13 +118,11 @@ def fetch_substack_rss():
                 except Exception:
                     date_str = pub_date[:10]
             
-            # Extract cover image safely (AVOID audio/mpeg MP3 files being treated as images!)
+            # Extract cover image safely
             image_url = ""
-            enclosure = item.find("enclosure")
             if enclosure is not None:
                 enc_url = enclosure.get("url", "")
                 enc_type = enclosure.get("type", "").lower()
-                # Only accept image enclosures, ignore audio/video
                 if enc_url and (enc_type.startswith("image/") or any(enc_url.endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".webp"])):
                     image_url = enc_url
             
