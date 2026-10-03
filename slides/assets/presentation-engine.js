@@ -227,12 +227,6 @@
     // GitHub Repo Bilgisi (raw.githubusercontent yüksek hızlı CDN dağıtımı için)
     const rawGithubBase = 'https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf';
 
-    // Olası statik PDF aday yolları (önce raw.githubusercontent süper hızlı CDN, sonra yerel fallback)
-    const candidatePdfUrls = [
-      `${rawGithubBase}/${slugBase}.pdf`,
-      `pdf/${slugBase}.pdf`
-    ];
-
     // Bilinen 5 sunum için özel dosya adı eşleştirmeleri
     const pdfMap = {
       '01-beslenmenin-evrimi': '01-beslenmenin-evrimi.pdf',
@@ -243,11 +237,8 @@
       '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor': '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.pdf'
     };
 
-    if (pdfMap[slugBase]) {
-      const canonicalPdf = pdfMap[slugBase];
-      candidatePdfUrls.unshift(`${rawGithubBase}/${canonicalPdf}`);
-      candidatePdfUrls.push(`pdf/${canonicalPdf}`);
-    }
+    const targetPdfName = pdfMap[slugBase] || (slugBase ? `${slugBase}.pdf` : 'ders_notlari.pdf');
+    const downloadUrl = `${rawGithubBase}/${targetPdfName}`;
 
     // PDF indirme durumunu butonlarda göster
     const pdfBtns = document.querySelectorAll('#header-pdf-btn, .pdf-download-btn');
@@ -262,38 +253,18 @@
       });
     }
 
-    // İlk adayı kontrol et ve doğrudan indir
-    function tryStaticPdfDownload(urls, onNotFound) {
-      if (!urls || urls.length === 0) {
-        onNotFound();
-        return;
-      }
-      const testUrl = urls[0];
-      fetch(testUrl, { method: 'HEAD' })
-        .then(res => {
-          if (res.ok) {
-            // Yüksek hızlı CDN üzerinden doğrudan indirmeyi tetikle
-            const a = document.createElement('a');
-            a.href = testUrl;
-            a.download = testUrl.split('/').pop();
-            a.target = '_blank';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(resetPdfBtns, 2000);
-          } else {
-            tryStaticPdfDownload(urls.slice(1), onNotFound);
-          }
-        })
-        .catch(() => {
-          tryStaticPdfDownload(urls.slice(1), onNotFound);
-        });
-    }
-
-    tryStaticPdfDownload(candidatePdfUrls, () => {
-      // Statik PDF bulunamazsa dinamik metin notu üreticisine fallback yap
-      renderDynamicTextPdf();
-    });
+    // Yüksek hızlı CDN üzerinden doğrudan indirmeyi tetikle
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = targetPdfName;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      if (a.parentNode) document.body.removeChild(a);
+      resetPdfBtns();
+    }, 1500);
   };
 
   function renderDynamicTextPdf() {
