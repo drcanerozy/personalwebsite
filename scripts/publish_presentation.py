@@ -627,10 +627,6 @@ function togglePasswordVisibility() {{
     with open(out_path, "w", encoding="utf-8") as f:
         f.write(final_html)
 
-    # Orijinal dosyayı da koru/senkronize et
-    with open(input_path, "w", encoding="utf-8") as f:
-        f.write(final_html)
-
     return out_path, total_slides, pres_title
 
 def update_course_and_presentations(course_key: str, slide_path: Path, total_slides: int, pres_title: str):

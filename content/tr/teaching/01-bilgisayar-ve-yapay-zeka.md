@@ -10,8 +10,8 @@ topics: "Yapay zekanın beslenme ve diyetetiğe etkileri, diyet planlama ve besi
 lab_ai_practice: "Bol uygulamalı sınıf içi atölyeler; yapay zeka araçlarıyla menü/diyet analizi, danışan bilgilendirme broşürleri tasarlama, besin bileşim veri tabanları kullanımı ve interaktif vaka çalışmaları."
 classroom_practices: "Derslerimizde yapay zekanın beslenme bilimine etkilerini ve güncel gelişmeleri inceliyor; diyetisyenlik pratiğinde doğrudan kullanabileceğimiz dijital araçlarla bol bol vaka çözümü, diyet analizi ve içerik üretimi uygulamaları yapıyoruz."
 learning_outcomes: "Diyetisyenlik mesleğinde yapay zeka ve bilgisayar teknolojilerini bilinçli ve etik biçimde kullanabilme, dijital besin veri tabanlarını yönetebilme ve teknolojiyi danışan süreçlerine entegre edebilme."
-slides_url: "../slides/02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.html"
-slides_title: "BES 200: Hafta 2 — Yapay Zeka Beslenme Bilimini Nasıl Dönüştürüyor? (73 Slayt - Canlı İzle)"
+slides_url: "../slides/01-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.html"
+slides_title: "BES 200: Hafta 2 — Yapay Zeka Beslenme Bilimini Nasıl Dönüştürüyor? (11 Slayt - Canlı İzle)"
 slides_badge: "İlk 10 slayt açık önizleme • 🔒 AES-256 Korumalı • Şifre: COZYBESAI2026_"
 draft: false
 lang: "tr"
