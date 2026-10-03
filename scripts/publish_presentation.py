@@ -607,6 +607,17 @@ function togglePasswordVisibility() {{
         else:
             final_html = html
 
+    # Görünüm Ayarları (Font / Punto) Widget'ını koru / enjekte et
+    if "<!-- GORUNUM-AYARLARI:BASLA" in html and "<!-- GORUNUM-AYARLARI:BASLA" not in final_html:
+        s_idx = html.find("<!-- GORUNUM-AYARLARI:BASLA")
+        e_idx = html.find("<!-- GORUNUM-AYARLARI:BITIS -->") + len("<!-- GORUNUM-AYARLARI:BITIS -->")
+        widget_code = html[s_idx:e_idx]
+        b_pos = final_html.rfind("</body>")
+        if b_pos != -1:
+            final_html = final_html[:b_pos] + "\n" + widget_code + "\n" + final_html[b_pos:]
+        else:
+            final_html = final_html + "\n" + widget_code
+
     # Head içine motor kütüphanelerini ekle
     engine_scripts = """    <!-- PDF Export & Presentation Security Engine -->
     <script src="assets/html2pdf.bundle.min.js"></script>
