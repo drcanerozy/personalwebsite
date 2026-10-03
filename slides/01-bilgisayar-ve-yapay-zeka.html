@@ -828,6 +828,8 @@
 
 <script>
 /* ---------- SLIDE NAV + AUTO-FIT + FRAGMENT ---------- */
+var isUnlocked = false;
+window.isUnlocked = false;
 var slides = document.querySelectorAll(".slide");
 var dotsWrap = document.getElementById("dots");
 var cur = 0;
@@ -2284,7 +2286,8 @@ U2FsdGVkX195JnopXMBqj9THiarZoPVBpiXX2SkLQwMZEuzo2w6AunCfmfs7WrfoSrlJEp61yvg8UZiD
 /* ================= STUDENT LOCK & CRYPTOJS DECRYPTION ENGINE (AI COURSE) ================= */
 const PRES_ID = "bes_ai_hafta1";
 const PUBLIC_SLIDE_COUNT = 10;
-let isUnlocked = false;
+var isUnlocked = (typeof window.isUnlocked !== 'undefined') ? window.isUnlocked : false;
+window.isUnlocked = isUnlocked;
 let pendingTargetSlide = null;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -2360,8 +2363,7 @@ function handleUnlockSubmit(e) {
 function applyDecryptedAiSlides(decryptedHtml) {
   if (isUnlocked) return;
   if (typeof decryptedHtml === 'string') {
-    decryptedHtml = decryptedHtml.replace(/\n/g, '
-');
+    decryptedHtml = decryptedHtml.replace(/\\n/g, '\n');
   }
   const lockSlide = document.getElementById('slide_preview_lock');
   const slidesContainer = document.getElementById('slides');
@@ -2381,6 +2383,7 @@ function applyDecryptedAiSlides(decryptedHtml) {
     });
   }
   isUnlocked = true;
+  window.isUnlocked = true;
   try {
     sessionStorage.setItem('unlocked_html_' + PRES_ID, decryptedHtml);
   } catch(e) {}
@@ -2400,7 +2403,7 @@ function checkSessionUnlock() {
 
 function openLockModal(targetSlide, forPdf) {
   if (forPdf) window.pendingDownloadPdf = true;
-  if (isUnlocked) {
+  if (isUnlocked || window.isUnlocked) {
     if (window.pendingDownloadPdf) {
       window.pendingDownloadPdf = false;
       triggerPresentationPdfDownload();
@@ -2433,6 +2436,12 @@ function togglePasswordVisibility() {
   const inp = document.getElementById('student-password-input');
   if (inp) inp.type = inp.type === 'password' ? 'text' : 'password';
 }
+
+window.openLockModal = openLockModal;
+window.closeLockModal = closeLockModal;
+window.handleUnlockSubmit = handleUnlockSubmit;
+window.togglePasswordVisibility = togglePasswordVisibility;
+window.applyDecryptedAiSlides = applyDecryptedAiSlides;
 </script>
 
 <!-- GORUNUM-AYARLARI:BASLA (otomatik eklendi; kaldırmak için BASLA–BITIS arasını silin) -->
