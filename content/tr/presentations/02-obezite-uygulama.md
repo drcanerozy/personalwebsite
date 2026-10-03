@@ -5,7 +5,7 @@ badge: "Klinik Uygulama (BES 317)"
 date: "2026-03-01"
 slide_count: "59+ Slayt (🔒 AES-256 Korumalı)"
 html_url: "slides/02-obezite-uygulama.html"
-download_url: ""
+download_url: "https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf/02-obezite-uygulama.pdf"
 summary: "Kalorimetri tarihi, besin değişim listeleri, interaktif makro besin hesaplama simülatörü ve ambalajlı gıda analizleri. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
 draft: false
 lang: "tr"

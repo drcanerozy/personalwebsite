@@ -5,7 +5,7 @@ badge: "Undergraduate Lecture (NUT 200)"
 date: "2026-03-01"
 slide_count: "79 Slides (🔒 AES-256 Protected)"
 html_url: "slides/01-bilgisayar-ve-yapay-zeka.html"
-download_url: ""
+download_url: "https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf/01-bilgisayar-ve-yapay-zeka.pdf"
 summary: "Introduction of artificial intelligence to nutritional sciences, core concepts, ML, DL, generative AI, and dietetic practice. First 10 slides public preview; slides 11+ encrypted."
 draft: false
 lang: "en"

@@ -5,7 +5,7 @@ badge: "Lisans Dersi (BES 200)"
 date: "2026-03-01"
 slide_count: "79 Slayt (🔒 AES-256 Korumalı)"
 html_url: "slides/01-bilgisayar-ve-yapay-zeka.html"
-download_url: ""
+download_url: "https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf/01-bilgisayar-ve-yapay-zeka.pdf"
 summary: "Yapay zekanın beslenme bilimine girişi, temel kavramlar matruşkası, makine öğrenmesi, derin öğrenme, üretken AI (GenAI) ve diyetisyenlik uygulamaları. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
 draft: false
 lang: "tr"

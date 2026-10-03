@@ -5,7 +5,7 @@ badge: "Undergraduate Lecture (NUT 339)"
 date: "2026-03-05"
 slide_count: "101 Slides (🔒 AES-256 Protected)"
 html_url: "slides/01-beslenmenin-evrimi.html"
-download_url: ""
+download_url: "https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf/01-beslenmenin-evrimi.pdf"
 summary: "Evolutionary trajectory of human nutrition from primates and hominins to contemporary diets; cooking hypothesis, expensive tissue hypothesis, agricultural revolution, and popular diets. First 10 slides public preview; slides 11+ encrypted."
 draft: false
 lang: "en"

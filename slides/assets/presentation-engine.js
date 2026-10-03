@@ -233,11 +233,20 @@
       `pdf/${slugBase}.pdf`
     ];
 
-    // Belirli bilinen eşleştirmeler
-    if (slugBase.indexOf('obezite-ve-tibbi-beslenme-tedavisi') !== -1) {
-      candidatePdfUrls.unshift(`${rawGithubBase}/01-obezite-ve-tibbi-beslenme-tedavisi.pdf`);
-      candidatePdfUrls.unshift(`${rawGithubBase}/Konu1_Obezite_Sunum_Notlar.pdf`);
-      candidatePdfUrls.push('pdf/01-obezite-ve-tibbi-beslenme-tedavisi.pdf');
+    // Bilinen 5 sunum için özel dosya adı eşleştirmeleri
+    const pdfMap = {
+      '01-beslenmenin-evrimi': '01-beslenmenin-evrimi.pdf',
+      'beslenmenin_evrimi_sunum': '01-beslenmenin-evrimi.pdf',
+      '01-bilgisayar-ve-yapay-zeka': '01-bilgisayar-ve-yapay-zeka.pdf',
+      '01-obezite-ve-tibbi-beslenme-tedavisi': '01-obezite-ve-tibbi-beslenme-tedavisi.pdf',
+      '02-obezite-uygulama': '02-obezite-uygulama.pdf',
+      '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor': '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.pdf'
+    };
+
+    if (pdfMap[slugBase]) {
+      const canonicalPdf = pdfMap[slugBase];
+      candidatePdfUrls.unshift(`${rawGithubBase}/${canonicalPdf}`);
+      candidatePdfUrls.push(`pdf/${canonicalPdf}`);
     }
 
     // PDF indirme durumunu butonlarda göster

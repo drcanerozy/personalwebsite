@@ -5,7 +5,7 @@ badge: "Lisans Modülü (BES 339)"
 date: "2026-09-20"
 slide_count: "102 Slayt (🔒 AES-256 Korumalı)"
 html_url: "slides/01-beslenmenin-evrimi.html"
-download_url: ""
+download_url: "https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf/01-beslenmenin-evrimi.pdf"
 summary: "Beslenmenin Evrimi dersi interaktif web sunumu. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
 draft: false
 lang: "tr"
