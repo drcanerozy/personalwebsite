@@ -7,6 +7,7 @@ Zero external dependencies (pure Python 3 standard library).
 
 import os
 import re
+import json
 import glob
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -20,26 +21,70 @@ _rss_cache = None
 
 def fetch_substack_rss():
     """
-    Fetches and parses the latest articles directly from Substack RSS feed (https://drcaner.substack.com/feed).
-    Falls back gracefully if network is unavailable.
+    Fetches and parses the latest articles directly from Substack.
+    Prioritizes Substack Archive JSON API for high-res cover images and metadata,
+    falling back to RSS XML feed if API is unreachable.
     """
     global _rss_cache
     if _rss_cache is not None:
         return _rss_cache
 
-    url = "https://drcaner.substack.com/feed"
+    feed_articles = []
+    
+    # 1. PRIMARY: Substack Official Archive API (Accurate cover_image, titles, dates)
+    api_url = "https://drcaner.substack.com/api/v1/archive?sort=new&limit=50"
     try:
         import socket
-        socket.setdefaulttimeout(2.5)
+        socket.setdefaulttimeout(5.0)
         req = urllib.request.Request(
-            url,
-            headers={"User-Agent": "Mozilla/5.0 (AcademicWebsiteBuilder/1.0)"}
+            api_url,
+            headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
         )
-        with urllib.request.urlopen(req, timeout=2.5) as response:
+        with urllib.request.urlopen(req, timeout=5.0) as response:
+            posts = json.loads(response.read().decode("utf-8"))
+        
+        for p in posts:
+            title = (p.get("title") or "").strip()
+            link = p.get("canonical_url") or f"https://drcaner.substack.com/p/{p.get('slug', '')}"
+            date_raw = p.get("post_date") or ""
+            date_str = date_raw[:10] if date_raw else ""
+            summary = (p.get("description") or "").strip()
+            cover_img = p.get("cover_image") or ""
+            post_type = p.get("type", "newsletter")
+            
+            # Badge logic
+            badge = "Podcast" if post_type == "podcast" else "Substack"
+            
+            feed_articles.append({
+                "title": title,
+                "url": link,
+                "date": date_str,
+                "summary": summary,
+                "image_url": cover_img,
+                "badge": badge,
+                "read_time": "6-8 dk",
+                "draft": False
+            })
+            
+        if feed_articles:
+            _rss_cache = feed_articles
+            return _rss_cache
+    except Exception:
+        pass
+
+    # 2. FALLBACK: Substack RSS Feed
+    rss_url = "https://drcaner.substack.com/feed"
+    try:
+        import socket
+        socket.setdefaulttimeout(3.0)
+        req = urllib.request.Request(
+            rss_url,
+            headers={"User-Agent": "Mozilla/5.0 (AcademicWebsiteBuilder/2.0)"}
+        )
+        with urllib.request.urlopen(req, timeout=3.0) as response:
             xml_data = response.read()
         root = ET.fromstring(xml_data)
         
-        feed_articles = []
         for item in root.findall(".//item"):
             title = item.findtext("title", "").strip()
             link = item.findtext("link", "").strip()
@@ -64,11 +109,15 @@ def fetch_substack_rss():
                 except Exception:
                     date_str = pub_date[:10]
             
-            # Extract cover image
+            # Extract cover image safely (AVOID audio/mpeg MP3 files being treated as images!)
             image_url = ""
             enclosure = item.find("enclosure")
-            if enclosure is not None and enclosure.get("url"):
-                image_url = enclosure.get("url")
+            if enclosure is not None:
+                enc_url = enclosure.get("url", "")
+                enc_type = enclosure.get("type", "").lower()
+                # Only accept image enclosures, ignore audio/video
+                if enc_url and (enc_type.startswith("image/") or any(enc_url.endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".webp"])):
+                    image_url = enc_url
             
             if not image_url:
                 content_elem = item.find("{http://purl.org/rss/1.0/modules/content/}encoded")
@@ -203,7 +252,7 @@ def load_section_items(lang_dir, section_name):
             
     # Sort items
     if section_name in ["articles", "yazilar"]:
-        items.sort(key=lambda x: (x.get("order", 999), str(x.get("date", ""))), reverse=False)
+        items.sort(key=lambda x: str(x.get("date", "")), reverse=True)
     else:
         items.sort(key=lambda x: (x.get("order", 999), str(x.get("date", "")), str(x.get("year", ""))), reverse=False)
     return items
