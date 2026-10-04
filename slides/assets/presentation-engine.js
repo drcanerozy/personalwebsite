@@ -227,14 +227,16 @@
     // GitHub Repo Bilgisi (raw.githubusercontent yüksek hızlı CDN dağıtımı için)
     const rawGithubBase = 'https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf';
 
-    // Bilinen 5 sunum için özel dosya adı eşleştirmeleri
+    // Bilinen sunumlar için özel dosya adı eşleştirmeleri
     const pdfMap = {
       '01-beslenmenin-evrimi': '01-beslenmenin-evrimi.pdf',
       'beslenmenin_evrimi_sunum': '01-beslenmenin-evrimi.pdf',
       '01-bilgisayar-ve-yapay-zeka': '01-bilgisayar-ve-yapay-zeka.pdf',
       '01-obezite-ve-tibbi-beslenme-tedavisi': '01-obezite-ve-tibbi-beslenme-tedavisi.pdf',
       '02-obezite-uygulama': '02-obezite-uygulama.pdf',
-      '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor': '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.pdf'
+      '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor': '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.pdf',
+      '02-diyetler-ise-yaramiyor-mu': '02-diyetler-ise-yaramiyor-mu.pdf',
+      'diyetler-ise-yaramiyor-mu': '02-diyetler-ise-yaramiyor-mu.pdf'
     };
 
     const targetPdfName = pdfMap[slugBase] || (slugBase ? `${slugBase}.pdf` : 'ders_notlari.pdf');

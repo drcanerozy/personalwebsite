@@ -27,3 +27,4 @@ Examines popular diet trends through rigorous thermodynamic, metabolic, and phys
 You can access the 101-slide interactive presentation below. **The first 10 slides are available as an open public preview**, while subsequent modules covering the agricultural revolution, nutrition transition, and popular diet evaluations are protected with **AES-256** student password encryption.
 
 - 👉 [**Topic 1: Evolution of Nutrition (101 Slides - Live)**](../slides/01-beslenmenin-evrimi.html) *(🔒 AES-256 Protected — Passcode: `COZYPOP2026_`)*
+- 👉 [**Do Diets Not Work? (56 Slides - Live)**](../slides/02-diyetler-ise-yaramiyor-mu.html) *(🔒 AES-256 Protected — Passcode: `COZYPOP2026_`)*

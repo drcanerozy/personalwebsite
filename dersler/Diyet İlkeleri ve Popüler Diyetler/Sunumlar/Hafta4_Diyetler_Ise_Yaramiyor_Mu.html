@@ -135,11 +135,167 @@
   .quote-slide blockquote{ font-family:var(--serif); font-style:italic; font-size:clamp(22px,2.6vw,38px); line-height:1.35; color:var(--cream); max-width:22ch; margin-bottom:26px;}
   .quote-cite{ font-family:var(--mono); font-size:12.5px; color:var(--accent);}
   .quote-note{ margin-top:20px; font-size:14.5px; color:var(--tan-mute); max-width:50ch;}
+  .quote-layout{ display:flex; align-items:center; justify-content:space-between; gap:clamp(28px, 4.5vw, 64px); max-width:1050px; }
+  .quote-text-col{ flex:1; max-width:620px; }
+  .quote-figure{ flex-shrink:0; display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .quote-img{ width:clamp(160px, 16vw, 220px); height:auto; max-height:46vh; object-fit:cover; border-radius:12px; border:1px solid rgba(246,241,231,0.2); box-shadow:0 14px 34px rgba(0,0,0,0.5); }
+  .quote-caption{ margin-top:14px; font-size:13px; line-height:1.45; color:var(--tan-mute); max-width:230px; text-align:center; }
+  .quote-caption-title{ font-weight:700; color:var(--cream); display:block; font-size:14px; margin-bottom:3px; }
+  .quote-caption-ref{ font-family:var(--mono); font-size:11px; color:var(--accent); display:block; }
 
-  /* cycle diagram */
+  /* cycle diagram & split transitions */
   .cycle-wrap{ position:relative; width:min(560px,60vh); height:min(560px,60vh); margin:0 auto;}
   .cycle-center{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:118px; height:118px; border-radius:50%; background:var(--accent-deep); border:1px solid var(--accent); display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; padding:10px;}
   .cycle-item{ position:absolute; width:190px; padding:14px 16px; background:var(--bg-raise); border:1px solid rgba(246,241,231,.1); border-radius:4px; font-size:13px; line-height:1.4; color:var(--tan-mute);}
+
+  /* ===== SLIDE 5: BIG CENTERED CHART ===== */
+  .chart-big-container{ display:flex; align-items:center; justify-content:space-between; gap:clamp(24px, 4vw, 56px); width:100%; max-width:1120px; margin:12px auto 0; }
+  .chart-main-plot{ flex:1; max-width:620px; }
+  .chart-y-axis-title{ font-family:var(--sans); font-size:15px; font-weight:600; color:var(--tan); margin-bottom:12px; letter-spacing:0.01em; }
+  .chart-plot-stage{ display:flex; align-items:flex-end; position:relative; padding-left:22px; padding-bottom:26px; height:clamp(300px, 38vh, 380px); }
+  .chart-y-axis-bar{ position:absolute; left:0; top:0; bottom:26px; width:2.5px; background:rgba(246,241,231,0.35); }
+  .chart-x-axis-bar{ position:absolute; left:0; right:0; bottom:26px; height:2.5px; background:rgba(246,241,231,0.35); }
+  .chart-bars-wrap{ display:flex; align-items:flex-end; gap:clamp(48px, 6vw, 90px); margin-left:clamp(24px, 3.5vw, 48px); height:calc(100% - 26px); z-index:2; }
+  .chart-bar-unit{ display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; }
+  .chart-pill{ width:clamp(100px, 11vw, 140px); background:linear-gradient(180deg, #1f7796 0%, #124d62 100%); border-radius:24px 24px 8px 8px; border:1.5px solid rgba(110, 200, 230, 0.4); box-shadow:0 10px 28px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; transition:transform .25s ease, box-shadow .25s ease; }
+  .chart-pill:hover{ transform:translateY(-4px); box-shadow:0 14px 34px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.4); }
+  .pill-50{ height:55%; }
+  .pill-80{ height:88%; }
+  .pill-pct{ font-family:var(--sans); font-size:clamp(22px, 2.3vw, 28px); font-weight:700; color:#FFFFFF; letter-spacing:0.02em; text-shadow:0 2px 8px rgba(0,0,0,0.4); }
+  .chart-axis-label{ font-family:var(--sans); font-size:16px; font-weight:600; color:var(--cream); margin-top:14px; }
+  .chart-side-notes{ flex:0 0 340px; display:flex; flex-direction:column; gap:18px; }
+  .chart-callout-card{ background:rgba(181,86,58,0.14); border:1px solid rgba(181,86,58,0.38); border-radius:12px; padding:18px 20px; box-shadow:0 8px 24px rgba(0,0,0,0.25); }
+  .chart-cite-box{ font-family:var(--mono); font-size:11px; line-height:1.55; color:var(--muted); border-left:2px solid rgba(181,86,58,0.4); padding-left:12px; }
+
+  /* ===== SLIDE 6 & 7: SPLIT MORPH TRANSITIONS ===== */
+  .split-layout{ display:flex; align-items:center; justify-content:space-between; gap:clamp(24px, 4vw, 56px); width:100%; max-width:1150px; margin:10px auto 0; }
+  .split-col-left{ flex:0 0 330px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .split-col-right{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+
+  /* Mini Chart */
+  .mini-chart-card{ background:rgba(56,46,41,0.5); border:1px solid rgba(246,241,231,0.1); border-radius:14px; padding:20px 16px; width:100%; max-width:320px; box-shadow:0 10px 28px rgba(0,0,0,0.3); }
+  .mini-chart-y-title{ font-family:var(--sans); font-size:12px; font-weight:600; color:var(--tan); margin-bottom:8px; }
+  .mini-chart-plot{ display:flex; align-items:flex-end; position:relative; padding-left:12px; padding-bottom:18px; height:190px; }
+  .mini-chart-y-axis{ position:absolute; left:0; top:0; bottom:18px; width:2px; background:rgba(246,241,231,0.3); }
+  .mini-chart-x-axis{ position:absolute; left:0; right:0; bottom:18px; height:2px; background:rgba(246,241,231,0.3); }
+  .mini-chart-bars{ display:flex; align-items:flex-end; gap:32px; margin-left:20px; height:calc(100% - 18px); z-index:2; }
+  .mini-bar-unit{ display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; }
+  .mini-pill{ width:58px; background:linear-gradient(180deg, #1f7796 0%, #124d62 100%); border-radius:16px 16px 6px 6px; border:1px solid rgba(110, 200, 230, 0.35); display:flex; align-items:center; justify-content:center; }
+  .mini-pill-50{ height:55%; }
+  .mini-pill-80{ height:88%; }
+  .mini-pct{ font-family:var(--sans); font-size:14.5px; font-weight:700; color:#FFFFFF; }
+  .mini-label{ font-family:var(--sans); font-size:12px; font-weight:600; color:var(--cream); margin-top:8px; }
+
+  /* Cycle 1 (5 circular nodes + arrows) */
+  .cycle1-wrap{ position:relative; width:480px; height:480px; flex-shrink:0; }
+  .cycle1-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+  .c1-node{ position:absolute; transform:translate(-50%, -50%); width:114px; height:114px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #227c9c, #114c61); border:2px solid rgba(255,255,255,0.24); box-shadow:0 10px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; text-align:center; font-family:var(--sans); font-size:11px; font-weight:600; line-height:1.25; color:#FFFFFF; padding:10px; box-sizing:border-box; z-index:2; transition:transform .2s ease; }
+  .c1-node:hover{ transform:translate(-50%, -50%) scale(1.06); }
+
+  /* Mini Cycle 1 */
+  .cycle1-mini-box{ width:310px; height:310px; position:relative; display:flex; align-items:center; justify-content:center; background:rgba(56,46,41,0.5); border:1px solid rgba(246,241,231,0.1); border-radius:14px; box-shadow:0 10px 28px rgba(0,0,0,0.3); }
+  .cycle1-mini-scaler{ transform:scale(0.58); transform-origin:center center; pointer-events:none; }
+
+  /* Cycle 2 (4 stages + thick curved arrows) */
+  .cycle2-wrap{ position:relative; width:520px; height:480px; flex-shrink:0; }
+  .cycle2-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+  .c2-stage{ position:absolute; transform:translate(-50%, -50%); font-family:var(--serif); font-size:16px; font-weight:600; line-height:1.35; color:var(--cream); text-align:center; background:var(--bg-raise); border:1px solid rgba(246,241,231,0.12); border-radius:10px; padding:12px 16px; box-shadow:0 8px 24px rgba(0,0,0,0.4); z-index:2; }
+  .c2-stage-top{ top:60px; left:260px; width:220px; }
+  .c2-stage-right{ top:230px; left:420px; width:170px; }
+  .c2-stage-bottom{ top:400px; left:260px; width:220px; }
+  .c2-stage-left{ top:230px; left:100px; width:170px; }
+
+  /* Morphing transition animations when slide becomes active */
+  .slide.active .chart-morph-left{ animation: morphLeftIn .75s cubic-bezier(.16, 1, .3, 1) both; }
+  .slide.active .cycle1-morph-right{ animation: morphRightIn .85s cubic-bezier(.16, 1, .3, 1) .1s both; }
+  .slide.active .cycle-morph-left{ animation: morphLeftIn .75s cubic-bezier(.16, 1, .3, 1) both; }
+  .slide.active .cycle2-morph-right{ animation: morphRightIn .85s cubic-bezier(.16, 1, .3, 1) .1s both; }
+  @keyframes morphLeftIn{ from{ opacity:0.2; transform:translateX(120px) scale(1.1); } to{ opacity:1; transform:translateX(0) scale(1); } }
+  @keyframes morphRightIn{ from{ opacity:0; transform:translateX(50px) scale(0.94); } to{ opacity:1; transform:translateX(0) scale(1); } }
+
+  /* ===== SLIDE 8: TWO QUESTIONS WITH ILLUSTRATIONS ===== */
+  .twoq-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(20px, 3.5vw, 44px); max-width:1050px; width:100%; margin:14px auto 0; }
+  .twoq-card{ background:var(--bg-raise); border:1px solid rgba(246,241,231,0.12); border-radius:14px; padding:18px 20px; display:flex; flex-direction:column; align-items:center; box-shadow:0 12px 32px rgba(0,0,0,0.35); }
+  .twoq-card-header{ display:flex; align-items:center; gap:12px; margin-bottom:14px; width:100%; }
+  .twoq-num{ font-family:var(--serif); font-size:26px; font-weight:700; color:var(--accent); width:38px; height:38px; border-radius:50%; background:rgba(181,86,58,0.18); border:1px solid rgba(181,86,58,0.4); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .twoq-card-title{ font-family:var(--serif); font-size:clamp(17px, 1.7vw, 22px); font-weight:500; color:var(--cream); line-height:1.25; margin:0; }
+  .twoq-img-wrap{ width:100%; height:clamp(240px, 36vh, 380px); display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:10px; background:rgba(0,0,0,0.22); }
+  .twoq-img-wrap img{ max-width:100%; max-height:100%; object-fit:contain; border-radius:8px; }
+
+  /* Table with Image Layout & Grid Figure Wrap */
+  .table-img-grid{ display:flex; align-items:center; justify-content:space-between; gap:clamp(24px, 4vw, 52px); width:100%; max-width:1150px; margin-top:14px; }
+  .table-col{ flex:1; min-width:320px; }
+  .table-img-col{ flex:0 0 clamp(280px, 28vw, 380px); display:flex; justify-content:center; align-items:center; }
+  .table-img-col img{ width:100%; max-width:380px; height:auto; max-height:clamp(440px, 60vh, 580px); object-fit:contain; border-radius:12px; border:1px solid rgba(246,241,231,0.18); box-shadow:0 14px 38px rgba(0,0,0,0.45); }
+  .grid-image-wrap{ margin-top:24px; display:flex; justify-content:center; width:100%; }
+  .grid-image-wrap img{ width:100%; max-width:640px; height:auto; max-height:80vh; object-fit:contain; border-radius:12px; border:1px solid rgba(246,241,231,0.18); box-shadow:0 14px 38px rgba(0,0,0,0.5); background:#ffffff; padding:14px; box-sizing:border-box; }
+
+  /* Synth Table with Image Layout */
+  .synth-img-grid{ display:flex; align-items:center; justify-content:space-between; gap:clamp(24px, 3.5vw, 48px); width:100%; max-width:1250px; }
+  .synth-text-col{ flex:1 1 500px; min-width:320px; }
+  .synth-img-col{ flex:1 1 520px; display:flex; justify-content:center; align-items:center; }
+  .synth-img-col img{ width:100%; max-width:600px; height:auto; max-height:clamp(480px, 68vh, 700px); object-fit:contain; border-radius:12px; border:1px solid rgba(246,241,231,0.18); box-shadow:0 14px 38px rgba(0,0,0,0.5); background:#ffffff; padding:10px; box-sizing:border-box; transition:transform 0.2s ease, box-shadow 0.2s ease; }
+  .synth-img-col img:hover{ transform:scale(1.02); box-shadow:0 18px 46px rgba(0,0,0,0.65); }
+
+  /* Craving Strategy Layout */
+  .craving-grid{ display:flex; align-items:center; justify-content:space-between; gap:clamp(24px, 3.5vw, 48px); width:100%; max-width:1250px; }
+  .craving-text-col{ flex:1 1 480px; min-width:320px; }
+  .craving-img-col{ flex:1.2 1 540px; display:flex; justify-content:center; align-items:center; }
+  .craving-img-box{ width:100%; display:flex; flex-direction:column; align-items:center; }
+  .craving-img-box img{ width:100%; max-width:660px; height:auto; max-height:clamp(380px, 56vh, 520px); object-fit:contain; background:#ffffff; padding:12px; border-radius:12px; border:1px solid rgba(246,241,231,0.18); box-shadow:0 14px 38px rgba(0,0,0,0.5); box-sizing:border-box; transition:transform 0.2s ease, box-shadow 0.2s ease; }
+  .craving-img-box img:hover{ transform:scale(1.02); box-shadow:0 18px 46px rgba(0,0,0,0.65); }
+  .craving-caption{ font-family:var(--mono); font-size:11.5px; color:var(--tan-mute); margin-top:10px; text-align:center; line-height:1.4; max-width:620px; }
+  .craving-subbullets{ list-style:none; padding-left:0; margin-top:8px; display:flex; flex-direction:column; gap:6px; }
+  .craving-subbullets li{ position:relative; padding-left:18px; font-size:13.5px; color:var(--cream); line-height:1.45; }
+  .craving-subbullets li::before{ content:'◦'; position:absolute; left:2px; color:var(--green-light); font-weight:700; font-size:15px; }
+
+  @media (max-width:960px){
+    .synth-img-grid, .craving-grid{ flex-direction:column; align-items:center; }
+    .synth-img-col, .craving-img-col{ width:100%; max-width:600px; margin-top:20px; }
+  }
+
+  /* AI Personalized Slide Styles */
+  .ai-pers-slide{ width:100%; max-width:1250px; }
+  .ai-top-layout{ display:flex; flex-direction:column; gap:16px; margin-top:12px; width:100%; }
+  .ai-stats-bar{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; width:100%; }
+  .ai-stat-card{ padding:14px 18px; }
+  .ai-graph-wrap{ width:100%; display:flex; flex-direction:column; align-items:center; margin:10px 0 16px; }
+  .ai-graph-wrap img{ width:100%; max-width:960px; height:auto; max-height:clamp(380px, 55vh, 520px); object-fit:contain; background:#ffffff; padding:14px; border-radius:12px; border:1px solid rgba(246,241,231,0.18); box-shadow:0 14px 38px rgba(0,0,0,0.5); box-sizing:border-box; transition:transform 0.2s ease, box-shadow 0.2s ease; }
+  .ai-graph-wrap img:hover{ transform:scale(1.015); box-shadow:0 18px 46px rgba(0,0,0,0.65); }
+  .ai-graph-caption{ font-family:var(--mono); font-size:11.5px; color:var(--tan-mute); margin-top:8px; text-align:center; max-width:900px; }
+  .ai-reasons-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; width:100%; margin-top:10px; }
+  .ai-reason-card{ padding:16px 20px; background:rgba(255,255,255,0.03); border:1px solid rgba(246,241,231,0.12); border-radius:8px; }
+  .ai-reason-card.full-width{ grid-column:span 2; }
+  .ai-reason-title{ font-family:var(--serif); font-size:16px; font-weight:600; color:var(--cream); margin-bottom:8px; border-bottom:1px solid rgba(246,241,231,0.08); padding-bottom:4px; }
+  .ai-sub-list{ list-style:none; padding-left:0; margin:0; display:flex; flex-direction:column; gap:8px; font-size:13.5px; line-height:1.45; }
+  .ai-sub-list li{ position:relative; padding-left:18px; color:var(--tan-mute); }
+  .ai-sub-list li strong{ color:var(--cream); }
+  .ai-sub-list li em{ color:var(--green-light); font-style:normal; font-weight:600; }
+  .ai-sub-list li::before{ content:'•'; position:absolute; left:2px; color:var(--green-light); font-weight:bold; }
+  @media (max-width:850px){
+    .ai-reasons-grid{ grid-template-columns:1fr; }
+    .ai-reason-card.full-width{ grid-column:span 1; }
+  }
+
+  /* Figure Slide Styles */
+  .figure-wrap{ width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:12px; }
+  .figure-wrap img{ width:100%; max-width:1050px; height:auto; max-height:clamp(480px, 68vh, 680px); object-fit:contain; background:#ffffff; padding:14px; border-radius:12px; border:1px solid rgba(246,241,231,0.18); box-shadow:0 14px 38px rgba(0,0,0,0.5); box-sizing:border-box; transition:transform 0.2s ease, box-shadow 0.2s ease; }
+  .figure-wrap img:hover{ transform:scale(1.015); box-shadow:0 18px 46px rgba(0,0,0,0.65); }
+  .figure-caption{ font-family:var(--mono); font-size:12px; color:var(--tan-mute); margin-top:10px; text-align:center; max-width:900px; line-height:1.4; }
+
+  /* Reflection Slide Styles */
+  .reflection-layout{ display:flex; align-items:center; justify-content:space-between; gap:clamp(24px, 3.5vw, 48px); width:100%; max-width:1250px; margin-top:14px; }
+  .reflection-text-col{ flex:1 1 540px; min-width:320px; }
+  .reflection-img-col{ flex:1 1 480px; display:flex; justify-content:center; align-items:center; }
+  .reflection-highlight-card{ padding:18px 22px; margin-bottom:14px; border-left:4px solid var(--green-light); }
+  .reflection-lead{ font-family:var(--serif); font-size:clamp(20px, 2vw, 28px); font-style:italic; font-weight:700; color:var(--cream); margin-bottom:8px; line-height:1.2; }
+  .reflection-img-box{ width:100%; display:flex; flex-direction:column; align-items:center; }
+  .reflection-img-box img{ width:100%; max-width:540px; height:auto; max-height:clamp(400px, 58vh, 520px); object-fit:contain; border-radius:12px; border:1px solid rgba(246,241,231,0.18); box-shadow:0 14px 38px rgba(0,0,0,0.5); box-sizing:border-box; transition:transform 0.2s ease, box-shadow 0.2s ease; }
+  .reflection-img-box img:hover{ transform:scale(1.02); box-shadow:0 18px 46px rgba(0,0,0,0.65); }
+  @media (max-width:960px){
+    .reflection-layout{ flex-direction:column; align-items:center; }
+    .reflection-img-col{ width:100%; max-width:540px; margin-top:20px; }
+  }
 
   /* choice two (spoiler) */
   .choice-list{ display:flex; flex-direction:column; gap:14px; max-width:640px;}
@@ -214,6 +370,19 @@
     .g2,.g3,.g4{ grid-template-columns:1fr;}
     .slide{ padding:9vh 6vw 12vh;}
     .cycle-wrap{ display:none;}
+    .quote-layout{ flex-direction:column; align-items:flex-start; gap:24px;}
+    .quote-figure{ align-items:flex-start; text-align:left;}
+    .quote-caption{ text-align:left;}
+    .chart-big-container{ flex-direction:column; align-items:flex-start; gap:24px;}
+    .chart-side-notes{ flex:none; width:100%; }
+    .split-layout{ flex-direction:column; gap:28px;}
+    .split-col-left{ flex:none; width:100%; }
+    .split-col-right{ flex:none; width:100%; }
+    .twoq-grid{ grid-template-columns:1fr !important; }
+    .cycle1-wrap{ width:330px; height:330px; transform:scale(0.72); transform-origin:center center;}
+    .cycle2-wrap{ width:330px; height:330px; transform:scale(0.72); transform-origin:center center;}
+    .table-img-grid{ flex-direction:column; align-items:center; }
+    .table-img-col{ flex:none; width:100%; max-width:440px; margin-top:20px; }
   }
   ::selection{ background:var(--accent); color:var(--cream);}
 
@@ -239,6 +408,7 @@
     .curtain, .orb{ display:none !important;}
     .card, table.data-table{ border:1px solid #ccc !important;}
     .card.accent, .card.green{ border:1px solid #999 !important;}
+    .quote-img{ border-color:rgba(0,0,0,0.15) !important; box-shadow:none !important; max-height:220px !important;}
   }
 
   /* Top Bar & Sec Rail */
@@ -422,28 +592,38 @@ const SLIDES = [
   {t:'Başarısızlığın sırrı: sadece kilo kaybına odaklanmak.', cls:'neutral'}
 ]},
 
-{type:'quote', act:0, eyebrow:'1958 → Bugün', q:'Obeziteyle mücadele edenlerin çoğu tedavide kalmıyor. Kalanların çoğu kilo vermiyor, verenlerin de çoğu geri alıyor.', cite:'Albert Stunkard, The Management of Obesity — NY State J Med, 1958', note:"Bu satırlar 1958'de yazıldı. 65 yıl sonra hâlâ aynı gerçeği tartışıyoruz."},
+{type:'quote', act:0, eyebrow:'1958 → Bugün',
+  q:'Obeziteyle mücadele edenlerin çoğu tedavide kalmıyor. Kalanların çoğu kilo vermiyor, verenlerin de çoğu geri alıyor.',
+  note:"Bu satırlar 1958'de yazıldı. 65 yıl sonra hâlâ aynı gerçeği tartışıyoruz.",
+  image:'../../../Files/albertstunkard.png',
+  caption:'<span class="quote-caption-title">Albert Stunkard.</span><span class="quote-caption-ref">The management of obesity.<br>NY State J Med 1958;79–87.</span>'},
 
-{type:'chart', act:0, eyebrow:"29 Uzun Dönem Çalışmanın Meta-Analizi", title:'Kaybedilen Kilo, Büyük Oranda Geri Kazanılıyor',
-  bars:[{label:'2 yıl', val:50},{label:'5 yıl', val:80}],
-  note:'Bariatrik cerrahide de benzer bir eğilim gösteren kanıtlar var — yani durum sadece diyetlere özgü değil.',
-  cite:'Anderson ve ark., Am J Clin Nutr. 2001;74(5):579–84. · Hall & Kahan, Med Clin North Am. 2018;102(1):183–97.'},
+{type:'chart', act:0,
+  eyebrow:"29 Uzun Dönem Çalışmanın Meta-Analizi",
+  title:'Kaybedilen Kilo, Büyük Oranda Geri Kazanılıyor',
+  intro:'29 adet uzun dönem vücut ağırlığı kaybını hedefleyen çalışmayı içeren bir meta analizde kaybedilen vücut ağırlığının büyük oranda geri kazanıldığı gösterilmiş:',
+  note:'Bariatrik cerrahide de benzer bir eğilim olduğunu gösteren kanıtlar var — yani durum sadece diyetlere özgü değil!',
+  cite:'Anderson JW, Konz EC, Frederich RC, Wood CL. Long-term weight-loss maintenance: a meta-analysis of US studies. Am J Clin Nutr. 2001;74(5):579–84. · Hall KD, Kahan S. Maintenance of Lost Weight and Long-Term Management of Obesity. Med Clin North Am. 2018;102(1):183–97.'
+},
 
-{type:'cycle', act:0, eyebrow:'Neden Aynı Yere Dönüyoruz?', title:'Kısır Döngü', items:[
-  'Hızlı vücut ağırlığı kaybı (Negatif enerji dengesi)',
-  'Artmış iştah + Metabolizmada yavaşlama',
-  'Ağırlık kazanımı (Muhtemelen daha fazla yağ oranıyla)',
-  'Tedavi arayışında azalma',
-  'Kilo kaybının beyinde tehdit olarak algılanması',
-  'Başarısız kilo kaybı girişimleri',
-  'Diyetin boş bir çaba olarak görülmesi',
-  'Alternatiflere yöneliş'
-]},
+{type:'cycle1-split', act:0,
+  eyebrow:'1958 → Bugün · Kısır Döngü',
+  title:'Fizyolojik Kısır Döngü'
+},
 
-{type:'twoq', act:0, eyebrow:'Peki neden?', items:[
-  {n:'1', t:'Yanlış diyeti mi seçiyoruz?'},
-  {n:'2', t:'Yanlış yere mi odaklanıyoruz?'}
-]},
+{type:'cycle2-split', act:0,
+  eyebrow:'Neden Aynı Yere Dönüyoruz?',
+  title:'Davranışsal Kısır Döngü'
+},
+
+{type:'twoq', act:0,
+  eyebrow:'Peki neden?',
+  title:'İki Temel Soru',
+  items:[
+    {n:'1', t:'Yanlış diyeti mi seçiyoruz?', image:'../../../Files/yanlisdiyetimiseciyoruz.png'},
+    {n:'2', t:'Yanlış yere mi odaklanıyoruz?', image:'../../../Files/yanlisyeremiodaklaniyoruz.png'}
+  ]
+},
 
 {type:'act', n:'02', act:1, title:'Vücut Ağırlığı Kaybının Fizyolojisi', sub:"Vücut, kilo kaybına 30.000 yıllık bir hayatta kalma programıyla yanıt verir."},
 
@@ -516,7 +696,9 @@ const SLIDES = [
     ['İnsülin','Kan şekeri, tokluk sinyali','↓ Azalır — glukoz kontrolü etkilenir'],
     ['Adiponektin','İnsülin duyarlılığı','↑ Artar — olumlu metabolik gösterge'],
     ['Kortizol','Stres hormonu','↑ Artabilir — stresle ilişkili yeme riski']
-  ], cite:'Nutrients 2025, 17, 1662'},
+  ],
+  image:'../../../Files/weightregainisnotafailure.png',
+  cite:'Nutrients 2025, 17, 1662'},
 
 {type:'grid2', act:1, eyebrow:'Homeostatik + Hedonik Yollar', title:'Beyin, Yeme Davranışını Nasıl Yönetir?', items:[
   {h:'Prefrontal Korteks', b:'İrade kontrolü, planlama — azalan aktivite yeme kontrolünü zayıflatır.', icon:'hub'},
@@ -528,7 +710,9 @@ const SLIDES = [
 {type:'grid2', act:1, eyebrow:'12. Ay Dönüm Noktası', title:'Vücut Ağırlığı Kaybı ≠ Sürdürülmesi', items:[
   {h:'Kilo kaybından sonraki süreçte müdahalelerimiz farklı mı olmalı?', b:"Vücut ağırlığı kaybı, genellikle 12. aydan itibaren 'plato' dönemine giriyor. Enerji alımı sürdürülemez hale gelip harcamayla çakışır düzeye çıkar. Her 1 kg kayıp, iştahta başlangıca göre ~95 kkal/gün'lük bir artışla ilişkilendiriliyor."},
   {h:'Koruma fazı, kayıp fazından farklı bir strateji ister', b:'Kilo kaybını sürdürmek, kilo vermek için gerekenden nispeten daha küçük ama kalıcı bir enerji alımı düşüşü gerektirir. İştahı kontrol eden negatif geri bildirim güçlendiğinde, yüksek fiziksel aktivite seviyeleri kaybedilen kilonun korunmasıyla ilişkilenir.'}
-  ], cite:'Obesity (Silver Spring). 2021;29(Suppl 1):S9–S24.'},
+  ],
+  image:'../../../Files/weightlossisnotequal.png',
+  cite:'Obesity (Silver Spring). 2021;29(Suppl 1):S9–S24.'},
 
 {type:'grid2', act:1, eyebrow:'Hücresel Direnç', title:'Çünkü Adipoz Doku Gitmek İstemiyor!', items:[
   {h:'ECM Mekanik Stresi', b:'Yağ hücreleri küçülür ama ekstraselüler matriks kolayca adapte olamaz — bu mekanik stres lipolizi baskılar ve yeniden yağ birikimini tetikler.'},
@@ -556,6 +740,20 @@ const SLIDES = [
   {h:'Risk', b:"#cheatmeal etiketli paylaşımlar genelde 1000-9000 kkal aralığında, katı kısıtlama ve egzersizle 'telafi edilen' öğünleri normalleştiriyor — bu, tıkanırcasına yeme/bulimia semptomlarına benzeyebilir ve 'abstinence violation effect' ile ilişkilendiriliyor.", cls:'accent', icon:'alert'},
   {h:'Fırsat', b:"Planlı ve hedef odaklı algılandığında, kaçamak öğünler uzun diyetlerde 'zihinsel bir mola' işlevi görebilir — gıda isteklerini yönetmeye, sosyal uyuma ve kendi kendini düzenleme motivasyonuna yardımcı olabilir.", cls:'green', icon:'spark'}
   ], cite:'https://doi.org/10.1093/nutrit/nuaf077'},
+
+{type:'craving-strategy', act:2, eyebrow:'Aşerme Yönetimi (Craving)', title:'Aşerilen Yiyecekler: "Dahil Etme Stratejisi"',
+  stat1:'%66.7', stat1Label:'Dahil Etme Stratejisi',
+  text1:'Katılımcıların üçte ikisi (%66.7) craved yiyecekleri dengeli bir öğüne dahil etmeyi içeren "dahil etme stratejisini" uyguladığını bildirdi:',
+  bullets:[
+    'Bu stratejiyi uygulayan katılımcılar, uygulamayanlara kıyasla 12 ayda anlamlı ölçüde daha fazla kilo verdi.',
+    'Ayrıca, stratejiyi kullananlar tatlı ve yüksek yağlı gıda isteklerinde önemli bir azalma yaşadı.'
+  ],
+  stat2:'%56.3', stat2Label:'Hedefe Odaklanma',
+  text2:'Çoğu katılımcı (%56.3), stratejinin "kilo verme hedefine odaklanmalarına yardımcı olduğunu" kabul etti veya kesinlikle kabul etti.',
+  image:'../../../Files/cravingfoods.png',
+  caption:'Food Craving Trait Skoru: >%5 vücut ağırlığı kaybı sağlayan grupta aşerme puanı zamanla belirgin biçimde gerilerken, <%5 kayıp grubunda yüksek seyretmeye devam etmiştir.',
+  cite:'Physiology & Behavior (2025) · https://doi.org/10.1016/j.physbeh.2025.114813'
+},
 
 {type:'statsplit', act:2, eyebrow:'Strateji 3 — Egzersiz', title:'Kilo Kaybı Sonrası Egzersiz Neden Kritik?',
   stat:'%93.5', statLabel:'Direnç antrenmanının kalori kısıtlamasına bağlı kas kaybını önleyebildiği oran',
@@ -605,11 +803,19 @@ const SLIDES = [
   'Enerji yoğunluğunu azaltan, tokluğu artıran, minimal işlenmiş besinler.',
   'Problem çözücü müdahaleler (geçici çok düşük kalorili diyetler, tazeleme ziyaretleri).',
   'Düzenli fiziksel aktivite.'
-]},
+],
+image:'../../../Files/basarilidiyetyokmu.png',
+note:'Görsel: DPS, DPP, Look AHEAD, CHIP ve BROAD çalışmalarının uzun dönemli kilo ve metabolik sonuçları'
+},
 
-{type:'statsplit', act:4, eyebrow:'Yeni Yaklaşım', title:'AI Destekli Kişiselleştirme', statLabel:'25 genetik varyant, 42 metabolomik belirteç, 8 hormon ve davranışsal verileri birleştiren AI grubu',
-  stat:'%83.3', body:["AI grubu hekim grubuna göre %5.1 daha fazla kilo kaybı elde etti, %83.3'ü ≥%5 kayıp elde etti (hekim grubunda bu oran %53.3)."],
-  cite:'doi.org/10.1016/j.physbeh.2025.114813 · doi.org/10.1016/j.clnesp.2025.06.035'},
+{type:'ai-personalized', act:4, eyebrow:'Yeni Yaklaşım & Hassas Beslenme', title:'AI Destekli Kişiselleştirme',
+  stat1:'%83.3', stat1Label:'≥%5 Kilo Kaybı Başarısı (Hekim grubu: %53.3 — p=0.01)',
+  stat2:'+%5.1', stat2Label:'Ortalama Net İlave Kilo Kaybı Avantajı (180 Gün)',
+  stat3:'p < 0.01', stat3Label:'Tüm Zaman Noktalarında Üstün Kilo Kaybı & İştah Baskılanması',
+  image:'../../../Files/AIguidedweightloss.png',
+  caption:'Fig. 3: (A) 180 Günlük vücut ağırlığı değişimi yüzdesi; (B) ≥%5 ve ≥%10 kilo kaybı sağlayan katılımcı oranları (AI Grubu vs. Hekim Grubu).',
+  cite:'Clinical Nutrition ESPEN 2025 · https://doi.org/10.1016/j.clnesp.2025.06.035'
+},
 
 {type:'grid4stat', act:4, eyebrow:'National Weight Control Registry — 4.000+ Yetişkin', title:'Kim Bu Kilo Vermeyi Başaranlar?',
   intro:"Ortalama 30 kg vermiş ve minimum 13.6 kg'ı ortalama 5.5 yıl korumuş kişiler.",
@@ -697,6 +903,24 @@ const SLIDES = [
   {h:'Koruma fazını aktif planla', b:'Kilo kaybı ile kiloyu korumak farklı süreçler — ikincisi için ayrı bir strateji gerekir.', icon:'shield'}
   ], grid5:true},
 
+{type:'figure', act:6, eyebrow:'Bütüncül Tablo', title:'Kilo Kaybı ve Geri Alımının Çok Boyutlu Dinamikleri',
+  sub:'Kilo kaybı sağlandıktan sonra danışanı ve biyolojiyi yeniden kilo almaya iten çok katmanlı faktörler zinciri.',
+  image:'../../../Files/diyetisyenlerneyapmali.png',
+  caption:'Weight loss intervention sonrası geri kilo alımını tetikleyen metabolik adaptasyon, adiposit inflamasyonu, obezojenik çevre, duygusal yeme, stres ve kişilik dinamikleri.',
+  note:'Diyetisyenin klinik rolü: Yalnızca kalori kısıtlaması vermek değil; danışanı bu çok boyutlu etmenlerin her birine karşı güçlendirecek sürdürülebilir bir sistem kurmaktır.'
+},
+
+{type:'reflection', act:6, eyebrow:'Büyük Resim · Öz Eleştiri', title:'Başarılı Diyeti Tanımlarken Kaç Kez Diyet Kompozisyonundan Bahsettik?',
+  leadText:'Tüm bu bilimsel verilerde, NWCR kayıtlarında ve uzun dönemli çalışmalarda farkı yaratan şey karbonhidrat-yağ yüzdeleri değil; sürdürülebilirlik, davranış değişikliği, temas sıklığı ve biyolojik uyumdu.',
+  items:[
+    '<strong>Kompozisyonun Ötesinde:</strong> Makro oranları tartışılırken; asıl belirleyici olan tokluk, gıda kalitesi ve enerji yoğunluğuydu.',
+    '<strong>İlişki ve Takip:</strong> Teknik hesaplamalardan çok; düzenli temas, öz-izlem ve danışanla kurulan güven bağı başarıyı getirdi.',
+    '<strong>Fizyolojiyle Birlikte:</strong> Bedene ve metabolik adaptasyona karşı savaşmak yerine, onun fizyolojik mekanizmalarıyla işbirliği yapmak gerekiyordu.'
+  ],
+  image:'../../../Files/basarilidiyetsonuc.png',
+  caption:'"We achieve the difficult, but the impossible takes a little longer..."'
+},
+
 {type:'closer', title:'Diyetler İşe Yaramıyor mu?', lines:[
   'İdeal diyet hangisidir? Bilmiyoruz.',
   'Doğru olanın sağlıklı beslenme ve yaşam tarzı değişikliği olduğuna hemfikir gibiyiz.',
@@ -772,39 +996,208 @@ function renderChoice(s){
   <div class="choice-list">${s.items.map(i=>`<div class="choice-item ${i.cls}">${i.t}</div>`).join('')}</div></div>`;
 }
 function renderQuote(s){
+  if(s.image){
+    return `<div class="slide quote-slide">${s.eyebrow?`<div class="eyebrow">${s.eyebrow}</div>`:''}
+    <div class="quote-layout">
+      <div class="quote-text-col">
+        <blockquote>"${s.q}"</blockquote>
+        ${s.cite?`<div class="quote-cite">${s.cite}</div>`:''}
+        ${s.note?`<div class="quote-note">${s.note}</div>`:''}
+      </div>
+      <figure class="quote-figure">
+        <img class="quote-img" src="${s.image}" alt="${s.author||'Albert Stunkard'}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/albertstunkard.png';}">
+        ${s.caption?`<figcaption class="quote-caption">${s.caption}</figcaption>`:''}
+      </figure>
+    </div></div>`;
+  }
   return `<div class="slide quote-slide">${s.eyebrow?`<div class="eyebrow">${s.eyebrow}</div>`:''}
     <blockquote>"${s.q}"</blockquote>
-    <div class="quote-cite">${s.cite}</div>
+    ${s.cite?`<div class="quote-cite">${s.cite}</div>`:''}
     <div class="quote-note">${s.note||''}</div></div>`;
 }
 function renderChart(s){
-  const max = Math.max(...s.bars.map(b=>b.val));
-  return `<div class="slide">${eyebrowTitle(s)}
-  <div style="display:flex; gap:60px; align-items:flex-end; height:220px; margin:20px 0 30px;">
-    ${s.bars.map(b=>`<div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
-      <div style="font-family:var(--mono); color:var(--accent); font-size:14px;">${b.val}%</div>
-      <div style="width:70px; height:${(b.val/max)*160}px; background:var(--accent-dark); border-radius:3px 3px 0 0;"></div>
-      <div style="font-size:13px; color:var(--tan-mute);">${b.label}</div></div>`).join('')}
-  </div>
-  <div class="slide-sub">${s.note}</div>
-  <div class="quote-cite" style="margin-top:14px;">${s.cite}</div></div>`;
+  return `<div class="slide chart-slide">
+    ${eyebrowTitle(s)}
+    ${s.intro?`<div class="slide-sub" style="max-width:68ch; margin-bottom:18px; font-size:15px; color:var(--tan);">${s.intro}</div>`:''}
+    <div class="chart-big-container">
+      <div class="chart-main-plot">
+        <div class="chart-y-axis-title">Geri gelen vücut ağırlığı</div>
+        <div class="chart-plot-stage">
+          <div class="chart-y-axis-bar"></div>
+          <div class="chart-bars-wrap">
+            <div class="chart-bar-unit">
+              <div class="chart-pill pill-50">
+                <span class="pill-pct">&gt;%50</span>
+              </div>
+              <div class="chart-axis-label">2 yıl</div>
+            </div>
+            <div class="chart-bar-unit">
+              <div class="chart-pill pill-80">
+                <span class="pill-pct">&gt;%80</span>
+              </div>
+              <div class="chart-axis-label">5 yıl</div>
+            </div>
+          </div>
+          <div class="chart-x-axis-bar"></div>
+        </div>
+      </div>
+      <div class="chart-side-notes">
+        ${s.note?`<div class="chart-callout-card">
+          <div style="font-size:17px; margin-bottom:6px;">💡</div>
+          <div style="font-size:14.5px; font-weight:600; line-height:1.45; color:var(--cream);">${s.note}</div>
+        </div>`:''}
+        ${s.cite?`<div class="chart-cite-box">${s.cite}</div>`:''}
+      </div>
+    </div>
+  </div>`;
 }
-function renderCycle(s){
-  const angleStep = 360/s.items.length;
-  const radius = 220;
-  let items = s.items.map((t,i)=>{
-    const angle = (angleStep*i - 90) * Math.PI/180;
-    const x = Math.cos(angle)*radius, y = Math.sin(angle)*radius;
-    return `<div class="cycle-item" style="top:calc(50% + ${y}px - 40px); left:calc(50% + ${x}px - 95px);">${t}</div>`;
-  }).join('');
-  return `<div class="slide">${eyebrowTitle(s)}
-  <div class="cycle-wrap">${items}<div class="cycle-center">DÖNGÜ</div></div></div>`;
+
+function renderMiniChart(){
+  return `<div class="mini-chart-card">
+    <div class="mini-chart-y-title">Geri gelen vücut ağırlığı</div>
+    <div class="mini-chart-plot">
+      <div class="mini-chart-y-axis"></div>
+      <div class="mini-chart-bars">
+        <div class="mini-bar-unit">
+          <div class="mini-pill mini-pill-50"><span class="mini-pct">&gt;%50</span></div>
+          <div class="mini-label">2 yıl</div>
+        </div>
+        <div class="mini-bar-unit">
+          <div class="mini-pill mini-pill-80"><span class="mini-pct">&gt;%80</span></div>
+          <div class="mini-label">5 yıl</div>
+        </div>
+      </div>
+      <div class="mini-chart-x-axis"></div>
+    </div>
+  </div>`;
 }
+
+function renderCycle1(){
+  return `<div class="cycle1-wrap">
+    <svg class="cycle1-svg" viewBox="0 0 480 480">
+      <defs>
+        <filter id="c1-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.4"/>
+        </filter>
+      </defs>
+      <g transform="translate(336, 107) rotate(36)" filter="url(#c1-shadow)">
+        <polygon points="-14,-6 4,-6 4,-13 18,0 4,13 4,6 -14,6" fill="rgba(165, 205, 225, 0.85)" />
+      </g>
+      <g transform="translate(396, 290) rotate(108)" filter="url(#c1-shadow)">
+        <polygon points="-14,-6 4,-6 4,-13 18,0 4,13 4,6 -14,6" fill="rgba(165, 205, 225, 0.85)" />
+      </g>
+      <g transform="translate(240, 403) rotate(180)" filter="url(#c1-shadow)">
+        <polygon points="-14,-6 4,-6 4,-13 18,0 4,13 4,6 -14,6" fill="rgba(165, 205, 225, 0.85)" />
+      </g>
+      <g transform="translate(84, 290) rotate(252)" filter="url(#c1-shadow)">
+        <polygon points="-14,-6 4,-6 4,-13 18,0 4,13 4,6 -14,6" fill="rgba(165, 205, 225, 0.85)" />
+      </g>
+      <g transform="translate(144, 107) rotate(324)" filter="url(#c1-shadow)">
+        <polygon points="-14,-6 4,-6 4,-13 18,0 4,13 4,6 -14,6" fill="rgba(165, 205, 225, 0.85)" />
+      </g>
+    </svg>
+    <div class="c1-node" style="top:75px; left:240px;">
+      Başlangıçta hızlı vücut ağırlığı kaybı<br><span style="font-size:10px; opacity:0.85; font-weight:500;">(Negatif enerji dengesi)</span>
+    </div>
+    <div class="c1-node" style="top:188px; left:396px;">
+      Kilo kaybının beyinde tehdit olarak algılanması
+    </div>
+    <div class="c1-node" style="top:372px; left:336px;">
+      Metabolizmada yavaşlama
+    </div>
+    <div class="c1-node" style="top:372px; left:144px;">
+      Artmış iştah
+    </div>
+    <div class="c1-node" style="top:188px; left:84px;">
+      Ağırlık kazanımı<br><span style="font-size:10px; opacity:0.85; font-weight:500;">(Daha fazla yağ oranıyla)</span>
+    </div>
+  </div>`;
+}
+
+function renderMiniCycle1(){
+  return `<div class="cycle1-mini-box">
+    <div class="cycle1-mini-scaler">
+      ${renderCycle1()}
+    </div>
+  </div>`;
+}
+
+function renderCycle2(){
+  return `<div class="cycle2-wrap">
+    <svg class="cycle2-svg" viewBox="0 0 520 480">
+      <defs>
+        <marker id="arrow2" markerWidth="8" markerHeight="8" refX="5" refY="4" orient="auto">
+          <polygon points="0 1, 7 4, 0 7" fill="#1b6e8a"/>
+        </marker>
+        <filter id="c2-shadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.45"/>
+        </filter>
+      </defs>
+      <path d="M 335 75 A 155 155 0 0 1 425 185" fill="none" stroke="#1b6e8a" stroke-width="12" stroke-linecap="round" marker-end="url(#arrow2)" filter="url(#c2-shadow)"/>
+      <path d="M 425 275 A 155 155 0 0 1 335 385" fill="none" stroke="#1b6e8a" stroke-width="12" stroke-linecap="round" marker-end="url(#arrow2)" filter="url(#c2-shadow)"/>
+      <path d="M 185 385 A 155 155 0 0 1 95 275" fill="none" stroke="#1b6e8a" stroke-width="12" stroke-linecap="round" marker-end="url(#arrow2)" filter="url(#c2-shadow)"/>
+      <path d="M 95 185 A 155 155 0 0 1 185 75" fill="none" stroke="#1b6e8a" stroke-width="12" stroke-linecap="round" marker-end="url(#arrow2)" filter="url(#c2-shadow)"/>
+    </svg>
+    <div class="c2-stage c2-stage-top">
+      Başarısız kilo kaybı girişimleri
+    </div>
+    <div class="c2-stage c2-stage-right">
+      Tedavi arayışında azalma
+    </div>
+    <div class="c2-stage c2-stage-bottom">
+      Diyetin boş bir çaba olarak görülmesi
+    </div>
+    <div class="c2-stage c2-stage-left">
+      Alternatiflere yöneliş
+    </div>
+  </div>`;
+}
+
+function renderCycle1Split(s){
+  return `<div class="slide split-slide split-cycle1">
+    ${eyebrowTitle(s)}
+    <div class="split-layout">
+      <div class="split-col-left chart-morph-left">
+        ${renderMiniChart()}
+      </div>
+      <div class="split-col-right cycle1-morph-right">
+        ${renderCycle1()}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCycle2Split(s){
+  return `<div class="slide split-slide split-cycle2">
+    ${eyebrowTitle(s)}
+    <div class="split-layout">
+      <div class="split-col-left cycle-morph-left">
+        ${renderMiniCycle1()}
+      </div>
+      <div class="split-col-right cycle2-morph-right">
+        ${renderCycle2()}
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderTwoQ(s){
-  return `<div class="slide">${eyebrowTitle(s)}
-  <div class="grid g2" style="max-width:700px;">
-  ${s.items.map(i=>`<div class="card"><div class="stat-num">${i.n}</div><div class="card-body" style="margin-top:10px; font-size:16px; color:var(--cream);">${i.t}</div></div>`).join('')}
-  </div></div>`;
+  return `<div class="slide twoq-slide">
+    ${eyebrowTitle(s)}
+    <div class="twoq-grid">
+    ${s.items.map(i=>`
+      <div class="twoq-card">
+        <div class="twoq-card-header">
+          <span class="twoq-num">${i.n}</span>
+          <h3 class="twoq-card-title">${i.t}</h3>
+        </div>
+        ${i.image ? `
+        <div class="twoq-img-wrap">
+          <img src="${i.image}" alt="${i.t}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${i.image.split('/').pop()}';}">
+        </div>` : ''}
+      </div>`).join('')}
+    </div>
+  </div>`;
 }
 function renderIcon3(s){
   return `<div class="slide">${eyebrowTitle(s)}
@@ -821,6 +1214,9 @@ function renderGrid(s, cols){
   const cls = cols===4?'g4':cols===3?'g3':'g2';
   return `<div class="slide">${eyebrowTitle(s)}
   <div class="grid ${cls}">${s.items.map(i=>`<div class="card ${i.cls||''}">${i.icon?icon(i.icon):''}<div class="card-h">${i.h}</div>${i.b?`<div class="card-body">${i.b}</div>`:''}</div>`).join('')}</div>
+  ${s.image?`<div class="grid-image-wrap">
+    <img src="${s.image}" alt="${s.title||''}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${s.image.split('/').pop()}';}">
+  </div>`:''}
   ${s.note?`<div class="slide-sub" style="margin-top:20px;">${s.note}</div>`:''}
   ${s.cite?`<div class="quote-cite" style="margin-top:14px;">${s.cite}</div>`:''}</div>`;
 }
@@ -835,6 +1231,19 @@ function renderDiagramSetpoint(s){
   <div class="slide-sub" style="margin-top:22px;">${s.note}</div></div>`;
 }
 function renderTable(s){
+  if(s.image){
+    return `<div class="slide table-image-slide">${eyebrowTitle(s)}
+    <div class="table-img-grid">
+      <div class="table-col">
+        <table class="data-table"><thead><tr>${s.cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
+        <tbody>${s.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>
+        ${s.cite?`<div class="quote-cite" style="margin-top:16px;">${s.cite}</div>`:''}
+      </div>
+      <div class="table-img-col">
+        <img src="${s.image}" alt="${s.title||'Görsel'}" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${s.image.split('/').pop()}';}">
+      </div>
+    </div></div>`;
+  }
   return `<div class="slide">${eyebrowTitle(s)}
   <table class="data-table"><thead><tr>${s.cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
   <tbody>${s.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>
@@ -855,8 +1264,175 @@ function renderGrid4Stat(s){
   <div class="grid g3">${s.items.map(i=>`<div class="card"><div class="stat-num" style="font-size:34px;">${i.stat}</div><div class="stat-label">${i.b}</div></div>`).join('')}</div></div>`;
 }
 function renderSynth(s){
+  if(s.image){
+    return `<div class="slide synth-image-slide">
+    <div class="synth-img-grid">
+      <div class="synth-text-col">
+        ${eyebrowTitle(s)}
+        <ul class="synth-list">${s.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+        ${s.note?`<div class="slide-sub" style="margin-top:18px; font-size:13.5px;">${s.note}</div>`:''}
+        ${s.cite?`<div class="quote-cite" style="margin-top:14px;">${s.cite}</div>`:''}
+      </div>
+      <div class="synth-img-col">
+        <img src="${s.image}" alt="${(s.title||'Görsel').replace(/"/g, '&quot;')}" title="Büyütmek için tıklayın" onclick="window.open(this.src, '_blank')" style="cursor:zoom-in;" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${s.image.split('/').pop()}';}">
+      </div>
+    </div></div>`;
+  }
   return `<div class="slide">${eyebrowTitle(s)}
-  <ul class="synth-list">${s.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+  <ul class="synth-list">${s.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+  ${s.note?`<div class="slide-sub" style="margin-top:20px;">${s.note}</div>`:''}
+  ${s.cite?`<div class="quote-cite" style="margin-top:16px;">${s.cite}</div>`:''}
+  </div>`;
+}
+function renderCravingStrategy(s){
+  return `<div class="slide craving-slide">
+    ${eyebrowTitle(s)}
+    <div class="craving-grid">
+      <div class="craving-text-col">
+        <div class="card green craving-card" style="margin-bottom:14px; padding:18px 20px;">
+          <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:8px;">
+            <span class="stat-num" style="font-size:36px; line-height:1; color:var(--green-light); font-weight:700;">${s.stat1}</span>
+            <span style="font-size:12.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--tan-mute); font-family:var(--mono);">${s.stat1Label}</span>
+          </div>
+          <div class="card-body" style="font-size:14.5px; color:var(--cream); line-height:1.45; margin-bottom:10px;">
+            ${s.text1}
+          </div>
+          <ul class="craving-subbullets">
+            ${s.bullets.map(b=>`<li>${b}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="card craving-card" style="margin-bottom:14px; padding:18px 20px; border-left:3px solid var(--accent);">
+          <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:8px;">
+            <span class="stat-num" style="font-size:32px; line-height:1; color:var(--accent); font-weight:700;">${s.stat2}</span>
+            <span style="font-size:12.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--tan-mute); font-family:var(--mono);">${s.stat2Label}</span>
+          </div>
+          <div class="card-body" style="font-size:14px; color:var(--cream); line-height:1.45;">
+            ${s.text2}
+          </div>
+        </div>
+
+        ${s.cite?`<div class="quote-cite" style="margin-top:10px;"><a href="${s.cite.includes('http') ? s.cite.substring(s.cite.indexOf('http')) : '#'}" target="_blank" style="color:inherit; text-decoration:none;">${s.cite}</a></div>`:''}
+      </div>
+
+      <div class="craving-img-col">
+        <div class="craving-img-box">
+          <img src="${s.image}" alt="${(s.title||'Craving Foods').replace(/"/g, '&quot;')}" title="Büyütmek için tıklayın" onclick="window.open(this.src, '_blank')" style="cursor:zoom-in;" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${s.image.split('/').pop()}';}">
+          ${s.caption?`<div class="craving-caption">${s.caption}</div>`:''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+function renderAIPersonalized(s){
+  return `<div class="slide ai-pers-slide">
+    ${eyebrowTitle(s)}
+    <div class="ai-top-layout">
+      <div class="ai-stats-bar">
+        <div class="card green ai-stat-card">
+          <div class="stat-num" style="font-size:36px; color:var(--green-light); line-height:1; margin-bottom:4px;">${s.stat1}</div>
+          <div class="stat-label" style="font-size:12px; line-height:1.35;">${s.stat1Label}</div>
+        </div>
+        <div class="card accent ai-stat-card">
+          <div class="stat-num" style="font-size:36px; color:var(--accent); line-height:1; margin-bottom:4px;">${s.stat2}</div>
+          <div class="stat-label" style="font-size:12px; line-height:1.35;">${s.stat2Label}</div>
+        </div>
+        <div class="card ai-stat-card">
+          <div class="stat-num" style="font-size:36px; color:var(--cream); line-height:1; margin-bottom:4px;">${s.stat3}</div>
+          <div class="stat-label" style="font-size:12px; line-height:1.35;">${s.stat3Label}</div>
+        </div>
+      </div>
+
+      <div class="ai-graph-wrap">
+        <img src="${s.image}" alt="${(s.title||'AI Guided Weight Loss').replace(/"/g, '&quot;')}" title="Tam boyutta açmak için tıklayın" onclick="window.open(this.src, '_blank')" style="cursor:zoom-in;" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${s.image.split('/').pop()}';}">
+        ${s.caption?`<div class="ai-graph-caption">${s.caption}</div>`:''}
+      </div>
+    </div>
+
+    <div class="ai-reasons-header">
+      <div class="card-h" style="font-size:17px; color:var(--green-light); margin-top:20px; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+        <span>💡 Olası Başarının 5 Temel Sebebi ve Biyolojik Mekanizmalar</span>
+      </div>
+    </div>
+
+    <div class="ai-reasons-grid">
+      <div class="card ai-reason-card">
+        <div class="ai-reason-title">1. Kapsamlı ve Bireyselleştirilmiş Profilleme</div>
+        <div class="card-body" style="font-size:13.5px; line-height:1.45; color:var(--cream);">
+          Enerji dengesi ve iştah düzenlemesiyle ilgili <strong>25 genetik varyant (SNP)</strong>, <strong>42 metabolomik belirteç</strong>, <strong>8 dolaşımdaki hormon</strong>, 12 klinik değişken ve 3 davranışsal değişkeni (adım sayısı, kalori alımı, uyku süresi) entegre eder. Bu çok katmanlı yaklaşım, her bireyin benzersiz biyolojik profiline göre takviye seçimi ve dozajını uyarlar.
+        </div>
+      </div>
+
+      <div class="card ai-reason-card">
+        <div class="ai-reason-title">2. Hedefe Yönelik ve Çeşitlendirilmiş Takviye Seçimi</div>
+        <div class="card-body" style="font-size:13.5px; line-height:1.45; color:var(--cream);">
+          AI grubu, hekim grubuna göre önemli ölçüde daha fazla bireyselleştirilmiş ve çeşitli takviye portföyü almıştır (ortalama <strong>4.2 farklı takviye vs. 2.5</strong>). Tek tip kılavuz yerine birden çok metabolik yolak eşzamanlı hedeflenmiştir.
+        </div>
+      </div>
+
+      <div class="card ai-reason-card full-width">
+        <div class="ai-reason-title">3. Biyolojik Olarak Anlamlı Eşleşmeler</div>
+        <div class="card-body">
+          <ul class="ai-sub-list">
+            <li><strong>FTO ve MC4R Risk Alelleri:</strong> Hipotalamik tokluk sinyali bozulmuş katılımcılara yüksek lif dozları (AI grubunun %83'üne vs. hekim grubunun %42'sine) verilmiştir. Bu lifler, kısa zincirli yağ asidi (SCFA) fermantasyonu yoluyla <em>GLP-1 ve PYY gibi tokluk hormonlarının salınımını artırarak</em> iştahı baskılar.</li>
+            <li><strong>Düşük Dinlenme Enerji Harcaması (RMR):</strong> Başlangıç RMR'ı düşük bireylere, kateşin açısından zengin yeşil çay özü reçete edilmiş (%67 vs. %35); bu da <em>termogenezi (ısı üretimi)</em> teşvik etmiştir.</li>
+            <li><strong>Yağ Oksidasyonu:</strong> Konjuge linoleik asit (CLA) (%40 vs. %8) ve termogenik karışımlar (kafein, kapsaisinoidler, EGCG içeren) (%53 vs. %12) yağ oksidasyonunu artırmak için kullanılmıştır.</li>
+            <li><strong>Hedefli Mikro Besinler:</strong> D vitamini, magnezyum veya krom gibi hedefli mikro besinler, başlangıç seviyeleri veya genotip yetersizlik gösterdiğinde reçetelere dahil edilmiştir (%61 vs. %18).</li>
+            <li style="color:var(--tan-mute); font-style:italic;">Hekim grubunda ise takviye seçimi genotip veya metabolit odaklı olmayıp standart kilo yönetimi kılavuzlarına dayanmış, bu nedenle daha az çeşitlilik ve daha az bireysel eşleşme göstermiştir.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card ai-reason-card">
+        <div class="ai-reason-title">4. Üstün İştah Baskılanması</div>
+        <div class="card-body" style="font-size:13.5px; line-height:1.45; color:var(--cream);">
+          AI rehberliğindeki grup, standart bir kahvaltıdan sonra açlık ve olası gıda tüketiminde önemli ölçüde daha fazla azalma, <strong>tokluk ve doygunlukta ise önemli ölçüde daha fazla artış</strong> göstermiştir (tüm p &lt; 0.01). Bu etki, AI'ın etkin kilo kaybı sağlamadaki kritik fizyolojik mekanizmasıdır.
+        </div>
+      </div>
+
+      <div class="card ai-reason-card">
+        <div class="ai-reason-title">5. Klinik Faydaların Büyüklüğü</div>
+        <div class="card-body" style="font-size:13.5px; line-height:1.45; color:var(--cream);">
+          AI rehberliğindeki rejim, hekim grubuna göre ortalama <strong>%5.1 daha fazla kilo kaybı</strong> sağlamış; katılımcıların <strong>%83.3'ü ≥%5 kilo kaybı</strong> elde etmiştir (hekim grubunda %53.3, yaklaşık 2 kat). Bu klinik büyüklük, tamamen oral ve reçetesiz takviyelerle GLP-1 reseptör agonisti ilaç tedavilerine yakın bir etkinlik seviyesine ulaşmıştır.
+        </div>
+      </div>
+    </div>
+
+    ${s.cite?`<div class="quote-cite" style="margin-top:16px;"><a href="${s.cite.includes('http') ? s.cite.substring(s.cite.indexOf('http')) : '#'}" target="_blank" style="color:inherit; text-decoration:none;">${s.cite}</a></div>`:''}
+  </div>`;
+}
+function renderFigureSlide(s){
+  return `<div class="slide figure-slide" style="text-align:center;">
+    ${eyebrowTitle(s)}
+    ${s.sub?`<div class="slide-sub" style="max-width:85ch; margin:0 auto 14px; font-size:15px; color:var(--tan);">${s.sub}</div>`:''}
+    <div class="figure-wrap">
+      <img src="${s.image}" alt="${(s.title||'Şema').replace(/"/g, '&quot;')}" title="Tam boyutta açmak için tıklayın" onclick="window.open(this.src, '_blank')" style="cursor:zoom-in;" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${s.image.split('/').pop()}';}">
+      ${s.caption?`<div class="figure-caption">${s.caption}</div>`:''}
+    </div>
+    ${s.note?`<div class="slide-sub" style="margin-top:14px; font-size:13.5px; color:var(--tan-mute);">${s.note}</div>`:''}
+  </div>`;
+}
+function renderReflectionSlide(s){
+  return `<div class="slide reflection-slide">
+    ${eyebrowTitle(s)}
+    <div class="reflection-layout">
+      <div class="reflection-text-col">
+        <div class="card green reflection-highlight-card">
+          <div class="reflection-lead">"Neredeyse hiç."</div>
+          <div class="card-body" style="font-size:14.5px; line-height:1.5; color:var(--cream);">
+            ${s.leadText || 'Tüm bu bilimsel verilerde, NWCR kayıtlarında ve uzun dönemli çalışmalarda farkı yaratan şey karbonhidrat-yağ yüzdeleri değil; sürdürülebilirlik, davranış değişikliği, temas sıklığı ve biyolojik uyumdu.'}
+          </div>
+        </div>
+        ${s.items ? `<ul class="synth-list" style="margin-top:16px;">${s.items.map(i=>`<li>${i}</li>`).join('')}</ul>` : ''}
+      </div>
+      <div class="reflection-img-col">
+        <div class="reflection-img-box">
+          <img src="${s.image}" alt="${(s.title||'Sonuç').replace(/"/g, '&quot;')}" title="Tam boyutta açmak için tıklayın" onclick="window.open(this.src, '_blank')" style="cursor:zoom-in;" onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='assets/${s.image.split('/').pop()}';}">
+          ${s.caption ? `<div class="figure-caption">${s.caption}</div>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>`;
 }
 function renderCaseStory(s){
   const colors = {'Ayşe':'var(--accent-dark)','Emre':'var(--green)','Zeynep':'var(--accent-deep)'};
@@ -893,7 +1469,9 @@ function renderSlide(s, idx){
     case 'choice': html=renderChoice(s); break;
     case 'quote': html=renderQuote(s); break;
     case 'chart': html=renderChart(s); break;
-    case 'cycle': html=renderCycle(s); break;
+    case 'cycle1-split': html=renderCycle1Split(s); break;
+    case 'cycle2-split': html=renderCycle2Split(s); break;
+    case 'cycle': html=renderCycle1Split(s); break;
     case 'twoq': html=renderTwoQ(s); break;
     case 'icon3': html=renderIcon3(s); break;
     case 'process': html=renderProcess(s); break;
@@ -904,6 +1482,10 @@ function renderSlide(s, idx){
     case 'table': html=renderTable(s); break;
     case 'statsplit': html=renderStatSplit(s); break;
     case 'grid4stat': html=renderGrid4Stat(s); break;
+    case 'craving-strategy': html=renderCravingStrategy(s); break;
+    case 'ai-personalized': html=renderAIPersonalized(s); break;
+    case 'figure': html=renderFigureSlide(s); break;
+    case 'reflection': html=renderReflectionSlide(s); break;
     case 'synth': html=renderSynth(s); break;
     case 'case-story': html=renderCaseStory(s); break;
     case 'case-backstage': html=renderCaseBackstage(s); break;
@@ -1100,5 +1682,102 @@ window.addEventListener('touchend', e=>{
 
 go(0);
 </script>
+<!-- GORUNUM-AYARLARI:BASLA (otomatik eklendi; kaldırmak için BASLA–BITIS arasını silin) -->
+<style id="pt-css">
+:root{--punto:1.15}
+.slide,#main-stage,#stage:not(:has(.slide)){zoom:var(--punto)}
+.slide:has(iframe){zoom:1}
+html{filter:var(--pt-f,none)}
+html img,html video,html canvas,html iframe,html picture,#pt-root{filter:var(--pt-fi,none)}
+/* yazı tipleri (sistem yazı tipleri: internet gerekmez, dosya boyutu artmaz) */
+html[data-pt-font="modern"] :where(body,body *):not(i):not(code):not(pre):not(kbd):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.material-icons):not(#pt-root *){font-family:"Avenir Next","Helvetica Neue",system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important}
+html[data-pt-font="klasik"] :where(body,body *):not(i):not(code):not(pre):not(kbd):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.material-icons):not(#pt-root *){font-family:Georgia,"Palatino Linotype",Palatino,"Times New Roman",serif!important}
+html[data-pt-font="okunakli"] :where(body,body *):not(i):not(code):not(pre):not(kbd):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not(.material-icons):not(#pt-root *){font-family:Verdana,"Trebuchet MS",Tahoma,sans-serif!important;letter-spacing:.01em}
+/* kontrol paneli */
+#pt-root{position:fixed;right:8px;top:50%;transform:translateY(-50%);z-index:2147483000;font:500 13px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff;zoom:1}
+#pt-btn{all:unset;cursor:pointer;display:block;background:rgba(20,24,28,.85);color:#fff;border-radius:18px;padding:9px 10px;font:700 15px/1 system-ui,sans-serif;opacity:.5;transition:opacity .15s;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+#pt-btn:hover,#pt-root.open #pt-btn{opacity:1}
+#pt-panel{display:none;position:absolute;right:44px;top:50%;transform:translateY(-50%);width:292px;background:rgba(20,24,28,.96);border-radius:14px;padding:12px 14px 10px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+#pt-root.open #pt-panel{display:block}
+#pt-panel h6{margin:10px 0 5px;font:700 11px/1 system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#9fb0b8}
+#pt-panel h6:first-child{margin-top:0}
+#pt-panel .row{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+#pt-panel button{all:unset;cursor:pointer;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.1);color:#fff;font:600 12.5px/1 system-ui,sans-serif}
+#pt-panel button:hover{background:rgba(255,255,255,.22)}
+#pt-panel button.on{background:#2f8f7b;color:#fff}
+#pt-panel .sz{font-weight:700;min-width:48px;text-align:center;background:none}
+#pt-panel .sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+#pt-panel .reset{margin-top:10px;background:none;color:#9fb0b8;text-decoration:underline;padding:4px 0}
+@media print{#pt-root{display:none}html{filter:none!important}}
+</style>
+<div id="pt-root">
+  <button id="pt-btn" title="Görünüm ayarları (yazı boyutu: + / − tuşları)">Aa</button>
+  <div id="pt-panel">
+    <h6>Yazı boyutu</h6>
+    <div class="row"><button data-act="minus">A−</button><button class="sz" data-act="reset-size" title="%100'e dön">115%</button><button data-act="plus">A+</button></div>
+    <h6>Yazı tipi</h6>
+    <div class="row" data-group="font"><button data-v="">Orijinal</button><button data-v="modern">Modern</button><button data-v="klasik">Klasik</button><button data-v="okunakli">Okunaklı</button></div>
+    <h6>Tema</h6>
+    <div class="row" data-group="theme"><button data-v="">Orijinal</button><button data-v="light">Açık</button><button data-v="dark">Koyu</button><button data-v="paper">Kâğıt</button><button data-v="contrast">Kontrast</button></div>
+    <h6>Renk paleti</h6>
+    <div class="row" data-group="pal"><button data-v="">Orijinal</button><button data-v="70"><i class="sw" style="background:#3b82f6"></i>1</button><button data-v="150"><i class="sw" style="background:#c026d3"></i>2</button><button data-v="230"><i class="sw" style="background:#f59e0b"></i>3</button></div>
+    <button class="reset" data-act="reset-all">Tümünü sıfırla</button>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='gorunum-v1', S={size:1.15,font:'',theme:'',pal:''};
+  try{ var j=JSON.parse(localStorage.getItem(KEY)||'{}'); for(var k in j) if(k in S) S[k]=j[k]; }catch(e){}
+  var root=document.documentElement, panel=document.getElementById('pt-root');
+  var bodyDark=false;
+  function lum(c){ var m=c&&c.match(/[\d.]+/g); if(!m||m.length<3) return null; if(m.length>3&&parseFloat(m[3])===0) return null; return (0.2126*m[0]+0.7152*m[1]+0.0722*m[2])/255; }
+  function detect(){
+    try{
+      var el=document.elementFromPoint(innerWidth/2,innerHeight/2), l=null;
+      while(el&&l===null){ l=lum(getComputedStyle(el).backgroundColor); el=el.parentElement; }
+      if(l===null) l=lum(getComputedStyle(document.body).backgroundColor);
+      if(l!==null) bodyDark=l<0.4;
+    }catch(e){}
+  }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){} }
+  function apply(){
+    S.size=Math.round(Math.min(2,Math.max(0.7,S.size))*100)/100;
+    root.style.setProperty('--punto',S.size);
+    var parts=[],inv=[];
+    if(S.pal){ parts.push('hue-rotate('+S.pal+'deg)'); }
+    var th=S.theme, doInvert=(th==='dark'&&!bodyDark)||(th==='light'&&bodyDark);
+    if(doInvert){ parts.push('invert(1) hue-rotate(180deg)'); inv.push('hue-rotate(180deg) invert(1)'); }
+    if(th==='paper'){ parts.push('sepia(.32) saturate(.95) brightness(.99)'); }
+    if(th==='contrast'){ parts.push('contrast(1.3) saturate(1.1)'); }
+    if(S.pal){ inv.push('hue-rotate(-'+S.pal+'deg)'); }
+    if(parts.length){ root.style.setProperty('--pt-f',parts.join(' ')); root.style.setProperty('--pt-fi',inv.length?inv.join(' '):'none'); }
+    else { root.style.removeProperty('--pt-f'); root.style.removeProperty('--pt-fi'); }
+    if(S.font) root.setAttribute('data-pt-font',S.font); else root.removeAttribute('data-pt-font');
+    panel.querySelector('.sz').textContent=Math.round(S.size*100)+'%';
+    ['font','theme','pal'].forEach(function(g){
+      panel.querySelectorAll('[data-group="'+g+'"] button').forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-v')===S[g]); });
+    });
+    save();
+  }
+  panel.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return; e.stopPropagation();
+    var a=b.getAttribute('data-act'), g=b.parentNode.getAttribute('data-group');
+    if(b.id==='pt-btn'){ panel.classList.toggle('open'); return; }
+    if(a==='minus') S.size-=0.1; else if(a==='plus') S.size+=0.1; else if(a==='reset-size') S.size=1;
+    else if(a==='reset-all'){ S={size:1.15,font:'',theme:'',pal:''}; }
+    else if(g){ S[g]=b.getAttribute('data-v'); }
+    apply();
+  });
+  document.addEventListener('keydown',function(e){
+    var t=(e.target&&e.target.tagName)||''; if(/INPUT|TEXTAREA|SELECT/.test(t)||e.ctrlKey||e.metaKey||e.altKey) return;
+    if(e.key==='+'||e.key==='='){S.size+=0.1;apply();}
+    else if(e.key==='-'||e.key==='_'){S.size-=0.1;apply();}
+    else if(e.key==='0'){S.size=1;apply();}
+  });
+  window.addEventListener('load',function(){ setTimeout(function(){ detect(); apply(); },400); });
+  apply();
+})();
+</script>
+<!-- GORUNUM-AYARLARI:BITIS -->
 </body>
 </html>

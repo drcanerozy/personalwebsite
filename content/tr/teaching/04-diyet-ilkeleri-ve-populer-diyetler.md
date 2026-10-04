@@ -39,3 +39,4 @@ order: 2
 Bu dersin canlı ve interaktif web sunumuna aşağıdaki bağlantıdan erişebilirsiniz. **İlk 10 slayt açık önizleme** olarak sunulmakta; ileri modüller, evrimsel aşamalar, tarım devrimi ve modern diyet analizleri **AES-256** öğrenci şifresiyle korunmaktadır.
 
 - 👉 [**1. Konu / Hafta: Beslenmenin Evrimi (101 Slayt - Canlı İzle)**](../slides/01-beslenmenin-evrimi.html) *(🔒 AES-256 Korumalı — Şifre: `COZYPOP2026_`)*
+- 👉 [**Diyetler İşe Yaramıyor mu? (56 Slayt - Canlı İzle)**](../slides/02-diyetler-ise-yaramiyor-mu.html) *(🔒 AES-256 Korumalı — Şifre: `COZYPOP2026_`)*
