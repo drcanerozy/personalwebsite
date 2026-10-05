@@ -94,16 +94,17 @@
 
       </div>
 
-      <!-- PAL Katsayısı (FA Düzeyi) -->
+      <!-- PAL Katsayısı (FA Düzeyi - FAO/WHO, IOM, EFSA Referanslı) -->
       <div class="flex items-center justify-between gap-2 bg-teal-50/70 border border-teal-200 rounded-lg px-2.5 py-1.5">
         <span class="text-[11px] font-bold text-teal-900 whitespace-nowrap flex items-center gap-1">
           🏃 Fiziksel Aktivite (PAL):
         </span>
         <div class="flex gap-1 overflow-x-auto">
-          <button onclick="setPal(1.2)" id="pal_12" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition">Sedanter (1.2)</button>
-          <button onclick="setPal(1.3)" id="pal_13" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-teal-700 text-white shadow-sm transition">Hafif (1.3)</button>
-          <button onclick="setPal(1.5)" id="pal_15" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition">Hareketli (1.5)</button>
-          <button onclick="setPal(1.7)" id="pal_17" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition">Aktif (1.7)</button>
+          <button onclick="setPal(1.2)" id="pal_12" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition" title="Klinik Başlangıç Sedanter">Sedanter (1.2)</button>
+          <button onclick="setPal(1.4)" id="pal_14" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-teal-700 text-white shadow-sm transition" title="FAO/EFSA Sedanter - IOM Düşük Aktif">1.4 (Sedanter/Düşük)</button>
+          <button onclick="setPal(1.6)" id="pal_16" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition" title="IOM/EFSA Aktif">1.6 (Aktif)</button>
+          <button onclick="setPal(1.8)" id="pal_18" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition" title="EFSA Aktif / IOM Üst">1.8 (Yüksek Aktif)</button>
+          <button onclick="setPal(2.0)" id="pal_20" class="px-2 py-0.5 text-[10.5px] font-bold rounded bg-slate-200 text-slate-700 hover:bg-slate-300 transition" title="Vigoröz / Çok Aktif">2.0 (Çok Aktif)</button>
         </div>
       </div>
 
@@ -256,8 +257,8 @@
     <!-- BOTTOM CLINICAL EXPLANATIONS -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 mt-2 pt-1">
       <div class="bg-slate-50 border-l-4 border-emerald-600 p-2 rounded text-[10.5px] sm:text-[11px] text-slate-700 leading-snug">
-        <b class="text-emerald-800 block mb-0.5">⭐ Mifflin-St Jeor & Toplam Harcama (TEH):</b>
-        Mifflin formülü gerçek ağırlıkla RMR'ı bulur; hastanın fiziksel aktivitesi (PAL) ile çarpılarak toplam günlük enerji harcaması (TEH) elde edilir. Kalori açığı (500-750 kcal) bu TEH değerinden düşülür.
+        <b class="text-emerald-800 block mb-0.5">⭐ Uluslararası Kılavuzlarda PAL & Toplam Harcama (TEH):</b>
+        Mifflin formülü gerçek ağırlıkla RMR'ı bulur; FAO/WHO (2004: Alt sınır 1.40), IOM DRI (2005: 1.0–1.39 sedanter, 1.4–1.59 düşük aktif, 1.6–1.89 aktif) ve EFSA (2013: 1.4, 1.6, 1.8, 2.0) katsayılarıyla TEH hesaplanır. Kalori açığı (500-750 kcal) TEH'ten düşülür.
       </div>
       <div class="bg-slate-50 border-l-4 border-rose-600 p-2 rounded text-[10.5px] sm:text-[11px] text-slate-700 leading-snug">
         <b class="text-rose-800 block mb-0.5">⚠️ Harris-Benedict (1984 Revize & 1919 Orijinal) & Overestimation Riski:</b>
@@ -271,7 +272,7 @@
 
   <script>
     let currentGender = 'female';
-    let currentPal = 1.3;
+    let currentPal = 1.4;
     let currentViewMode = 'tdee'; // 'tdee' or 'rmr'
     let currentHbVersion = '1984'; // '1984' or '1919'
 
@@ -307,7 +308,7 @@
 
     function setPal(p) {
       currentPal = p;
-      [1.2, 1.3, 1.5, 1.7].forEach(val => {
+      [1.2, 1.4, 1.6, 1.8, 2.0].forEach(val => {
         const key = 'pal_' + String(val).replace('.', '');
         const btn = document.getElementById(key);
         if (btn) {
