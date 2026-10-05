@@ -2087,7 +2087,12 @@ function renderRefEnergyFormulas(container){
       </tr>
       <tr>
         <td><b>Harris-Benedict</b><br><span class="tag bad" style="font-size:10px;">Overestimation Riski</span></td>
-        <td>• Erkek: 88.36 + 13.40 × Ağ (kg) + 4.80 × Boy (cm) - 5.68 × Yaş (yıl)<br>• Kadın: 447.59 + 9.25 × Ağ (kg) + 3.10 × Boy (cm) - 4.33 × Yaş (yıl)</td>
+        <td><b>• 1984 Revize (Roza &amp; Shizgal):</b><br>
+            &nbsp;&nbsp;Erkek: 88.36 + 13.40 × Ağ + 4.80 × Boy - 5.68 × Yaş<br>
+            &nbsp;&nbsp;Kadın: 447.59 + 9.25 × Ağ + 3.10 × Boy - 4.33 × Yaş<br>
+            <b>• 1919 Orijinal (Harris &amp; Benedict):</b><br>
+            &nbsp;&nbsp;Erkek: 66.5 + (13.75 × Ağ) + (5.0 × Boy) - (6.78 × Yaş)<br>
+            &nbsp;&nbsp;Kadın: 655.1 + (9.56 × Ağ) + (1.85 × Boy) - (4.67 × Yaş)</td>
         <td><b>Düzeltilmiş Ağırlık (ABW)</b></td>
         <td>Gerçek ağırlıkla kullanılırsa enerjiyi <b>%7 – %27 fazla (şişirilmiş)</b> hesaplar!</td>
       </tr>
@@ -2269,7 +2274,11 @@ function renderInteractiveEnergyCalc(container){
         </div>
         <div class="calc-res-box">
           <div class="calc-res-val" id="cl_hb_val">1.468 kkal</div>
-          <div class="calc-res-lbl">Harris-B. RMR (ABW ile)</div>
+          <div class="calc-res-lbl">HB (1984 Revize - ABW)</div>
+        </div>
+        <div class="calc-res-box">
+          <div class="calc-res-val" id="cl_hb1919_val" style="color:#0369a1;">1.455 kkal</div>
+          <div class="calc-res-lbl">HB (1919 Orijinal - ABW)</div>
         </div>
         <div class="calc-res-box">
           <div class="calc-res-val" id="cl_tdee_val" style="color:#2563eb;">2.002 kkal</div>
@@ -2327,12 +2336,20 @@ function runClinicEnergyCalc(){
     mifflin = (10 * weight) + (6.25 * height) - (5 * age) + 5;
   }
 
-  // Harris-Benedict (with ABW)
+  // Harris-Benedict 1984 Revize (with ABW)
   let hb = 0;
   if(gender === 'female'){
     hb = 447.59 + (9.25 * abw) + (3.10 * height) - (4.33 * age);
   } else {
     hb = 88.36 + (13.40 * abw) + (4.80 * height) - (5.68 * age);
+  }
+
+  // Harris-Benedict 1919 Orijinal (with ABW)
+  let hb1919 = 0;
+  if(gender === 'female'){
+    hb1919 = 655.1 + (9.56 * abw) + (1.85 * height) - (4.67 * age);
+  } else {
+    hb1919 = 66.5 + (13.75 * abw) + (5.0 * height) - (6.78 * age);
   }
 
   const tdee = mifflin * pal;
@@ -2347,6 +2364,7 @@ function runClinicEnergyCalc(){
   setT('cl_abw_val', `${abw.toFixed(1)} kg`);
   setT('cl_mifflin_val', `${Math.round(mifflin)} kkal`);
   setT('cl_hb_val', `${Math.round(hb)} kkal`);
+  setT('cl_hb1919_val', `${Math.round(hb1919)} kkal`);
   setT('cl_tdee_val', `${Math.round(tdee)} kkal`);
   setT('cl_target_val', `${Math.round(targetKcal)} kkal`);
   setT('cl_pro_val', `${Math.round(targetProG)} g (${proPerAbw.toFixed(2)} g/kg ABW)`);
@@ -2437,7 +2455,7 @@ const CASES_M3 = [
       'Mifflin ile Harris-Benedict obezitede her zaman birebir aynı sonucu verir.'
     ],
     correctIdx: 0,
-    explain: '• <b>HB Gerçek Ağırlıkla (134 kg):</b> RMR ≈ <b>2420 kkal</b>.<br>• <b>HB Düzeltilmiş Ağırlıkla (90.7 kg ABW):</b> RMR ≈ <b>1840 kkal</b>.<br>• <b>Fark:</b> Tam <b>580 kkal overestimation</b>! Gerçek ağırlık girilirse hastaya kilo koruma veya kilo alma kalorisi verilmiş olur. Obezitede Harris-Benedict mutlaka ABW ile kullanılmalıdır.'
+    explain: '• <b>HB 1984 Revize:</b> Gerçek Ağ (134 kg) ≈ <b>2420 kkal</b> vs ABW (90.7 kg) ≈ <b>1840 kkal</b> (Fark: <b>+580 kkal</b>).<br>• <b>HB 1919 Orijinal:</b> Gerçek Ağ (134 kg) ≈ <b>2419 kkal</b> vs ABW (90.7 kg) ≈ <b>1824 kkal</b> (Fark: <b>+595 kkal</b>).<br>• <b>Sonuç:</b> Her iki formülde de gerçek ağırlık girilirse <b>~580–595 kkal aşırı hesaplama (overestimation)</b> oluşur. Obezitede Harris-Benedict mutlaka ABW ile kullanılmalıdır.'
   },
   {
     criterion: 'Vaka 3: Az Bildirim (Underreporting) ve Goldberg Eşitliği Denetimi',

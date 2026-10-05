@@ -162,15 +162,26 @@
         <p class="text-[11px] text-slate-500 font-medium">Sütunlar seçilen moda (RMR veya TEH) ve FA katsayısına (PAL) göre canlı ölçeklenir.</p>
       </div>
 
-      <!-- VIEW MODE TOGGLE (RMR vs TEH) -->
-      <div class="flex items-center gap-1 bg-slate-200/90 p-1 rounded-lg border border-slate-300 shadow-inner">
-        <span class="text-[10.5px] font-bold text-slate-600 px-1.5">Görünüm Modu:</span>
-        <button id="btn_mode_tdee" onclick="setViewMode('tdee')" class="px-2.5 py-1 text-[11px] font-extrabold rounded-md bg-teal-700 text-white shadow transition flex items-center gap-1">
-          <span>🏃 Toplam Enerji (TEH = RMR × PAL)</span>
-        </button>
-        <button id="btn_mode_rmr" onclick="setViewMode('rmr')" class="px-2.5 py-1 text-[11px] font-extrabold rounded-md text-slate-700 hover:text-slate-900 transition flex items-center gap-1">
-          <span>🛌 Sadece Dinlenme Hızı (RMR)</span>
-        </button>
+      <!-- VIEW MODE TOGGLE (RMR vs TEH) & HB VERSION -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="flex items-center gap-1 bg-slate-200/90 p-1 rounded-lg border border-slate-300 shadow-inner">
+          <span class="text-[10.5px] font-bold text-slate-600 px-1.5">HB Sürümü:</span>
+          <button id="btn_hb_1984" onclick="setHbVersion('1984')" class="px-2 py-0.5 text-[10.5px] font-extrabold rounded bg-blue-700 text-white shadow transition">
+            1984 Revize
+          </button>
+          <button id="btn_hb_1919" onclick="setHbVersion('1919')" class="px-2 py-0.5 text-[10.5px] font-extrabold rounded text-slate-700 hover:text-slate-900 transition">
+            1919 Orijinal
+          </button>
+        </div>
+        <div class="flex items-center gap-1 bg-slate-200/90 p-1 rounded-lg border border-slate-300 shadow-inner">
+          <span class="text-[10.5px] font-bold text-slate-600 px-1.5">Görünüm Modu:</span>
+          <button id="btn_mode_tdee" onclick="setViewMode('tdee')" class="px-2.5 py-1 text-[11px] font-extrabold rounded-md bg-teal-700 text-white shadow transition flex items-center gap-1">
+            <span>🏃 Toplam Enerji (TEH)</span>
+          </button>
+          <button id="btn_mode_rmr" onclick="setViewMode('rmr')" class="px-2.5 py-1 text-[11px] font-extrabold rounded-md text-slate-700 hover:text-slate-900 transition flex items-center gap-1">
+            <span>🛌 Dinlenme (RMR)</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -205,8 +216,8 @@
           <div id="col_hb_base" class="w-full bg-gradient-to-t from-blue-600 to-blue-400 pillar-transition shadow-md" style="height: 60%;"></div>
         </div>
         <div class="text-center mt-1.5">
-          <span class="text-[11px] sm:text-xs font-extrabold text-blue-900 block leading-tight">Harris-Benedict</span>
-          <span class="text-[9.5px] font-semibold text-blue-700">(ABW ile Doğru)</span>
+          <span class="text-[11px] sm:text-xs font-extrabold text-blue-900 block leading-tight" id="lbl_hb_title">Harris-Benedict (1984)</span>
+          <span class="text-[9.5px] font-semibold text-blue-700" id="lbl_hb_sub">(ABW ile Doğru)</span>
         </div>
       </div>
 
@@ -249,8 +260,10 @@
         Mifflin formülü gerçek ağırlıkla RMR'ı bulur; hastanın fiziksel aktivitesi (PAL) ile çarpılarak toplam günlük enerji harcaması (TEH) elde edilir. Kalori açığı (500-750 kcal) bu TEH değerinden düşülür.
       </div>
       <div class="bg-slate-50 border-l-4 border-rose-600 p-2 rounded text-[10.5px] sm:text-[11px] text-slate-700 leading-snug">
-        <b class="text-rose-800 block mb-0.5">⚠️ Harris-Benedict & PAL Çarpanı Tehlikesi:</b>
-        Eğer Harris-Benedict formülüne gerçek ağırlık girilirse ve üzerine PAL (örn. 1.3) eklenirse, toplam harcama <b class="text-rose-700">+350 ila +500 kcal fazla</b> çıkar. Bu da hastaya kilo verdirmeyen yüksek kalori yazılmasına neden olur.
+        <b class="text-rose-800 block mb-0.5">⚠️ Harris-Benedict (1984 Revize & 1919 Orijinal) & Overestimation Riski:</b>
+        <b>1984 Revize:</b> E: 88.36+(13.40×Ağ)+(4.80×Boy)-(5.68×Yaş) | K: 447.59+(9.25×Ağ)+(3.10×Boy)-(4.33×Yaş)<br>
+        <b>1919 Orijinal:</b> E: 66.5+(13.75×Ağ)+(5.0×Boy)-(6.78×Yaş) | K: 655.1+(9.56×Ağ)+(1.85×Boy)-(4.67×Yaş)<br>
+        Her iki versiyonda da gerçek ağırlık girilirse toplam harcama <b class="text-rose-700">+350 ila +580 kcal fazla</b> çıkar. Mutlaka ABW kullanılmalıdır.
       </div>
     </div>
 
@@ -260,6 +273,23 @@
     let currentGender = 'female';
     let currentPal = 1.3;
     let currentViewMode = 'tdee'; // 'tdee' or 'rmr'
+    let currentHbVersion = '1984'; // '1984' or '1919'
+
+    function setHbVersion(v) {
+      currentHbVersion = v;
+      const b84 = document.getElementById('btn_hb_1984');
+      const b19 = document.getElementById('btn_hb_1919');
+      if (v === '1984') {
+        b84.className = 'px-2 py-0.5 text-[10.5px] font-extrabold rounded bg-blue-700 text-white shadow transition';
+        b19.className = 'px-2 py-0.5 text-[10.5px] font-extrabold rounded text-slate-700 hover:text-slate-900 transition';
+        document.getElementById('lbl_hb_title').textContent = 'Harris-B. (1984)';
+      } else {
+        b19.className = 'px-2 py-0.5 text-[10.5px] font-extrabold rounded bg-blue-700 text-white shadow transition';
+        b84.className = 'px-2 py-0.5 text-[10.5px] font-extrabold rounded text-slate-700 hover:text-slate-900 transition';
+        document.getElementById('lbl_hb_title').textContent = 'Harris-B. (1919)';
+      }
+      updateAll();
+    }
 
     function setGender(g) {
       currentGender = g;
@@ -353,13 +383,24 @@
         : (10 * w) + (6.25 * h) - (5 * age) + 5;
       const mifflinTdee = mifflinRmr * currentPal;
 
-      // Harris-Benedict (ABW vs Gerçek)
-      const hbAbwRmr = currentGender === 'female'
-        ? 447.593 + (9.247 * abw) + (3.098 * h) - (4.330 * age)
-        : 88.362 + (13.397 * abw) + (4.799 * h) - (5.677 * age);
-      const hbActualRmr = currentGender === 'female'
-        ? 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * age)
-        : 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * age);
+      // Harris-Benedict (1984 Revize vs 1919 Orijinal - ABW vs Gerçek)
+      let hbAbwRmr = 0;
+      let hbActualRmr = 0;
+      if (currentHbVersion === '1919') {
+        hbAbwRmr = currentGender === 'female'
+          ? 655.1 + (9.56 * abw) + (1.85 * h) - (4.67 * age)
+          : 66.5 + (13.75 * abw) + (5.0 * h) - (6.78 * age);
+        hbActualRmr = currentGender === 'female'
+          ? 655.1 + (9.56 * w) + (1.85 * h) - (4.67 * age)
+          : 66.5 + (13.75 * w) + (5.0 * h) - (6.78 * age);
+      } else {
+        hbAbwRmr = currentGender === 'female'
+          ? 447.593 + (9.247 * abw) + (3.098 * h) - (4.330 * age)
+          : 88.362 + (13.397 * abw) + (4.799 * h) - (5.677 * age);
+        hbActualRmr = currentGender === 'female'
+          ? 447.593 + (9.247 * w) + (3.098 * h) - (4.330 * age)
+          : 88.362 + (13.397 * w) + (4.799 * h) - (5.677 * age);
+      }
       
       const hbAbwTdee = hbAbwRmr * currentPal;
       const hbActualTdee = hbActualRmr * currentPal;
