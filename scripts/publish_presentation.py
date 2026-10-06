@@ -102,7 +102,7 @@ console.log(ciphertext);
     )
     return res.stdout.strip()
 
-def find_pdf_for_presentation(input_path: Path, pres_title: str, course_key: str, user_pdf: str = None) -> Path | None:
+def find_pdf_for_presentation(input_path: Path, pres_title: str, course_key: str, user_pdf: str = None) -> 'Path | None':
     if user_pdf:
         p = Path(user_pdf).resolve()
         if p.exists():
@@ -182,6 +182,11 @@ def normalize_images(html: str, source_dir: Path) -> str:
 
 def get_next_presentation_filename(course_key: str, pres_slug: str) -> str:
     existing = list(SLIDES_DIR.glob("*.html"))
+    # Eğer aynı slug'a sahip bir dosya zaten varsa (güncelleme yapılıyorsa), aynı adı koru!
+    for f in existing:
+        if pres_slug in f.name:
+            return f.name
+
     prefixes = []
     for f in existing:
         m = re.match(r'^(\d\d)-', f.name)

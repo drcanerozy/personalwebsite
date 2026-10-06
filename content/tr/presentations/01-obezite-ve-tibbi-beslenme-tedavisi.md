@@ -1,17 +1,17 @@
 ---
-title: "Obezite ve Tıbbi Beslenme Tedavisi (Konu 1)"
+title: "Obezite ve Tıbbi Beslenme Tedavisi"
 type: "presentation"
-badge: "Lisans Dersi (BES 317)"
-date: "2026-03-01"
-slide_count: "185 Slayt (🔒 AES-256 Korumalı)"
+badge: "Lisans Dersi (BES 317 - BES 318)"
+date: "2026-10-05"
+slide_count: "183 Slayt (🔒 AES-256 Korumalı)"
 html_url: "slides/01-obezite-ve-tibbi-beslenme-tedavisi.html"
-summary: "Kronik, nüksedici ve nörometabolik bir hastalığın biyolojisinden kliniğe, tanıdan davranış değişikliğine tam yolculuk. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
+summary: "Obezite ve Tıbbi Beslenme Tedavisi dersi interaktif web sunumu. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
 draft: false
 lang: "tr"
-order: 1
+order: 4
 ---
 
-## 💻 Ders Sunumu & Canlı Kilitli Modül
-- **Önizleme Kapsamı (Slayt 1–10):** Giriş, küresel epidemiyoloji, Türkiye obezite haritası ve paradigma değişimi.
-- **Şifreli Modüller (Slayt 11–185):** Etiyoloji, patogenez, EASO 2024 evreleme sistemleri, medikal/cerrahi tedavi, TBT stratejileri ve klinik vaka analizleri.
-- **Şifre:** Ders izlencesi ve OBS duyuru panosunda ilan edilen öğrenci şifresi ile açılır.
+## 🧬 Ders Sunumu & Canlı Kilitli Modül
+- **Önizleme Kapsamı (Slayt 1–10):** Açık akademik önizleme ve giriş kavramları.
+- **Şifreli Modüller (Slayt 11–183):** İleri modüller, vaka analizleri ve uygulamalar.
+- **Şifre:** BES 317 - BES 318 ders izlencesinde ilan edilen öğrenci şifresi (`COZYYHTBT2026_`) ile açılır.
