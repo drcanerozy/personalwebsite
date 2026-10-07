@@ -7,8 +7,8 @@ authors_formatted: 'Mengi Çelik, Ö., <strong class="text-slate-800">Özyıldı
 journal_info: "Journal of Health, Population and Nutrition, 42, 436."
 year: 2023
 date: "2023-01-03"
-doi: "10.1186/s41043-023-00436-8"
-url: "https://doi.org/10.1186/s41043-023-00436-8"
+doi: "10.1186/s41043-023-00436-9"
+url: "https://doi.org/10.1186/s41043-023-00436-9"
 lay_summary: ""
 bibtex: |
   @article{mengi2023food,
@@ -18,7 +18,7 @@ bibtex: |
     volume={42},
     pages={436},
     year={2023},
-    doi={10.1186/s41043-023-00436-8}
+    doi={10.1186/s41043-023-00436-9}
   }
 draft: false
 lang: "en"

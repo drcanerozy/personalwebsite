@@ -7,8 +7,8 @@ authors_formatted: 'Seremet Kürklü, N., Karaçil Ermumcu, M. Ş., Suna, G., <s
 journal_info: "International Journal of Environmental Health Research, 34(10), 3478–3488."
 year: 2024
 date: "2024-01-01"
-doi: "10.1080/09603123.2023.2267232"
-url: "https://doi.org/10.1080/09603123.2023.2267232"
+doi: "10.1080/09603123.2024.2308732"
+url: "https://doi.org/10.1080/09603123.2024.2308732"
 lay_summary: ""
 bibtex: |
   @article{seremet2024adherence,
@@ -19,7 +19,7 @@ bibtex: |
     number={10},
     pages={3478--3488},
     year={2024},
-    doi={10.1080/09603123.2023.2267232}
+    doi={10.1080/09603123.2024.2308732}
   }
 draft: false
 lang: "en"

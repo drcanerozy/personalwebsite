@@ -1,5 +1,5 @@
 ---
-title: "Ergenlerde internet bağımlılığının yeme davranışları, obezite ve uyku kalitesi üzerine etkisinin değerlendirilmesi"
+title: "Adölesanlarda İnternet Bağımlılığının Yeme Davranışları, Obezite ve Uyku Kalitesi Üzerine Etkisinin Değerlendirilmesi"
 type: "publication"
 category: "national"
 badge: "Ulusal Hakemli Dergi (2023)"
@@ -8,11 +8,11 @@ journal_info: "İzmir Kâtip Çelebi Üniversitesi Sağlık Bilimleri Fakültesi
 year: 2023
 date: "2023-01-07"
 doi: ""
-url: "https://dergipark.org.tr/tr/pub/ikcusbfd"
+url: "https://izlik.org/JA28UE86YA"
 lay_summary: ""
 bibtex: |
   @article{seremet2023internet,
-    title={Ergenlerde internet ba{\u{g}}{\i}ml{\i}l{\i}{\u{g}}{\i}n{\i}n yeme davran{\i}{\c{s}}lar{\i}, obezite ve uyku kalitesi \"uzerine etkisinin de{\u{g}}erlendirilmesi},
+    title={Ad{\"o}lesanlarda {\.I}nternet Ba{\u{g}}{\i}ml{\i}l{\i}{\u{g}}{\i}n{\i}n Yeme Davran{\i}{\c{s}}lar{\i}, Obezite ve Uyku Kalitesi \"Uzerine Etkisinin De{\u{g}}erlendirilmesi},
     author={Seremet K{\"u}rkl{\"u}, N. and {\"O}zy{\i}ld{\i}r{\i}m, Caner and Kara{\c{c}}il Ermumcu, M. {\c{S}}. and Suna, G. and Kamarl{\i} Altun, H.},
     journal={{\"I}zmir K{\^a}tip {\c{C}}elebi \"Universitesi Sa{\u{g}}l{\i}k Bilimleri Fak{\"u}ltesi Dergisi},
     volume={8},

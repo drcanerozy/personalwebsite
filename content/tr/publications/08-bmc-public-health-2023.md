@@ -7,8 +7,8 @@ authors_formatted: 'Mengi Çelik, Ö., Karaçil Ermumcu, M. Ş., & <strong class
 journal_info: "BMC Public Health, 23, 1807."
 year: 2023
 date: "2023-01-04"
-doi: "10.1186/s12889-023-16807-6"
-url: "https://doi.org/10.1186/s12889-023-16807-6"
+doi: "10.1186/s12889-023-16732-2"
+url: "https://doi.org/10.1186/s12889-023-16732-2"
 lay_summary: ""
 bibtex: |
   @article{mengi2023turkish,
@@ -18,7 +18,7 @@ bibtex: |
     volume={23},
     pages={1807},
     year={2023},
-    doi={10.1186/s12889-023-16807-6}
+    doi={10.1186/s12889-023-16732-2}
   }
 draft: false
 lang: "tr"

@@ -7,8 +7,8 @@ authors_formatted: 'Kamarlı Altun, H., <strong class="text-slate-800">Özyıld�
 journal_info: "Eating and Weight Disorders, 28, 1552."
 year: 2023
 date: "2023-01-06"
-doi: "10.1007/s40519-023-01552-4"
-url: "https://doi.org/10.1007/s40519-023-01552-4"
+doi: "10.1007/s40519-023-01552-5"
+url: "https://doi.org/10.1007/s40519-023-01552-5"
 lay_summary: ""
 bibtex: |
   @article{kamarli2023factors,
@@ -18,7 +18,7 @@ bibtex: |
     volume={28},
     pages={1552},
     year={2023},
-    doi={10.1007/s40519-023-01552-4}
+    doi={10.1007/s40519-023-01552-5}
   }
 draft: false
 lang: "en"

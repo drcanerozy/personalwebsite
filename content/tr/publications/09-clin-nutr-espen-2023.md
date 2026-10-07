@@ -7,8 +7,8 @@ authors_formatted: 'Doğan, G., <strong class="text-slate-800">Özyıldırım, C
 journal_info: "Clinical Nutrition ESPEN, 54, 122–129."
 year: 2023
 date: "2023-01-05"
-doi: "10.1016/j.clnesp.2023.01.018"
-url: "https://doi.org/10.1016/j.clnesp.2023.01.018"
+doi: "10.1016/j.clnesp.2023.01.022"
+url: "https://doi.org/10.1016/j.clnesp.2023.01.022"
 lay_summary: ""
 bibtex: |
   @article{dogan2023supplementation,
@@ -18,7 +18,7 @@ bibtex: |
     volume={54},
     pages={122--129},
     year={2023},
-    doi={10.1016/j.clnesp.2023.01.018}
+    doi={10.1016/j.clnesp.2023.01.022}
   }
 draft: false
 lang: "tr"
