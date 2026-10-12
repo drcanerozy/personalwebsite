@@ -586,10 +586,17 @@ body {
       <span>Diyabet ve TBT · İleri Klinik Nütrisyon</span>
     </div>
   </div>
-  <div style="font-size:12px; font-weight:600; color:var(--ink-soft); font-family:var(--font-mono); display:flex; align-items:center; gap:8px;">
-    <span class="tag tag-emerald" style="font-size:11px; padding:2px 8px;">ADA 2026</span>
-    <span class="tag tag-blue" style="font-size:11px; padding:2px 8px;">KDIGO 2024</span>
-    <span class="tag tag-amber" style="font-size:11px; padding:2px 8px;">MNT Protokolleri</span>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div style="font-size:12px; font-weight:600; color:var(--ink-soft); font-family:var(--font-mono); display:flex; align-items:center; gap:8px;">
+      <span class="tag tag-emerald" style="font-size:11px; padding:2px 8px;">ADA 2026</span>
+      <span class="tag tag-blue" style="font-size:11px; padding:2px 8px;">KDIGO 2024</span>
+    </div>
+    <button id="header-lock-btn" onclick="openLockModal()" title="Ders Şifresini Gir" style="padding:6px 12px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:rgba(217,119,6,0.15); border:1px solid rgba(217,119,6,0.4); color:#d97706; cursor:pointer; border-radius:8px; transition:all 0.15s ease;">
+      <span>🔒</span> <span>Ders Şifresi</span>
+    </button>
+    <button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" style="padding:6px 12px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:var(--surface); border:1px solid var(--border); color:var(--ink); cursor:pointer; border-radius:8px; transition:all 0.15s ease; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+      <span style="color:#ef4444;">📄</span> <span>PDF İndir</span>
+    </button>
   </div>
 </div>
 
@@ -1215,6 +1222,29 @@ function closeImageModal() {
 }
 
 function renderSlide(s, idx) {
+  if (s.type === 'prompt') {
+    const eyebrow = s.eyebrow || s.tag || s.badge || '🛑 Önizleme Bildirimi';
+    const title = s.title || 'Önizleme Tamamlandı';
+    const sub = s.sub || s.lead || s.desc || '';
+    let navHtml = s.treeNav ? renderTreeNav(s.treeNav) : '';
+    return `
+      ${navHtml}
+      <div style="max-width:840px; margin:30px auto; padding:36px; background:var(--surface); border:2px dashed #f59e0b; border-radius:18px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
+        <span class="eyebrow" style="background:rgba(217,119,6,0.15); color:#d97706; padding:4px 12px; border-radius:99px; font-weight:700;">${esc(eyebrow)}</span>
+        <h2 class="slide-title" style="margin-top:14px; color:var(--ink); font-size:26px;">${esc(title)}</h2>
+        <p class="slide-sub" style="margin:14px auto 28px; max-width:650px; font-size:15px; line-height:1.6; color:var(--ink-soft);">${esc(sub)}</p>
+        <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+          <button type="button" onclick="openLockModal()" style="padding:12px 28px; font-size:14px; font-weight:700; border-radius:10px; background:linear-gradient(135deg, #d97706, #b45309); color:#ffffff; border:none; cursor:pointer; box-shadow:0 6px 16px rgba(217,119,6,0.3); transition:all 0.15s ease;">
+            🔓 Şifre Gir &amp; Tüm Sunumu Aç
+          </button>
+          <button type="button" onclick="triggerPresentationPdfDownload()" class="pdf-download-btn" style="padding:12px 24px; font-size:14px; font-weight:700; border-radius:10px; background:var(--surface); color:var(--ink); border:1px solid var(--border); cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.04); display:inline-flex; align-items:center; gap:8px;">
+            <span style="color:#ef4444;">📄</span> Ders Notlarını PDF İndir
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
   const t = s.type || (s.img ? "image-split" : (s.questions ? "quiz" : (s.cards ? "grid" : (s.body ? "quote" : "grid"))));
   const eyebrow = s.eyebrow || s.tag || s.badge || "";
   const title = s.title || s.chTitle || s.text || "Klinik Bilgi";
@@ -1743,6 +1773,27 @@ window.closeLockModal = closeLockModal;
 window.handleUnlockSubmit = handleUnlockSubmit;
 window.togglePasswordVisibility = togglePasswordVisibility;
 window.applyDecryptedSlides = applyDecryptedSlides;
+
+function updateGlobalLockUI() {
+  const lockBtns = document.querySelectorAll('#header-lock-btn, .header-lock-btn');
+  lockBtns.forEach(btn => {
+    if (isUnlocked) {
+      btn.style.background = 'rgba(16,185,129,0.15)';
+      btn.style.borderColor = 'rgba(16,185,129,0.4)';
+      btn.style.color = '#059669';
+      btn.innerHTML = '<span>🔓</span> <span>Kilit Açık</span>';
+      btn.title = 'Tüm slaytlar ve vaka analizleri açık';
+    } else {
+      btn.style.background = 'rgba(217,119,6,0.15)';
+      btn.style.borderColor = 'rgba(217,119,6,0.4)';
+      btn.style.color = '#d97706';
+      btn.innerHTML = '<span>🔒</span> <span>Ders Şifresi</span>';
+      btn.title = 'BES 317 Ders Şifresini Gir';
+    }
+  });
+}
+window.updateGlobalLockUI = updateGlobalLockUI;
+
 </script>
 
 
