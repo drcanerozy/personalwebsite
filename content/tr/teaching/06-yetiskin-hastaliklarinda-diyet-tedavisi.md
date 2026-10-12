@@ -28,3 +28,5 @@ Bu dersin canlı ve interaktif web sunumlarına aşağıdaki bağlantılardan er
 
 - 👉 [**1. Konu: Obezite ve Tıbbi Beslenme Tedavisi (185 Slayt - Canlı İzle)**](../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Korumalı)*
 - 👉 [**1. Hafta: Obezite ve Tıbbi Beslenme Tedavisine Giriş Uygulaması (59+ Slayt - Canlı İzle)**](../slides/02-obezite-uygulama.html) *(🔒 AES-256 Korumalı)*
+
+- 👉 [**2. Konu: Diyabet ve Tıbbi Beslenme Tedavisi (148 Slayt - Canlı İzle)**](../slides/03-diyabet-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Korumalı)*
