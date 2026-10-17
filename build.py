@@ -249,10 +249,11 @@ def load_section_items(lang_dir, section_name):
                 
     # Articles processing: mark local markdown articles and merge with Substack RSS
     if section_name in ["articles", "yazilar"]:
+        url_prefix = "yazilar" if lang_dir.name == "tr" else "articles"
         for item in items:
             if item.get("slug"):
                 item["is_local"] = True
-                item["url"] = f"yazilar/{item['slug']}.html"
+                item["url"] = f"{url_prefix}/{item['slug']}.html"
                 if not item.get("image_url") and item.get("cover_image"):
                     item["image_url"] = item.get("cover_image")
 
@@ -2021,13 +2022,13 @@ def render_article_markdown_body(text):
 
 def generate_single_article_html(article, lang="tr"):
     is_tr = (lang == "tr")
-    title = article.get("title", "Makale")
     slug = article.get("slug", "")
+    title = article.get("title", "Makale" if is_tr else "Article")
     date_str = article.get("date", "")
     summary = article.get("summary", "")
     cover_image = article.get("cover_image", "")
-    read_time = article.get("read_time", "7 dk")
-    badge = article.get("badge", "Bilimsel Analiz")
+    read_time = article.get("read_time", "7 dk" if is_tr else "7 min")
+    badge = article.get("badge", "Bilimsel Analiz" if is_tr else "Scientific Review")
     tags = article.get("tags", [])
     if isinstance(tags, str):
         try:
@@ -2039,7 +2040,12 @@ def generate_single_article_html(article, lang="tr"):
     body_html = render_article_markdown_body(body_md)
 
     home_url = "../" if is_tr else "../../en/"
-    canonical_url = f"https://canerozy.com/yazilar/{slug}.html"
+    asset_prefix = "../" if is_tr else "../../"
+    canonical_url = f"https://canerozy.com/yazilar/{slug}.html" if is_tr else f"https://canerozy.com/en/articles/{slug}.html"
+    tr_url = f"https://canerozy.com/yazilar/{slug}.html"
+    en_url = f"https://canerozy.com/en/articles/{slug}.html"
+    switch_lang_url = f"../en/articles/{slug}.html" if is_tr else f"../../yazilar/{slug}.html"
+    switch_lang_label = "EN" if is_tr else "TR"
 
     if cover_image:
         if cover_image.startswith("http"):
@@ -2048,7 +2054,7 @@ def generate_single_article_html(article, lang="tr"):
         else:
             clean_path = cover_image.lstrip("/")
             full_cover_url = f"https://canerozy.com/{clean_path}"
-            cover_img_src = f"../{clean_path}"
+            cover_img_src = f"{asset_prefix}{clean_path}"
         cover_html = f"""
         <div class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100">
             <img src="{cover_img_src}" alt="{title}" class="w-full h-auto max-h-[500px] object-cover">
@@ -2057,19 +2063,43 @@ def generate_single_article_html(article, lang="tr"):
         full_cover_url = "https://canerozy.com/assets/images/profil.jpg"
         cover_html = ""
 
+    author_img_src = f"{asset_prefix}assets/images/profil.jpg"
     tags_html = " ".join([f'<span class="text-xs font-medium bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">#{t}</span>' for t in tags])
 
     safe_title_json = json.dumps(title)
     safe_desc_json = json.dumps(summary)
 
+    ui_text = {
+        "back_to_list": "← Tüm Yazılara Dön" if is_tr else "← Back to All Articles",
+        "home": "Ana Sayfa" if is_tr else "Home",
+        "author_name": "Dr. Caner ÖZYILDIRIM",
+        "author_role": "Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü" if is_tr else "Department of Nutrition & Dietetics • Akdeniz University",
+        "author_bio": "Beslenme örüntüleri, obezite etiyolojisi, biyoistatistik, veri görselleştirme ve sağlıkta yapay zeka uygulamaları üzerine çalışan araştırmacı ve akademisyen." if is_tr else "Academic and clinical researcher specializing in dietary patterns, obesity etiology, biostatistics, data visualization, and artificial intelligence in healthcare.",
+        "top_cta_title": "Yeni Yazıları E-Postanızda Okuyun" if is_tr else "Get New Scientific Essays in Your Inbox",
+        "top_cta_desc": "Yeni bilimsel analizler yayımlandığında e-postanıza gelsin isterseniz Substack'ten bültenime abone olabilirsiniz." if is_tr else "Subscribe to my Substack newsletter to receive future essays on metabolism and incretins directly in your inbox.",
+        "top_cta_btn": "Ücretsiz Abone Ol" if is_tr else "Subscribe Free",
+        "bottom_cta_badge": "Dr. Caner Özyıldırım Substack Bülteni" if is_tr else "Dr. Caner Özyıldırım Substack Newsletter",
+        "bottom_cta_title": "Yeni Bilimsel Değerlendirmeleri Kaçırmayın" if is_tr else "Stay Updated on New Scientific Insights",
+        "bottom_cta_desc": "Metabolizma, GLP-1 ve obezite farmakoterapisi, ultra-işlenmiş gıdalar ve kanıta dayalı klinik beslenme üzerine hazırladığım bağımsız analizlere ücretsiz abone olun." if is_tr else "Subscribe for free to receive in-depth, evidence-based reviews on metabolism, incretin pharmacotherapy, ultra-processed foods, and clinical nutrition.",
+        "bottom_input_ph": "E-posta adresinizi girin..." if is_tr else "Enter your email address...",
+        "bottom_submit_btn": "Abone Ol" if is_tr else "Subscribe",
+        "bottom_spam_note": "Spam yok, dilediğiniz an tek tıkla ayrılabilirsiniz." if is_tr else "No spam. Unsubscribe anytime with one click.",
+        "bottom_discuss": "Bu yazıyı Substack üzerinde tartışın / yorum bırakın" if is_tr else "Discuss this article / leave a comment on Substack",
+        "bottom_view_all": "← Tüm Yazılarıma Göz At" if is_tr else "← View All Articles",
+        "footer_rights": "Bütün Hakları Saklıdır." if is_tr else "All Rights Reserved."
+    }
+
     html = f"""<!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="{'tr' if is_tr else 'en'}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} | Dr. Caner ÖZYILDIRIM</title>
     <meta name="description" content="{summary}">
     <link rel="canonical" href="{canonical_url}">
+    <link rel="alternate" hreflang="tr" href="{tr_url}">
+    <link rel="alternate" hreflang="en" href="{en_url}">
+    <link rel="alternate" hreflang="x-default" href="{en_url}">
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="article">
@@ -2096,6 +2126,7 @@ def generate_single_article_html(article, lang="tr"):
       "description": {safe_desc_json},
       "image": "{full_cover_url}",
       "datePublished": "{date_str}",
+      "inLanguage": "{'tr' if is_tr else 'en'}",
       "author": {{
         "@type": "Person",
         "name": "Dr. Caner ÖZYILDIRIM",
@@ -2161,10 +2192,14 @@ def generate_single_article_html(article, lang="tr"):
         <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             <a href="{home_url}#articles" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold text-xs sm:text-sm transition">
                 <i class="fa-solid fa-arrow-left"></i>
-                <span>← Tüm Yazılara Dön</span>
+                <span>{ui_text['back_to_list']}</span>
             </a>
             <div class="flex items-center space-x-3">
-                <a href="{home_url}" class="hidden sm:inline text-xs font-semibold text-slate-600 hover:text-academic-700 transition">Ana Sayfa</a>
+                <a href="{home_url}" class="hidden sm:inline text-xs font-semibold text-slate-600 hover:text-academic-700 transition">{ui_text['home']}</a>
+                <a href="{switch_lang_url}" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-md border border-slate-300 transition" title="{'Switch to English' if is_tr else 'Türkçe versiyona geç'}">
+                    <i class="fa-solid fa-globe mr-1 text-slate-500"></i>
+                    <span>{switch_lang_label}</span>
+                </a>
                 <a href="{substack_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#FF6719] hover:bg-[#e05912] text-white text-xs font-bold rounded-lg transition shadow-xs">
                     <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
                     <span>Substack</span>
@@ -2192,7 +2227,7 @@ def generate_single_article_html(article, lang="tr"):
                 <span class="text-slate-300">•</span>
                 <span class="flex items-center"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> {read_time}</span>
                 <span class="text-slate-300">•</span>
-                <span class="flex items-center"><i class="fa-solid fa-user-pen mr-1.5 text-academic-700"></i> Dr. Caner ÖZYILDIRIM</span>
+                <span class="flex items-center"><i class="fa-solid fa-user-pen mr-1.5 text-academic-700"></i> {ui_text['author_name']}</span>
             </div>
 
             <!-- Top Substack Notification Banner -->
@@ -2202,12 +2237,12 @@ def generate_single_article_html(article, lang="tr"):
                         <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
                     </div>
                     <div>
-                        <p class="font-bold text-slate-900 font-serif">Yeni Yazıları E-Postanızda Okuyun</p>
-                        <p class="text-xs text-slate-600 mt-0.5">Yeni bilimsel analizler yayımlandığında e-postanıza gelsin isterseniz Substack'ten bültenime abone olabilirsiniz.</p>
+                        <p class="font-bold text-slate-900 font-serif">{ui_text['top_cta_title']}</p>
+                        <p class="text-xs text-slate-600 mt-0.5">{ui_text['top_cta_desc']}</p>
                     </div>
                 </div>
                 <a href="https://drcaner.substack.com/subscribe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 px-4 py-2 bg-[#FF6719] hover:bg-[#e05912] text-white text-xs font-bold rounded-xl transition shadow-xs whitespace-nowrap flex-shrink-0">
-                    <span>Ücretsiz Abone Ol</span>
+                    <span>{ui_text['top_cta_btn']}</span>
                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </a>
             </div>
@@ -2229,28 +2264,28 @@ def generate_single_article_html(article, lang="tr"):
             <div class="max-w-2xl mx-auto text-center space-y-4">
                 <div class="inline-flex items-center space-x-2 text-[11px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-3 py-1 rounded-full">
                     <svg class="w-3.5 h-3.5 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
-                    <span>Dr. Caner Özyıldırım Substack Bülteni</span>
+                    <span>{ui_text['bottom_cta_badge']}</span>
                 </div>
                 <h3 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900">
-                    Yeni Bilimsel Değerlendirmeleri Kaçırmayın
+                    {ui_text['bottom_cta_title']}
                 </h3>
                 <p class="text-sm text-slate-700 leading-relaxed max-w-lg mx-auto">
-                    Metabolizma, GLP-1 ve obezite farmakoterapisi, ultra-işlenmiş gıdalar ve kanıta dayalı klinik beslenme üzerine hazırladığım bağımsız analizlere ücretsiz abone olun.
+                    {ui_text['bottom_cta_desc']}
                 </p>
                 
                 <form action="https://drcaner.substack.com/subscribe" method="get" target="_blank" class="flex flex-col sm:flex-row gap-2.5 justify-center max-w-md mx-auto pt-2">
-                    <input type="email" name="email" required placeholder="E-posta adresinizi girin..." class="px-4 py-3 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-xs flex-grow">
+                    <input type="email" name="email" required placeholder="{ui_text['bottom_input_ph']}" class="px-4 py-3 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-xs flex-grow">
                     <button type="submit" class="bg-[#FF6719] hover:bg-[#e05912] text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center space-x-2 whitespace-nowrap">
-                        <span>Abone Ol</span>
+                        <span>{ui_text['bottom_submit_btn']}</span>
                         <i class="fa-solid fa-arrow-right text-xs"></i>
                     </button>
                 </form>
                 
                 <div class="pt-4 border-t border-amber-200/80 mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-600">
-                    <span class="flex items-center"><i class="fa-solid fa-shield-halved text-emerald-600 mr-1.5"></i> Spam yok, dilediğiniz an tek tıkla ayrılabilirsiniz.</span>
+                    <span class="flex items-center"><i class="fa-solid fa-shield-halved text-emerald-600 mr-1.5"></i> {ui_text['bottom_spam_note']}</span>
                     <span class="text-slate-300">•</span>
                     <a href="{substack_url}" target="_blank" rel="noopener noreferrer" class="text-amber-900 hover:text-amber-950 font-semibold underline flex items-center">
-                        <span>Bu yazıyı Substack üzerinde tartışın / yorum bırakın</span>
+                        <span>{ui_text['bottom_discuss']}</span>
                         <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1.5"></i>
                     </a>
                 </div>
@@ -2259,14 +2294,14 @@ def generate_single_article_html(article, lang="tr"):
 
         <!-- Author Card -->
         <div class="mt-12 p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xs">
-            <img src="../assets/images/profil.jpg" alt="Dr. Caner ÖZYILDIRIM" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
+            <img src="{author_img_src}" alt="Dr. Caner ÖZYILDIRIM" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
             <div class="text-center sm:text-left space-y-2">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                    <h4 class="font-serif font-bold text-lg text-academic-900">Dr. Caner ÖZYILDIRIM</h4>
-                    <span class="text-xs text-academic-700 font-medium">Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü</span>
+                    <h4 class="font-serif font-bold text-lg text-academic-900">{ui_text['author_name']}</h4>
+                    <span class="text-xs text-academic-700 font-medium">{ui_text['author_role']}</span>
                 </div>
                 <p class="text-xs text-slate-600 leading-relaxed">
-                    Beslenme örüntüleri, obezite etiyolojisi, biyoistatistik, veri görselleştirme ve sağlıkta yapay zeka uygulamaları üzerine çalışan araştırmacı ve akademisyen.
+                    {ui_text['author_bio']}
                 </p>
                 <div class="flex flex-wrap justify-center sm:justify-start gap-3 pt-2 text-xs text-slate-500">
                     <a href="https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr" target="_blank" class="hover:text-academic-700 transition flex items-center space-x-1"><i class="fa-solid fa-graduation-cap"></i> <span>Google Scholar</span></a>
@@ -2281,7 +2316,7 @@ def generate_single_article_html(article, lang="tr"):
         <div class="mt-8 flex justify-between items-center text-xs">
             <a href="{home_url}#articles" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold transition">
                 <i class="fa-solid fa-arrow-left"></i>
-                <span>← Tüm Yazılarıma Göz At</span>
+                <span>{ui_text['bottom_view_all']}</span>
             </a>
             <span class="text-slate-400">Dr. Caner ÖZYILDIRIM</span>
         </div>
@@ -2290,7 +2325,7 @@ def generate_single_article_html(article, lang="tr"):
     <!-- Footer -->
     <footer class="bg-academic-900 text-slate-400 py-8 border-t border-academic-800 text-center text-xs mt-12">
         <div class="max-w-4xl mx-auto px-4">
-            <p>© 2026 Dr. Caner ÖZYILDIRIM. Bütün Hakları Saklıdır.</p>
+            <p>© 2026 Dr. Caner ÖZYILDIRIM. {ui_text['footer_rights']}</p>
         </div>
     </footer>
 
@@ -2308,7 +2343,7 @@ def generate_single_article_html(article, lang="tr"):
 </html>"""
     return html
 
-def generate_sitemap_and_robots(tr_teaching, en_teaching, tr_articles=None):
+def generate_sitemap_and_robots(tr_teaching, en_teaching, tr_articles=None, en_articles=None):
     from datetime import date
     today = date.today().isoformat()
     
@@ -2335,14 +2370,31 @@ def generate_sitemap_and_robots(tr_teaching, en_teaching, tr_articles=None):
             "priority": "0.8"
         })
 
+    # Paired bilingual articles
     if tr_articles:
         for a in tr_articles:
-            if a.get("slug"):
+            slug = a.get("slug")
+            if slug:
                 urls.append({
-                    "loc": f"https://canerozy.com/yazilar/{a['slug']}.html",
+                    "loc": f"https://canerozy.com/yazilar/{slug}.html",
                     "lastmod": a.get("date", today),
                     "changefreq": "monthly",
-                    "priority": "0.8"
+                    "priority": "0.8",
+                    "tr": f"https://canerozy.com/yazilar/{slug}.html",
+                    "en": f"https://canerozy.com/en/articles/{slug}.html"
+                })
+
+    if en_articles:
+        for a in en_articles:
+            slug = a.get("slug")
+            if slug:
+                urls.append({
+                    "loc": f"https://canerozy.com/en/articles/{slug}.html",
+                    "lastmod": a.get("date", today),
+                    "changefreq": "monthly",
+                    "priority": "0.8",
+                    "tr": f"https://canerozy.com/yazilar/{slug}.html",
+                    "en": f"https://canerozy.com/en/articles/{slug}.html"
                 })
         
     xml_lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
@@ -2395,13 +2447,13 @@ def main():
     tr_articles = load_section_items(CONTENT_DIR / "tr", "articles")
     yazilar_dir = BASE_DIR / "yazilar"
     yazilar_dir.mkdir(exist_ok=True)
-    local_articles = [a for a in tr_articles if a.get("is_local")]
-    for a in local_articles:
+    local_tr_articles = [a for a in tr_articles if a.get("is_local")]
+    for a in local_tr_articles:
         fname = f"{a['slug']}.html"
         ahtml = generate_single_article_html(a, "tr")
         with open(yazilar_dir / fname, "w", encoding="utf-8") as f:
             f.write(ahtml)
-    print(f"  ✅ {len(local_articles)} Turkish article detail pages generated in yazilar/")
+    print(f"  ✅ {len(local_tr_articles)} Turkish article detail pages generated in yazilar/")
     
     # 3. Build EN site -> en/index.html
     en_dir = BASE_DIR / "en"
@@ -2421,9 +2473,21 @@ def main():
         with open(en_courses_dir / fname, "w", encoding="utf-8") as f:
             f.write(chtml)
     print(f"  ✅ {len(en_teaching)} English course detail pages generated in en/courses/")
+
+    # 4.5 Build EN article pages -> en/articles/*.html
+    en_articles = load_section_items(CONTENT_DIR / "en", "articles")
+    en_articles_dir = en_dir / "articles"
+    en_articles_dir.mkdir(exist_ok=True)
+    local_en_articles = [a for a in en_articles if a.get("is_local")]
+    for a in local_en_articles:
+        fname = f"{a['slug']}.html"
+        ahtml = generate_single_article_html(a, "en")
+        with open(en_articles_dir / fname, "w", encoding="utf-8") as f:
+            f.write(ahtml)
+    print(f"  ✅ {len(local_en_articles)} English article detail pages generated in en/articles/")
     
     # 5. Generate XML Sitemap & robots.txt for Google Search Console
-    generate_sitemap_and_robots(tr_teaching, en_teaching, local_articles)
+    generate_sitemap_and_robots(tr_teaching, en_teaching, local_tr_articles, local_en_articles)
     
     print("🎉 All bilingual sites compiled successfully from Obsidian markdown!")
 
