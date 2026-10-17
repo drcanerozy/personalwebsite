@@ -247,15 +247,31 @@ def load_section_items(lang_dir, section_name):
                 data["_filename"] = md_file.name
                 items.append(data)
                 
-    # Substack RSS auto-discovery for articles
+    # Articles processing: mark local markdown articles and merge with Substack RSS
     if section_name in ["articles", "yazilar"]:
-        existing_urls = {item.get("url", "").split("?")[0] for item in items if item.get("url")}
+        for item in items:
+            if item.get("slug"):
+                item["is_local"] = True
+                item["url"] = f"yazilar/{item['slug']}.html"
+                if not item.get("image_url") and item.get("cover_image"):
+                    item["image_url"] = item.get("cover_image")
+
+        existing_substacks = set()
+        for item in items:
+            if item.get("substack_url"):
+                existing_substacks.add(item["substack_url"].split("?")[0].rstrip("/"))
+            if item.get("slug"):
+                existing_substacks.add(f"https://drcaner.substack.com/p/{item['slug']}")
+            if item.get("url"):
+                existing_substacks.add(item["url"].split("?")[0].rstrip("/"))
+
         rss_articles = fetch_substack_rss()
         for r_art in rss_articles:
-            base_url = r_art.get("url", "").split("?")[0]
-            if base_url and base_url not in existing_urls:
+            base_url = r_art.get("url", "").split("?")[0].rstrip("/")
+            if base_url and base_url not in existing_substacks:
+                r_art["is_local"] = False
                 items.append(r_art)
-                existing_urls.add(base_url)
+                existing_substacks.add(base_url)
             
     # Sort items
     if section_name in ["articles", "yazilar"]:
@@ -646,13 +662,26 @@ def generate_html(lang="tr"):
     # Helper for Articles HTML (Substack Showcase Cards)
     articles_html = []
     for art in articles:
-        a_badge = art.get("badge", "Substack" if is_tr else "Substack")
+        is_local = art.get("is_local", False)
+        a_badge = art.get("badge", "Bilimsel Analiz" if is_local else "Substack")
         a_date = art.get("date", "[Tarih]")
         a_title = art.get("title", "[Yazı Başlığı]")
         a_desc = art.get("summary", art.get("body", "[Yazı Özeti]"))
         a_time = art.get("read_time", "6 dk" if is_tr else "6 min")
-        a_url = art.get("url", "https://drcaner.substack.com")
         a_img = art.get("image_url", "")
+
+        if is_local:
+            a_url = art.get("url", f"yazilar/{art.get('slug')}.html")
+            target_attr = ""
+            read_btn_label = "Yazıyı Oku" if is_tr else "Read Article"
+            btn_icon = "fa-solid fa-arrow-right"
+            btn_style = "bg-amber-100 hover:bg-academic-700 text-amber-900 hover:text-white"
+        else:
+            a_url = art.get("url", "https://drcaner.substack.com")
+            target_attr = 'target="_blank" rel="noopener noreferrer"'
+            read_btn_label = "Substack'te Oku & Abone Ol" if is_tr else "Read & Subscribe"
+            btn_icon = "fa-solid fa-arrow-up-right-from-square"
+            btn_style = "bg-amber-100 hover:bg-[#FF6719] text-amber-900 hover:text-white"
         
         if a_img:
             img_block = f"""
@@ -671,8 +700,6 @@ def generate_html(lang="tr"):
                             <span class="text-xs text-slate-400 font-mono">{a_date}</span>
                         </div>"""
 
-        read_btn_label = "Substack'te Oku & Abone Ol" if is_tr else "Read & Subscribe"
-
         card = f"""
                 <article class="bg-warmBg rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg hover:border-amber-400/80 transition-all duration-300 group">
                     <div>
@@ -680,7 +707,7 @@ def generate_html(lang="tr"):
                         <div class="{content_padding}">
                             {meta_header}
                             <h3 class="font-serif font-bold text-lg text-academic-900 group-hover:text-amber-700 transition leading-snug">
-                                <a href="{a_url}" target="_blank" rel="noopener noreferrer">
+                                <a href="{a_url}" {target_attr}>
                                     {a_title}
                                 </a>
                             </h3>
@@ -691,9 +718,9 @@ def generate_html(lang="tr"):
                     </div>
                     <div class="px-6 pb-5 pt-3.5 border-t border-slate-200/70 flex justify-between items-center text-xs bg-white/40">
                         <span class="flex items-center text-slate-500 font-medium"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> {a_time}</span>
-                        <a href="{a_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 text-amber-900 hover:text-white font-bold bg-amber-100 hover:bg-[#FF6719] px-3 py-1.5 rounded-lg transition shadow-xs">
+                        <a href="{a_url}" {target_attr} class="inline-flex items-center space-x-1.5 {btn_style} font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
                             <span>{read_btn_label}</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                            <i class="{btn_icon} text-[10px]"></i>
                         </a>
                     </div>
                 </article>"""
@@ -1872,7 +1899,416 @@ def generate_single_course_html(course, lang="tr"):
 </html>"""
     return html
 
-def generate_sitemap_and_robots(tr_teaching, en_teaching):
+def render_article_markdown_body(text):
+    if not text:
+        return ""
+    lines = text.strip().splitlines()
+    html = []
+    in_ul = False
+    in_ol = False
+    in_callout = False
+    callout_type = "note"
+    callout_title = ""
+    callout_lines = []
+
+    def flush_callout():
+        nonlocal in_callout, callout_lines, callout_type, callout_title
+        if not in_callout:
+            return ""
+        content = "<br>".join(callout_lines)
+        
+        border_color = "border-amber-500 bg-amber-50/70 text-amber-950"
+        icon = "fa-triangle-exclamation text-amber-600"
+        if callout_type in ["tip", "success"]:
+            border_color = "border-emerald-500 bg-emerald-50/70 text-emerald-950"
+            icon = "fa-lightbulb text-emerald-600"
+        elif callout_type in ["note", "info"]:
+            border_color = "border-academic-700 bg-academic-50/70 text-academic-950"
+            icon = "fa-circle-info text-academic-700"
+
+        res = f"""<div class="my-6 p-4 rounded-xl border-l-4 {border_color} text-sm leading-relaxed shadow-xs">
+            <div class="font-bold mb-1.5 flex items-center space-x-2">
+                <i class="fa-solid {icon}"></i>
+                <span>{callout_title}</span>
+            </div>
+            <div class="opacity-95">{content}</div>
+        </div>"""
+        in_callout = False
+        callout_lines = []
+        return res
+
+    for l in lines:
+        ls = l.strip()
+
+        # Obsidian Callouts: > [!warning] Title
+        if ls.startswith("> [!"):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            m = re.match(r"> \[!([a-zA-Z0-9_-]+)\]\s*(.*)", ls)
+            if m:
+                if in_callout: html.append(flush_callout())
+                in_callout = True
+                callout_type = m.group(1).lower()
+                callout_title = m.group(2).strip() or callout_type.capitalize()
+                continue
+        elif in_callout:
+            if ls.startswith(">"):
+                callout_lines.append(ls.lstrip(">").strip())
+                continue
+            else:
+                html.append(flush_callout())
+
+        if ls.startswith("# "):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            html.append(f'<h1 class="text-2xl sm:text-3xl font-bold font-serif text-academic-900 mt-10 mb-4 pb-2 border-b border-slate-200">{ls[2:]}</h1>')
+        elif ls.startswith("## "):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            html.append(f'<h2 class="text-xl sm:text-2xl font-bold font-serif text-academic-900 mt-10 mb-4 pb-2 border-b border-slate-200">{ls[3:]}</h2>')
+        elif ls.startswith("### "):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            html.append(f'<h3 class="text-lg sm:text-xl font-bold font-serif text-slate-900 mt-8 mb-3">{ls[4:]}</h3>')
+        elif ls == "---":
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            html.append('<hr class="my-8 border-slate-200">')
+        elif ls.startswith("> "):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            c = ls[2:]
+            c = re.sub(r"\*\*(.*?)\*\*", r'<strong class="text-slate-900 font-semibold">\1</strong>', c)
+            html.append(f'<blockquote class="border-l-4 border-slate-300 pl-4 py-1.5 my-4 italic text-slate-700 font-serif">{c}</blockquote>')
+        elif ls.startswith("- ") or ls.startswith("* "):
+            if in_ol: html.append("</ol>"); in_ol = False
+            if not in_ul:
+                html.append('<ul class="list-disc list-inside space-y-2 text-base text-slate-700 my-4 leading-relaxed font-sans pl-2">')
+                in_ul = True
+            c = ls[2:]
+            c = re.sub(r"\*\*(.*?)\*\*", r'<strong class="text-slate-900 font-semibold">\1</strong>', c)
+            c = re.sub(r"_(.*?)_", r"<em>\1</em>", c)
+            c = re.sub(r"\[(.*?)\]\((.*?)\)", r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-medium underline hover:text-academic-900">\1</a>', c)
+            html.append(f"  <li>{c}</li>")
+        elif re.match(r"^\d+\.\s+[A-ZÇĞİÖŞÜ]", ls) and len(ls) < 130 and not in_ol:
+            if in_ul: html.append("</ul>"); in_ul = False
+            html.append(f'<h2 class="text-xl sm:text-2xl font-bold font-serif text-academic-900 mt-10 mb-4 pb-2 border-b border-slate-200">{ls}</h2>')
+        elif re.match(r"^\d+\.\s", ls):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if not in_ol:
+                html.append('<ol class="list-decimal list-inside space-y-2 text-base text-slate-700 my-4 leading-relaxed font-sans pl-2">')
+                in_ol = True
+            c = re.sub(r"^\d+\.\s", "", ls)
+            c = re.sub(r"\*\*(.*?)\*\*", r'<strong class="text-slate-900 font-semibold">\1</strong>', c)
+            c = re.sub(r"_(.*?)_", r"<em>\1</em>", c)
+            c = re.sub(r"\[(.*?)\]\((.*?)\)", r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-medium underline hover:text-academic-900">\1</a>', c)
+            html.append(f"  <li>{c}</li>")
+        elif ls:
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            c = re.sub(r"\*\*(.*?)\*\*", r'<strong class="text-slate-900 font-semibold">\1</strong>', ls)
+            c = re.sub(r"_(.*?)_", r"<em>\1</em>", c)
+            c = re.sub(r"\[(.*?)\]\((.*?)\)", r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-medium underline hover:text-academic-900">\1</a>', c)
+            html.append(f'<p class="text-base sm:text-lg text-slate-800 my-4 leading-relaxed font-sans">{c}</p>')
+        else:
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+
+    if in_ul: html.append("</ul>")
+    if in_ol: html.append("</ol>")
+    if in_callout: html.append(flush_callout())
+    return "\n".join(html)
+
+def generate_single_article_html(article, lang="tr"):
+    is_tr = (lang == "tr")
+    title = article.get("title", "Makale")
+    slug = article.get("slug", "")
+    date_str = article.get("date", "")
+    summary = article.get("summary", "")
+    cover_image = article.get("cover_image", "")
+    read_time = article.get("read_time", "7 dk")
+    badge = article.get("badge", "Bilimsel Analiz")
+    tags = article.get("tags", [])
+    if isinstance(tags, str):
+        try:
+            tags = json.loads(tags)
+        except Exception:
+            tags = [tags]
+    substack_url = article.get("substack_url", "https://drcaner.substack.com")
+    body_md = article.get("body", "")
+    body_html = render_article_markdown_body(body_md)
+
+    home_url = "../" if is_tr else "../../en/"
+    canonical_url = f"https://canerozy.com/yazilar/{slug}.html"
+
+    if cover_image:
+        if cover_image.startswith("http"):
+            full_cover_url = cover_image
+            cover_img_src = cover_image
+        else:
+            clean_path = cover_image.lstrip("/")
+            full_cover_url = f"https://canerozy.com/{clean_path}"
+            cover_img_src = f"../{clean_path}"
+        cover_html = f"""
+        <div class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100">
+            <img src="{cover_img_src}" alt="{title}" class="w-full h-auto max-h-[500px] object-cover">
+        </div>"""
+    else:
+        full_cover_url = "https://canerozy.com/assets/images/profil.jpg"
+        cover_html = ""
+
+    tags_html = " ".join([f'<span class="text-xs font-medium bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md">#{t}</span>' for t in tags])
+
+    safe_title_json = json.dumps(title)
+    safe_desc_json = json.dumps(summary)
+
+    html = f"""<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title} | Dr. Caner ÖZYILDIRIM</title>
+    <meta name="description" content="{summary}">
+    <link rel="canonical" href="{canonical_url}">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta property="og:description" content="{summary}">
+    <meta property="og:url" content="{canonical_url}">
+    <meta property="og:image" content="{full_cover_url}">
+    <meta property="article:published_time" content="{date_str}">
+    <meta property="article:author" content="Dr. Caner ÖZYILDIRIM">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta name="twitter:description" content="{summary}">
+    <meta name="twitter:image" content="{full_cover_url}">
+    <meta name="twitter:site" content="@CanerOzy">
+
+    <!-- Schema.org Article JSON-LD -->
+    <script type="application/ld+json">
+    {{
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": {safe_title_json},
+      "description": {safe_desc_json},
+      "image": "{full_cover_url}",
+      "datePublished": "{date_str}",
+      "author": {{
+        "@type": "Person",
+        "name": "Dr. Caner ÖZYILDIRIM",
+        "url": "https://canerozy.com"
+      }},
+      "publisher": {{
+        "@type": "Person",
+        "name": "Dr. Caner ÖZYILDIRIM",
+        "url": "https://canerozy.com"
+      }},
+      "mainEntityOfPage": {{
+        "@type": "WebPage",
+        "@id": "{canonical_url}"
+      }}
+    }}
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {{
+            theme: {{
+                extend: {{
+                    colors: {{
+                        academic: {{ 50: '#f4f6f8', 100: '#e5eaf0', 700: '#1b365d', 800: '#132744', 900: '#0b172a' }},
+                        accent: '#c5a059',
+                        warmBg: '#fcfbf9'
+                    }},
+                    fontFamily: {{
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'Merriweather', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }}
+                }}
+            }}
+        }}
+    </script>
+    <style>
+        #reading-progress {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(to right, #c5a059, #FF6719);
+            width: 0%;
+            z-index: 60;
+            transition: width 0.1s ease;
+        }}
+    </style>
+</head>
+<body class="bg-warmBg text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-academic-700 selection:text-white">
+    
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress"></div>
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="{home_url}#articles" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold text-xs sm:text-sm transition">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>← Tüm Yazılara Dön</span>
+            </a>
+            <div class="flex items-center space-x-3">
+                <a href="{home_url}" class="hidden sm:inline text-xs font-semibold text-slate-600 hover:text-academic-700 transition">Ana Sayfa</a>
+                <a href="{substack_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#FF6719] hover:bg-[#e05912] text-white text-xs font-bold rounded-lg transition shadow-xs">
+                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                    <span>Substack</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Article Container -->
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14 flex-grow">
+        
+        <!-- Article Header -->
+        <header class="mb-8">
+            <div class="flex flex-wrap items-center gap-2 mb-4">
+                <span class="text-xs font-bold text-academic-700 bg-academic-100 px-3 py-1 rounded-full">{badge}</span>
+                {tags_html}
+            </div>
+
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-academic-900 leading-tight">
+                {title}
+            </h1>
+
+            <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium mt-4 pb-6 border-b border-slate-200">
+                <span class="flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i> {date_str}</span>
+                <span class="text-slate-300">•</span>
+                <span class="flex items-center"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> {read_time}</span>
+                <span class="text-slate-300">•</span>
+                <span class="flex items-center"><i class="fa-solid fa-user-pen mr-1.5 text-academic-700"></i> Dr. Caner ÖZYILDIRIM</span>
+            </div>
+
+            <!-- Top Substack Notification Banner -->
+            <div class="my-6 p-4 sm:p-5 bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-transparent border border-amber-300/80 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+                <div class="flex items-center space-x-3 text-xs text-slate-800">
+                    <div class="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0 text-[#FF6719]">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-bold text-slate-900 font-serif">Yeni Yazıları E-Postanızda Okuyun</p>
+                        <p class="text-xs text-slate-600 mt-0.5">Yeni bilimsel analizler yayımlandığında e-postanıza gelsin isterseniz Substack'ten bültenime abone olabilirsiniz.</p>
+                    </div>
+                </div>
+                <a href="https://drcaner.substack.com/subscribe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 px-4 py-2 bg-[#FF6719] hover:bg-[#e05912] text-white text-xs font-bold rounded-xl transition shadow-xs whitespace-nowrap flex-shrink-0">
+                    <span>Ücretsiz Abone Ol</span>
+                    <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+            </div>
+
+            <!-- Lead Abstract / Summary -->
+            {f'<div class="text-base sm:text-lg font-serif italic text-slate-700 leading-relaxed border-l-4 border-accent pl-4 py-1 my-6 bg-amber-50/30 rounded-r-xl">{summary}</div>' if summary else ''}
+
+            <!-- Cover Image -->
+            {cover_html}
+        </header>
+
+        <!-- Article Body Content -->
+        <article class="article-body">
+            {body_html}
+        </article>
+
+        <!-- Bottom Substack Subscription Card -->
+        <section class="my-14 bg-gradient-to-br from-amber-500/15 via-orange-500/5 to-amber-100/30 border-2 border-amber-300/90 rounded-3xl p-6 sm:p-10 shadow-sm">
+            <div class="max-w-2xl mx-auto text-center space-y-4">
+                <div class="inline-flex items-center space-x-2 text-[11px] font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-3 py-1 rounded-full">
+                    <svg class="w-3.5 h-3.5 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                    <span>Dr. Caner Özyıldırım Substack Bülteni</span>
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900">
+                    Yeni Bilimsel Değerlendirmeleri Kaçırmayın
+                </h3>
+                <p class="text-sm text-slate-700 leading-relaxed max-w-lg mx-auto">
+                    Metabolizma, GLP-1 ve obezite farmakoterapisi, ultra-işlenmiş gıdalar ve kanıta dayalı klinik beslenme üzerine hazırladığım bağımsız analizlere ücretsiz abone olun.
+                </p>
+                
+                <form action="https://drcaner.substack.com/subscribe" method="get" target="_blank" class="flex flex-col sm:flex-row gap-2.5 justify-center max-w-md mx-auto pt-2">
+                    <input type="email" name="email" required placeholder="E-posta adresinizi girin..." class="px-4 py-3 text-sm bg-white border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-xs flex-grow">
+                    <button type="submit" class="bg-[#FF6719] hover:bg-[#e05912] text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center space-x-2 whitespace-nowrap">
+                        <span>Abone Ol</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </form>
+                
+                <div class="pt-4 border-t border-amber-200/80 mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-600">
+                    <span class="flex items-center"><i class="fa-solid fa-shield-halved text-emerald-600 mr-1.5"></i> Spam yok, dilediğiniz an tek tıkla ayrılabilirsiniz.</span>
+                    <span class="text-slate-300">•</span>
+                    <a href="{substack_url}" target="_blank" rel="noopener noreferrer" class="text-amber-900 hover:text-amber-950 font-semibold underline flex items-center">
+                        <span>Bu yazıyı Substack üzerinde tartışın / yorum bırakın</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1.5"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Author Card -->
+        <div class="mt-12 p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xs">
+            <img src="../assets/images/profil.jpg" alt="Dr. Caner ÖZYILDIRIM" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
+            <div class="text-center sm:text-left space-y-2">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                    <h4 class="font-serif font-bold text-lg text-academic-900">Dr. Caner ÖZYILDIRIM</h4>
+                    <span class="text-xs text-academic-700 font-medium">Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Beslenme örüntüleri, obezite etiyolojisi, biyoistatistik, veri görselleştirme ve sağlıkta yapay zeka uygulamaları üzerine çalışan araştırmacı ve akademisyen.
+                </p>
+                <div class="flex flex-wrap justify-center sm:justify-start gap-3 pt-2 text-xs text-slate-500">
+                    <a href="https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr" target="_blank" class="hover:text-academic-700 transition flex items-center space-x-1"><i class="fa-solid fa-graduation-cap"></i> <span>Google Scholar</span></a>
+                    <a href="https://orcid.org/0000-0001-8227-9575" target="_blank" class="hover:text-academic-700 transition flex items-center space-x-1"><i class="fa-brands fa-orcid text-emerald-600"></i> <span>ORCID</span></a>
+                    <a href="https://drcaner.substack.com" target="_blank" class="hover:text-amber-700 transition flex items-center space-x-1"><i class="fa-solid fa-envelope-open-text text-[#FF6719]"></i> <span>Substack</span></a>
+                    <a href="https://x.com/CanerOzy" target="_blank" class="hover:text-slate-900 transition flex items-center space-x-1"><i class="fa-brands fa-x-twitter"></i> <span>@CanerOzy</span></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Back Button -->
+        <div class="mt-8 flex justify-between items-center text-xs">
+            <a href="{home_url}#articles" class="inline-flex items-center space-x-2 text-academic-700 hover:text-academic-900 font-semibold transition">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>← Tüm Yazılarıma Göz At</span>
+            </a>
+            <span class="text-slate-400">Dr. Caner ÖZYILDIRIM</span>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-academic-900 text-slate-400 py-8 border-t border-academic-800 text-center text-xs mt-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>© 2026 Dr. Caner ÖZYILDIRIM. Bütün Hakları Saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Reading Progress Script -->
+    <script>
+        window.addEventListener('scroll', () => {{
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById('reading-progress');
+            if (bar) bar.style.width = scrolled + '%';
+        }});
+    </script>
+</body>
+</html>"""
+    return html
+
+def generate_sitemap_and_robots(tr_teaching, en_teaching, tr_articles=None):
     from datetime import date
     today = date.today().isoformat()
     
@@ -1898,6 +2334,16 @@ def generate_sitemap_and_robots(tr_teaching, en_teaching):
             "changefreq": "monthly",
             "priority": "0.8"
         })
+
+    if tr_articles:
+        for a in tr_articles:
+            if a.get("slug"):
+                urls.append({
+                    "loc": f"https://canerozy.com/yazilar/{a['slug']}.html",
+                    "lastmod": a.get("date", today),
+                    "changefreq": "monthly",
+                    "priority": "0.8"
+                })
         
     xml_lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
     for u in urls:
@@ -1944,6 +2390,18 @@ def main():
         with open(dersler_dir / fname, "w", encoding="utf-8") as f:
             f.write(chtml)
     print(f"  ✅ {len(tr_teaching)} Turkish course detail pages generated in dersler/")
+
+    # 2.5 Build TR article pages -> yazilar/*.html
+    tr_articles = load_section_items(CONTENT_DIR / "tr", "articles")
+    yazilar_dir = BASE_DIR / "yazilar"
+    yazilar_dir.mkdir(exist_ok=True)
+    local_articles = [a for a in tr_articles if a.get("is_local")]
+    for a in local_articles:
+        fname = f"{a['slug']}.html"
+        ahtml = generate_single_article_html(a, "tr")
+        with open(yazilar_dir / fname, "w", encoding="utf-8") as f:
+            f.write(ahtml)
+    print(f"  ✅ {len(local_articles)} Turkish article detail pages generated in yazilar/")
     
     # 3. Build EN site -> en/index.html
     en_dir = BASE_DIR / "en"
@@ -1965,7 +2423,7 @@ def main():
     print(f"  ✅ {len(en_teaching)} English course detail pages generated in en/courses/")
     
     # 5. Generate XML Sitemap & robots.txt for Google Search Console
-    generate_sitemap_and_robots(tr_teaching, en_teaching)
+    generate_sitemap_and_robots(tr_teaching, en_teaching, local_articles)
     
     print("🎉 All bilingual sites compiled successfully from Obsidian markdown!")
 
