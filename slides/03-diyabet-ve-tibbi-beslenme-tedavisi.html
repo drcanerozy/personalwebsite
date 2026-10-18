@@ -5607,7 +5607,7 @@ const SLIDES = [
         "badge": "İki Temel Fizyolojik Bileşen",
         "type": "accent",
         "title": "Bazal ve Bolus İnsülin Nedir?",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:9px 11px; border-radius:7px; margin-bottom:8px; border-left:3px solid var(--accent);\">\n            <b>1. BAZAL İNSÜLİN (%40 - %50 Pay):</b><br>\n            Gece uykuda ve öğün aralarında karaciğerin kontrolsüz glukoz üretimini (hepatik glukoneogenez) baskılayan, piksiz ve zemin kontrolü sağlayan uzun etkili insülindir.\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:9px 11px; border-radius:7px; border-left:3px solid var(--orange);\">\n            <b>2. BOLUS / PRANDİYAL İNSÜLİN (%50 - %60 Pay):</b><br>\n            Yemekle gelen karbonhidratı hücre içine sokan hızlı etkili insülindir. Ayrıca yüksek çıkan kan şekerini hedefe çekmek için <i>'Düzeltme Bolusu'</i> olarak da kullanılır.\n          </div>\n        </div>"
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:9px 11px; border-radius:7px; margin-bottom:8px; border-left:3px solid var(--accent);\">\n            <b>1. BAZAL İNSÜLİN (%40 - %50 Pay):</b><br>\n            Gece uykuda ve öğün aralarında karaciğerin glukoz üretimini baskılayan uzun etkili insülindir.<br>\n            <span style=\"display:inline-block; margin-top:4px; font-size:0.82em; font-weight:700; color:var(--accent);\">💉 Türkiye'de En Sık Reçetelenenler: Lantus®, Toujeo®, Tresiba®, Levemir®</span>\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:9px 11px; border-radius:7px; margin-bottom:8px; border-left:3px solid var(--orange);\">\n            <b>2. BOLUS / PRANDİYAL İNSÜLİN (%50 - %60 Pay):</b><br>\n            Yemekle gelen karbonhidratı karşılayan hızlı etkili öğün ve düzeltme insülindir.<br>\n            <span style=\"display:inline-block; margin-top:4px; font-size:0.82em; font-weight:700; color:var(--orange);\">💉 Türkiye'de En Sık Reçetelenenler: Novorapid®, Humalog®, Apidra®, Fiasp®</span>\n          </div>\n        </div>"
       }
     ],
     "box": {
@@ -5619,8 +5619,8 @@ const SLIDES = [
   {
     "sec": 3,
     "tag": "İNSÜLİN FARMAKOKİNETİĞİ",
-    "title": "İnsülin Tipleri & Lag Time",
-    "lead": "4 Büyük İnsülin Grubu ve Enjeksiyondan Yemeğe Kadar Geçen Sürenin (Lag Time) Önemi",
+    "title": "İnsülin Tipleri, Türkiye Preparatları & Lag Time",
+    "lead": "Lispro/Aspart (Novorapid, Humalog) vs. Regular (Humulin R) vs. Glargine/Degludec (Lantus, Toujeo, Tresiba)",
     "treeNav": {
       "label": "Farmakoterapi & Tedavi Haritası:",
       "nodes": [
@@ -5654,28 +5654,28 @@ const SLIDES = [
     "cols": 4,
     "cards": [
       {
-        "badge": "Çok Hızlı Etkili",
+        "badge": "Hızlı Etkili Analog (Bolus)",
         "type": "accent",
-        "title": "Aspart, Lispro, Glulisine",
-        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Başlangıç:</b> 10 - 15 dk<br>\n          <b>Pik:</b> 30 - 90 dk<br>\n          <b>Süre:</b> 4 - 6 saat<br>\n          <b style=\"color:var(--accent);\">Lag Time: 10-15 dk.</b> İnsülin vurulup 15 dk sonra yemeğe oturulur. Postprandiyal spikeları önlemede altın standarttır.\n        </div>"
+        "title": "Novorapid®, Humalog®, Apidra®, Fiasp®",
+        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Etken Maddeler:</b> Aspart, Lispro, Glulisine, Faster Aspart<br>\n          <b>Başlangıç:</b> 5 - 15 dk | <b>Pik:</b> 1 - 2 saat | <b>Süre:</b> 3 - 5 saat<br>\n          <div style=\"margin-top:6px; background:rgba(15,157,88,0.08); padding:6px 8px; border-radius:5px; border-left:3px solid var(--accent);\">\n            <b style=\"color:var(--accent);\">Lag Time: 5-15 dk.</b> Yemekten hemen önce yapılır. İleri Karbonhidrat Sayımı yapan T1DM/T2DM bireylerde ana öğün bolusudur.\n          </div>\n        </div>"
       },
       {
-        "badge": "Kısa Etkili",
+        "badge": "Kısa Etkili İnsan İnsülini",
         "type": "primary",
-        "title": "Human Regular",
-        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Başlangıç:</b> 30 - 60 dk<br>\n          <b>Pik:</b> 2 - 3 saat<br>\n          <b>Süre:</b> 5 - 8 saat<br>\n          <b style=\"color:var(--primary);\">Lag Time: 30-45 dk.</b> Yemek için en az 30 dk beklenmelidir. Erken oturulursa 1. saatte hiperglisemi, 3. saatte hipoglisemi yaşanır.\n        </div>"
+        "title": "Humulin R®, Actrapid HM® (Regüler)",
+        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Etken Madde:</b> Kristalize Çözünür İnsan İnsülini<br>\n          <b>Başlangıç:</b> 30 - 60 dk | <b>Pik:</b> 2 - 3 saat | <b>Süre:</b> 6 - 8 saat<br>\n          <div style=\"margin-top:6px; background:rgba(26,115,232,0.08); padding:6px 8px; border-radius:5px; border-left:3px solid var(--primary);\">\n            <b style=\"color:var(--primary);\">Lag Time: 30-45 dk!</b> Yemekten en az 30 dk önce yapılmalıdır.<br>\n            <b>Klinik Kullanım:</b> Ayaktan ziyade acilde IV infüzyon, DKA/HHS krizleri, ameliyathane ve TPN torbalarında tercih edilir.\n          </div>\n        </div>"
       },
       {
-        "badge": "Orta Etkili",
+        "badge": "Orta Etkili İnsan İnsülini",
         "type": "warning",
-        "title": "NPH (Humulin N)",
-        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Başlangıç:</b> 2 - 4 saat<br>\n          <b>Pik:</b> 4 - 10 saat (Geniş)<br>\n          <b>Süre:</b> 10 - 16 saat<br>\n          <b style=\"color:var(--orange);\">MNT Kuralı:</b> 4-10. saatlerdeki devasa pike karşı <b>mutlaka ara öğün</b> verilmelidir.\n        </div>"
+        "title": "Humulin N®, Insulatard HM® (NPH)",
+        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Etken Madde:</b> Nötral Protamin Hagedorn (Bulanık süspansiyon)<br>\n          <b>Başlangıç:</b> 2 - 4 saat | <b>Pik:</b> 4 - 10 saat | <b>Süre:</b> 12 - 18 saat<br>\n          <div style=\"margin-top:6px; background:rgba(230,81,0,0.08); padding:6px 8px; border-radius:5px; border-left:3px solid var(--orange);\">\n            <b style=\"color:var(--orange);\">MNT Kuralı:</b> Çalkalanarak homojenleştirilmelidir. 4-10. saatteki devasa pike karşı gece hipoglisemisini önlemek için <b>zorunlu ara öğün</b> şarttır.\n          </div>\n        </div>"
       },
       {
-        "badge": "Uzun Etkili (Bazal)",
+        "badge": "Uzun / Ultra-Uzun Bazal",
         "type": "danger",
-        "title": "Glargine, Degludec",
-        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Başlangıç:</b> 1 - 2 saat<br>\n          <b>Pik:</b> <b>PİKSİZ (Düz Seyir)</b><br>\n          <b>Süre:</b> 20 - 24+ saat<br>\n          <b style=\"color:var(--ink);\">MNT Kuralı:</b> Karaciğerin bazal glukoneogenezini baskılar. Gün boyu zemin kontrolü sağlar.\n        </div>"
+        "title": "Lantus®, Toujeo®, Tresiba®, Levemir®",
+        "html": "<div style=\"font-size:0.82rem; line-height:1.45;\">\n          <b>Glargine (Lantus® 100 U, Toujeo® 300 U) | Degludec (Tresiba®) | Detemir (Levemir®)</b><br>\n          <b>Başlangıç:</b> 1 - 2 saat | <b>Pik:</b> <b>PİKSİZ (Düz 24-42 saat)</b><br>\n          <div style=\"margin-top:6px; background:rgba(217,48,37,0.08); padding:6px 8px; border-radius:5px; border-left:3px solid var(--danger);\">\n            <b style=\"color:var(--danger);\">MNT Rolü:</b> Karaciğerin bazal glukoneogenezini gün boyu baskılar. Toujeo ve Tresiba gece hipoglisemi riskini en aza indirir.\n          </div>\n        </div>"
       }
     ]
   },
@@ -5726,7 +5726,7 @@ const SLIDES = [
         "badge": "Fizyolojik 50/50 Bölünme",
         "type": "accent",
         "title": "%50-%50 Bölünme ve Karbonhidrat Matematiği",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--primary);\">\n            <b>%50 BAZAL (~17 U) + %50 BOLUS (~18 U):</b> 35 U TDD örneğinde bazal gece tek doz verilir; bolus 3 ana öğüne bölünür (Örn: Sabah 6 U, Öğle 6 U, Akşam 6 U).\n          </div>\n          <div style=\"background:rgba(15,157,88,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--accent);\">\n            <b>İKO (İnsülin/Karbonhidrat Oranı - 500 Kuralı):</b><br>\n            500 &divide; TDD &rarr; Örn: 500 &divide; 50 = <b>1 Ünite İnsülin = 10 g KH</b> karşılar.\n          </div>\n          <div style=\"background:rgba(217,119,6,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--amber);\">\n            <b>İSD (İnsülin Duyarlılık Faktörü - 1700 Kuralı):</b><br>\n            1700 &divide; TDD &rarr; Örn: 1700 &divide; 50 = <b>1 Ünite İnsülin şekeri 34 mg/dL</b> düşürür.\n          </div>\n        </div>"
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--primary);\">\n            <b>%50 BAZAL (~17 U):</b> Gece tek doz uzun etkili insülin (Örn: <b>Lantus, Toujeo</b> veya <b>Tresiba</b>).\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--orange);\">\n            <b>%50 BOLUS (~18 U):</b> 3 ana öğüne bölünür (Örn: Sabah 6 U, Öğle 6 U, Akşam 6 U <b>Novorapid, Humalog, Apidra</b> veya <b>Fiasp</b>).\n          </div>\n          <div style=\"background:rgba(15,157,88,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--accent);\">\n            <b>İKO (İnsülin/Karbonhidrat Oranı - 500 Kuralı):</b> 500 &divide; TDD $\\rightarrow$ Örn: 500 &divide; 50 = <b>1 Ünite Bolus İnsülin = 10 g KH</b> karşılar.\n          </div>\n          <div style=\"background:rgba(217,119,6,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--amber);\">\n            <b>İSD (İnsülin Duyarlılık Faktörü - 1700 Kuralı):</b> 1700 &divide; TDD $\\rightarrow$ Örn: 1700 &divide; 50 = <b>1 Ünite İnsülin şekeri 34 mg/dL</b> düşürür.\n          </div>\n        </div>"
       }
     ]
   },
@@ -5771,13 +5771,13 @@ const SLIDES = [
         "badge": "Fizyolojik Model",
         "type": "accent",
         "title": "1. Yoğun Bazal-Bolus Rejimi (%50 Bazal + %50 Bolus)",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Farmakolojik Yapı:</b> Günde 1 kez uzun etkili bazal (Glargine/Degludec) + Günde 3 kez ana öğün öncesi hızlı etkili bolus (Aspart/Lispro).<br><br>\n          <div style=\"background:rgba(15,157,88,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--accent);\">\n            <b>Beslenme Tedavisi (TBT) - Maksimum Esneklik:</b><br>\n            • <b>'Diyet insüline değil, insülin diyete uydurulur.'</b><br>\n            • <b>İleri Düzey Karbonhidrat Sayımı</b> uygulanır.<br>\n            • Hasta ne zaman ve ne kadar yiyeceğini kendisi seçer; tüketeceği KH miktarını İKO ile çarparak bolusunu vurur. Öğün saatleri ve porsiyonlar esnektir.\n          </div>\n        </div>"
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Farmakolojik Yapı:</b> Günde 1 kez uzun etkili bazal (<b>Lantus, Toujeo, Tresiba</b>) + Günde 3 kez ana öğün öncesi bolus (<b>Novorapid, Humalog, Fiasp</b>).<br><br>\n          <div style=\"background:rgba(15,157,88,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--accent);\">\n            <b>Beslenme Tedavisi (TBT) - Maksimum Esneklik:</b><br>\n            • <b>'Diyet insüline değil, insülin diyete uydurulur.'</b><br>\n            • <b>İleri Düzey Karbonhidrat Sayımı</b> uygulanır.<br>\n            • Hasta ne zaman ve ne kadar yiyeceğini kendisi seçer; tüketeceği KH miktarını İKO ile çarparak bolusunu vurur. Öğün saatleri ve porsiyonlar esnektir.\n          </div>\n        </div>"
       },
       {
         "badge": "Geleneksel Model",
         "type": "warning",
         "title": "2. Hazır Karışım Rejimi (Premixed / %70-%30 vb.)",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Farmakolojik Yapı:</b> Tek kalemde %70 orta/uzun etkili (NPH/protamin) + %30 hızlı/kısa etkili insülin. Günde 2 kez (sabah ve akşam yemek öncesi) uygulanır.<br><br>\n          <div style=\"background:rgba(230,81,0,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--orange);\">\n            <b>Beslenme Tedavisi (TBT) - Katı ve Sabit Düzen:</b><br>\n            • <b>'Hasta insüline uymak zorundadır!'</b><br>\n            • <b>Sabit Karbonhidratlı Öğün Planı (Consistent CHO)</b> şarttır.<br>\n            • İlacın pik süreleri sabittir; öğün atlamak veya geciktirmek NPH pik saatinde <b>ağır hipoglisemiye</b> yol açar.<br>\n            • NPH pikine denk gelen <b>zorunlu ara öğünler</b> eklenir.\n          </div>\n        </div>"
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Farmakolojik Yapı:</b> Tek kalemde hazır karışım (<b>Novomix 30®, Humalog Mix 25/50®, Ryzodeg®</b>). Günde 2 kez (sabah ve akşam yemek öncesi) uygulanır.<br><br>\n          <div style=\"background:rgba(230,81,0,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--orange);\">\n            <b>Beslenme Tedavisi (TBT) - Katı ve Sabit Düzen:</b><br>\n            • <b>'Hasta insüline uymak zorundadır!'</b><br>\n            • <b>Sabit Karbonhidratlı Öğün Planı (Consistent CHO)</b> şarttır.<br>\n            • İlacın pik süreleri sabittir; öğün atlamak veya geciktirmek NPH pik saatinde <b>ağır hipoglisemiye</b> yol açar.<br>\n            • NPH pikine denk gelen <b>zorunlu ara öğünler</b> eklenir.\n          </div>\n        </div>"
       }
     ],
     "box": {
