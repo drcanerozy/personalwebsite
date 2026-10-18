@@ -658,31 +658,31 @@ const TOC_SECTIONS = [
     "num": "02",
     "title": "Akut & Kronik Komplikasyonlar",
     "desc": "2024 Konsensus DKA/HHS, BOHB Altın Standardı, Retinopati, Gastroparezis, DKD/PLADO, MetS Triad",
-    "count": 29
+    "count": 33
   },
   {
     "num": "03",
     "title": "Glisemik Hedefler & Farmakoterapi",
-    "desc": "Standart/CGM/Yaşlı Hedefleri, OAD & MNT Süzgeci, GLP-1/GIP Protokolü, İnsülin & Gece Krizleri",
-    "count": 25
+    "desc": "T1DM/T2DM Tedavi Basamakları, OAD & TR İlaçları, İnkretinler, Bazal-Bolus ve Doz Matematikleri",
+    "count": 23
   },
   {
     "num": "04",
     "title": "Klinik Değerlendirme & Beslenme Bakım Süreci (ADIME)",
-    "desc": "ADA 2026 Karar Döngüsü, ABCD Taraması, 3 Düzey Numerasi, SDOH, 4Ms Geriatri, PESS & CGM DATAA",
-    "count": 10
+    "desc": "ADA 2026 Karar Döngüsü, ABCD Taraması, 3 Düzey Numerasi, Gıda Güvencesizliği (Hager-2), PESS & CGM DATAA",
+    "count": 9
   },
   {
     "num": "05",
     "title": "Tıbbi Beslenme Tedavisi (TBT) & MNT Stratejileri",
-    "desc": "DiRECT Remisyonu, Viskoz Lif/SCFA, Mutfak Kimyası, 3 Kademeli KH Sayımı, FPU & Popüler Diyet Riskleri",
-    "count": 24
+    "desc": "Güncel MNT, Lif/SCFA, Food Sequencing, 3 Kademeli KH Sayımı, FPU & Egzersiz İnsülin Protokolleri, GDM",
+    "count": 22
   },
   {
     "num": "06",
-    "title": "Tartışma, Sentez & Klinik Karar Çerçevesi",
-    "desc": "4 Klinik İkilem, Diyetisyenin Karar Ağacı, 6 Tehlikeli Hata, Vaka Sentez Soruları & 10 Altın İlke",
-    "count": 8
+    "title": "Kapanış & Klinik Sentez",
+    "desc": "Diyabet Diyetisyeninin 10 Altın Klinik İlkesi ve Bütüncül MNT Vizyonu",
+    "count": 2
   }
 ];
 
@@ -5895,119 +5895,6 @@ const SLIDES = [
     ]
   },
   {
-    "sec": 3,
-    "tag": "İNTERAKTİF VAKA ANALİZİ",
-    "title": "Vaka: Anemi & Nöropati",
-    "lead": "62 Yaşında Erkek, Metformin + Empagliflozin Kullanıyor, MCV: 112 fL, eGFR: 45 mL/dk",
-    "treeNav": {
-      "label": "Farmakoterapi & Tedavi Haritası:",
-      "nodes": [
-        {
-          "title": "1. Glisemik Hedefler & CGM",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. OAD Sınıfları & MNT Süzgeci",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "3. İnkretinler (GLP-1/GIP) & Kas Koruma",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "4. İnsülin Farmakokinetiği & Rejimler",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "5. Aşırı Bazalizasyon & Gece Krizleri",
-          "status": "active-purple",
-          "icon": "👉"
-        }
-      ]
-    },
-    "cols": 2,
-    "cards": [
-      {
-        "badge": "Sistem 1 (Yüzeysel) Hata",
-        "type": "danger",
-        "title": "Stajyer Diyetisyenin Hatalı Yaklaşımı",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\">Ayaklardaki his kaybını doğrudan <i>'Diyabetik Nöropati'</i> sanır.</li>\n            <li style=\"margin-bottom:6px;\">Anemiyi <i>'Böbrek Yetmezliği Anemisi'</i> olarak yorumlar.</li>\n            <li style=\"margin-bottom:6px;\">Anemiyi düzeltmek için yüksek kırmızı etli, şekeri düşürmek için <b>karbonhidratı &lt;50g olan ketojenik diyet</b> planlar!</li>\n            <li><b style=\"color:var(--danger);\">Sonuç:</b> SGLT2i kullanan hasta <b>Öglisemik DKA'ya</b> girer; yüksek proteinle eGFR daha da çöker!</li>\n          </ul>\n        </div>"
-      },
-      {
-        "badge": "Sistem 2 (Analitik) Çözüm",
-        "type": "accent",
-        "title": "Uzman Diyetisyenin Doğru Klinik Kararı",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:7px 9px; border-radius:6px; margin-bottom:5px; border-left:3px solid var(--accent);\">\n            <b>1. Metformine Bağlı B12 Eksikliği:</b> Yüksek MCV (112 fL) ve 6 yıllık metformin kullanımı kalsiyuma bağımlı B12 malabsorpsiyonunu gösterir. Nöropati B12 kaynaklıdır; IM/sublingual B12 başlanmalıdır.\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:7px 9px; border-radius:6px; margin-bottom:5px; border-left:3px solid var(--orange);\">\n            <b>2. eDKA Önleme:</b> SGLT2i kullanan hastada ketojenik diyet iptal edilir; dengeli karbonhidrat verilir.\n          </div>\n          <div style=\"background:rgba(26,115,232,0.06); padding:7px 9px; border-radius:6px; border-left:3px solid var(--primary);\">\n            <b>3. Renal Protein:</b> eGFR 45 olduğu için protein <b>0.8 g/kg/gün (PLADO modeli)</b> ile sınırlandırılır.\n          </div>\n        </div>"
-      }
-    ]
-  },
-  {
-    "sec": 3,
-    "tag": "BÖLÜM 03 ÖZETİ",
-    "title": "Farmakoterapi Özeti & Geçiş",
-    "lead": "Hastalığı Tanıdınız, Komplikasyonları Biliyorsunuz, Tıbbi Tedaviye Hakimsiniz. Şimdi Beslenme Tanısı ve ADIME Sürecine Hazırsınız!",
-    "treeNav": {
-      "label": "Farmakoterapi & Tedavi Haritası:",
-      "nodes": [
-        {
-          "title": "1. Glisemik Hedefler & CGM",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. OAD Sınıfları & MNT Süzgeci",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "3. İnkretinler (GLP-1/GIP) & Kas Koruma",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "4. İnsülin Farmakokinetiği & Rejimler",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "5. Aşırı Bazalizasyon & Gece Krizleri",
-          "status": "active-purple",
-          "icon": "👉"
-        }
-      ]
-    },
-    "cols": 3,
-    "cards": [
-      {
-        "badge": "1. Glisemik Hedefler & OAD",
-        "type": "primary",
-        "title": "TIR, B12, Dekstroz ve eDKA",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • TIR &gt;%70, %CV &le;%36.<br>\n          • Metforminde B12/MMA takibi.<br>\n          • Akarbozda sadece saf dekstroz.<br>\n          • SGLT2i'de 2.5-3L su ve ketojenik diyet yasağı.\n        </div>"
-      },
-      {
-        "badge": "2. İnkretin Protokolü",
-        "type": "accent",
-        "title": "GİS Toleransı & Kas Koruma",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • Avuç içi porsiyon, katı-sıvı ayrımı.<br>\n          • Sarkopenik obeziteye karşı 1.2-1.5 g/kg protein ve direnç egzersizi.\n        </div>"
-      },
-      {
-        "badge": "3. İnsülin Yönetimi",
-        "type": "warning",
-        "title": "Lag Time & Gece Ayırıcı Tanı",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • Aspart 15 dk, Regular 30 dk lag time.<br>\n          • Bazal-bolusta esnek KH, premixed'da sabit KH.<br>\n          • Gece 03:00'te Somogyi vs Şafak ayrımı.\n        </div>"
-      }
-    ],
-    "box": {
-      "type": "emerald",
-      "title": "Bölüm 04'e Geçiş",
-      "text": "Artık tüm medikal altyapı tamamlandı. Sıradaki modülde bu bilgileri klinik diyetisyenin resmi tanı ve müdahale çerçevesi olan <b>ADIME ve PES Formülasyonuna</b> dönüştüreceğiz! <i>(Karbonhidrat Sayımı ve Bolus Matematiği ise Bölüm 05 TBT'de tam derinliğiyle işlenecektir.)</i>"
-    }
-  },
-  {
     "sec": 4,
     "type": "grid",
     "tag": "BÖLÜM 04: GİRİŞ",
@@ -6381,8 +6268,8 @@ const SLIDES = [
     "sec": 4,
     "type": "grid",
     "tag": "SDOH & GIDA GÜVENCESİZLİĞİ",
-    "title": "Gıda Güvencesizliği: 2 Maddelik Hager Ölçeği",
-    "lead": "Sağlığın Sosyal Belirleyicileri (SDOH), biyolojiden daha güçlü bir tedavi bariyeridir. ADA 2026, her yeni hastada rutin Hager taramasını zorunlu kılar.",
+    "title": "Gıda Güvencesizliği Taraması (Hager-2) ve Diyetisyenin Klinik Pratiği",
+    "lead": "Hager-2 Ölçeği Ne İşe Yarar? Sosyoekonomik Gerçeklik Diyet Reçetesini Nasıl Değiştirir?",
     "treeNav": {
       "label": "Klinik Değerlendirme & ADIME Haritası:",
       "nodes": [
@@ -6423,83 +6310,20 @@ const SLIDES = [
       {
         "badge": "Hager 2 Maddelik Tarama Aracı",
         "type": "danger",
-        "title": "Klinik Tarama Soruları (Hager ve ark.)",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(217,48,37,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; font-size:0.8rem; border-left:3px solid var(--danger);\">\n            <b>1. Soru:</b> <i>'Son 12 ay içinde, paramız bitmeden yiyeceğimizin biteceği konusunda endişelendik.'</i><br><br>\n            <b>2. Soru:</b> <i>'Son 12 ay içinde aldığımız yiyecekler yetmedi ve daha fazlasını alacak paramız yoktu.'</i>\n          </div>\n          <small style=\"color:var(--ink-soft);\">Sorulardan en az birine <b>'Bazen' veya 'Sık sık'</b> yanıtı verilmesi pozitif gıda güvencesizliğini doğrular.</small>\n        </div>"
+        "title": "1. Hager-2 Nedir ve Ne İşe Yarar?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Klinik Tarama Soruları (ADA Kılavuz Standartı):</b>\n          <div style=\"background:rgba(217,48,37,0.06); padding:8px 10px; border-radius:6px; margin:6px 0; font-size:0.8rem; border-left:3px solid var(--danger);\">\n            1. <i>'Son 12 ayda paramız bitmeden yiyeceğimiz biter diye endişelendik.'</i><br>\n            2. <i>'Son 12 ayda aldığımız yiyecek yetmedi ve tekrar alacak paramız yoktu.'</i>\n          </div>\n          • Tek bir soruya bile <b>'Bazen' veya 'Sık sık'</b> denmesi gıda güvencesizliğini doğrular.<br>\n          • <b>Klinik Amacı:</b> Hastanın ekonomik alım gücünü ölçer. Diyetisyenin hastaya uygulanamaz hayali diyetler (somon, avokado, kinoa, pahalı takviyeler) yazmasını önler.\n        </div>"
       },
       {
-        "badge": "Çift Yönlü Klinik Tehlike & MNT Çözümü",
-        "type": "warning",
-        "title": "Hiperglisemi vs. Ölümcül Hipoglisemi",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:5px;\"><b>Kronik Hiperglisemi:</b> Ucuz, yüksek rafine karbonhidratlı (ekmek, makarna) gıdalara zorunlu yönelim.</li>\n            <li style=\"margin-bottom:5px;\"><b>Ölümcül Hipoglisemi:</b> Gıdaya ulaşılamayan günlerde insülin/SU dozunun düşürülmemesi sonucu koma riski.</li>\n            <li><b>Bütçe Dostu MNT:</b> Dondurulmuş/süzülmüş konserve sebzeler, kuru baklagiller ve maaş günlerine göre esnetilen tedavi.</li>\n          </ul>\n        </div>"
-      }
-    ]
-  },
-  {
-    "sec": 4,
-    "type": "grid",
-    "tag": "GERİATRİK MNT (4Ms)",
-    "title": "Yaşlılarda '4Ms' ve Kritik Skor Eşikleri",
-    "lead": "Geriatrik diyabette amaç katı glisemi değil; 'What Matters Most' (En Çok Değer Verilenler) ekseninde fonksiyonel kapasiteyi ve bağımsızlığı korumaktır.",
-    "treeNav": {
-      "label": "Klinik Değerlendirme & ADIME Haritası:",
-      "nodes": [
-        {
-          "title": "1. Kişi Merkezli Karar Döngüsü & ADIME",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. ABCD Klinik Değerlendirme & NFPE",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "3. Sağlık Numerasisi & PESS Tanısı",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "4. SDOH & Gıda Güvencesizliği (Hager)",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "5. Geriatrik 4Ms & Tarama Skorları",
-          "status": "active-purple",
-          "icon": "👉"
-        },
-        {
-          "title": "6. CGM DATAA Modeli & İzlem",
-          "status": "pending",
-          "icon": "📈"
-        }
-      ]
-    },
-    "cols": 3,
-    "cards": [
-      {
-        "badge": "Mentation (Zihin & Ruh)",
-        "type": "primary",
-        "title": "Biliş & Depresyon (GDS-5)",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • <b>GDS-5 &ge; 2 Puan:</b> Geriatrik depresyon riski; tedavi motivasyonunu kırar.<br>\n          • <b>Bilişsel Gerileme:</b> Karmaşık KH sayımı iptal edilir; renkli tabak modeli ve kolay açılan paketler planlanır.\n        </div>"
-      },
-      {
-        "badge": "Mobility (Kas & Hareket)",
+        "badge": "Klinik Tehlike & MNT Stratejisi",
         "type": "accent",
-        "title": "Malnütrisyon & Sarkopeni",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • <b>MNA-SF 0-7:</b> Malnütrisyon tablosu.<br>\n          • <b>SARC-F &ge; 4 Puan:</b> Sarkopeni alarmı!<br>\n          • <b>MNT:</b> <b>1.2 – 1.5 g/kg</b> yüksek biyoyararlanımlı protein + STEADI güvenli yürüyüş protokolü.\n        </div>"
-      },
-      {
-        "badge": "Medications & Frailty",
-        "type": "warning",
-        "title": "Klinik Frailte Skalası (CFS)",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • <b>CFS &ge; 4 Puan (Kırılgan):</b> Hipoglisemi riski taşıyan ilaçlar (SU/İnsülin) hekimle azaltılır.<br>\n          • <b>Hedef Gevşetme:</b> HbA1c hedefi <b>%8.0 - %8.5</b> aralığına esnetilir.\n        </div>"
+        "title": "2. Pratikte Diyetisyen Nasıl Faydalanır?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:6px; border-left:3px solid var(--orange);\">\n            <b>'Çift Yönlü Klinik Tehlike' Nedir?</b><br>\n            • <i>Ay Başı (Maaş Dönemi):</i> Ucuz, doyurucu karbonhidrat (ekmek, un, makarna) yüklenir &rarr; <b>Kontrolsüz Hiperglisemi</b>.<br>\n            • <i>Ay Sonu (Para Bittiğinde):</i> Yiyecek tükenir, öğün atlanır; fakat hasta sülfonilüre/insülin almaya devam ederse &rarr; <b>Ölümcül Hipoglisemi!</b>\n          </div>\n          <b>Diyetisyenin Sahadaki Hamlesi:</b> Pahalı ürünler yerine yerel lif kaynakları (mercimek, nohut, mevsim sebzeleri, bulgur, yumurta) planlar; hekime bildirerek hipoglisemi riski düşük/ucuz rejimlere (Metformin vb.) geçişi koordine eder.\n        </div>"
       }
     ],
     "box": {
-      "type": "purple",
-      "title": "Geriatrik 4Ms Felsefesi",
-      "text": "<b>Mentation</b> (Biliş/Ruh hali), <b>Medications</b> (İlaç sadeleştirme), <b>Mobility</b> (Düşme önleme), <b>What Matters Most</b> (Hastanın yaşam öncelikleri ve torunlarıyla yemek yeme arzusu)."
+      "type": "blue",
+      "title": "Klinik İlke",
+      "text": "Diyet reçetesi hastanın cüzdanına uyumlu değilse, tedavi baştan çökmüş demektir. Gıda güvencesizliği olan hastada en iyi diyetisyen, en bütçe dostu sürdürülebilir tabağı kurabilen diyetisyendir."
     }
   },
   {
@@ -6631,8 +6455,8 @@ const SLIDES = [
     "sec": 5,
     "type": "grid",
     "tag": "BÖLÜM 05: GİRİŞ",
-    "title": "Diyabetik Diyet Dogmasının Yıkılışı",
-    "lead": "Geleneksel tıp anlayışında dayatılan standart, tek tip makrobesin şablonları (%50-30-20) geride kalmıştır. MNT; metabolik profile, komplikasyonlara ve Ahlqvist kümesine göre bireyselleştirilir.",
+    "title": "Güncel Kanıta Dayalı Tıbbi Beslenme Tedavisi (MNT)",
+    "lead": "Kişiselleştirilmiş Beslenme Modelleri, Makrobesin Esnekliği ve Güncel Kılavuz Standartları",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -6671,22 +6495,22 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "Geleneksel Yanılgı (Dogma)",
-        "type": "danger",
-        "title": "Statik 'Diyabetik Diyet' Şablonu",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\">Tüm hastalara tek tip sabit makrobesin yüzdesi (%55 KH, %30 Yağ, %15 Protein) dayatılması.</li>\n            <li style=\"margin-bottom:6px;\">Karbonhidratın biyokimyasal kalitesi (lif, amiloz/amilopektin) yerine yalnızca toplam gramaja odaklanılması.</li>\n            <li style=\"margin-bottom:6px;\">Hastanın insülin direnci düzeyi, yağlı karaciğer (NAFLD) varlığı ve renal rezervinin göz ardı edilmesi.</li>\n            <li><b style=\"color:var(--danger);\">Sonuç:</b> Terapötik atalet, uyumsuzluk ve metabolik başarısızlık.</li>\n          </ul>\n        </div>"
+        "badge": "Bireyselleştirilmiş Makro Dağılımı",
+        "type": "primary",
+        "title": "1. Makrobesin Aralıkları Nasıl Belirlenir?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Tek Bir Sabit Yüzde Yoktur:</b> Güncel kılavuzlarda (ADA, TEMD, EASD) herkes için geçerli tek bir katı şablon bulunmamaktadır.<br>\n          • <b>Geniş ve Esnek Aralıklar:</b> Hastanın yaşına, fiziksel aktivitesine, kullandığı ilaçlara ve metabolik profiline göre makrobesinler esnek aralıklar içinde kişiye özel belirlenir:<br>\n            - <b>Karbonhidrat:</b> %45 – %60 (veya hedefe göre kontrollü kısıtlama)<br>\n            - <b>Yağ:</b> %25 – %35 (Doymuş yağ &lt;%10)<br>\n            - <b>Protein:</b> %15 – %20 (Normal böbrek fonksiyonunda 1.0–1.5 g/kg)<br>\n          • Amaç hastayı kısıtlayıcı tek bir kalıba sokmak değil, sürdürülebilir sağlıklı beslenme alışkanlığı kazandırmaktır.\n        </div>"
       },
       {
-        "badge": "Modern Kanıta Dayalı MNT",
+        "badge": "Modern MNT Öncelikleri",
         "type": "accent",
-        "title": "Kişiselleştirilmiş Metabolik Profil Modeli",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\"><b>Tek Bir İdeal Dağılım Yoktur:</b> ADA 2026, sabit makrobesin yüzdelerini kesin bir dille reddeder.</li>\n            <li style=\"margin-bottom:6px;\"><b>Ahlqvist Kümesine Göre Odak:</b> SIDD grubunda insülin açığı ve kas kaybı; SIRD grubunda hepatik lipogenez ve kilo önceliklidir.</li>\n            <li style=\"margin-bottom:6px;\"><b>Kalite > Miktar:</b> Karbonhidrat kalitesi (viskoz lif, dirençli nişasta) ve yağ asidi kompozisyonu (MUFA/SFA oranı) esastır.</li>\n            <li><b style=\"color:var(--accent);\">Klinik Amaç:</b> Bütüncül metabolik stabilizasyon ve organ koruması.</li>\n          </ul>\n        </div>"
+        "title": "2. Kalite, Örüntü ve Bütüncül Yaklaşım",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Miktar Kadar Kalite Esastır:</b> Karbonhidratın toplam gramajı kadar kaynağı (viskoz lif, dirençli nişasta, tam tahıllar, baklagiller; düşük glisemik indeks) önceliklidir.<br>\n          • <b>Kardiyoprotektif Yağlar:</b> Doymuş yağlar sınırlandırılır; tekli doymamış yağ asitleri (zeytinyağı, fındık, ceviz) ve omega-3 (balık) ön plana çıkarılır.<br>\n          • <b>Kanıtı Güçlü Beslenme Modelleri:</b> Akdeniz Diyeti (PREDIMED kanıtı), DASH ve Bitki Ağırlıklı Tabak Modeli glisemik ve kardiyovasküler korumada altın standarttır.\n        </div>"
       }
     ],
     "box": {
       "type": "blue",
-      "title": "ADA 2026 MNT Konsensüsü",
-      "text": "<i>'Diyabet yönetiminde herkes için geçerli tek bir makrobesin dağılımı yoktur. Beslenme tedavisi enerji dengesi, glisemik stabilizasyon ve kardiyometabolik risk hedeflerine göre diyetisyen tarafından kişiselleştirilmelidir.'</i>"
+      "title": "ADA 2026 MNT İlkesi",
+      "text": "Diyabet yönetiminde en iyi diyet; hastanın kültürel tercihlerine, sosyal koşullarına ve metabolik hedeflerine en uygun olan ve hastanın uzun yıllar keyifle sürdürebildiği diyettir."
     }
   },
   {
@@ -6755,76 +6579,6 @@ const SLIDES = [
       "type": "emerald",
       "title": "Klinik İnci",
       "text": "MNT bir 'destek tedavisi' değil, diyabet farmakoterapisinin etkinliğini belirleyen ve bizzat Grade A kanıt düzeyine sahip <b>birincil metabolik ilaçtır</b>."
-    }
-  },
-  {
-    "sec": 5,
-    "ch": "05",
-    "type": "table",
-    "eyebrow": "LANCET 2025 & DIRECT · REMİSYON MATRİSİ",
-    "title": "Diyabette Remisyon Matrisi: Yaşam Tarzı, Farmakoterapi ve Cerrahi",
-    "sub": "Farklı Klinik Müdahalelerin Remisyon Oranları, Dayanıklılığı ve Yaşam Tarzının Değişmez Gücü (The Lancet Diabetes & Endocrinology, 2025)",
-    "headers": [
-      "Müdahale Modeli",
-      "Temel Çalışmalar & Protokol",
-      "Remisyon Oranı",
-      "Klinik Seyir, Kazanım & Yaşam Tarzı Rolü"
-    ],
-    "rows": [
-      [
-        "<b>Yoğun TBT & Kalori Kısıtlaması</b>",
-        "<b>DiRECT</b> (UK, 850 kkal LED $\\rightarrow$ TBT)<br><b>DIADEM-I</b> (Katar, Genç kohort)",
-        "<b>%46 – %61</b> (1. Yıl)<br>($>15\\text{ kg}$ kayıpta <b>%86</b>)",
-        "• Karaciğer ve pankreas ektopik yağı temizlenir; 1. faz insülin uyanır.<br>• 2. Yılda %36 sürer. <b>Sıfır cerrahi risk, en yüksek maliyet etkinliği.</b>"
-      ],
-      [
-        "<b>Kapsamlı Yaşam Tarzı (Look AHEAD)</b>",
-        "<b>Look AHEAD</b> (12 yıllık çok merkezli kohort, Yaşam tarzı müdahalesi)",
-        "<b>%11.5</b> (1. Yıl)<br><b>%7.3</b> (4. Yıl)",
-        "• <b>Lancet 2025 Vurgusu:</b> Geçici remisyon sağlansa bile <b>KAH riskinde %40</b>, <b>Kronik Böbrek Hastalığında (KBH) %33 azalma</b> sağlanır!"
-      ],
-      [
-        "<b>Farmakoterapi (İnkretin / Dual Agonist)</b>",
-        "<b>SURPASS</b> (Tirzepatide)<br><b>STEP</b> (Semaglutid 2.4 mg)",
-        "<b>%50 – %80</b> (İlaç altında $\\text{A1C} < 6.5$)",
-        "• İlaç desteğiyle sağlanan güçlü normoglisemi.<br>• <b>Kritik:</b> İlaç kesildiğinde kilo ve glisemi geri döner; kalıcı başarı için <b>TBT şarttır</b>."
-      ],
-      [
-        "<b>Bariatrik / Metabolik Cerrahi</b>",
-        "<b>STAMPEDE</b>, <b>SOS</b> (Roux-en-Y Gastric Bypass / Sleeve)",
-        "<b>%60 – %75</b> (1-3. Yıl)<br><b>%30 – %40</b> (5. Yıl)",
-        "• Erken dönemde çok güçlü; 10-15. yılda nüks oranı %50-70'e ulaşır.<br>• Ömür boyu mikrobesin açığı riski ve cerrahi komplikasyonlar."
-      ]
-    ],
-    "box": {
-      "type": "purple",
-      "title": "Lancet 2025 'Hasta Merkezli' Klinik Çıkarım",
-      "text": "Remisyon 'bir kez ulaşılan sabit bir kupa' değil, dinamik bir spektrumdur. Geçici bir remisyon dahi metabolik belleği temizleyerek organları yıllarca korur; cerrahi veya ilaç ne olursa olsun sürdürülebilirliğin ana omurgası kişiselleştirilmiş Tıbbi Beslenme Tedavisidir (TBT)."
-    },
-    "treeNav": {
-      "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
-      "nodes": [
-        {
-          "title": "1. Remisyon & Makro Matrisi",
-          "status": "active-accent",
-          "icon": "👉"
-        },
-        {
-          "title": "2. Mutfak Kimyası & Viskoz Lif",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "3. 3 Kademeli KH Sayımı & FPU",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "4. Popüler Diyetler & Egzersiz Yönetimi",
-          "status": "pending",
-          "icon": "⚪"
-        }
-      ]
     }
   },
   {
@@ -7189,8 +6943,8 @@ const SLIDES = [
     "sec": 5,
     "type": "grid",
     "tag": "MUTFAK MNT'Sİ",
-    "title": "Asit Sinerjisi ve Besin Tüketim Sıralaması",
-    "lead": "Sirke/limon asidi ve besinlerin ağıza giriş sırası (Food Sequencing), gastrik boşalmayı ve enzim kinetiğini modüle ederek postprandiyal eğriyi düzleştirir.",
+    "title": "Besin Tüketim Sıralaması (Food Sequencing Protokolü)",
+    "lead": "Tabağın İçeriğini Değiştirmeden Glukoz Eğrisini Düzleştirmek: Önce Lif &rarr; Sonra Protein/Yağ &rarr; En Son Karbonhidrat",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7229,18 +6983,23 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "Asit Sinerjisi (Sirke & Limon)",
-        "type": "warning",
-        "title": "Gastrik Yavaşlama & Enzim İnhibisyonu",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\">Asetik asit ve sitrik asit, duodenum asit reseptörlerini uyararak <b>gastrik boşalmayı geciktirir</b>.</li>\n            <li style=\"margin-bottom:6px;\">Fırçamsı kenardaki alfa-amilaz ve sükraz enzim aktivitelerini geçici olarak inhibe eder.</li>\n            <li><b>Klinik Öneri:</b> Öğünlerden hemen önce veya salataya eklenen 1-2 yemek kaşığı sirke/limon, glukoz pikini %20-30 köreltir.</li>\n          </ul>\n        </div>"
+        "badge": "Fizyolojik & Hormonal Mekanizma",
+        "type": "primary",
+        "title": "1. Neden Sıralama Glisemi Eğrisini Düzleştirir?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--accent);\">\n            <b>1. Adım (Lif & Sebzeler):</b> İnce bağırsak lümenini viskoz bir jel tabakasıyla kaplar. Karbonhidratların enzimlerle temasını ve glukozun kana difüzyon hızını yavaşlatır.\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--orange);\">\n            <b>2. Adım (Protein & Sağlıklı Yağlar):</b> Kolesistokinin (CCK) ve GLP-1 salgısını güçlü şekilde uyarır. Mide çıkış kapısını (pilor) kilitler, gastrik boşalmayı belirgin geciktirir.\n          </div>\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--primary);\">\n            <b>3. Adım (Karbonhidratlar):</b> Yavaşlamış mide ve lif kaplı bağırsak ortamına giren karbonhidratlar kanda ani bir glukoz fırlaması (spike) yaratamaz; pürüzsüz yayvan bir eğriyle emilir.\n          </div>\n        </div>"
       },
       {
-        "badge": "Besin Tüketim Sıralaması",
+        "badge": "Klinik Uygulama & Kanıt",
         "type": "accent",
-        "title": "Food Sequencing Protokolü",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:6px 8px; border-radius:6px; margin-bottom:6px; font-weight:700; color:var(--accent);\">\n            1. Önce Posa/Sebze &rarr; 2. Sonra Protein/Yağ &rarr; 3. En Son Karbonhidrat\n          </div>\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:5px;\"><b>1. Sebze:</b> Bağırsak lümenini lif jeliyle kaplar.</li>\n            <li style=\"margin-bottom:5px;\"><b>2. Protein/Yağ:</b> CCK ve GLP-1 uyararak mide çıkışını kilitler.</li>\n            <li><b>3. Karbonhidrat:</b> Yavaşlamış sindirim ortamında kana pürüzsüz sızar.</li>\n          </ul>\n        </div>"
+        "title": "2. Diyetisyen Danışanına Nasıl Öğretir?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Tabak Modeli Entegrasyonu:</b> Hastaya 'yemeğe başlamadan önce tabağındaki salatayı veya zeytinyağlı sebzeyi bitir; ardından etini/balığını/kurubaklagilini ye; en son pilav, makarna veya ekmeğe geç' kuralı öğretilir.<br><br>\n          • <b>Klinik Çalışma Kanıtları:</b> Birebir aynı kalorideki ve aynı karbonhidrat miktarına sahip bir öğün sadece bu sırayla tüketildiğinde:<br>\n            - Yemek sonrası glukoz piki <b>%30 – %40 daha düşük</b> çıkar.<br>\n            - Pankreasın salgılaması gereken insülin yükü <b>%25 – %30 azalır</b>.<br>\n            - Tokluk süresi uzar, reaktif hipoglisemi atakları engellenir.\n        </div>"
       }
-    ]
+    ],
+    "box": {
+      "type": "emerald",
+      "title": "Pratik Diyetisyen Tavsiyesi",
+      "text": "Özellikle karbonhidrat kısıtlamasına direnç gösteren Tip 2 diyabetli veya prediyabetik danışanlarda besin miktarını azaltmadan önce besin tüketim sırasını değiştirmek hasta uyumunu olağanüstü artırır."
+    }
   },
   {
     "sec": 5,
@@ -7428,8 +7187,8 @@ const SLIDES = [
     "sec": 5,
     "type": "grid",
     "tag": "FPU & ÇİFT DALGALI BOLUS",
-    "title": "FPU (Fat-Protein Unit) ve Gecikmiş Hiperglisemi",
-    "lead": "Karbonhidratlar kan şekerini ilk 1-2 saatte yükseltirken; pizza, kebap ve yağlı et gibi zengin öğünler 3-6 saat sonra sinsi hiperglisemi patlaması yaratır.",
+    "title": "Yağ ve Protein Birimi (FPU) & Gecikmiş Hiperglisemi",
+    "lead": "Yüksek Yağ ve Proteinli Öğünlerde (Pizza, Kebap vb.) Karbonhidrat Dışı Gecikmiş Şeker Yükselişinin Yönetimi",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7468,18 +7227,23 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "FPU Hesaplama Formülü",
+        "badge": "Klinik Problem & Formül",
         "type": "warning",
-        "title": "1 FPU = 100 kcal (Yağ + Protein)",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(230,81,0,0.06); padding:7px 9px; border-radius:6px; margin-bottom:8px; font-family:var(--font-mono); font-size:0.8rem;\">\n            $$\\text{FPU} = \\frac{(\\text{Yağ (g)} \\times 9) + (\\text{Protein (g)} \\times 4)}{100}$$\n          </div>\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:5px;\"><b>Yağın Rolü:</b> Karaciğerde geçici insülin direnci ve glukoneogenez uyarımı.</li>\n            <li><b>Proteinin Rolü:</b> Glukojenik amino asitlerin yavaşça glukoza dönüşmesi.</li>\n          </ul>\n        </div>"
+        "title": "1. FPU Nedir ve Neden Gecikmiş Hiperglisemi Yapar?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Klasik Karbonhidrat Sayımının Açığı:</b> Standart KH sayımında yalnızca karbonhidratlar için insülin yapılır. Ancak pizza, kebap, burger veya bol peynirli öğünlerde:<br>\n            - <i>Yüksek Yağ:</i> Mide boşalmasını saatlerce geciktirir ve geçici insülin direnci oluşturur.<br>\n            - <i>Yüksek Protein:</i> Karaciğerde glukoneogenezle yavaşça glukoza dönüşür.<br>\n          • <b>Klinik Tablo:</b> Yemekten 1-2 saat sonra şeker normaldir; ancak <b>3–6 saat sonra (özellikle gece uykuda) inatçı bir hiperglisemi patlaması</b> yaşanır!<br>\n          • <b>FPU Formülü (Warsaw Protokolü):</b><br>\n            $$\\text{FPU} = \\frac{(\\text{Yağ g} \\times 9) + (\\text{Protein g} \\times 4)}{100}$$<br>\n            <b>1 FPU = 100 kcal</b> yağ/protein &approx; <b>10 g Karbonhidrata eşdeğer ek insülin</b> demektir!\n        </div>"
       },
       {
-        "badge": "Pompa Bolus İletim Stratejisi",
+        "badge": "Pratik Uygulama (Pompa & Kalem)",
         "type": "accent",
-        "title": "Çift Dalgalı (Dual-Wave) Bolus",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:4px;\"><b>1 FPU:</b> Ek dozu <b>3 saate</b> yay.</li>\n            <li style=\"margin-bottom:4px;\"><b>2 FPU:</b> Ek dozu <b>4 saate</b> yay.</li>\n            <li style=\"margin-bottom:4px;\"><b>3 FPU:</b> Ek dozu <b>5 saate</b> yay.</li>\n            <li style=\"margin-bottom:4px;\"><b>&gt;4 FPU:</b> Ek dozu <b>6–8 saate</b> yay.</li>\n          </ul>\n          <small style=\"color:var(--ink-soft);\">Uygulama: Bolusun %40'ı hemen yemek öncesi, %60'ı süreye yayılarak iletilir.</small>\n        </div>"
+        "title": "2. Pratikte Diyetisyen ve Hasta Nasıl Dozlar?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(217,48,37,0.06); padding:7px 9px; border-radius:6px; margin-bottom:6px; border-left:3px solid var(--danger);\">\n            <b style=\"color:var(--danger);\">🚨 Hayati Tuzak:</b> Tüm insülin yemekten önce tek seferde yapılırsa, sindirim geciktiği için hasta ilk 2 saatte <b>ağır hipoglisemiye</b> girer, 4 saat sonra ise şekeri fırlar!\n          </div>\n          • <b>İnsülin Pompası (CSII) Kullananlarda:</b><br>\n            Pompanın <b>'Çift Dalgalı / Yayma Bolus (Dual-Wave / Extended)'</b> özelliği kullanılır. Karbonhidrat dozu hemen verilir; FPU için hesaplanan ek insülin ise <b>3–6 saate yayılarak</b> yavaş yavaş gönderilir.<br>\n          • <b>İnsülin Kalemi (Enjektör) Kullananlarda:</b><br>\n            Normal bolus yemekte vurulur; 2–3 saat sonra tokluk şekeri kontrol edilerek FPU kaynaklı yükseliş için hekim protokolüne göre <b>bölünmüş ek küçük bir doz</b> uygulanır.\n        </div>"
       }
-    ]
+    ],
+    "box": {
+      "type": "blue",
+      "title": "Pratik Özet",
+      "text": "FPU, sadece karbonhidrata göre dozlama yapıldığında açıklanamayan geç gece hiperglisemilerini çözen ileri düzey bir diyetisyen ve hasta eğitim aracıdır."
+    }
   },
   {
     "sec": 5,
@@ -7792,8 +7556,8 @@ const SLIDES = [
     "sec": 5,
     "type": "grid",
     "tag": "EGZERSİZ BİYOKİMYASI",
-    "title": "Egzersizin AMPK Şantı ve Karar Ağacı",
-    "lead": "Egzersiz kas kontraksiyonu ile insülinden bağımsız GLUT-4 açılımı sağlar. Ancak egzersize başlama öncesi glukoz ve keton kontrolü hayati bir güvenlik adımıdır.",
+    "title": "Diyabette Egzersiz: Glukoz Eşikleri, İnsülin Planlaması ve MNT",
+    "lead": "İnsülinsiz GLUT-4 Açılımı, Egzersiz Öncesi Eşikler, Doz Azaltma ve Gecikmiş Hipoglisemi Koruması",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7832,22 +7596,22 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "Moleküler Şant",
-        "type": "accent",
-        "title": "İnsülinsiz AMPK GLUT-4 Translokasyonu",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\">Kas kasılması AMP/ATP oranını artırarak <b>AMPK kinazı</b> aktive eder.</li>\n            <li style=\"margin-bottom:6px;\">İnsülin reseptörüne ihtiyaç duymadan hücre içindeki GLUT-4 veziküllerini zar yüzeyine taşır.</li>\n            <li>Egzersiz sonrası kas glikojenini doldurmak için <b>24–48 saat</b> boyunca insülin duyarlılığı yüksek kalır.</li>\n          </ul>\n        </div>"
+        "badge": "Egzersiz Öncesi Karar Eşikleri",
+        "type": "warning",
+        "title": "1. Egzersize Başlama Öncesi Glukoz Eşikleri",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>&lt; 90 – 100 mg/dL:</b> Başlanmaz! <b>15–30g hızlı emilen karbonhidrat</b> (1 porsiyon meyve veya meyve suyu) verilir; kan şekeri &gt;100 mg/dL olunca başlanır.<br>\n          • <b>100 – 250 mg/dL (Güvenli Bölge):</b> Egzersiz için ideal aralıktır; ek karbonhidrat almadan doğrudan başlanabilir.<br>\n          • <b>&gt; 250 mg/dL (Alarm):</b> <b>İdrar/kan ketonu kontrol edilir!</b><br>\n            - <i>Keton (+):</i> <b>EGZERSİZ KESİNLİKLE YASAKTIR!</b> İnsülinsizlik ortamında egzersiz karşıt hormonları artırarak Diyabetik Ketoasidozu (DKA) tetikler.<br>\n            - <i>Keton (-):</i> Düşük/orta tempoda başlanabilir, glukoz izlenir.\n        </div>"
       },
       {
-        "badge": "Klinik Karar Protokolü",
-        "type": "danger",
-        "title": "Egzersiz Öncesi Karar Algoritması",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:5px;\"><b>&lt; 100 mg/dL:</b> Başlama! 15–30g KH ver, &gt;100 olunca başla.</li>\n            <li style=\"margin-bottom:5px;\"><b>100 – 250 mg/dL:</b> Güvenli yeşil bölge, doğrudan başla.</li>\n            <li><b>&gt; 250 mg/dL:</b> <b>Ketonu ölç!</b> Keton (+) ise <b>EGZERSİZ KESİNLİKLE YASAK (DKA tetiklenir)</b>; Keton (-) ise hafif tempo başla.</li>\n          </ul>\n        </div>"
+        "badge": "İnsülin & MNT Yönetimi",
+        "type": "accent",
+        "title": "2. İnsülin Doz Ayarlaması ve Diyetisyen Protokolü",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Öğün Bolusunu Azaltma:</b> Egzersizden 1–2 saat önce yapılacak ana öğünün bolus insülini hekim/diyetisyen koordinasyonunda <b>%25 – %50 azaltılır</b>.<br>\n          • <b>Enjeksiyon Yeri Seçimi:</b> Egzersizde aktif çalışacak kas grubuna (örn. bacak çalışılacaksa uyluğa, tenis/kol çalışılacaksa kola) insülin <b>YAPILMAZ</b>! Kan akımıyla insülin aşırı hızlı emilip derin hipoglisemi yapar; karın bölgesi tercih edilir.<br>\n          • <b>Uzun Egzersizlerde KH Desteği:</b> &gt;45–60 dakika süren aktivitelerde her 30-45 dakikada bir 15-30g glukoz takviyesi yapılır.<br>\n          • <b>Gecikmiş (Gece) Hipoglisemisi (Lag Effect):</b> Egzersizden 6–15 saat sonra boşalan kas glikojeni kandan şeker çeker. Akşam egzersizi yapan hastaya yatmadan önce <b>zorunlu kompleks KH + protein ara öğünü</b> verilir; gece bazal insülini %10-20 azaltılabilir.\n        </div>"
       }
     ],
     "box": {
       "type": "emerald",
-      "title": "Gece Hipoglisemisi Koruması",
-      "text": "Akşam yapılan yoğun egzersizler sonrası iskelet kası gece boyu kandan şeker çeker. Gece uykuda hipoglisemiyi önlemek için yatmadan önce mutlaka <b>yavaş emilen KH + protein ara öğünü</b> eklenmelidir."
+      "title": "Egzersiz Tipi Farkı",
+      "text": "Sürekli aerobik egzersiz (koşu, yürüyüş) şekeri hızla düşürür; kısa süreli yüksek şiddetli anaerobik/ağırlık egzersizi ise adrenalin pikiyle şekeri geçici yükseltebilir. CGM okuması bu fark gözetilerek yapılmalıdır."
     }
   },
   {
@@ -7911,8 +7675,8 @@ const SLIDES = [
     "sec": 5,
     "type": "grid",
     "tag": "MATERNAL MNT",
-    "title": "GDM: 175g KH Tabanı ve Sabah Direnci",
-    "lead": "Gestasyonel Diyabette (GDM) fetal ketozisi önlemek için 175g karbonhidrat tabanı korunmalı; sabah plasental hormon direnci piki kahvaltıda yönetilmelidir.",
+    "title": "Gestasyonel Diyabet (GDM): Kılavuzlar ve Kahvaltıda KH Yönetimi",
+    "lead": "ADA, ACOG ve TEMD Gebelik Kılavuzları: Fetal Keton Koruması ve Sabah Plasental İnsülin Direnci",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7951,22 +7715,22 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "175g Karbonhidrat Güvenlik Tabanı",
+        "badge": "175g Güvenlik Tabanı (ADA / TEMD)",
         "type": "primary",
-        "title": "Fetal Beyin Gelişimi & Keton Koruması",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\">Fetal beyin ve plasentanın birincil yakıtı maternal glukozdur.</li>\n            <li style=\"margin-bottom:6px;\">Karbonhidrat aşırı kısıtlanırsa maternal açlık ketozu gelişir.</li>\n            <li>Ketonlar plasentayı serbestçe geçerek <b>fetusta nörolojik hasar ve düşük IQ</b> riski yaratır. <b>Günlük KH asla &lt; 175g altına düşürülmez!</b></li>\n          </ul>\n        </div>"
+        "title": "1. Fetal Gelişim ve 175g Minimum Karbonhidrat",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Fetal Beynin Birincil Yakıtı:</b> Fetüs ve plasenta enerji için maternal glukoza bağımlıdır.<br>\n          • <b>Açlık Ketozu Tehlikesi:</b> Karbonhidrat kontrolsüz şekilde kısıtlanırsa anne hızla ketozise girer. Keton cisimleri plasentayı serbestçe geçerek fetusta <b>nörolojik gelişim kusurları ve düşük IQ</b> riski oluşturur.<br>\n          • <b>Kılavuz Standartı:</b> Tüm uluslararası kılavuzlar (ADA, ACOG, IOM, TEMD), gebelikte günlük karbonhidrat alımının <b>asla 175 g/gün altına düşürülmemesini</b> şart koşar.\n        </div>"
       },
       {
-        "badge": "Sabah Plasental Direnç Protokolü",
+        "badge": "Kılavuz Temeli: Sabah Direnci",
         "type": "accent",
-        "title": "Kahvaltıda 15-30g Katı KH Kısıtı",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\">Plasental hormonlar (hPL, kortizol) sabah saatlerinde pik yapar.</li>\n            <li style=\"margin-bottom:6px;\">Kahvaltıda KH hakkı <b>15–30g (1-2 değişim ekmek)</b> ile sınırlanır; süt/meyve kahvaltıda yasaklanır.</li>\n            <li>Toplam KH gün içine <b>3 ana + 3 ara öğün</b> şeklinde bölünerek postprandiyal dalgalanmalar önlenir.</li>\n          </ul>\n        </div>"
+        "title": "2. Kahvaltıda Karbonhidrat Neden Sınırlandırılır?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Fizyolojik Gerekçe:</b> Gebelikte plasentadan salgılanan anti-insülin hormonlar (hPL, kortizol, büyüme hormonu) sirkadiyen ritim gereği <b>sabah saatlerinde zirve yapar</b>.<br>\n          • <b>Kahvaltı Toleranssızlığı:</b> GDM'li gebelerde gün içinde insülin direncinin en yüksek olduğu öğün kahvaltıdır. Kahvaltıda normal KH verildiğinde 1. saat tokluk şekeri hızla &gt;140 mg/dL eşiğini aşar.<br>\n          • <b>Kılavuz Protokolü:</b><br>\n            - Kahvaltıda karbonhidrat <b>15–30g (1-2 dilim tam tahıllı ekmek)</b> ile sınırlandırılır.<br>\n            - Basit şeker, meyve suyu ve serbest süt kahvaltıda verilmez; ara öğünlere kaydırılır.<br>\n            - Kahvaltı yumurta, peynir, zeytin, ceviz ve yeşillik gibi protein, lif ve sağlıklı yağla zenginleştirilir. Kalan karbonhidrat öğle, akşam ve 3 ara öğüne dengeli paylaştırılır.\n        </div>"
       }
     ],
     "box": {
       "type": "blue",
-      "title": "GDM Glisemik Hedefleri (ADA)",
-      "text": "<b>Açlık Kan Şekeri:</b> &lt; 95 mg/dL | <b>Postprandiyal 1. Saat:</b> &lt; 140 mg/dL | <b>Postprandiyal 2. Saat:</b> &lt; 120 mg/dL."
+      "title": "GDM Glisemik Hedefleri (ADA & TEMD)",
+      "text": "<b>Açlık Kan Şekeri:</b> &le; 95 mg/dL | <b>Postprandiyal 1. Saat:</b> &le; 140 mg/dL | <b>Postprandiyal 2. Saat:</b> &le; 120 mg/dL. Bu hedeflere TBT ile 1-2 haftada ulaşılamazsa gecikmeden insülin tedavisi başlanmalıdır."
     }
   },
   {
@@ -8042,466 +7806,6 @@ const SLIDES = [
         "Yağlı gıdaları yasakla. Yalnızca 15g saf glukoz (dekstroz tablet, meyve suyu) ver."
       ]
     ]
-  },
-  {
-    "sec": 5,
-    "type": "grid",
-    "tag": "BÖLÜM 05 ÖZETİ",
-    "title": "MNT Stratejileri Özeti & Geçiş",
-    "lead": "Metabolik temeller, besin kimyası, mutfak teknolojileri ve ileri insülin-FPU hesaplamaları tamamlandı. Şimdi resmi klinik süreç olan ADIME ve Olgu Çözümüne hazırız!",
-    "treeNav": {
-      "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
-      "nodes": [
-        {
-          "title": "1. MNT Hedefleri & Remisyon",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. Makro Dağılımı & Viskoz Lif",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "3. Mutfak MNT & Glisemik Yük",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "4. KH Sayımı, Bolus & FPU",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "5. Diyet Modelleri & euDKA",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "6. Egzersiz Şantı, GDM & Protokoller",
-          "status": "active-accent",
-          "icon": "👉"
-        }
-      ]
-    },
-    "cols": 3,
-    "cards": [
-      {
-        "badge": "1. Makro & Lif Kimyası",
-        "type": "primary",
-        "title": "Bireysel Tabak & SCFA Aksı",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • Tek ideal makro dağılımı yoktur.<br>\n          • Viskoz lif &rarr; Unstirred layer &rarr; Pik blokajı.<br>\n          • SCFA &rarr; L-hücreleri &rarr; Endojen GLP-1/PYY.<br>\n          • DKD'de 0.8 g/kg protein ve PLADO modeli.\n        </div>"
-      },
-      {
-        "badge": "2. Mutfak & Teknoloji",
-        "type": "accent",
-        "title": "Mutfak MNT & Bolus Matematiği",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • +4°C 24 st soğutma &rarr; Dirençli nişasta (%30-40 Gİ düşüşü).<br>\n          • Asit sinerjisi ve Besin sıralaması.<br>\n          • İKO (500), İDF (1800) ve FPU çift dalgalı bolus.\n        </div>"
-      },
-      {
-        "badge": "3. Güvenlik Protokolleri",
-        "type": "warning",
-        "title": "euDKA, Alkol & GDM",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • SGLT2i + Keto = euDKA YASAĞI!<br>\n          • Alkol NADH blokajı ve Yağsız 15/15.<br>\n          • Egzersiz AMPK &gt;250 keton kuralı.<br>\n          • GDM'de 175g tabanı ve sabah direnci.\n        </div>"
-      }
-    ],
-    "box": {
-      "type": "emerald",
-      "title": "Bölüm 06 & 07'ye Geçiş",
-      "text": "Artık tüm teorik, biyokimyasal ve farmakobesin altyapısına eksiksiz hakimsiniz. Sıradaki bölümlerde bu bilgi hazinesini <b>Özel Klinik Durumlar</b> ve ardından <b>52 yaşındaki A.K. vakasının baştan sona ADIME simülasyonuyla</b> taçlandıracağız!"
-    }
-  },
-  {
-    "type": "sec",
-    "sec": 6,
-    "ch": "06",
-    "eyebrow": "BÖLÜM 06 · KLİNİK SENTEZ VE KARAR ÇERÇEVESİ",
-    "title": "BÖLÜM 06: TARTIŞMA, SENTEZ VE KLİNİK KARAR ÇERÇEVESİ",
-    "sub": "Moleküler biyokimyadan klinik tanıya, farmakoterapiden ileri tıbbi beslenme tedavisine (TBT): Diyetisyenin 360° bütüncül karar modeli",
-    "treeNav": {
-      "label": "Klinik Sentez & Karar Haritası:",
-      "nodes": [
-        {
-          "title": "1. Klinik İkilemler & Karar Matrisi",
-          "status": "active-purple",
-          "icon": "👉"
-        },
-        {
-          "title": "2. Hızlı Karar Ağacı",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "3. Klinik Sentez Soruları",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "4. 10 Altın İlke & Kapanış",
-          "status": "pending",
-          "icon": "⚪"
-        }
-      ]
-    }
-  },
-  {
-    "type": "grid",
-    "sec": 6,
-    "ch": "06",
-    "eyebrow": "KLİNİK İKİLEMLER",
-    "title": "Diyabette 4 Büyük Klinik İkilem ve Bilimsel Çözüm",
-    "sub": "Poliklinik pratiğinde diyetisyeni ikilemde bırakan senaryolara mekanistik ve kanıta dayalı çözümler",
-    "cols": 2,
-    "cards": [
-      {
-        "badge": "İkilem 1: SGLT2i + Ketojenik Diyet",
-        "type": "danger",
-        "title": "Kilo Kaybı Hırsı vs Öglisemik DKA Riski",
-        "html": "• <b>Risk:</b> SGLT2i glukozüri yaratırken katı KH kısıtlaması insülini düşürür, lipoliz/glukagon patlamasıyla glukoz normal seyrederken ölümcül <b>öglisemik DKA</b> tetiklenir.<br>• <b>Klinik Çözüm:</b> SGLT2i kullanan bireyde KH asla &lt;130g/gün altına çekilmez; keton takibi yapılır."
-      },
-      {
-        "badge": "İkilem 2: DKD + Sarkopenik Obezite",
-        "type": "warning",
-        "title": "Kas Kaybı Korkusu vs Glomerüler Yıpranma",
-        "html": "• <b>Risk:</b> Kas kütlesini korumak için yüksek protein (&gt;1.3 g/kg) verilmesi intraglomerüler hiperfiltrasyonu artırarak böbrek yetmezliğini hızlandırır.<br>• <b>Klinik Çözüm:</b> <b>0.8 g/kg PLADO</b> modeli (%50+ bitkisel protein) + progresif direnç egzersizi uygulanır."
-      },
-      {
-        "badge": "İkilem 3: GLP-1/GIP + İştahsızlık",
-        "type": "accent",
-        "title": "Hızlı Kilo Kaybı vs Yağsız Kitle (FFM) Korunumu",
-        "html": "• <b>Risk:</b> İnkretin tedavileri derin anoreksiya yapabilir; yetersiz beslenen hastada verilen kilonun %40'ı kas kitlesinden gidebilir.<br>• <b>Klinik Çözüm:</b> Her ana öğünde önce protein (25-30g) ve lif tüketilir; mikrobesin ve B12 takviyesi izlenir."
-      },
-      {
-        "badge": "İkilem 4: Ağır İnsülin Direnci + Egzersiz",
-        "type": "primary",
-        "title": "AMPK GLUT4 Şantı vs Ani Hipoglisemi Riski",
-        "html": "• <b>Risk:</b> Egzersiz insülinsiz glukoz çeker; hasta SU veya hızlı insülin alıyorsa şiddetli reaktif hipoglisemi gelişebilir.<br>• <b>Klinik Çözüm:</b> Egzersiz öncesi glukoz 100-250 mg/dL olmalı; SU/insülin dozu hekimle koordineli %20-50 azaltılmalıdır."
-      }
-    ],
-    "box": {
-      "type": "purple",
-      "title": "Klinik Çıkarım",
-      "text": "Diyabet diyetisyeni yalnızca 'ne yenileceğini' değil, ilacın farmakokinetiği ile besinin biyokimyasal etkileşimini yöneten bir metabolizma uzmanıdır."
-    },
-    "treeNav": {
-      "label": "Klinik Sentez & Karar Haritası:",
-      "nodes": [
-        {
-          "title": "1. Klinik İkilemler & Karar Matrisi",
-          "status": "active-purple",
-          "icon": "👉"
-        },
-        {
-          "title": "2. Hızlı Karar Ağacı",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "3. Klinik Sentez Soruları",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "4. 10 Altın İlke & Kapanış",
-          "status": "pending",
-          "icon": "⚪"
-        }
-      ]
-    }
-  },
-  {
-    "type": "grid",
-    "sec": 6,
-    "ch": "06",
-    "eyebrow": "KLİNİK ALGORİTMA",
-    "title": "Diyetisyenin 5 Adımlı Hızlı Karar Ağacı",
-    "sub": "Poliklinik kapısından giren diyabetik bireyde adım adım izlenecek sistematik değerlendirme ve planlama yolu",
-    "cols": 3,
-    "cards": [
-      {
-        "badge": "Adım 1: Fenotip & Küme",
-        "type": "primary",
-        "title": "1. Fenotip & Kümeleme",
-        "html": "• C-peptid, otoantikorlar, BMI ve yaş ile <b>Ahlqvist 5-Küme</b> modelindeki yerini saptayın (SIRD mi, SAID mi, MOD mu?)."
-      },
-      {
-        "badge": "Adım 2: İlaç & Güvenlik",
-        "type": "danger",
-        "title": "2. İlaç & Güvenlik Süzgeci",
-        "html": "• Hipoglisemi yapıcı ilaç (SU, İnsülin)?<br>• SGLT2i kullanımı (euDKA riski)?<br>• Uzun süreli Metformin (&ge;4 yıl &rarr; B12 kontrolü)?"
-      },
-      {
-        "badge": "Adım 3: Organ Fonksiyonu",
-        "type": "warning",
-        "title": "3. Renal & GİS Durumu",
-        "html": "• eGFR &lt;60 / UACR &ge;30 &rarr; <b>0.8 g/kg PLADO</b>.<br>• Gastroparezis semptomları &rarr; Düşük lif/yağ, bölünmüş öğün ve gecikmeli bolus."
-      },
-      {
-        "badge": "Adım 4: Numerasi & SDOH",
-        "type": "accent",
-        "title": "4. Numerasi & Sosyal Filtre",
-        "html": "• Sağlık numerasisi 1-2-3 düzeyine göre Tabak Yöntemi vs KH Sayımı seçimi.<br>• 2 Maddelik Hager Ölçeği ile gıda güvencesizliği taraması."
-      },
-      {
-        "badge": "Adım 5: Kişiselleştirilmiş TBT",
-        "type": "primary",
-        "title": "5. MNT & Mutfak Kimyası",
-        "html": "• Viskoz lif (&ge;14g/1000 kcal), dirençli nişasta (RS3), asit sinerjisi ve doğru besin sıralaması ile glisemik piki düzleştirin."
-      },
-      {
-        "badge": "Adım 6: CGM DATAA İzlemi",
-        "type": "purple",
-        "title": "6. Sürekli İzlem & Revizyon",
-        "html": "• CGM DATAA modeli ile <b>TIR &ge; %70</b>, <b>TBR &lt; %4</b>, CV &le; %36 hedeflerini değerlendirin ve PESS tanısını güncelleyin."
-      }
-    ],
-    "treeNav": {
-      "label": "Klinik Sentez & Karar Haritası:",
-      "nodes": [
-        {
-          "title": "1. Klinik İkilemler & Karar Matrisi",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. Hızlı Karar Ağacı",
-          "status": "active-purple",
-          "icon": "👉"
-        },
-        {
-          "title": "3. Klinik Sentez Soruları",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "4. 10 Altın İlke & Kapanış",
-          "status": "pending",
-          "icon": "⚪"
-        }
-      ]
-    }
-  },
-  {
-    "type": "grid",
-    "sec": 6,
-    "ch": "06",
-    "eyebrow": "KLİNİK GÜVENLİK",
-    "title": "Klinikte En Sık Yapılan 6 Tehlikeli Hata",
-    "sub": "Hastanın metabolik kontrolünü ve hayati güvenliğini riske atan yaygın klinik tuzaklar",
-    "cols": 2,
-    "cards": [
-      {
-        "badge": "Hata 1: 15/15 Kuralında Çikolata Vermek",
-        "type": "danger",
-        "title": "Yağ Emilimi Geciktirir!",
-        "html": "• <b>Tuzak:</b> Çikolata, gofret veya sütteki yağ gastrik boşalmayı bloke eder; hipoglisemi derinleşerek komaya yol açabilir.<br>• <b>Doğrusu:</b> Yalnızca 15g hızlı glukoz (meyve suyu, dekstroz tablet)."
-      },
-      {
-        "badge": "Hata 2: Somogyi Reboundunda Gece Ara Öğünü",
-        "type": "danger",
-        "title": "Rebound Hiperglisemiye Kör Olmak",
-        "html": "• <b>Tuzak:</b> Sabah yüksek çıkan şekere bakıp gece ara öğünü vermek gece hipoglisemisini maskeler ve glukotoksisiteyi tırmandırır.<br>• <b>Doğrusu:</b> Gece 03:00 ölçümü yapılmalı, bazal insülin dozu azaltılmalıdır."
-      },
-      {
-        "badge": "Hata 3: SGLT2i Alan Hastaya Ketojenik Diyet",
-        "type": "danger",
-        "title": "Öglisemik DKA Tuzağı",
-        "html": "• <b>Tuzak:</b> Glukoz normal (&lt;200 mg/dL) olduğu için kriz atlanır; hasta yoğun bakım tablosuyla gelir.<br>• <b>Doğrusu:</b> SGLT2i kullananlarda keton şeritleri ile takip ve &ge;130g KH şarttır."
-      },
-      {
-        "badge": "Hata 4: Gastropareziste Erken Bolus",
-        "type": "warning",
-        "title": "Lag-Phase Zamanlama Tuzağı",
-        "html": "• <b>Tuzak:</b> İnsülin yemekten önce yapılırsa kanda zirve yapar ancak besin midede kalır &rarr; önce hipoglisemi, 4 saat sonra feci hiperglisemi!<br>• <b>Doğrusu:</b> Yemek sonrası bolus veya dual-wave bolus."
-      },
-      {
-        "badge": "Hata 5: Metformin B12 Taramasını Atlamak",
-        "type": "warning",
-        "title": "Nöropatiyi Diyabete Bağlamak",
-        "html": "• <b>Tuzak:</b> İleal kalsiyum blokajına bağlı B12 eksikliği gelişir; hastanın periferik uyuşmaları diyabetik nöropati sanılır.<br>• <b>Doğrusu:</b> &ge;4 yıl metformin alanlarda yıllık B12 kontrolü."
-      },
-      {
-        "badge": "Hata 6: DKD Evre 3'te Yüksek Protein",
-        "type": "danger",
-        "title": "Glomerüler Hiperfiltrasyon",
-        "html": "• <b>Tuzak:</b> Albüminüriyi telafi etmek için protein artırılırsa nefron ölümü hızlanır.<br>• <b>Doğrusu:</b> 0.8 g/kg PLADO ve &ge;%50 bitkisel protein."
-      }
-    ],
-    "treeNav": {
-      "label": "Klinik Sentez & Karar Haritası:",
-      "nodes": [
-        {
-          "title": "1. Klinik İkilemler & Karar Matrisi",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. Hızlı Karar Ağacı",
-          "status": "active-purple",
-          "icon": "👉"
-        },
-        {
-          "title": "3. Klinik Sentez Soruları",
-          "status": "pending",
-          "icon": "⚪"
-        },
-        {
-          "title": "4. 10 Altın İlke & Kapanış",
-          "status": "pending",
-          "icon": "⚪"
-        }
-      ]
-    }
-  },
-  {
-    "type": "quiz",
-    "sec": 6,
-    "ch": "06",
-    "eyebrow": "İNTERAKTİF KLİNİK SENTEZ · I",
-    "title": "Klinik Vaka & Biyokimya Sentez Soruları (I)",
-    "sub": "Moleküler mekanizmalar, ilaç etkileşimleri ve patofizyolojik köprüler",
-    "questions": [
-      {
-        "q": "Obezite zemininde gelişen periferik insülin direncinin en temel post-reseptör moleküler kökeni nedir?",
-        "opts": [
-          "GLUT4 taşıyıcılarının genetik mutasyonla yok olması",
-          "Ektopik DAG ve seramid birikiminin IRS-1 Serin/Treonin fosforilasyonu ile sinyali kilitlemesi",
-          "Pankreasın doğrudan glukagon salgısını tamamen durdurması"
-        ],
-        "correct": 1,
-        "explain": "Ektopik lipidler (DAG ve Seramid), Novel PKC yolunu aktifleştirerek IRS-1 molekülünün tirozin yerine Serin/Treonin rezidülerini fosforiller. Bu durum PI3K/Akt yolağını kilitler ve GLUT4 translokasyonunu engeller."
-      },
-      {
-        "q": "SGLT-2 İnhibitörü kullanan Tip 2 Diyabetli bir hastada kan şekeri 170 mg/dL iken ağır ketoasidoz (euDKA) gelişmesini tetikleyen en olası beslenme hatası nedir?",
-        "opts": [
-          "Aşırı katı karbonhidrat kısıtlaması (örn. ketojenik diyet uygulanması)",
-          "Diyet posasının 40 g/gün üzerine çıkarılması",
-          "Öğünlerde glisemik indeksi düşük tam tahıl tüketilmesi"
-        ],
-        "correct": 0,
-        "explain": "SGLT2i idrarla glukoz kaybettirirken katı KH kısıtlaması insülin salgısını aşırı düşürür ve glukagon/lipoliz fırtınası başlatır. Glukoz normal kalırken kontrolsüz keton birikir (Öglisemik DKA)."
-      },
-      {
-        "q": "Tirzepatide (Dual GIP/GLP-1 Reseptör Agonisti) neden geleneksel tekli GLP-1 analoglarına kıyasla daha güçlü kilo kaybı ve glisemik kontrol sağlar?",
-        "opts": [
-          "Yalnızca böbreklerden glukoz atılımını artırdığı için",
-          "GIP üzerinden adipoz dokuda lipit tamponlama ve insülin duyarlılığını artırırken, GLP-1 ile iştahı ve mide boşalmasını baskıladığı için",
-          "Mide asidini tamamen nötralize ettiği için"
-        ],
-        "correct": 1,
-        "explain": "Dual agonizma sinerjiktir: GIP beyaz yağ dokusunda kan akımını ve insülin duyarlılığını artırıp ektopik lipid birikimini önler; GLP-1 ile birlikte merkezi iştah merkezini ve mide boşalmasını çok daha güçlü regüle eder."
-      },
-      {
-        "q": "Gece saat 03:00'te ölçülen kan şekeri 48 mg/dL çıkan ve sabah uyanınca 220 mg/dL ölçülen bir hastada tanı ve doğru TBT yaklaşımı nedir?",
-        "opts": [
-          "Şafak Fenomeni; gece bazal insülini artırılmalı ve akşam KH kesilmelidir.",
-          "Somogyi Etkisi; gece hipoglisemisini önlemek için bazal insülin dozu düşürülmeli, gereksiz gece ara öğünü verilmemelidir.",
-          "Metformin malabsorpsiyonu; sabah metformin dozu iki katına çıkarılmalıdır."
-        ],
-        "correct": 1,
-        "explain": "Gece 03:00 hipoglisemisi ardından gelişen sabah fırlaması tipik Somogyi reboundudur (kontr-regülatuvar hormon deşarjı). Kök neden aşırı bazal dozdur. Tedavi dozu azaltmaktır."
-      }
-    ],
-    "treeNav": {
-      "label": "Klinik Sentez & Karar Haritası:",
-      "nodes": [
-        {
-          "title": "1. Klinik İkilemler & Karar Matrisi",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. Hızlı Karar Ağacı",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "3. Klinik Sentez Soruları",
-          "status": "active-purple",
-          "icon": "👉"
-        },
-        {
-          "title": "4. 10 Altın İlke & Kapanış",
-          "status": "pending",
-          "icon": "⚪"
-        }
-      ]
-    }
-  },
-  {
-    "type": "quiz",
-    "sec": 6,
-    "ch": "06",
-    "eyebrow": "İNTERAKTİF KLİNİK SENTEZ · II",
-    "title": "Klinik Vaka & TBT Sentez Soruları (II)",
-    "sub": "Karbonhidrat sayımı, ICR/ISF formülleri, DKD/PLADO ve CGM DATAA modeli",
-    "questions": [
-      {
-        "q": "Toplam Günlük İnsülin (TDD) dozu 50 Ünite olan bir hastada 1 Ünite hızlı etkili analogun karşılayacağı KH (ICR) ve düşüreceği kan şekeri (ISF) ne kadardır?",
-        "opts": [
-          "ICR = 5g KH, ISF = 18 mg/dL",
-          "ICR = 10g KH (500/50), ISF = 36 mg/dL (1800/50)",
-          "ICR = 25g KH, ISF = 50 mg/dL"
-        ],
-        "correct": 1,
-        "explain": "ICR = 500 / TDD = 500 / 50 = 10 g KH/Ünite. ISF = 1800 / TDD = 1800 / 50 = 36 mg/dL/Ünite."
-      },
-      {
-        "q": "Diyabetik otonom gastroparezisi olan ve yüksek yağlı/proteinli pizza tüketen bir Tip 1 Diyabet hastasında en uygun insülin boluslama stratejisi nedir?",
-        "opts": [
-          "Yemekten 30 dakika önce tüm insülini tek seferde hızlı bolus yapmak",
-          "İnsülini atlamak ve yalnızca su içmek",
-          "Çift Dalga (Dual-Wave) Bolus: İnsülinin %40'ını yemek başında, %60'ını 3-4 saate yayarak vermek"
-        ],
-        "correct": 2,
-        "explain": "Gastroparezis ve FPU (Yağ-Protein Ünitesi) glukoz pikini 3-5 saat öteler. Çift dalga bolus ani hipoglisemiyi önler ve geç saatteki hiperglisemik dalgayı tam zamanında karşılar."
-      },
-      {
-        "q": "eGFR değeri 42 mL/dk ve UACR değeri 180 mg/g olan Evre 3b DKD hastasında KDIGO 2024 ve PLADO modeli önerisi nedir?",
-        "opts": [
-          "Protein alımı 0.8 g/kg/gün ile sınırlandırılmalı ve en az %50'si bitkisel kaynaklı olmalıdır.",
-          "Kas kaybını önlemek için protein 1.5 g/kg/gün'e çıkarılmalıdır.",
-          "Sıvı alımı tamamen kesilmelidir."
-        ],
-        "correct": 0,
-        "explain": "Diyaliz öncesi DKD'de protein kısıtlaması (0.8 g/kg) intraglomerüler basıncı düşürür; bitkisel protein (PLADO) ise asit yükünü ve fosfat emilimini azaltarak nefronları korur."
-      },
-      {
-        "q": "Sürekli Glukoz Takibi (CGM) kullanan gebe olmayan bir yetişkin Tip 2 Diyabetlide uluslararası konsensüs TIR ve TBR hedefi nedir?",
-        "opts": [
-          "TIR (70-180 mg/dL) ≥ %70 ve TBR (<70 mg/dL) < %4",
-          "TIR ≥ %50 ve TBR < %15",
-          "TIR ≥ %95 ve TBR %0"
-        ],
-        "correct": 0,
-        "explain": "Standart hedef: Hedef Aralıkta Kalma Süresi (TIR 70-180 mg/dL) en az %70, Düşükte Kalma Süresi (TBR <70 mg/dL) %4'ün altında ve çok düşük (<54 mg/dL) %1'in altında olmalıdır."
-      }
-    ],
-    "treeNav": {
-      "label": "Klinik Sentez & Karar Haritası:",
-      "nodes": [
-        {
-          "title": "1. Klinik İkilemler & Karar Matrisi",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. Hızlı Karar Ağacı",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "3. Klinik Sentez Soruları",
-          "status": "active-purple",
-          "icon": "👉"
-        },
-        {
-          "title": "4. 10 Altın İlke & Kapanış",
-          "status": "pending",
-          "icon": "⚪"
-        }
-      ]
-    }
   },
   {
     "type": "grid",
