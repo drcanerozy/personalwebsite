@@ -664,7 +664,7 @@ const TOC_SECTIONS = [
     "num": "03",
     "title": "Glisemik Hedefler & Farmakoterapi",
     "desc": "Standart/CGM/Yaşlı Hedefleri, OAD & MNT Süzgeci, GLP-1/GIP Protokolü, İnsülin & Gece Krizleri",
-    "count": 23
+    "count": 25
   },
   {
     "num": "04",
@@ -4860,6 +4860,62 @@ const SLIDES = [
   },
   {
     "sec": 3,
+    "tag": "FARMAKOTERAPİ BASAMAKLARI",
+    "title": "T1DM vs. T2DM Farmakoterapi İhtiyacı ve Tedavi Basamakları",
+    "lead": "Neden İlaç ve İnsülin Gerekir? ADA 2026 Etyolojik Tedavi Mantığı ve Basamaklı Yaklaşım",
+    "treeNav": {
+      "label": "Farmakoterapi & Tedavi Haritası:",
+      "nodes": [
+        {
+          "title": "1. Glisemik Hedefler & CGM",
+          "status": "done",
+          "icon": "✓"
+        },
+        {
+          "title": "2. OAD Sınıfları & MNT Süzgeci",
+          "status": "active-primary",
+          "icon": "👉"
+        },
+        {
+          "title": "3. İnkretinler (GLP-1/GIP) & Kas Koruma",
+          "status": "pending",
+          "icon": "💉"
+        },
+        {
+          "title": "4. İnsülin Farmakokinetiği & Rejimler",
+          "status": "pending",
+          "icon": "🩸"
+        },
+        {
+          "title": "5. Aşırı Bazalizasyon & Gece Krizleri",
+          "status": "pending",
+          "icon": "🌙"
+        }
+      ]
+    },
+    "cols": 2,
+    "cards": [
+      {
+        "badge": "Etyolojik İhtiyaç",
+        "type": "primary",
+        "title": "T1DM vs. T2DM: Neden İlaç / İnsülin Gerekir?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(217,48,37,0.06); padding:9px 11px; border-radius:7px; margin-bottom:9px; border-left:3px solid var(--danger);\">\n            <b style=\"color:var(--danger);\">Tip 1 Diyabet (Mutlak İnsülin Yokluğu):</b><br>\n            Pankreas beta hücrelerinin otoimmün yıkımı nedeniyle vücut hiç insülin üretemez. Yaşamın sürdürülmesi ve ölümcül ketoasidozun (DKA) önlenmesi için <b>ekzojen insülin zorunludur</b>; OAD'ler temel tedavi olamaz.\n          </div>\n          <div style=\"background:rgba(26,115,232,0.06); padding:9px 11px; border-radius:7px; border-left:3px solid var(--primary);\">\n            <b style=\"color:var(--primary);\">Tip 2 Diyabet (Direnç + Göreli Yetmezlik):</b><br>\n            İnsülin direnci ve zamanla tükenen beta hücre rezervi söz konusudur. Yaşam tarzı (TBT) temeldir; ancak glukotoksisiteyi kırmak ve hedef HbA1c (&lt;%7.0) sağlamak için basamaklı farmakoterapi şarttır.\n          </div>\n        </div>"
+      },
+      {
+        "badge": "ADA 2026 Algoritması",
+        "type": "accent",
+        "title": "T2DM Basamaklı Tedavi Karar Döngüsü",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0;\">\n            <li style=\"margin-bottom:7px;\"><b>1. Basamak (İlk Tercih):</b> Kontrendikasyon (ağır renal yetmezlik vb.) yoksa yaşam tarzı ile birlikte <b>Metformin</b> başlanır.</li>\n            <li style=\"margin-bottom:7px;\"><b>3 Aylık Değerlendirme & İkili Tedavi (Dual):</b> HbA1c &lt;%7.0 sağlanamazsa komorbiditeye göre ilaç eklenir:<br>\n              • <i>ASCVD / Yüksek KV Risk, Kalp Yetersizliği veya DKD:</i> Organ koruyucu kanıtlı <b>SGLT2i</b> veya <b>GLP-1 RA</b>.<br>\n              • <i>Kilo Kaybı İhtiyacı:</i> <b>GLP-1 RA</b> veya <b>SGLT2i</b>.<br>\n              • <i>Maliyet / Hipoglisemi Önceliği:</i> <b>DPP-4i</b>, <b>TZD</b> veya <b>SU</b>.</li>\n            <li><b>Üçlü Tedavi & İnsülin:</b> Rezerv tükendikçe bazal insülin veya kombine enjektabllar eklenir.</li>\n          </ul>\n        </div>"
+      }
+    ],
+    "box": {
+      "type": "blue",
+      "title": "Diyetisyen Klinik Notu",
+      "text": "Beslenme tedavisini belirleyen şey kullanılan ilaç sayısı değil, ilaçların <b>metabolik etki ve yan etki profilleridir</b>. Tedaviye insülin veya sekretagog girdiği an beslenme planı katı kurallara ve tutarlı karbonhidrat sayımına geçer."
+    }
+  },
+  {
+    "sec": 3,
     "tag": "OAD & MNT HARİTASI",
     "title": "OAD & MNT Etkileşim Şeması",
     "lead": "Oral Antidiyabetiklerin Moleküler Hedefleri ve Diyetisyenin Klinik Müdahale Alanları",
@@ -5108,7 +5164,7 @@ const SLIDES = [
         "badge": "MNT Preskripsiyonu",
         "type": "primary",
         "title": "Sabit Karbonhidrat Dağılımı",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • Hastaların <b>öğün atlamasına veya saatlerini geciktirmesine kesinlikle izin verilmez.</b><br>\n          • Günlük karbonhidrat bütçesi gün içine <b>sabit ve dengeli porsiyonlar</b> halinde dağıtılmalıdır.<br>\n          • Yanlarında daima <b>15/15 kuralına</b> uygun acil basit şeker taşımalıdırlar.\n        </div>"
+        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • <b>Öğün Atlamama Kuralı:</b> İlaç insülini zorla salgılattığı için öğün geciktirilemez veya atlanamaz!<br>\n          • <b>Tutarlı Karbonhidrat (Consistent CHO):</b><br>\n            - <i>Kadınlar / Sedanter:</i> Ana öğün başına <b>3-4 KH Değişimi (45-60 g KH)</b><br>\n            - <i>Erkekler / Aktif:</i> Ana öğün başına <b>4-5 KH Değişimi (60-75 g KH)</b><br>\n          • <b>Ara Öğün Kalkanı:</b> Öğün araları &gt;4-5 saat ise <b>1-2 KH Değişimi (15-30 g KH) + protein/lif</b> eklenir.<br>\n          • Yanlarında daima <b>15/15 kuralına</b> uygun acil basit şeker taşınmalıdır.\n        </div>"
       },
       {
         "badge": "Hızlı Etkili Alternatif",
@@ -5506,6 +5562,62 @@ const SLIDES = [
   },
   {
     "sec": 3,
+    "tag": "İNSÜLİN FİZYOLOJİSİ & YAKLAŞIM",
+    "title": "İnsülin Tedavisine Giriş: Bazal vs. Bolus İnsülin Kavramları",
+    "lead": "Pankreasın Doğal Salınımını Taklit Etmek: Zemin (Bazal) ve Yemek (Bolus) İnsülini Mantığı",
+    "treeNav": {
+      "label": "Farmakoterapi & Tedavi Haritası:",
+      "nodes": [
+        {
+          "title": "1. Glisemik Hedefler & CGM",
+          "status": "done",
+          "icon": "✓"
+        },
+        {
+          "title": "2. OAD Sınıfları & MNT Süzgeci",
+          "status": "done",
+          "icon": "✓"
+        },
+        {
+          "title": "3. İnkretinler (GLP-1/GIP) & Kas Koruma",
+          "status": "done",
+          "icon": "✓"
+        },
+        {
+          "title": "4. İnsülin Farmakokinetiği & Rejimler",
+          "status": "active-danger",
+          "icon": "👉"
+        },
+        {
+          "title": "5. Aşırı Bazalizasyon & Gece Krizleri",
+          "status": "pending",
+          "icon": "🌙"
+        }
+      ]
+    },
+    "cols": 2,
+    "cards": [
+      {
+        "badge": "Klinik Yaklaşım Farkı",
+        "type": "primary",
+        "title": "T1DM vs. T2DM'de İnsülinli Beslenme Mantığı",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(217,48,37,0.06); padding:9px 11px; border-radius:7px; margin-bottom:8px; border-left:3px solid var(--danger);\">\n            <b style=\"color:var(--danger);\">Tip 1 Diyabet (Mutlak Eksiklik):</b><br>\n            Pankreas fizyolojisini taklit etmek esastır. Diyet hastaya dikte edilmez; <b>insülin hastanın yaşam tarzına ve yediği karbonhidrata uyarlanır</b> (İleri KH Sayımı ile tam esneklik).\n          </div>\n          <div style=\"background:rgba(26,115,232,0.06); padding:9px 11px; border-radius:7px; border-left:3px solid var(--primary);\">\n            <b style=\"color:var(--primary);\">Tip 2 Diyabet (Direnç + Göreli Eksiklik):</b><br>\n            Odak noktası ağırlık yönetimi (%5-10 kayıp), insülin direncini kırma, porsiyon kontrolü ve insülin ile yemek zamanlarını senkronize etmektir.\n          </div>\n        </div>"
+      },
+      {
+        "badge": "İki Temel Fizyolojik Bileşen",
+        "type": "accent",
+        "title": "Bazal ve Bolus İnsülin Nedir?",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:9px 11px; border-radius:7px; margin-bottom:8px; border-left:3px solid var(--accent);\">\n            <b>1. BAZAL İNSÜLİN (%40 - %50 Pay):</b><br>\n            Gece uykuda ve öğün aralarında karaciğerin kontrolsüz glukoz üretimini (hepatik glukoneogenez) baskılayan, piksiz ve zemin kontrolü sağlayan uzun etkili insülindir.\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:9px 11px; border-radius:7px; border-left:3px solid var(--orange);\">\n            <b>2. BOLUS / PRANDİYAL İNSÜLİN (%50 - %60 Pay):</b><br>\n            Yemekle gelen karbonhidratı hücre içine sokan hızlı etkili insülindir. Ayrıca yüksek çıkan kan şekerini hedefe çekmek için <i>'Düzeltme Bolusu'</i> olarak da kullanılır.\n          </div>\n        </div>"
+      }
+    ],
+    "box": {
+      "type": "emerald",
+      "title": "Diyetisyen Başucu İlkesi",
+      "text": "İnsülin kullanan hastanın beslenme planı kurgulanırken <b>hekim, diyetisyen ve hasta üçlüsü aynı dili konuşmalıdır</b>. Tıbbi beslenme tedavisi, hastanın kullandığı insülin rejiminin farmakokinetik eğrisiyle tam senkronize edilmelidir."
+    }
+  },
+  {
+    "sec": 3,
     "tag": "İNSÜLİN FARMAKOKİNETİĞİ",
     "title": "İnsülin Tipleri & Lag Time",
     "lead": "4 Büyük İnsülin Grubu ve Enjeksiyondan Yemeğe Kadar Geçen Sürenin (Lag Time) Önemi",
@@ -5570,8 +5682,8 @@ const SLIDES = [
   {
     "sec": 3,
     "tag": "İNSÜLİN DOZ MATEMATİĞİ",
-    "title": "İnsülin Doz Hesabı (TDD)",
-    "lead": "Toplam Günlük Doz (TDD) Hesabı ve %50 Bazal + %50 Prandiyal Bolus Dağılımı",
+    "title": "İnsülin Dozu Nasıl Belirlenir? Toplam Günlük Doz (TDD) & Dağılım",
+    "lead": "Kilo Başına Günlük İnsülin İhtiyacı, %50-%50 Dağılım, İKO (500 Kuralı) ve İSD (1700 Kuralı)",
     "treeNav": {
       "label": "Farmakoterapi & Tedavi Haritası:",
       "nodes": [
@@ -5608,21 +5720,21 @@ const SLIDES = [
         "badge": "TDD Hesaplama Standartları",
         "type": "primary",
         "title": "Kilo Başına Günlük Doz Hesabı",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0;\">\n            <li style=\"margin-bottom:8px;\"><b>Tip 1 Diyabet (Yeni Tanı):</b><br>\n            TDD = <b>0.5 - 1.0 Ünite / kg / gün</b><br>\n            <i>Örnek: 70 kg T1DM hastası için: 70 &times; 0.5 = <b>35 Ünite/gün TDD</b></i></li>\n            <li style=\"margin-bottom:8px;\"><b>Tip 2 Diyabet (Obez / Dirençli):</b><br>\n            TDD = <b>0.5 - 1.2 Ünite / kg / gün</b> (Ağır dirençte 1.5 U/kg'a kadar çıkabilir).</li>\n            <li><b>Balayı Dönemi (Honeymoon):</b> &lt;0.5 U/kg'a düşebilir.</li>\n          </ul>\n        </div>"
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0;\">\n            <li style=\"margin-bottom:8px;\"><b>Tip 1 Diyabet (Yeni Tanı / İdame):</b><br>\n            TDD = <b>0.5 - 1.0 Ünite / kg / gün</b><br>\n            <i>Örnek: 70 kg T1DM hastası için: 70 &times; 0.5 = <b>35 Ünite/gün TDD</b></i><br>\n            Balayı (Honeymoon) döneminde &lt;0.5 U/kg'a düşebilir.</li>\n            <li style=\"margin-bottom:8px;\"><b>Tip 2 Diyabet (Obez / İnsülin Dirençli):</b><br>\n            TDD = <b>0.5 - 1.2 Ünite / kg / gün</b> (Ağır dirençte 1.5 U/kg'a kadar çıkabilir).</li>\n            <li><b>Oral Ajan Yanına Bazal Başlangıcı:</b> <b>10 Ünite/gün</b> veya <b>0.1 - 0.2 U/kg/gün</b>.</li>\n          </ul>\n        </div>"
       },
       {
         "badge": "Fizyolojik 50/50 Bölünme",
         "type": "accent",
-        "title": "%50 Bazal + %50 Bolus Dağılımı",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:9px 11px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--primary);\">\n            <b>%50 BAZAL İNSÜLİN (~17-18 Ünite):</b> Gece ve öğün aralarında karaciğerin şeker çıkışını baskılar (Glargine / Degludec).\n          </div>\n          <div style=\"background:rgba(15,157,88,0.06); padding:9px 11px; border-radius:6px; border-left:3px solid var(--accent);\">\n            <b>%50 BOLUS İNSÜLİN (~17-18 Ünite):</b> 3 ana öğüne paylaştırılır (Örn: Kahvaltı 6 U, Öğle 6 U, Akşam 6 U Aspart/Lispro).\n          </div>\n        </div>"
+        "title": "%50-%50 Bölünme ve Karbonhidrat Matematiği",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--primary);\">\n            <b>%50 BAZAL (~17 U) + %50 BOLUS (~18 U):</b> 35 U TDD örneğinde bazal gece tek doz verilir; bolus 3 ana öğüne bölünür (Örn: Sabah 6 U, Öğle 6 U, Akşam 6 U).\n          </div>\n          <div style=\"background:rgba(15,157,88,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--accent);\">\n            <b>İKO (İnsülin/Karbonhidrat Oranı - 500 Kuralı):</b><br>\n            500 &divide; TDD &rarr; Örn: 500 &divide; 50 = <b>1 Ünite İnsülin = 10 g KH</b> karşılar.\n          </div>\n          <div style=\"background:rgba(217,119,6,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--amber);\">\n            <b>İSD (İnsülin Duyarlılık Faktörü - 1700 Kuralı):</b><br>\n            1700 &divide; TDD &rarr; Örn: 1700 &divide; 50 = <b>1 Ünite İnsülin şekeri 34 mg/dL</b> düşürür.\n          </div>\n        </div>"
       }
     ]
   },
   {
     "sec": 3,
     "tag": "İNSÜLİN REJİMLERİ",
-    "title": "Bazal-Bolus vs. Karışım İnsülin",
-    "lead": "Esnek Karbonhidrat Sayımı vs. Sabit Karbonhidrat Düzeni (Consistent CHO)",
+    "title": "İnsülin Tedavi Modelleri: %50-%50 Bazal-Bolus vs. %70-%30 Hazır Karışım",
+    "lead": "Fizyolojik Esnek Karbonhidrat Sayımı ile Katı Sabit Karbonhidrat Düzeni Arasındaki Klinik Ayrım",
     "treeNav": {
       "label": "Farmakoterapi & Tedavi Haritası:",
       "nodes": [
@@ -5658,16 +5770,21 @@ const SLIDES = [
       {
         "badge": "Fizyolojik Model",
         "type": "accent",
-        "title": "Yoğun Bazal-Bolus & Esnek KH Sayımı",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Fizyoloji:</b> Sağlıklı pankreası taklit eder (Bazal + 3 öğün bolus).<br><br>\n          <div style=\"background:rgba(15,157,88,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--accent);\">\n            <b>Diyetisyen Protokolü (Maksimum Esneklik):</b><br>\n            • Hasta sabit diyete zorlanmaz.<br>\n            • <b>İleri Karbonhidrat Sayımı</b> öğretilir.<br>\n            • Hasta o an kaç gram KH tüketecekse <b>İnsülin/KH Oranına (ICR)</b> göre kendi bolusunu kendisi hesaplar.\n          </div>\n        </div>"
+        "title": "1. Yoğun Bazal-Bolus Rejimi (%50 Bazal + %50 Bolus)",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Farmakolojik Yapı:</b> Günde 1 kez uzun etkili bazal (Glargine/Degludec) + Günde 3 kez ana öğün öncesi hızlı etkili bolus (Aspart/Lispro).<br><br>\n          <div style=\"background:rgba(15,157,88,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--accent);\">\n            <b>Beslenme Tedavisi (TBT) - Maksimum Esneklik:</b><br>\n            • <b>'Diyet insüline değil, insülin diyete uydurulur.'</b><br>\n            • <b>İleri Düzey Karbonhidrat Sayımı</b> uygulanır.<br>\n            • Hasta ne zaman ve ne kadar yiyeceğini kendisi seçer; tüketeceği KH miktarını İKO ile çarparak bolusunu vurur. Öğün saatleri ve porsiyonlar esnektir.\n          </div>\n        </div>"
       },
       {
         "badge": "Geleneksel Model",
         "type": "warning",
-        "title": "Karışım / Premixed (70/30) & Sabit KH",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Fizyoloji:</b> Günde 2 kez sabah-akşam enjekte edilen sabit karışımlardır.<br><br>\n          <div style=\"background:rgba(230,81,0,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--orange);\">\n            <b>Diyetisyen Protokolü (Maksimum İstikrar):</b><br>\n            • İnsülin dozu ve pik saatleri sabittir; öğün atlanamaz!<br>\n            • <b>Sabit Karbonhidratlı Öğün Planı</b> (Örn: Sabah 45g, Öğle 60g, Akşam 60g).<br>\n            • NPH pikine denk gelen <b>zorunlu ara öğünler</b> eklenir.\n          </div>\n        </div>"
+        "title": "2. Hazır Karışım Rejimi (Premixed / %70-%30 vb.)",
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <b>Farmakolojik Yapı:</b> Tek kalemde %70 orta/uzun etkili (NPH/protamin) + %30 hızlı/kısa etkili insülin. Günde 2 kez (sabah ve akşam yemek öncesi) uygulanır.<br><br>\n          <div style=\"background:rgba(230,81,0,0.08); padding:8px 10px; border-radius:6px; border-left:3px solid var(--orange);\">\n            <b>Beslenme Tedavisi (TBT) - Katı ve Sabit Düzen:</b><br>\n            • <b>'Hasta insüline uymak zorundadır!'</b><br>\n            • <b>Sabit Karbonhidratlı Öğün Planı (Consistent CHO)</b> şarttır.<br>\n            • İlacın pik süreleri sabittir; öğün atlamak veya geciktirmek NPH pik saatinde <b>ağır hipoglisemiye</b> yol açar.<br>\n            • NPH pikine denk gelen <b>zorunlu ara öğünler</b> eklenir.\n          </div>\n        </div>"
       }
-    ]
+    ],
+    "box": {
+      "type": "danger",
+      "title": "Hayati MNT Ayrımı",
+      "text": "Bazal-Bolus kullanan hasta yemeğini insüline göre değil, insülinini yemeğine göre yönetir. Hazır Karışım (%70-30) kullanan hasta ise saate ve sabit karbonhidrata mecburdur!"
+    }
   },
   {
     "sec": 3,
