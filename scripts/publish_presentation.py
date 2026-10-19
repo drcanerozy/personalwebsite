@@ -304,8 +304,21 @@ if (pos !== -1) {{
     rel_slide_url = f"slides/{out_path.name}"
     today_str = datetime.now().strftime("%Y-%m-%d")
 
-    # TR Presentation Markdown
-    tr_pres_file = CONTENT_DIR / f"tr/presentations/{course_info['pres_prefix']}-{pres_slug}.md"
+    # TR Presentation Markdown (Varsa mevcut dosyayı koru ve güncelle)
+    existing_tr = [f for f in (CONTENT_DIR / "tr/presentations").glob("*.md") if pres_slug in f.name]
+    if existing_tr:
+        tr_pres_file = existing_tr[0]
+        for dup in existing_tr[1:]:
+            dup.unlink()
+    else:
+        tr_pres_file = CONTENT_DIR / f"tr/presentations/{course_info['pres_prefix']}-{pres_slug}.md"
+
+    tr_order = 7
+    if tr_pres_file.exists():
+        m_ord = re.search(r'order:\s*(\d+)', tr_pres_file.read_text(encoding="utf-8"))
+        if m_ord:
+            tr_order = int(m_ord.group(1))
+
     tr_pres_file.parent.mkdir(parents=True, exist_ok=True)
     tr_pres_file.write_text(f"""---
 title: "{pres_title}"
@@ -317,7 +330,7 @@ html_url: "{rel_slide_url}"
 summary: "{pres_title} dersi interaktif web sunumu. İlk 10 slayt açık önizleme; 11+ slaytlar AES-256 şifrelidir."
 draft: false
 lang: "tr"
-order: 4
+order: {tr_order}
 ---
 
 ## 🧬 Ders Sunumu & Canlı Kilitli Modül
@@ -326,8 +339,21 @@ order: 4
 - **Şifre:** {course_info['code']} ders izlencesinde ilan edilen öğrenci şifresi (`{course_info['password']}`) ile açılır.
 """, encoding="utf-8")
 
-    # EN Presentation Markdown
-    en_pres_file = CONTENT_DIR / f"en/presentations/{course_info['pres_prefix']}-{pres_slug}.md"
+    # EN Presentation Markdown (Varsa mevcut dosyayı koru ve güncelle)
+    existing_en = [f for f in (CONTENT_DIR / "en/presentations").glob("*.md") if pres_slug in f.name or ("diabet" in f.name and "diabet" in pres_slug)]
+    if existing_en:
+        en_pres_file = existing_en[0]
+        for dup in existing_en[1:]:
+            dup.unlink()
+    else:
+        en_pres_file = CONTENT_DIR / f"en/presentations/{course_info['pres_prefix']}-{pres_slug}.md"
+
+    en_order = tr_order
+    if en_pres_file.exists():
+        m_ord_en = re.search(r'order:\s*(\d+)', en_pres_file.read_text(encoding="utf-8"))
+        if m_ord_en:
+            en_order = int(m_ord_en.group(1))
+
     en_pres_file.parent.mkdir(parents=True, exist_ok=True)
     en_pres_file.write_text(f"""---
 title: "{pres_title}"
@@ -339,7 +365,7 @@ html_url: "{rel_slide_url}"
 summary: "{pres_title} interactive web presentation. First 10 slides public preview; slides 11+ encrypted."
 draft: false
 lang: "en"
-order: 4
+order: {en_order}
 ---
 
 ## 🧬 Lecture Deck & Protected Content
@@ -348,21 +374,35 @@ order: 4
 - **Access Passcode:** Unlocked with `{course_info['password']}`.
 """, encoding="utf-8")
 
-    # TR Teaching Linkini Ekle
+    # TR Teaching Linkini Güncelle veya Ekle
     tr_teach = BASE_DIR / course_info["tr_teaching_file"]
     if tr_teach.exists():
         t_content = tr_teach.read_text(encoding="utf-8")
-        link_md = f"- 👉 [**{pres_title} ({total_slides} Slayt - Canlı İzle)**](../{rel_slide_url}) *(🔒 AES-256 Korumalı — Şifre: `{course_info['password']}`)*"
-        if rel_slide_url not in t_content:
+        if rel_slide_url in t_content:
+            t_content = re.sub(
+                r'(-\s*👉\s*\[\*\*.*?\()(\d+)(\s*Slayt\s*-\s*Canlı\s*İzle\)\*\*\]\(\.\./' + re.escape(rel_slide_url) + r'\))',
+                rf'\g<1>{total_slides}\g<3>',
+                t_content
+            )
+            tr_teach.write_text(t_content, encoding="utf-8")
+        else:
+            link_md = f"- 👉 [**{pres_title} ({total_slides} Slayt - Canlı İzle)**](../{rel_slide_url}) *(🔒 AES-256 Korumalı — Şifre: `{course_info['password']}`)*"
             t_content = t_content.rstrip() + f"\n{link_md}\n"
             tr_teach.write_text(t_content, encoding="utf-8")
 
-    # EN Teaching Linkini Ekle
+    # EN Teaching Linkini Güncelle veya Ekle
     en_teach = BASE_DIR / course_info["en_teaching_file"]
     if en_teach.exists():
         e_content = en_teach.read_text(encoding="utf-8")
-        link_en = f"- 👉 [**{pres_title} ({total_slides} Slides - Live)**](../{rel_slide_url}) *(🔒 AES-256 Protected — Passcode: `{course_info['password']}`)*"
-        if rel_slide_url not in e_content:
+        if rel_slide_url in e_content:
+            e_content = re.sub(
+                r'(-\s*👉\s*\[\*\*.*?\()(\d+)(\s*Slides\s*-\s*Live\)\*\*\]\(\.\./\.\./' + re.escape(rel_slide_url) + r'\))',
+                rf'\g<1>{total_slides}\g<3>',
+                e_content
+            )
+            en_teach.write_text(e_content, encoding="utf-8")
+        else:
+            link_en = f"- 👉 [**{pres_title} ({total_slides} Slides - Live)**](../../{rel_slide_url}) *(🔒 AES-256 Protected — Passcode: `{course_info['password']}`)*"
             e_content = e_content.rstrip() + f"\n{link_en}\n"
             en_teach.write_text(e_content, encoding="utf-8")
 

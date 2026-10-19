@@ -26,4 +26,4 @@ Access the live interactive web presentations via the links below. The **first 1
 - 👉 [**Topic 1: Obesity & Medical Nutrition Therapy (185 Slides - Live)**](../../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Protected)*
 - 👉 [**Week 1: Introduction to Obesity & Medical Nutrition Therapy Practice (59+ Slides - Live)**](../../slides/02-obezite-uygulama.html) *(🔒 AES-256 Protected)*
 
-- 👉 [**Topic 2: Diabetes & Medical Nutrition Therapy (148 Slides - Live)**](../../slides/03-diyabet-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Protected)*
+- 👉 [**Topic 2: Diabetes & Medical Nutrition Therapy (139 Slides - Live)**](../../slides/03-diyabet-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Protected)*
