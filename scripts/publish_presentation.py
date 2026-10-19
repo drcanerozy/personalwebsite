@@ -340,7 +340,7 @@ order: {tr_order}
 """, encoding="utf-8")
 
     # EN Presentation Markdown (Varsa mevcut dosyayı koru ve güncelle)
-    existing_en = [f for f in (CONTENT_DIR / "en/presentations").glob("*.md") if pres_slug in f.name or ("diabet" in f.name and "diabet" in pres_slug)]
+    existing_en = [f for f in (CONTENT_DIR / "en/presentations").glob("*.md") if pres_slug in f.name or ("diabet" in f.name or "diyabet" in f.name)]
     if existing_en:
         en_pres_file = existing_en[0]
         for dup in existing_en[1:]:
