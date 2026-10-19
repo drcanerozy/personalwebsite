@@ -12,6 +12,6 @@ order: 7
 ---
 
 ## 🧬 Ders Sunumu & Canlı Kilitli Modül
-- **Önizleme Kapsamı (Slayt 1–10):** Açık akademik önizleme; sindirim ve insülin orkestrasyonu.
-- **Şifreli Modüller (Slayt 11–139):** İnsülin direnci ve moleküler şalter, 4 itici güç, glukotoksisite, akut ve kronik komplikasyonlar, karbonhidrat sayımı, ADIME/NCP ve klinik vaka reçeteleri.
+- **Önizleme Kapsamı (Slayt 1–10):** Açık akademik önizleme ve giriş kavramları.
+- **Şifreli Modüller (Slayt 11–139):** İleri modüller, vaka analizleri ve uygulamalar.
 - **Şifre:** BES 317 - BES 318 ders izlencesinde ilan edilen öğrenci şifresi (`COZYYHTBT2026_`) ile açılır.
