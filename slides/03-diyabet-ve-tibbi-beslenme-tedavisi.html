@@ -7186,9 +7186,9 @@ const SLIDES = [
   {
     "sec": 5,
     "type": "grid",
-    "tag": "FPU (FAT-PROTEIN UNIT) PROTOKOLÜ",
-    "title": "Yağ ve Protein Birimi (FPU): Kısaltma, Tanım ve İnsülin Yönetimi",
-    "lead": "FPU (Fat-Protein Unit): Klasik karbonhidrat sayımının açıklayamadığı pizza, kebap ve burger gibi yüksek yağ/proteinli öğünlerdeki 3–6 saatlik gecikmiş hipergliseminin Warsaw formülüyle yönetimi.",
+    "tag": "FPU (FAT-PROTEIN UNIT) HESAPLAMA & KLİNİK UYGULAMA",
+    "title": "Yağ ve Protein Birimi (FPU): Doz Nasıl Hesaplanır ve Uygulanır?",
+    "lead": "FPU doğrudan insülin ünitesi değildir! Yağ ve proteinden gelen metabolik yük 10g KH eşdeğerine çevrilip hastanın kişisel İKO'suna bölünerek ek doz hesaplanır ve zamana yayılır.",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7227,22 +7227,22 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "FPU Kısaltması & Biyokimyasal Mantığı",
+        "badge": "Adım Adım Matematik Formülü",
         "type": "warning",
-        "title": "1. FPU (Fat-Protein Unit) Nedir?",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--orange);\">\n            <b>💡 FPU (Fat-Protein Unit - Yağ ve Protein Birimi):</b><br>\n            Öğündeki yağ ve proteinden gelen <b>her 100 kcal'lik enerjiyi 1 FPU</b> kabul eden ve bunu metabolik olarak yaklaşık <b>10 gram karbonhidrata eşdeğer ek insülin</b> yükü sayan uluslararası Warsaw protokolü birimidir.\n          </div>\n          • <b>Neden Gecikmiş Hiperglisemi Yapar?</b><br>\n            - <i>Yağ:</i> Duodenal CCK salgısıyla mide boşalmasını saatlerce geciktirir ve geçici insülin direnci oluşturur.<br>\n            - <i>Protein:</i> Glukagon salgısını uyarır; aminoasitler karaciğerde glukoneogenezle 3-5 saat sonra yavaşça glukoza dönüşür.<br>\n          • <b>Klinik Tuzak:</b> Yemekten sonraki 1-2. saat şekeri normaldir; fakat <b>3–6 saat sonra (çoğunlukla gece uykuda) inatçı hiperglisemi patlaması</b> görülür.<br>\n          <div style=\"background:#fff; border:1px solid var(--border-soft); padding:6px; border-radius:6px; margin-top:6px; text-align:center; font-family:var(--font-mono); font-size:0.78rem;\">\n            $$\\text{FPU} = \\frac{(\\text{Yağ gramı} \\times 9) + (\\text{Protein gramı} \\times 4)}{100}$$\n          </div>\n        </div>"
+        "title": "1. FPU'dan İnsülin Dozuna Geçiş Algoritması",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--orange);\">\n            <b>⚠️ En Büyük Klinik Yanılgı:</b> <i>'3 FPU buldum, hastaya 3 ünite mi insülin yapacağım?'</i> <b>HAYIR!</b> FPU bir kalori birimidir. Hastanın kendi <b>İKO (İnsülin/KH Oranı)</b> katsayısına bölünmelidir.\n          </div>\n          <b>3 Adımlı Hesaplama Protokolü (Warsaw):</b><br>\n          <b>1. FPU Sayısı:</b> $\\text{FPU} = \\frac{(\\text{Yağ g} \\times 9) + (\\text{Protein g} \\times 4)}{100}$ <i>(Her 100 kcal = 1 FPU)</i><br>\n          <b>2. Eşdeğer KH (g):</b> $\\text{Eşdeğer Karbonhidrat} = \\text{FPU} \\times 10\\text{ gram}$<br>\n          <b>3. FPU İnsülin Dozu (Ünite):</b><br>\n          <div style=\"background:#fff; border:1px solid var(--border-soft); padding:6px; border-radius:6px; margin:6px 0; text-align:center;\">\n            $$\\mathbf{\\text{FPU Ek İnsülin Dozu (U)}} = \\frac{\\text{FPU} \\times 10\\text{ g}}{\\text{İKO}}$$\n          </div>\n          <small style=\"color:var(--ink-soft);\">Yani 3 FPU = 30g KH eşdeğeri. Hastanın İKO'su 10 ise 3 U; İKO'su 15 ise 2 U; İKO'su 6 ise 5 U ek insülin gerekir!</small>\n        </div>"
       },
       {
-        "badge": "Klinik Uygulama (Pompa vs. Kalem)",
+        "badge": "Somut Pizza Örneği & Zamanlama",
         "type": "accent",
-        "title": "2. Diyetisyen ve Danışan FPU'yu Nasıl Dozlar?",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <div style=\"background:rgba(217,48,37,0.06); padding:7px 9px; border-radius:6px; margin-bottom:6px; border-left:3px solid var(--danger);\">\n            <b style=\"color:var(--danger);\">🚨 Erken Hipoglisemi Tuzağı:</b> Yağlı öğünde tüm insülin başta vurulursa, besin henüz mideden çıkmadığı için hasta ilk 2 saatte <b>ağır hipoglisemiye</b> girer; 4 saat sonra ise şekeri fırlar!\n          </div>\n          • <b>İnsülin Pompası (CSII) ile 'Çift Dalgalı Bolus' (Dual-Wave / Extended):</b><br>\n            Karbonhidratın bolusu hemen verilir; FPU için hesaplanan ek insülin ise <b>3–6 saate yayılarak (extended)</b> gönderilir.<br>\n          • <b>İnsülin Kalemi ile 'Bölünmüş Doz':</b><br>\n            Karbonhidrat dozu yemekte vurulur; 2–3 saat sonra tokluk şekeri kontrol edilerek FPU yükselişi için <b>bölünmüş ikinci küçük bir doz</b> uygulanır.<br>\n          • <b>Warsaw Süre Rehberi:</b> 1 FPU &rarr; 3 saat | 2 FPU &rarr; 4 saat | 3 FPU &rarr; 5 saat | &gt;3 FPU &rarr; 6 saate yayılır.\n        </div>"
+        "title": "2. Somut Klinik Vaka: Doz ve Süre Yönetimi",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <b>Vaka:</b> T1DM danışan (İKO = 10 g/U). Menü: Pizza (60g KH, 30g Yağ, 20g Protein).<br>\n          • <b>FPU Hesabı:</b> $[(30 \\times 9) + (20 \\times 4)] / 100 = 350 / 100 = \\mathbf{3.5\\text{ FPU}}$<br>\n          • <b>Eşdeğer KH:</b> $3.5 \\times 10 = \\mathbf{35\\text{ g KH}}$ &rarr; <b>Ek İnsülin:</b> $35 / 10 = \\mathbf{3.5\\text{ Ünite}}$<br>\n          <div style=\"background:rgba(217,48,37,0.06); padding:7px 9px; border-radius:6px; margin:6px 0; border-left:3px solid var(--danger); font-size:0.8rem;\">\n            <b>🚨 Zamanlama Kuralı:</b> KH dozu (6 U) yemekte hemen vurulur. Ancak <b>3.5 U FPU dozu yemek anında ASLA vurulmaz!</b> Vurulursa hasta ilk 2 saatte komaya girer.\n          </div>\n          • <b>Pompa (Dual-Wave):</b> 6 U hemen verilir, 3.5 U ise <b>5 saate yayılarak</b> gönderilir.<br>\n          • <b>Kalem (MDI):</b> 6 U yemekte vurulur; 2.5–3 saat sonra şeker kontrol edilip FPU için <b>ikinci bölünmüş küçük enjeksiyon</b> yapılır.<br>\n          • <b>Warsaw Süre Tablosu:</b> 1 FPU &rarr; 3 saat | 2 FPU &rarr; 4 saat | 3 FPU &rarr; 5 saat | &gt;3 FPU &rarr; 6 saate yayılır.\n        </div>"
       }
     ],
     "box": {
       "type": "blue",
-      "title": "Diyetisyenin FPU Klinik Çıkarımı",
-      "text": "Karbonhidrat sayımını kusursuz uygulayan bir Tip 1 diyabetli danışanınız <i>'Akşam pizza/kebap yedim, 2. saat şekerim 110 çıktı ama gece 03:00'te 260 ile uyandım'</i> diyorsa, sorun karbonhidrat hesabı değil, <b>FPU (Yağ-Protein Birimi) kaynaklı gecikmiş glukoneogenezdir</b>."
+      "title": "Diyetisyenin Altın İlkesi",
+      "text": "FPU'da bulduğunuz miktar doğrudan insülin ünitesi değildir; <b>10 ile çarpılıp gram karbonhidrata çevrilen ve hastanın İKO'suna bölünerek kişiselleştirilen gecikmiş bir ek bolus ihtiyacıdır</b>."
     }
   },
   {
