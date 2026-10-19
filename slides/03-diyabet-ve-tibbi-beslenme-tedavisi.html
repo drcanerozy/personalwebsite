@@ -5683,7 +5683,7 @@ const SLIDES = [
     "sec": 3,
     "tag": "İNSÜLİN DOZ MATEMATİĞİ",
     "title": "İnsülin Dozu Nasıl Belirlenir? Toplam Günlük Doz (TDD) & Dağılım",
-    "lead": "Kilo Başına Günlük İnsülin İhtiyacı, %50-%50 Dağılım, İKO (500 Kuralı) ve İSD (1700 Kuralı)",
+    "lead": "Kilo Başına Günlük İnsülin İhtiyacı (TDD), %50-%50 Dağılım, İKO (İnsülin/KH Oranı — 500 Kuralı) ve İDF (İnsülin Duyarlılık Faktörü — 1800 Kuralı)",
     "treeNav": {
       "label": "Farmakoterapi & Tedavi Haritası:",
       "nodes": [
@@ -5717,16 +5717,16 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "TDD Hesaplama Standartları",
+        "badge": "TDD (Total Daily Dose) Standartları",
         "type": "primary",
         "title": "Kilo Başına Günlük Doz Hesabı",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0;\">\n            <li style=\"margin-bottom:8px;\"><b>Tip 1 Diyabet (Yeni Tanı / İdame):</b><br>\n            TDD = <b>0.5 - 1.0 Ünite / kg / gün</b><br>\n            <i>Örnek: 70 kg T1DM hastası için: 70 &times; 0.5 = <b>35 Ünite/gün TDD</b></i><br>\n            Balayı (Honeymoon) döneminde &lt;0.5 U/kg'a düşebilir.</li>\n            <li style=\"margin-bottom:8px;\"><b>Tip 2 Diyabet (Obez / İnsülin Dirençli):</b><br>\n            TDD = <b>0.5 - 1.2 Ünite / kg / gün</b> (Ağır dirençte 1.5 U/kg'a kadar çıkabilir).</li>\n            <li><b>Oral Ajan Yanına Bazal Başlangıcı:</b> <b>10 Ünite/gün</b> veya <b>0.1 - 0.2 U/kg/gün</b>.</li>\n          </ul>\n        </div>"
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:7px 9px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--primary); font-size:0.8rem;\">\n            <b>💡 TDD (Total Daily Dose — Toplam Günlük Doz):</b> Hastanın 24 saat içinde aldığı tüm bazal ve bolus insülin ünitelerinin genel toplamıdır.\n          </div>\n          <ul style=\"padding-left:16px; margin:0;\">\n            <li style=\"margin-bottom:8px;\"><b>Tip 1 Diyabet (Yeni Tanı / İdame):</b><br>\n            TDD = <b>0.5 - 1.0 Ünite / kg / gün</b><br>\n            <i>Örnek: 70 kg T1DM hastası için: 70 &times; 0.5 = <b>35 Ünite/gün TDD</b></i><br>\n            Balayı (Honeymoon) döneminde &lt;0.5 U/kg'a düşebilir.</li>\n            <li style=\"margin-bottom:8px;\"><b>Tip 2 Diyabet (Obez / İnsülin Dirençli):</b><br>\n            TDD = <b>0.5 - 1.2 Ünite / kg / gün</b> (Ağır dirençte 1.5 U/kg'a kadar çıkabilir).</li>\n            <li><b>Oral Ajan Yanına Bazal Başlangıcı:</b> <b>10 Ünite/gün</b> veya <b>0.1 - 0.2 U/kg/gün</b>.</li>\n          </ul>\n        </div>"
       },
       {
         "badge": "Fizyolojik 50/50 Bölünme",
         "type": "accent",
         "title": "%50-%50 Bölünme ve Karbonhidrat Matematiği",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--primary);\">\n            <b>%50 BAZAL (~17 U):</b> Gece tek doz uzun etkili insülin (Örn: <b>Lantus, Toujeo</b> veya <b>Tresiba</b>).\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--orange);\">\n            <b>%50 BOLUS (~18 U):</b> 3 ana öğüne bölünür (Örn: Sabah 6 U, Öğle 6 U, Akşam 6 U <b>Novorapid, Humalog, Apidra</b> veya <b>Fiasp</b>).\n          </div>\n          <div style=\"background:rgba(15,157,88,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--accent);\">\n            <b>İKO (İnsülin/Karbonhidrat Oranı - 500 Kuralı):</b> 500 &divide; TDD $\\rightarrow$ Örn: 500 &divide; 50 = <b>1 Ünite Bolus İnsülin = 10 g KH</b> karşılar.\n          </div>\n          <div style=\"background:rgba(217,119,6,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--amber);\">\n            <b>İSD (İnsülin Duyarlılık Faktörü - 1700 Kuralı):</b> 1700 &divide; TDD $\\rightarrow$ Örn: 1700 &divide; 50 = <b>1 Ünite İnsülin şekeri 34 mg/dL</b> düşürür.\n          </div>\n        </div>"
+        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--primary);\">\n            <b>%50 BAZAL (~17 U):</b> Gece tek doz uzun etkili insülin (Örn: <b>Lantus, Toujeo</b> veya <b>Tresiba</b>).\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--orange);\">\n            <b>%50 BOLUS (~18 U):</b> 3 ana öğüne bölünür (Örn: Sabah 6 U, Öğle 6 U, Akşam 6 U <b>Novorapid, Humalog, Apidra</b> veya <b>Fiasp</b>).\n          </div>\n          <div style=\"background:rgba(15,157,88,0.06); padding:8px 10px; border-radius:6px; margin-bottom:7px; border-left:3px solid var(--accent);\">\n            <b>İKO (İnsülin / Karbonhidrat Oranı — 500 Kuralı):</b><br>\n            <i>Tanım: 1 Ünite bolus insülinin metabolize ettiği KH gramıdır.</i><br>\n            $500 \\div \\text{TDD} \\rightarrow 500 \\div 50 = \\mathbf{10\\text{ g KH/U}}$ (Her 10g KH için 1 U insülin).\n          </div>\n          <div style=\"background:rgba(217,119,6,0.06); padding:8px 10px; border-radius:6px; border-left:3px solid var(--amber);\">\n            <b>İDF / İDO (İnsülin Duyarlılık Faktörü — 1800 Kuralı):</b><br>\n            <i>Tanım: 1 Ünite insülinin kan şekerini kaç mg/dL düşüreceğidir.</i><br>\n            $1800 \\div \\text{TDD} \\rightarrow 1800 \\div 50 = \\mathbf{36\\text{ mg/dL/U}}$ (1 U insülin şekeri 36 mg/dL düşürür).\n          </div>\n        </div>"
       }
     ]
   },
@@ -7116,17 +7116,17 @@ const SLIDES = [
       {
         "badge": "3. Kademe: İleri Düzey KH Sayımı",
         "type": "warning",
-        "title": "İKO, İDF & Dinamik Doz",
-        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          • <b>Kimler İçin:</b> Tip 1 Diyabet, Bazal-Bolus ve İnsülin Pompası kullanıcıları.<br>\n          • <b>Yöntem:</b> İKO (500 kuralı), İDF (1800 kuralı) ve Düzeltme Bolusu ile tam esnek menü planlaması.\n        </div>"
+        "title": "İKO, İDF & Dinamik Dozlama",
+        "html": "<div style=\"font-size:0.82rem; line-height:1.5;\">\n          • <b>Hedef Kitle:</b> Tip 1 Diyabet, Çoklu Doz (MDI: Bazal-Bolus) ve İnsülin Pompası kullanıcıları.<br>\n          • <b>Temel Kısaltmalar & Anlamları:</b><br>\n            - <b>İKO (İnsülin/Karbonhidrat Oranı):</b> 1 U bolus insülinin karşıladığı KH gramı.<br>\n            - <b>İDF / İDO (İnsülin Duyarlılık Faktörü):</b> 1 U insülinin düşürdüğü mg/dL glukoz.<br>\n            - <b>FPU (Yağ ve Protein Birimi):</b> Pizza/kebap gibi yağlı öğünlerde 3-6 saat sonraki geç yükseliş hesabı.<br>\n          • <b>Klinik Amaç:</b> Katı diyet listesi yerine, her öğüne ve anlık glukoza göre dinamik bolus esnekliği.\n        </div>"
       }
     ]
   },
   {
     "sec": 5,
     "type": "grid",
-    "tag": "BOLUS MATEMATİĞİ",
-    "title": "İnsülin Bolus Formülleri: İKO ve İDF",
-    "lead": "İleri düzey karbonhidrat sayımında bolus dozu iki bileşenden oluşur: Öğündeki karbonhidratı karşılayan Yemek Bolusu + Yüksek şekeri düşüren Düzeltme Bolusu.",
+    "tag": "İLERİ KH SAYIMI VE BOLUS HESABI",
+    "title": "İnsülin Bolus Formülleri: İKO (ICR) ve İDF / İDO (ISF)",
+    "lead": "İleri düzey karbonhidrat sayımında bolus dozu iki bağımsız bileşenden oluşur: Öğündeki karbonhidratı karşılayan 'Yemek Bolusu' (İKO) + Yüksek şekeri hedefe indiren 'Düzeltme Bolusu' (İDF).",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7165,30 +7165,30 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "1. Yemek Bolusu Hesabı (İKO)",
+        "badge": "1. Bileşen: Yemek Bolusu (İKO)",
         "type": "primary",
-        "title": "İnsülin/Karbonhidrat Oranı (500 Kuralı)",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:7px 9px; border-radius:6px; margin-bottom:8px; font-family:var(--font-mono); font-size:0.82rem;\">\n            $$\\text{İKO} = \\frac{500}{\\text{TDD}} \\quad \\text{(1 Ünite İnsülinin Karşıladığı KH)}$$\n            $$\\text{Yemek Bolusu} = \\frac{\\text{Öğündeki Net Karbonhidrat (g)}}{\\text{İKO}}$$\n          </div>\n          <small style=\"color:var(--ink-soft);\">Örn: TDD = 50 U &rarr; İKO = 500/50 = 10 g/U. 60g KH yiyen hasta 6 U bolus yapar.</small>\n        </div>"
+        "title": "İKO: İnsülin / Karbonhidrat Oranı (ICR)",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--primary);\">\n            <b>💡 İKO Nedir?</b> <i>(İng. ICR - Insulin-to-Carbohydrate Ratio)</i><br>\n            <b>1 ünite hızlı etkili (bolus) insülinin kanda kaç gram karbonhidratı karşıladığını / metabolize ettiğini</b> gösteren kişiye özel orandır.\n          </div>\n          <div style=\"background:#fff; border:1px solid var(--border-soft); padding:8px; border-radius:6px; margin-bottom:8px; text-align:center;\">\n            $$\\text{İKO (g KH / 1 U İnsülin)} = \\frac{500}{\\text{TDD}}$$\n            $$\\text{Yemek Bolusu (Ünite)} = \\frac{\\text{Öğündeki Net Karbonhidrat (g)}}{\\text{İKO}}$$\n          </div>\n          <div style=\"font-size:0.8rem; color:var(--ink-soft); line-height:1.45;\">\n            • <b>TDD (Total Daily Dose):</b> Günlük toplam insülin dozu (Tüm bazal + bolus toplamı).<br>\n            • <b>Klinik Örnek:</b> TDD'si 50 U olan hastada İKO = $500 / 50 = \\mathbf{10\\text{ g/U}}$. Bu hasta 60g KH tüketeceği bir öğünde: $60 / 10 = \\mathbf{6\\text{ Ünite Bolus}}$ yapar.\n          </div>\n        </div>"
       },
       {
-        "badge": "2. Düzeltme Bolusu Hesabı (İDF)",
+        "badge": "2. Bileşen: Düzeltme Bolusu (İDF / İDO)",
         "type": "accent",
-        "title": "İnsülin Duyarlılık Faktörü (1800 Kuralı)",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:7px 9px; border-radius:6px; margin-bottom:8px; font-family:var(--font-mono); font-size:0.82rem;\">\n            $$\\text{İDF} = \\frac{1800}{\\text{TDD}} \\quad \\text{(1 Ünite İnsülinin Düşürdüğü mg/dL)}$$\n            $$\\text{Düzeltme Bolusu} = \\frac{\\text{Mevcut AKŞ} - \\text{Hedef AKŞ}}{\\text{İDF}}$$\n          </div>\n          <small style=\"color:var(--ink-soft);\">Örn: TDD = 50 U &rarr; İDF = 1800/50 = 36 mg/dL. Şeker 230, hedef 120 ise &rarr; (230-120)/36 &approx; 3 U eklenir.</small>\n        </div>"
+        "title": "İDF: İnsülin Duyarlılık Faktörü / Oranı (ISF)",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <div style=\"background:rgba(15,157,88,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--accent);\">\n            <b>💡 İDF (İDO) Nedir?</b> <i>(İng. ISF - Insulin Sensitivity Factor)</i><br>\n            <b>1 ünite hızlı etkili insülinin kan glukoz düzeyini kaç mg/dL düşüreceğini</b> gösteren kişisel hassasiyet katsayısıdır.\n          </div>\n          <div style=\"background:#fff; border:1px solid var(--border-soft); padding:8px; border-radius:6px; margin-bottom:8px; text-align:center;\">\n            $$\\text{İDF (mg/dL düşüş / 1 U İnsülin)} = \\frac{1800}{\\text{TDD}}$$\n            $$\\text{Düzeltme Bolusu (Ünite)} = \\frac{\\text{Ölçülen Kan Şekeri} - \\text{Hedef Kan Şekeri}}{\\text{İDF}}$$\n          </div>\n          <div style=\"font-size:0.8rem; color:var(--ink-soft); line-height:1.45;\">\n            • <b>Hedef Kan Şekeri:</b> Genellikle öğün öncesi 100–120 mg/dL hedeflenir.<br>\n            • <b>Klinik Örnek:</b> TDD = 50 U olan hastada İDF = $1800 / 50 = \\mathbf{36\\text{ mg/dL/U}}$. Yemek öncesi şekeri 230 mg/dL ölçülen hastanın fazlalığı: $230 - 120 = 110$ mg/dL. Düzeltme dozu: $110 / 36 \\approx \\mathbf{3\\text{ Ünite}}$ eklenir.\n          </div>\n        </div>"
       }
     ],
     "box": {
       "type": "blue",
-      "title": "Toplam Enjeksiyon Formülü",
-      "text": "<b>Toplam Bolus İnsülin = Yemek Bolusu + Düzeltme Bolusu</b>. Hasta tek enjeksiyonda bu iki dozu birleştirerek uygular."
+      "title": "Enjeksiyon Kuralı: Toplam Bolus = Yemek Bolusu + Düzeltme Bolusu",
+      "text": "Hasta yemek masasında tek enjeksiyon yapar: <b>Toplam Doz = Yemek Bolusu (6 U) + Düzeltme Bolusu (3 U) = 9 Ünite</b>. Şayet kan şekeri hedefin altındaysa düzeltme dozu negatif çıkar ve yemek bolusundan düşülür."
     }
   },
   {
     "sec": 5,
     "type": "grid",
-    "tag": "FPU & ÇİFT DALGALI BOLUS",
-    "title": "Yağ ve Protein Birimi (FPU) & Gecikmiş Hiperglisemi",
-    "lead": "Yüksek Yağ ve Proteinli Öğünlerde (Pizza, Kebap vb.) Karbonhidrat Dışı Gecikmiş Şeker Yükselişinin Yönetimi",
+    "tag": "FPU (FAT-PROTEIN UNIT) PROTOKOLÜ",
+    "title": "Yağ ve Protein Birimi (FPU): Kısaltma, Tanım ve İnsülin Yönetimi",
+    "lead": "FPU (Fat-Protein Unit): Klasik karbonhidrat sayımının açıklayamadığı pizza, kebap ve burger gibi yüksek yağ/proteinli öğünlerdeki 3–6 saatlik gecikmiş hipergliseminin Warsaw formülüyle yönetimi.",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7227,22 +7227,22 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "Klinik Problem & Formül",
+        "badge": "FPU Kısaltması & Biyokimyasal Mantığı",
         "type": "warning",
-        "title": "1. FPU Nedir ve Neden Gecikmiş Hiperglisemi Yapar?",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          • <b>Klasik Karbonhidrat Sayımının Açığı:</b> Standart KH sayımında yalnızca karbonhidratlar için insülin yapılır. Ancak pizza, kebap, burger veya bol peynirli öğünlerde:<br>\n            - <i>Yüksek Yağ:</i> Mide boşalmasını saatlerce geciktirir ve geçici insülin direnci oluşturur.<br>\n            - <i>Yüksek Protein:</i> Karaciğerde glukoneogenezle yavaşça glukoza dönüşür.<br>\n          • <b>Klinik Tablo:</b> Yemekten 1-2 saat sonra şeker normaldir; ancak <b>3–6 saat sonra (özellikle gece uykuda) inatçı bir hiperglisemi patlaması</b> yaşanır!<br>\n          • <b>FPU Formülü (Warsaw Protokolü):</b><br>\n            $$\\text{FPU} = \\frac{(\\text{Yağ g} \\times 9) + (\\text{Protein g} \\times 4)}{100}$$<br>\n            <b>1 FPU = 100 kcal</b> yağ/protein &approx; <b>10 g Karbonhidrata eşdeğer ek insülin</b> demektir!\n        </div>"
+        "title": "1. FPU (Fat-Protein Unit) Nedir?",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <div style=\"background:rgba(230,81,0,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; border-left:3px solid var(--orange);\">\n            <b>💡 FPU (Fat-Protein Unit - Yağ ve Protein Birimi):</b><br>\n            Öğündeki yağ ve proteinden gelen <b>her 100 kcal'lik enerjiyi 1 FPU</b> kabul eden ve bunu metabolik olarak yaklaşık <b>10 gram karbonhidrata eşdeğer ek insülin</b> yükü sayan uluslararası Warsaw protokolü birimidir.\n          </div>\n          • <b>Neden Gecikmiş Hiperglisemi Yapar?</b><br>\n            - <i>Yağ:</i> Duodenal CCK salgısıyla mide boşalmasını saatlerce geciktirir ve geçici insülin direnci oluşturur.<br>\n            - <i>Protein:</i> Glukagon salgısını uyarır; aminoasitler karaciğerde glukoneogenezle 3-5 saat sonra yavaşça glukoza dönüşür.<br>\n          • <b>Klinik Tuzak:</b> Yemekten sonraki 1-2. saat şekeri normaldir; fakat <b>3–6 saat sonra (çoğunlukla gece uykuda) inatçı hiperglisemi patlaması</b> görülür.<br>\n          <div style=\"background:#fff; border:1px solid var(--border-soft); padding:6px; border-radius:6px; margin-top:6px; text-align:center; font-family:var(--font-mono); font-size:0.78rem;\">\n            $$\\text{FPU} = \\frac{(\\text{Yağ gramı} \\times 9) + (\\text{Protein gramı} \\times 4)}{100}$$\n          </div>\n        </div>"
       },
       {
-        "badge": "Pratik Uygulama (Pompa & Kalem)",
+        "badge": "Klinik Uygulama (Pompa vs. Kalem)",
         "type": "accent",
-        "title": "2. Pratikte Diyetisyen ve Hasta Nasıl Dozlar?",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(217,48,37,0.06); padding:7px 9px; border-radius:6px; margin-bottom:6px; border-left:3px solid var(--danger);\">\n            <b style=\"color:var(--danger);\">🚨 Hayati Tuzak:</b> Tüm insülin yemekten önce tek seferde yapılırsa, sindirim geciktiği için hasta ilk 2 saatte <b>ağır hipoglisemiye</b> girer, 4 saat sonra ise şekeri fırlar!\n          </div>\n          • <b>İnsülin Pompası (CSII) Kullananlarda:</b><br>\n            Pompanın <b>'Çift Dalgalı / Yayma Bolus (Dual-Wave / Extended)'</b> özelliği kullanılır. Karbonhidrat dozu hemen verilir; FPU için hesaplanan ek insülin ise <b>3–6 saate yayılarak</b> yavaş yavaş gönderilir.<br>\n          • <b>İnsülin Kalemi (Enjektör) Kullananlarda:</b><br>\n            Normal bolus yemekte vurulur; 2–3 saat sonra tokluk şekeri kontrol edilerek FPU kaynaklı yükseliş için hekim protokolüne göre <b>bölünmüş ek küçük bir doz</b> uygulanır.\n        </div>"
+        "title": "2. Diyetisyen ve Danışan FPU'yu Nasıl Dozlar?",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.55;\">\n          <div style=\"background:rgba(217,48,37,0.06); padding:7px 9px; border-radius:6px; margin-bottom:6px; border-left:3px solid var(--danger);\">\n            <b style=\"color:var(--danger);\">🚨 Erken Hipoglisemi Tuzağı:</b> Yağlı öğünde tüm insülin başta vurulursa, besin henüz mideden çıkmadığı için hasta ilk 2 saatte <b>ağır hipoglisemiye</b> girer; 4 saat sonra ise şekeri fırlar!\n          </div>\n          • <b>İnsülin Pompası (CSII) ile 'Çift Dalgalı Bolus' (Dual-Wave / Extended):</b><br>\n            Karbonhidratın bolusu hemen verilir; FPU için hesaplanan ek insülin ise <b>3–6 saate yayılarak (extended)</b> gönderilir.<br>\n          • <b>İnsülin Kalemi ile 'Bölünmüş Doz':</b><br>\n            Karbonhidrat dozu yemekte vurulur; 2–3 saat sonra tokluk şekeri kontrol edilerek FPU yükselişi için <b>bölünmüş ikinci küçük bir doz</b> uygulanır.<br>\n          • <b>Warsaw Süre Rehberi:</b> 1 FPU &rarr; 3 saat | 2 FPU &rarr; 4 saat | 3 FPU &rarr; 5 saat | &gt;3 FPU &rarr; 6 saate yayılır.\n        </div>"
       }
     ],
     "box": {
       "type": "blue",
-      "title": "Pratik Özet",
-      "text": "FPU, sadece karbonhidrata göre dozlama yapıldığında açıklanamayan geç gece hiperglisemilerini çözen ileri düzey bir diyetisyen ve hasta eğitim aracıdır."
+      "title": "Diyetisyenin FPU Klinik Çıkarımı",
+      "text": "Karbonhidrat sayımını kusursuz uygulayan bir Tip 1 diyabetli danışanınız <i>'Akşam pizza/kebap yedim, 2. saat şekerim 110 çıktı ama gece 03:00'te 260 ile uyandım'</i> diyorsa, sorun karbonhidrat hesabı değil, <b>FPU (Yağ-Protein Birimi) kaynaklı gecikmiş glukoneogenezdir</b>."
     }
   },
   {
