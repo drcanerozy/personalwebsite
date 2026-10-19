@@ -131,8 +131,8 @@ body {
   min-height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: auto 0;
+  justify-content: flex-start;
+  padding: 10px 0 40px 0;
 }
 
 .slide-wrapper.sim-layout {
@@ -663,8 +663,8 @@ const TOC_SECTIONS = [
   {
     "num": "03",
     "title": "Glisemik Hedefler & Farmakoterapi",
-    "desc": "T1DM/T2DM Tedavi Basamakları, OAD Matrisleri (1 & 2), İnkretinler, Bazal-Bolus ve Doz Matematikleri",
-    "count": 24
+    "desc": "T1DM/T2DM Tedavi Basamakları, OAD Matrisi, İnkretinler, Bazal-Bolus ve Doz Matematikleri",
+    "count": 23
   },
   {
     "num": "04",
@@ -4916,9 +4916,9 @@ const SLIDES = [
   },
   {
     "sec": 3,
-    "tag": "OAD & MNT HARİTASI (1/2)",
-    "title": "OAD & MNT Süzgeci: Duyarlılaştırıcılar & Emilim Ajanları",
-    "lead": "Oral Antidiyabetiklerin Moleküler Hedefleri, Türkiye Preparatları ve Diyetisyenin Müdahale Alanları (Metformin, TZD, Akarboz)",
+    "tag": "OAD & MNT SÜZGECİ",
+    "title": "Oral Antidiyabetikler (OAD) & Tıbbi Beslenme Tedavisi (MNT)",
+    "lead": "Moleküler Hedefler, Türkiye Preparatları, Hipoglisemi-Kilo Etkisi ve Diyetisyenin Müdahale Alanları",
     "treeNav": {
       "label": "Farmakoterapi & Tedavi Haritası:",
       "nodes": [
@@ -4952,55 +4952,10 @@ const SLIDES = [
     "cols": 1,
     "cards": [
       {
-        "badge": "Duyarlılaştırıcılar & Karbonhidrat Emilim Ajanları",
+        "badge": "Klinik Karar Matrisi (6 Temel OAD Sınıfı)",
         "type": "primary",
-        "title": "Metformin, Pioglitazon ve Akarboz Klinik Matrisi",
-        "html": "<div style=\"overflow-x:auto; margin:0;\">\n          <table style=\"width:100%; border-collapse:collapse; font-size:clamp(13px, 0.95vw, 15px); line-height:1.45;\">\n            <thead>\n              <tr style=\"background:rgba(26,115,232,0.08); border-bottom:2px solid var(--primary); text-align:left;\">\n                <th style=\"padding:10px 14px; width:22%; color:var(--ink); font-weight:700;\">İlaç Sınıfı & TR Preparatları</th>\n                <th style=\"padding:10px 14px; width:22%; color:var(--ink); font-weight:700;\">Moleküler Hedef & Mekanizma</th>\n                <th style=\"padding:10px 10px; width:12%; text-align:center; color:var(--ink); font-weight:700;\">Hipoglisemi</th>\n                <th style=\"padding:10px 10px; width:12%; text-align:center; color:var(--ink); font-weight:700;\">Kilo Etkisi</th>\n                <th style=\"padding:10px 14px; width:32%; color:var(--ink); font-weight:700;\">Diyetisyenin Takip & Müdahale Alanı (MNT)</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr style=\"border-bottom:1px solid var(--border-soft);\">\n                <td style=\"padding:11px 14px; font-weight:700; color:var(--ink);\">Biguanid (Metformin)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--primary);\">💊 Glifor, Matofin, Diaformin, Glucophage</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">Karaciğer AMPK Aktivasyonu<br><span style=\"font-size:0.85em; color:var(--ink-soft);\">Hepatik glukoneojenez inhibisyonu</span></td>\n                <td style=\"padding:11px 10px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:11px 10px; text-align:center; font-weight:600; color:var(--ink-soft);\">Nötr / Hafif Kayıp</td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">• <b>B12 ve Folat takibi:</b> İleal kübilin reseptör blokajı<br>• <b>Laktik asidoz uyarısı:</b> Akut alkol alımı kesinlikle yasaktır<br>• <b>Renal sınır:</b> eGFR &lt;30 mL/dk ise kontrendikedir</td>\n              </tr>\n              <tr style=\"border-bottom:1px solid var(--border-soft); background:rgba(0,0,0,0.015);\">\n                <td style=\"padding:11px 14px; font-weight:700; color:var(--ink);\">Tiazolidindionlar (Pioglitazon)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--purple);\">💊 Actos, Glifix</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">Nükleer PPAR-&gamma; Reseptörü<br><span style=\"font-size:0.85em; color:var(--ink-soft);\">Periferik dokularda insülin duyarlılaştırıcı</span></td>\n                <td style=\"padding:11px 10px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:11px 10px; text-align:center; font-weight:700; color:var(--orange);\">Kilo Artışı<br><span style=\"font-size:0.8em; font-weight:400;\">(Sıvı/Ödem)</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">• <b>Sıvı retansiyonu & Pretibial ödem:</b> NFPE bası testi yapılmalı<br>• <b>Sodyum kısıtlaması:</b> &lt;2000 mg/gün Na diyeti uygulanmalıdır<br>• Kalp yetersizliği (NYHA III-IV) olanlarda kontrendikedir</td>\n              </tr>\n              <tr style=\"background:rgba(0,0,0,0.015);\">\n                <td style=\"padding:11px 14px; font-weight:700; color:var(--ink);\">Alfa-Glukozidaz İnh. (Akarboz)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--ink-soft);\">💊 Glucobay</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">İntestinal Alfa-Glukozidaz Enzimi<br><span style=\"font-size:0.85em; color:var(--ink-soft);\">Kompleks KH sindirim ve emilim gecikmesi</span></td>\n                <td style=\"padding:11px 10px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:11px 10px; text-align:center; font-weight:600; color:var(--ink-soft);\">Nötr</td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">• <b>Disakkarit hidroliz blokajı:</b> İlk lokmayla çiğnenmelidir<br>• <b>🚨 HAYATİ KURAL:</b> Hipoglisemide sofra şekeri (sukroz) ETKİSİZDİR; <b>yalnızca saf DEKSTROZ (glukoz tableti)</b> verilir!</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>"
-      }
-    ]
-  },
-  {
-    "sec": 3,
-    "tag": "OAD & MNT HARİTASI (2/2)",
-    "title": "OAD & MNT Süzgeci: Sekretagoglar, SGLT2i & İnkretinler",
-    "lead": "Oral Antidiyabetiklerin Moleküler Hedefleri, Türkiye Preparatları ve Diyetisyenin Müdahale Alanları (Sülfonilüreler, SGLT2i, DPP-4i)",
-    "treeNav": {
-      "label": "Farmakoterapi & Tedavi Haritası:",
-      "nodes": [
-        {
-          "title": "1. Glisemik Hedefler & CGM",
-          "status": "done",
-          "icon": "✓"
-        },
-        {
-          "title": "2. OAD Sınıfları & MNT Süzgeci",
-          "status": "active-primary",
-          "icon": "👉"
-        },
-        {
-          "title": "3. İnkretinler (GLP-1/GIP) & Kas Koruma",
-          "status": "pending",
-          "icon": "💉"
-        },
-        {
-          "title": "4. İnsülin Farmakokinetiği & Rejimler",
-          "status": "pending",
-          "icon": "🩸"
-        },
-        {
-          "title": "5. Aşırı Bazalizasyon & Gece Krizleri",
-          "status": "pending",
-          "icon": "🌙"
-        }
-      ]
-    },
-    "cols": 1,
-    "cards": [
-      {
-        "badge": "Sekretagoglar, Böbrek ve İnkretin Ajanları",
-        "type": "primary",
-        "title": "Sülfonilüreler, SGLT2 İnhibitörleri ve DPP-4 İnhibitörleri Matrisi",
-        "html": "<div style=\"overflow-x:auto; margin:0;\">\n          <table style=\"width:100%; border-collapse:collapse; font-size:clamp(13px, 0.95vw, 15px); line-height:1.45;\">\n            <thead>\n              <tr style=\"background:rgba(26,115,232,0.08); border-bottom:2px solid var(--primary); text-align:left;\">\n                <th style=\"padding:10px 14px; width:22%; color:var(--ink); font-weight:700;\">İlaç Sınıfı & TR Preparatları</th>\n                <th style=\"padding:10px 14px; width:22%; color:var(--ink); font-weight:700;\">Moleküler Hedef & Mekanizma</th>\n                <th style=\"padding:10px 10px; width:12%; text-align:center; color:var(--ink); font-weight:700;\">Hipoglisemi</th>\n                <th style=\"padding:10px 10px; width:12%; text-align:center; color:var(--ink); font-weight:700;\">Kilo Etkisi</th>\n                <th style=\"padding:10px 14px; width:32%; color:var(--ink); font-weight:700;\">Diyetisyenin Takip & Müdahale Alanı (MNT)</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr style=\"border-bottom:1px solid var(--border-soft);\">\n                <td style=\"padding:11px 14px; font-weight:700; color:var(--ink);\">Sülfonilüre & Glinidler<br><span style=\"font-size:0.83em; font-weight:600; color:var(--orange);\">💊 Amaryl, Diamicron, Diameprid / Novonorm</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">Beta Hücresi K<sub>ATP</sub> Kanal Blokajı<br><span style=\"font-size:0.85em; color:var(--ink-soft);\">Glukozdan bağımsız insülin salgısı</span></td>\n                <td style=\"padding:11px 10px; text-align:center;\"><span class=\"tag tag-red\">YÜKSEK!</span></td>\n                <td style=\"padding:11px 10px; text-align:center; font-weight:700; color:var(--orange);\">Kilo Artışı</td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">• <b>Ağır hipoglisemi riski:</b> Öğün atlamak veya geciktirmek hayati tehlikedir<br>• <b>Tutarlı KH (Consistent CHO):</b> Kadın 45-60g, Erkek 60-75g KH/öğün<br>• <b>Meglitinid:</b> <i>'Yemek varsa al, yemek yoksa atla'</i> kuralı</td>\n              </tr>\n              <tr style=\"border-bottom:1px solid var(--border-soft); background:rgba(0,0,0,0.015);\">\n                <td style=\"padding:11px 14px; font-weight:700; color:var(--ink);\">SGLT2 İnh. (Gliflozinler)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--accent);\">💊 Jardiance (Empa), Forxiga (Dapa)</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">Böbrek Proksimal Tübül SGLT2<br><span style=\"font-size:0.85em; color:var(--ink-soft);\">Glukoz reabsorbsiyon blokajı & glukozüri</span></td>\n                <td style=\"padding:11px 10px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:11px 10px; text-align:center; font-weight:700; color:var(--accent);\">Kilo Kaybı<br><span style=\"font-size:0.8em; font-weight:400;\">(2-4 kg)</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">• <b>Glukozüri & Dehidratasyon:</b> Günde ~70-100g glukoz atılır &rarr; <b>2.5-3L bol su alımı</b><br>• <b>Öglisemik DKA Riski:</b> Ketojenik ve aşırı kısıtlı KH diyeti <b>KESİNLİKLE YASAKTIR!</b></td>\n              </tr>\n              <tr style=\"background:rgba(0,0,0,0.015);\">\n                <td style=\"padding:11px 14px; font-weight:700; color:var(--ink);\">DPP-4 İnhibitörleri (Gliptinler)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--primary);\">💊 Januvia, Galvus, Onglyza, Trajenta</span></td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">Dipeptidil Peptidaz-4 Enzimi<br><span style=\"font-size:0.85em; color:var(--ink-soft);\">Endojen GLP-1/GIP ömrünü uzatarak glukoza bağımlı insülin salgısı</span></td>\n                <td style=\"padding:11px 10px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:11px 10px; text-align:center; font-weight:600; color:var(--ink-soft);\">Nötr</td>\n                <td style=\"padding:11px 14px; color:var(--ink);\">• <b>Güvenli profil:</b> Yaşlı ve kırılgan hastalarda hipoglisemi riski olmadan güvenle kullanılır<br>• <b>Pankreatit uyarısı:</b> Şiddetli ve geçmeyen karın ağrısı semptomları izlenmelidir<br>• Diyet tedavisiyle mükemmel sinerji sağlar</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>"
+        "title": "OAD İlaç Sınıfları, Türkiye Preparatları ve Diyetisyenin Müdahale Alanları",
+        "html": "<div style=\"overflow-x:auto; margin:0;\">\n          <table style=\"width:100%; border-collapse:collapse; font-size:clamp(12px, 0.88vw, 14px); line-height:1.4;\">\n            <thead>\n              <tr style=\"background:rgba(26,115,232,0.08); border-bottom:2px solid var(--primary); text-align:left;\">\n                <th style=\"padding:8px 10px; width:22%; color:var(--ink); font-weight:700;\">İlaç Sınıfı & TR Preparatları</th>\n                <th style=\"padding:8px 10px; width:22%; color:var(--ink); font-weight:700;\">Moleküler Hedef & Mekanizma</th>\n                <th style=\"padding:8px 8px; width:10%; text-align:center; color:var(--ink); font-weight:700;\">Hipoglisemi</th>\n                <th style=\"padding:8px 8px; width:11%; text-align:center; color:var(--ink); font-weight:700;\">Kilo Etkisi</th>\n                <th style=\"padding:8px 10px; width:35%; color:var(--ink); font-weight:700;\">Diyetisyenin Takip & Müdahale Alanı (MNT)</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr style=\"border-bottom:1px solid var(--border-soft);\">\n                <td style=\"padding:8px 10px; font-weight:700; color:var(--ink);\">Biguanid (Metformin)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--primary);\">💊 Glifor, Matofin, Diaformin, Glucophage</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">Karaciğer AMPK Aktivasyonu<br><span style=\"font-size:0.84em; color:var(--ink-soft);\">Hepatik glukoneojenez inhibisyonu</span></td>\n                <td style=\"padding:8px 8px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:8px 8px; text-align:center; font-weight:600; color:var(--ink-soft);\">Nötr / Hafif Kayıp</td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">• <b>B12 ve Folat takibi:</b> İleal kübilin reseptör blokajı<br>• <b>Laktik asidoz uyarısı:</b> Akut alkol kesinlikle yasaktır<br>• <b>Renal sınır:</b> eGFR &lt;30 mL/dk ise kontrendikedir</td>\n              </tr>\n              <tr style=\"border-bottom:1px solid var(--border-soft); background:rgba(0,0,0,0.015);\">\n                <td style=\"padding:8px 10px; font-weight:700; color:var(--ink);\">Sülfonilüre & Glinidler<br><span style=\"font-size:0.83em; font-weight:600; color:var(--orange);\">💊 Amaryl, Diamicron, Diameprid / Novonorm</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">Beta Hücresi K<sub>ATP</sub> Kanal Blokajı<br><span style=\"font-size:0.84em; color:var(--ink-soft);\">Glukozdan bağımsız insülin salgısı</span></td>\n                <td style=\"padding:8px 8px; text-align:center;\"><span class=\"tag tag-red\">YÜKSEK!</span></td>\n                <td style=\"padding:8px 8px; text-align:center; font-weight:700; color:var(--orange);\">Kilo Artışı</td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">• <b>Ağır hipoglisemi riski:</b> Öğün atlamak/geciktirmek tehlikelidir<br>• <b>Tutarlı KH (Consistent CHO):</b> Sabit öğün planı<br>• <b>Meglitinid:</b> <i>'Yemek varsa al, yemek yoksa atla'</i> kuralı</td>\n              </tr>\n              <tr style=\"border-bottom:1px solid var(--border-soft);\">\n                <td style=\"padding:8px 10px; font-weight:700; color:var(--ink);\">Tiazolidindionlar (Pioglitazon)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--purple);\">💊 Actos, Glifix</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">Nükleer PPAR-&gamma; Reseptörü<br><span style=\"font-size:0.84em; color:var(--ink-soft);\">Periferik dokularda insülin duyarlılaştırıcı</span></td>\n                <td style=\"padding:8px 8px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:8px 8px; text-align:center; font-weight:700; color:var(--orange);\">Kilo Artışı<br><span style=\"font-size:0.8em; font-weight:400;\">(Sıvı/Ödem)</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">• <b>Sıvı retansiyonu & Pretibial ödem:</b> NFPE bası testi yapılmalı<br>• <b>Sodyum kısıtlaması:</b> &lt;2000 mg/gün Na diyeti<br>• Kalp yetersizliğinde kontrendikedir</td>\n              </tr>\n              <tr style=\"border-bottom:1px solid var(--border-soft); background:rgba(0,0,0,0.015);\">\n                <td style=\"padding:8px 10px; font-weight:700; color:var(--ink);\">SGLT2 İnh. (Gliflozinler)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--accent);\">💊 Jardiance (Empa), Forxiga (Dapa)</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">Böbrek Proksimal Tübül SGLT2<br><span style=\"font-size:0.84em; color:var(--ink-soft);\">Glukoz reabsorbsiyon blokajı & glukozüri</span></td>\n                <td style=\"padding:8px 8px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:8px 8px; text-align:center; font-weight:700; color:var(--accent);\">Kilo Kaybı<br><span style=\"font-size:0.8em; font-weight:400;\">(2-4 kg)</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">• <b>Glukozüri & Dehidratasyon:</b> Günde ~70-100g glukoz atılır &rarr; <b>2.5-3L bol su</b><br>• <b>Öglisemik DKA Riski:</b> Ketojenik/aşırı kısıtlı KH <b>KESİNLİKLE YASAKTIR!</b></td>\n              </tr>\n              <tr style=\"border-bottom:1px solid var(--border-soft);\">\n                <td style=\"padding:8px 10px; font-weight:700; color:var(--ink);\">DPP-4 İnh. (Gliptinler)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--primary);\">💊 Januvia, Galvus, Onglyza, Trajenta</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">Dipeptidil Peptidaz-4 Enzimi<br><span style=\"font-size:0.84em; color:var(--ink-soft);\">Endojen GLP-1/GIP ömrünü uzatarak glukoza bağımlı salgı</span></td>\n                <td style=\"padding:8px 8px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:8px 8px; text-align:center; font-weight:600; color:var(--ink-soft);\">Nötr</td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">• <b>Güvenli profil:</b> Yaşlı/kırılganlarda hipoglisemisiz güvenli kullanım<br>• <b>Pankreatit uyarısı:</b> Şiddetli karın ağrısı takibi<br>• Diyet tedavisiyle yüksek uyum</td>\n              </tr>\n              <tr style=\"background:rgba(0,0,0,0.015);\">\n                <td style=\"padding:8px 10px; font-weight:700; color:var(--ink);\">Alfa-Glukozidaz İnh. (Akarboz)<br><span style=\"font-size:0.83em; font-weight:600; color:var(--ink-soft);\">💊 Glucobay</span></td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">İntestinal Alfa-Glukozidaz<br><span style=\"font-size:0.84em; color:var(--ink-soft);\">Kompleks KH sindirim ve emilim gecikmesi</span></td>\n                <td style=\"padding:8px 8px; text-align:center;\"><span class=\"tag tag-emerald\">Yok</span></td>\n                <td style=\"padding:8px 8px; text-align:center; font-weight:600; color:var(--ink-soft);\">Nötr</td>\n                <td style=\"padding:8px 10px; color:var(--ink);\">• <b>Disakkarit hidroliz blokajı:</b> İlk lokmayla çiğnenir<br>• <b>🚨 HAYATİ KURAL:</b> Hipoglisemide sofra şekeri ETKİSİZDİR; <b>yalnızca saf DEKSTROZ</b> verilir!</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>"
       }
     ]
   },
@@ -7051,7 +7006,7 @@ const SLIDES = [
     "type": "grid",
     "tag": "Gİ VE GY FARKI",
     "title": "Glisemik İndeks vs. Glisemik Yük (Karpuz Paradoksu)",
-    "lead": "Glisemik İndeks (Gİ) karbonhidratın hızını/kalitesini ölçerken; Glisemik Yük (GY) gerçek porsiyonun pankreasa bindirdiği gerçek glukoz yükünü hesaplar.",
+    "lead": "Glisemik İndeks (Gİ) karbonhidratın hızını/kalitesini (AUC alanı) ölçerken; Glisemik Yük (GY) gerçek porsiyonun pankreasa bindirdiği net metabolik yükü hesaplar.",
     "treeNav": {
       "label": "Tıbbi Beslenme Tedavisi (TBT / MNT) Haritası:",
       "nodes": [
@@ -7090,16 +7045,16 @@ const SLIDES = [
     "cols": 2,
     "cards": [
       {
-        "badge": "Formül ve Hesaplama",
+        "badge": "Glisemik İndeks (Gİ) Mantığı & Formülü",
         "type": "primary",
-        "title": "GY = (Gİ × Net KH) / 100",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <div style=\"background:rgba(26,115,232,0.06); padding:8px 10px; border-radius:6px; margin-bottom:8px; font-family:var(--font-mono); font-size:0.82rem;\">\n            $$\\text{Glisemik Yük (GY)} = \\frac{\\text{Gİ} \\times \\text{Net Karbonhidrat (g)}}{100}$$\n          </div>\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:5px;\"><b>Düşük Gİ:</b> &le; 55 | <b>Orta:</b> 56–69 | <b>Yüksek:</b> &ge; 70</li>\n            <li><b>Düşük GY:</b> &le; 10 | <b>Orta:</b> 11–19 | <b>Yüksek:</b> &ge; 20</li>\n          </ul>\n        </div>"
+        "title": "Gİ Hesaplanması ve Sınıflandırılması",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          <p style=\"margin:0 0 6px 0;\"><b>Hesaplanma Mantığı:</b> 50 g sindirilebilir (kullanılabilir) KH içeren test besininin tüketilmesinden sonraki <b>2 saatlik kan glukoz yanıt eğrisi altındaki alan (AUC)</b>, eşit miktarda (50 g) KH içeren referans besinin (glukoz veya beyaz ekmek) oluşturduğu alana oranlanıp 100 ile çarpılır:</p>\n          <div style=\"background:rgba(26,115,232,0.06); padding:7px 10px; border-radius:6px; margin-bottom:8px; font-size:0.78rem; text-align:center;\">\n            $$\\text{Glisemik İndeks (Gİ)} = \\left( \\frac{\\text{Test Besininin 2 Saatlik AUC Glukoz Yanıtı}}{\\text{Referans Besinin (Glukoz) 2 Saatlik AUC Yanıtı}} \\right) \\times 100$$\n          </div>\n          <div style=\"font-size:0.81rem; line-height:1.45;\">\n            <b>Sınıflandırma (Glukoz = 100):</b><br>\n            • <b style=\"color:var(--accent);\">Düşük Gİ (&le; 55):</b> Baklagiller, mercimek, elma, yulaf, süt, yoğurt<br>\n            • <b style=\"color:var(--amber);\">Orta Gİ (56 – 69):</b> Bulgur, kahverengi pirinç, çay şekeri (sukroz)<br>\n            • <b style=\"color:var(--danger);\">Yüksek Gİ (&ge; 70):</b> Beyaz ekmek, pişmiş patates, cornflakes, instant pirinç\n          </div>\n        </div>"
       },
       {
-        "badge": "Klinik Örnek",
+        "badge": "Porsiyon Etkisi & Glisemik Yük (GY)",
         "type": "accent",
-        "title": "Karpuz Paradoksu Neyi Öğretir?",
-        "html": "<div style=\"font-size:0.84rem; line-height:1.55;\">\n          <ul style=\"padding-left:16px; margin:0; color:var(--ink-soft);\">\n            <li style=\"margin-bottom:6px;\"><b>Karpuzun Gİ Değeri:</b> <b>72</b> (Yüksek glisemik indeks!).</li>\n            <li style=\"margin-bottom:6px;\"><b>120g Porsiyondaki Net KH:</b> Sadece <b>6 gram</b> (Geri kalanı su).</li>\n            <li style=\"margin-bottom:6px;\"><b>Gerçek Glisemik Yük:</b> $(72 \\times 6) / 100 = \\mathbf{4.3}$ (Son derece düşük!).</li>\n            <li><b style=\"color:var(--accent);\">Klinik Karar:</b> Yüksek Gİ'li meyveleri tamamen yasaklamak yerine <b>porsiyon kontrolü</b> ile glisemik yük yönetilmelidir.</li>\n          </ul>\n        </div>"
+        "title": "GY Formülü ve Karpuz Paradoksu",
+        "html": "<div style=\"font-size:0.83rem; line-height:1.5;\">\n          <p style=\"margin:0 0 6px 0;\"><b>Neden Glisemik Yük (GY)?</b> Gİ besinin sadece kalitesini/hızını ölçer, porsiyon miktarını dikkate almaz. GY ise tüketilen gerçek porsiyonun pankreasa bindirdiği glukoz yükünü yansıtır:</p>\n          <div style=\"background:rgba(15,157,88,0.06); padding:7px 10px; border-radius:6px; margin-bottom:8px; font-size:0.78rem; text-align:center;\">\n            $$\\text{Glisemik Yük (GY)} = \\frac{\\text{Gİ} \\times \\text{Net Karbonhidrat (g)}}{100}$$\n          </div>\n          <div style=\"font-size:0.81rem; line-height:1.45; margin-bottom:6px;\">\n            <b>GY Sınıflaması:</b> Düşük GY: &le;10 | Orta: 11–19 | Yüksek: &ge;20\n          </div>\n          <div style=\"background:rgba(230,81,0,0.06); padding:7px 10px; border-radius:6px; border-left:3px solid var(--orange); font-size:0.8rem; line-height:1.45;\">\n            <b>🍉 Karpuz Paradoksu:</b> Karpuzun Gİ'si <b>72</b> (yüksek!) olsa da, 120 g porsiyonundaki net KH sadece <b>6 gramdır</b> (%92'si su). Gerçek GY: $(72 \\times 6)/100 = \\mathbf{4.3}$ (çok düşük!). Besini yasaklamak yerine <b>porsiyon yönetilmelidir</b>.\n          </div>\n        </div>"
       }
     ]
   },
