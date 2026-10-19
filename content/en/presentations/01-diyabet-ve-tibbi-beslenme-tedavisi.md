@@ -2,8 +2,8 @@
 title: "Diyabet ve Tıbbi Beslenme Tedavisi"
 type: "presentation"
 badge: "Clinical Lecture (NUT 317)"
-date: "2026-10-18"
-slide_count: "139 Slides (🔒 AES-256 Protected)"
+date: "2026-10-19"
+slide_count: "140 Slides (🔒 AES-256 Protected)"
 html_url: "slides/03-diyabet-ve-tibbi-beslenme-tedavisi.html"
 summary: "Diyabet ve Tıbbi Beslenme Tedavisi interactive web presentation. First 10 slides public preview; slides 11+ encrypted."
 draft: false
@@ -13,5 +13,5 @@ order: 4
 
 ## 🧬 Lecture Deck & Protected Content
 - **Public Preview (Slides 1–10):** Open preview.
-- **Encrypted Modules (Slides 11–139):** Protected with AES-256.
+- **Encrypted Modules (Slides 11–140):** Protected with AES-256.
 - **Access Passcode:** Unlocked with `COZYYHTBT2026_`.
