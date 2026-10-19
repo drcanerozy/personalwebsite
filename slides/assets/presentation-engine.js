@@ -237,6 +237,7 @@
       '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor': '02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.pdf',
       '02-diyetler-ise-yaramiyor-mu': '02-diyetler-ise-yaramiyor-mu.pdf',
       '03-diyabet-ve-tibbi-beslenme-tedavisi': '03-diyabet-ve-tibbi-beslenme-tedavisi.pdf',
+      'Konu2_Diyabet_Sunum': '03-diyabet-ve-tibbi-beslenme-tedavisi.pdf',
       'diyabet-ve-tibbi-beslenme-tedavisi': '03-diyabet-ve-tibbi-beslenme-tedavisi.pdf',
       'diyetler-ise-yaramiyor-mu': '02-diyetler-ise-yaramiyor-mu.pdf'
     };

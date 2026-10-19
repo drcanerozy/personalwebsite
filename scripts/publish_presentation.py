@@ -110,7 +110,9 @@ def find_pdf_for_presentation(input_path: Path, pres_title: str, course_key: str
 
     search_dirs = [
         input_path.parent,
+        input_path.parent / "PDF",
         input_path.parent.parent,
+        BASE_DIR / "slides" / "pdf",
         Path(COURSE_REGISTRY[course_key].get("desktop_dir", "")),
         Path("/Users/canerozyildirim/Desktop"),
         Path("/Users/canerozyildirim/Downloads"),

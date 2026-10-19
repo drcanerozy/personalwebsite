@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+<script src="assets/html2pdf.bundle.min.js"></script>
+<script src="assets/presentation-engine.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Diyabet ve Tıbbi Beslenme Tedavisi — Moleküler Biyokimya ve İleri Klinik Nütrisyon</title>
@@ -593,10 +595,14 @@ body {
       <span>Diyabet ve TBT · İleri Klinik Nütrisyon</span>
     </div>
   </div>
-  <div style="font-size:12px; font-weight:600; color:var(--ink-soft); font-family:var(--font-mono); display:flex; align-items:center; gap:8px;">
-    <span class="tag tag-emerald" style="font-size:11px; padding:2px 8px;">ADA 2026</span>
-    <span class="tag tag-blue" style="font-size:11px; padding:2px 8px;">KDIGO 2024</span>
-    <span class="tag tag-amber" style="font-size:11px; padding:2px 8px;">MNT Protokolleri</span>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <div style="font-size:12px; font-weight:600; color:var(--ink-soft); font-family:var(--font-mono); display:flex; align-items:center; gap:8px;">
+      <span class="tag tag-emerald" style="font-size:11px; padding:2px 8px;">ADA 2026</span>
+      <span class="tag tag-blue" style="font-size:11px; padding:2px 8px;">KDIGO 2024</span>
+    </div>
+    <button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" style="padding:6px 14px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:var(--surface); border:1px solid var(--border); color:var(--ink); cursor:pointer; border-radius:8px; transition:all 0.15s ease; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+      <span style="color:#ef4444; font-size:14px;">📄</span> <span>PDF İndir</span>
+    </button>
   </div>
 </div>
 
@@ -611,6 +617,9 @@ body {
   </div>
   <div id="secProgress">Yükleniyor...</div>
   <div class="nav-group">
+    <button id="navPdfBtn" class="nav-btn" onclick="triggerPresentationPdfDownload()" title="Ders Notunu PDF İndir" style="display:inline-flex; align-items:center; gap:6px;">
+      <span style="color:#ef4444;">📄</span> <span>PDF İndir</span>
+    </button>
     <button id="fullBtn" class="nav-btn">⛶ Tam Ekran</button>
   </div>
 </div>
@@ -8259,6 +8268,24 @@ if (tocModal) {
     if (e.target === tocModal) closeToc();
   });
 }
+
+
+function triggerPresentationPdfDownload() {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const targetPdfName = '03-diyabet-ve-tibbi-beslenme-tedavisi.pdf';
+  const downloadUrl = isLocal 
+    ? ("pdf/" + targetPdfName) 
+    : ("https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf/" + targetPdfName);
+  const a = document.createElement('a');
+  a.href = downloadUrl;
+  a.download = targetPdfName;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { if (a.parentNode) document.body.removeChild(a); }, 1500);
+}
+window.triggerPresentationPdfDownload = triggerPresentationPdfDownload;
 
 // Initial render
 go(0);
