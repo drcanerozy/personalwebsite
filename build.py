@@ -701,6 +701,7 @@ def generate_html(lang="tr"):
                             <span class="text-xs text-slate-400 font-mono">{a_date}</span>
                         </div>"""
 
+        sub_btn_title = "Substack'te Oku & Abone Ol" if is_tr else "Read on Substack & Subscribe"
         card = f"""
                 <article class="bg-warmBg rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg hover:border-amber-400/80 transition-all duration-300 group">
                     <div>
@@ -719,10 +720,16 @@ def generate_html(lang="tr"):
                     </div>
                     <div class="px-6 pb-5 pt-3.5 border-t border-slate-200/70 flex justify-between items-center text-xs bg-white/40">
                         <span class="flex items-center text-slate-500 font-medium"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> {a_time}</span>
-                        <a href="{a_url}" {target_attr} class="inline-flex items-center space-x-1.5 {btn_style} font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
-                            <span>{read_btn_label}</span>
-                            <i class="{btn_icon} text-[10px]"></i>
-                        </a>
+                        <div class="flex items-center space-x-2">
+                            {f'''<a href="{art.get('substack_url', 'https://drcaner.substack.com')}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1 text-slate-600 hover:text-[#FF6719] bg-white hover:bg-orange-50 border border-slate-200 hover:border-orange-200 font-semibold px-2.5 py-1.5 rounded-lg transition shadow-2xs" title="{sub_btn_title}">
+                                <svg class="w-3.5 h-3.5 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                                <span class="text-[11px] hidden sm:inline">Substack</span>
+                            </a>''' if is_local else ''}
+                            <a href="{a_url}" {target_attr} class="inline-flex items-center space-x-1.5 {btn_style} font-bold px-3 py-1.5 rounded-lg transition shadow-xs">
+                                <span>{read_btn_label}</span>
+                                <i class="{btn_icon} text-[10px]"></i>
+                            </a>
+                        </div>
                     </div>
                 </article>"""
         articles_html.append(card)
@@ -1900,7 +1907,7 @@ def generate_single_course_html(course, lang="tr"):
 </html>"""
     return html
 
-def render_article_markdown_body(text):
+def render_article_markdown_body(text, asset_prefix="../"):
     if not text:
         return ""
     lines = text.strip().splitlines()
@@ -2004,6 +2011,16 @@ def render_article_markdown_body(text):
             c = re.sub(r"_(.*?)_", r"<em>\1</em>", c)
             c = re.sub(r"\[(.*?)\]\((.*?)\)", r'<a href="\2" target="_blank" rel="noopener noreferrer" class="text-academic-700 font-medium underline hover:text-academic-900">\1</a>', c)
             html.append(f"  <li>{c}</li>")
+        elif re.match(r"^!\[(.*?)\]\((.*?)\)$", ls):
+            if in_ul: html.append("</ul>"); in_ul = False
+            if in_ol: html.append("</ol>"); in_ol = False
+            m = re.match(r"^!\[(.*?)\]\((.*?)\)$", ls)
+            alt = m.group(1)
+            src = m.group(2)
+            clean_src = src.lstrip("/")
+            final_src = f"{asset_prefix}{clean_src}" if not src.startswith("http") else src
+            caption_html = f'<figcaption class="text-center text-xs text-slate-500 mt-2.5 italic font-sans">{alt}</figcaption>' if alt else ''
+            html.append(f'<figure class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white p-2 sm:p-4 text-center"><img src="{final_src}" alt="{alt}" class="w-full max-w-2xl h-auto rounded-xl mx-auto shadow-xs">{caption_html}</figure>')
         elif ls:
             if in_ul: html.append("</ul>"); in_ul = False
             if in_ol: html.append("</ol>"); in_ol = False
@@ -2037,10 +2054,9 @@ def generate_single_article_html(article, lang="tr"):
             tags = [tags]
     substack_url = article.get("substack_url", "https://drcaner.substack.com")
     body_md = article.get("body", "")
-    body_html = render_article_markdown_body(body_md)
-
     home_url = "../" if is_tr else "../../en/"
     asset_prefix = "../" if is_tr else "../../"
+    body_html = render_article_markdown_body(body_md, asset_prefix=asset_prefix)
     canonical_url = f"https://canerozy.com/yazilar/{slug}.html" if is_tr else f"https://canerozy.com/en/articles/{slug}.html"
     tr_url = f"https://canerozy.com/yazilar/{slug}.html"
     en_url = f"https://canerozy.com/en/articles/{slug}.html"
@@ -2086,7 +2102,11 @@ def generate_single_article_html(article, lang="tr"):
         "bottom_spam_note": "Spam yok, dilediğiniz an tek tıkla ayrılabilirsiniz." if is_tr else "No spam. Unsubscribe anytime with one click.",
         "bottom_discuss": "Bu yazıyı Substack üzerinde tartışın / yorum bırakın" if is_tr else "Discuss this article / leave a comment on Substack",
         "bottom_view_all": "← Tüm Yazılarıma Göz At" if is_tr else "← View All Articles",
-        "footer_rights": "Bütün Hakları Saklıdır." if is_tr else "All Rights Reserved."
+        "footer_rights": "Bütün Hakları Saklıdır." if is_tr else "All Rights Reserved.",
+        "header_substack_btn": "Substack'te Abone Ol" if is_tr else "Subscribe on Substack",
+        "in_article_cta_title": "Yazıyı Faydalı Buldunuz mu?" if is_tr else "Enjoyed this Article?",
+        "in_article_cta_desc": "Yeni bilimsel bültenleri ve analizleri kaçırmamak için Substack bültenime ücretsiz abone olabilirsiniz." if is_tr else "Subscribe to my Substack newsletter to receive future scientific essays directly in your inbox.",
+        "in_article_cta_btn": "Ücretsiz Abone Ol" if is_tr else "Subscribe Free"
     }
 
     html = f"""<!DOCTYPE html>
@@ -2202,7 +2222,7 @@ def generate_single_article_html(article, lang="tr"):
                 </a>
                 <a href="{substack_url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-[#FF6719] hover:bg-[#e05912] text-white text-xs font-bold rounded-lg transition shadow-xs">
                     <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
-                    <span>Substack</span>
+                    <span>{ui_text['header_substack_btn']}</span>
                 </a>
             </div>
         </div>
@@ -2258,6 +2278,24 @@ def generate_single_article_html(article, lang="tr"):
         <article class="article-body">
             {body_html}
         </article>
+
+        <!-- In-Article Substack Subscription Banner -->
+        <div class="my-10 p-6 bg-gradient-to-r from-orange-500/10 via-amber-500/5 to-transparent border border-amber-300/80 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 shadow-xs">
+            <div class="flex items-center space-x-3.5">
+                <div class="w-11 h-11 rounded-xl bg-amber-100 text-[#FF6719] flex items-center justify-center flex-shrink-0 shadow-2xs">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                </div>
+                <div>
+                    <h4 class="font-serif font-bold text-slate-900 text-base">{ui_text['in_article_cta_title']}</h4>
+                    <p class="text-xs text-slate-600 mt-0.5">{ui_text['in_article_cta_desc']}</p>
+                </div>
+            </div>
+            <a href="https://drcaner.substack.com/subscribe" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#FF6719] hover:bg-[#e05912] text-white text-xs font-bold rounded-xl transition shadow-sm hover:shadow whitespace-nowrap flex-shrink-0">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
+                <span>{ui_text['in_article_cta_btn']}</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+        </div>
 
         <!-- Bottom Substack Subscription Card -->
         <section class="my-14 bg-gradient-to-br from-amber-500/15 via-orange-500/5 to-amber-100/30 border-2 border-amber-300/90 rounded-3xl p-6 sm:p-10 shadow-sm">
