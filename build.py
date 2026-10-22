@@ -330,6 +330,8 @@ def generate_html(lang="tr"):
         "toggle_pubs_less": "Daha Az Göster" if is_tr else "Show Less",
         "toggle_podcasts_more": f"Tüm Bölümleri Gör ({len(podcasts)} Bölüm)" if is_tr else f"View All Episodes ({len(podcasts)} Episodes)",
         "toggle_podcasts_less": "Daha Az Göster" if is_tr else "Show Less",
+        "toggle_articles_more": f"Tüm Yazıları Gör ({len(articles)} Yazı)" if is_tr else f"View All Articles ({len(articles)} Articles)",
+        "toggle_articles_less": "Daha Az Göster" if is_tr else "Show Less",
         "nav_menu": "Menü" if is_tr else "Menu",
         "footer_rights": "© 2026 Bütün Hakları Saklıdır. Beslenme ve Diyetetik Akademisyeni • Akdeniz Üniversitesi" if is_tr else "© 2026 All Rights Reserved. Nutrition & Dietetics Academic • Akdeniz University",
         "live_slide_btn": "Sunumu Canlı İzle (HTML)" if is_tr else "View Live Slides (HTML)",
@@ -662,7 +664,7 @@ def generate_html(lang="tr"):
 
     # Helper for Articles HTML (Substack Showcase Cards)
     articles_html = []
-    for art in articles:
+    for art_idx, art in enumerate(articles):
         is_local = art.get("is_local", False)
         a_badge = art.get("badge", "Bilimsel Analiz" if is_local else "Substack")
         a_date = art.get("date", "[Tarih]")
@@ -702,8 +704,9 @@ def generate_html(lang="tr"):
                         </div>"""
 
         sub_btn_title = "Substack'te Oku & Abone Ol" if is_tr else "Read on Substack & Subscribe"
+        hide_style = ' style="display: none;"' if art_idx >= 6 else ''
         card = f"""
-                <article class="bg-warmBg rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg hover:border-amber-400/80 transition-all duration-300 group">
+                <article class="article-item bg-warmBg rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-lg hover:border-amber-400/80 transition-all duration-300 group"{hide_style}>
                     <div>
                         {img_block}
                         <div class="{content_padding}">
@@ -734,8 +737,9 @@ def generate_html(lang="tr"):
                 </article>"""
         articles_html.append(card)
 
+    hide_archive_style = ' style="display: none;"' if len(articles) >= 6 else ''
     articles_html.append(f"""
-                <div class="bg-warmBg rounded-2xl border border-slate-200 p-6 flex flex-col justify-center items-center text-center hover:shadow-md hover:border-amber-400/80 transition">
+                <div class="article-item bg-warmBg rounded-2xl border border-slate-200 p-6 flex flex-col justify-center items-center text-center hover:shadow-md hover:border-amber-400/80 transition"{hide_archive_style}>
                     <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-3 shadow-xs">
                         <svg class="w-6 h-6 fill-current text-[#FF6719]" viewBox="0 0 24 24"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
                     </div>
@@ -1308,9 +1312,17 @@ def generate_html(lang="tr"):
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="articles-grid">
                 {"".join(articles_html)}
             </div>
+
+            <!-- Expand/Collapse Toggle for Articles -->
+            {f'''<div id="toggle-articles-container" class="mt-10 flex justify-center">
+                <button onclick="toggleShowAllArticles()" class="inline-flex items-center space-x-2 bg-white hover:bg-amber-50 text-academic-700 hover:text-amber-900 font-semibold px-6 py-3 rounded-xl border border-slate-200 hover:border-amber-300 shadow-sm transition transform hover:-translate-y-0.5 text-xs sm:text-sm">
+                    <span id="toggle-articles-text">{ui['toggle_articles_more']}</span>
+                    <i id="toggle-articles-icon" class="fa-solid fa-chevron-down text-xs ml-1 text-amber-600"></i>
+                </button>
+            </div>''' if len(articles) > 6 else ''}
         </div>
     </section>
 
@@ -1585,6 +1597,35 @@ def generate_html(lang="tr"):
                 btnIcon.classList.remove('fa-chevron-up');
                 btnIcon.classList.add('fa-chevron-down');
                 document.getElementById('podcasts').scrollIntoView({{ behavior: 'smooth' }});
+            }}
+        }}
+
+        // --- Articles Top 6 Collapse/Expand Logic ---
+        let showAllArticles = false;
+        const articleItems = document.querySelectorAll('.article-item');
+
+        function toggleShowAllArticles() {{
+            showAllArticles = !showAllArticles;
+            const btnText = document.getElementById('toggle-articles-text');
+            const btnIcon = document.getElementById('toggle-articles-icon');
+            
+            articleItems.forEach((item, index) => {{
+                if (showAllArticles || index < 6) {{
+                    item.style.display = 'flex';
+                }} else {{
+                    item.style.display = 'none';
+                }}
+            }});
+
+            if (showAllArticles) {{
+                btnText.innerText = "{ui['toggle_articles_less']}";
+                btnIcon.classList.remove('fa-chevron-down');
+                btnIcon.classList.add('fa-chevron-up');
+            }} else {{
+                btnText.innerText = "{ui['toggle_articles_more']}";
+                btnIcon.classList.remove('fa-chevron-up');
+                btnIcon.classList.add('fa-chevron-down');
+                document.getElementById('articles').scrollIntoView({{ behavior: 'smooth' }});
             }}
         }}
 
