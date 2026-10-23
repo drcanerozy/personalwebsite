@@ -2,7 +2,7 @@
 title: "GLP-1 İlaçlarına Dirençli Bir Grup Var"
 slug: "glp-1-ilaclarina-direncli-bir-grup-var"
 date: "2026-09-29"
-summary: "Zayıflama ilaçları herkes için aynı etkiyi göstermiyor"
+summary: "GLP-1 zayıflama ilaçlarına dirençli ve yanıt vermeyen hastalar neden kilo veremiyor? Genetik polimorfizm ve farmakogenomik direnç mekanizmaları masada."
 cover_image: "assets/images/articles/glp-1-ilaclarna-direncli-bir-grup.png"
 substack_url: "https://drcaner.substack.com/p/glp-1-ilaclarna-direncli-bir-grup"
 read_time: "12 dk"

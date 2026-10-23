@@ -2,7 +2,7 @@
 title: "Feeling Full on GLP-1 Doesn't Change the Fact That Your Cells Might Be Starving"
 slug: "feeling-full-on-glp-1-cells-starving"
 date: "2026-09-09"
-summary: "When incretin medications completely turn off hunger, patients often celebrate surviving on a coffee and a single cracker. But cellular starvation and micronutrient collapse are a silent clinical hazard."
+summary: "Suppressed appetite on GLP-1 does not mean your cells are nourished. Learn why hidden malnutrition and micronutrient deficiencies emerge during therapy."
 cover_image: "assets/images/articles/glp-1-kullanrken-tok-hissetmeniz.jpg"
 substack_url: "https://drcaner.substack.com/p/glp-1-kullanrken-tok-hissetmeniz"
 read_time: "8 min"

@@ -2,7 +2,7 @@
 title: "Fasting While Having Insulin Resistance May Not Be Such a Good Idea"
 slug: "fasting-with-insulin-resistance"
 date: "2026-10-20"
-summary: "Two individuals follow the exact same intermittent fasting regimen for the same duration. One loses visceral fat and narrows their waistline; the other sees the scale drop, yet abdominal adiposity persists. Emerging evidence suggests hyperinsulinemia fundamentally shifts how the body responds to fasting."
+summary: "Why fasting with insulin resistance may not yield expected fat loss. Exploring chronic hyperinsulinemia, muscle catabolism, and circadian feeding."
 cover_image: "assets/images/articles/insulin-direnciniz-varken-ac-kalmak.png"
 substack_url: "https://drcaner.substack.com/p/insulin-direnciniz-varken-ac-kalmak"
 read_time: "8 min"

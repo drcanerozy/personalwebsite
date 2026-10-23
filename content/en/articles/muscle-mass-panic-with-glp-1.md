@@ -2,7 +2,7 @@
 title: "The Muscle Mass Panic with GLP-1: Are We Losing Muscle or Shrinking Overall Body Mass?"
 slug: "muscle-mass-panic-with-glp-1"
 date: "2026-09-17"
-summary: "Alarmist headlines claim GLP-1 medications melt away skeletal muscle. What does DEXA body composition data actually show? Distinguishing between the 'Quarter Rule' and pathological sarcopenia."
+summary: "Is muscle loss on GLP-1 agonists cause for panic? Reviewing DEXA body composition data, lean mass ratios, and dietary protein intake strategies."
 cover_image: "assets/images/articles/glp-1-ile-gelen-kas-dokusu-panigi.png"
 substack_url: "https://drcaner.substack.com/p/glp-1-ile-gelen-kas-dokusu-panigi"
 read_time: "9 min"

@@ -2,7 +2,7 @@
 title: "Kan Şekerini Yükselten Hormon Nasıl Zayıflatıyor?"
 slug: "kan-sekerini-yukselten-hormon-nasil-zayiflatiyor"
 date: "2026-09-24"
-summary: "Yeni Nesil GLP-1 İlaçlarının Etkileyici Dünyası"
+summary: "Kan şekerini yükselten glukagon hormonu nasıl zayıflatıyor? Retatrutide gibi yeni nesil üçlü agonistlerin enerji harcaması ve karaciğer yağındaki rolü."
 cover_image: "assets/images/articles/kan-sekerini-yukselten-hormon-nasl.png"
 substack_url: "https://drcaner.substack.com/p/kan-sekerini-yukselten-hormon-nasl"
 read_time: "6 dk"

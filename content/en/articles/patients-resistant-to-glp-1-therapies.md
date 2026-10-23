@@ -2,7 +2,7 @@
 title: "There Is a Subset of Patients Resistant to GLP-1 Therapies: Why Do Some Not Respond?"
 slug: "patients-resistant-to-glp-1-therapies"
 date: "2026-09-29"
-summary: "While incretin mimetics are celebrated as clinical breakthroughs, clinical trials prove that roughly 10-15% of patients experience minimal to zero weight loss. What causes GLP-1 resistance?"
+summary: "Why do some patients fail to lose weight on GLP-1 therapies? We examine non-responder phenotypes, genetic polymorphisms, and resistance mechanisms."
 cover_image: "assets/images/articles/glp-1-ilaclarna-direncli-bir-grup.png"
 substack_url: "https://drcaner.substack.com/p/glp-1-ilaclarna-direncli-bir-grup"
 read_time: "11 min"

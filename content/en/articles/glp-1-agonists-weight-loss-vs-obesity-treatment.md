@@ -2,7 +2,7 @@
 title: "GLP-1 Agonists: Is Weight Loss the Same as Truly Treating the Disease of Obesity?"
 slug: "glp-1-agonists-weight-loss-vs-obesity-treatment"
 date: "2026-09-15"
-summary: "Do incretin medications actually cure obesity or merely induce substantial mass reduction? Deconstructing the five foundational pillars of modern obesity medicine."
+summary: "Do GLP-1 receptor agonists truly treat obesity as a chronic disease or just reduce body mass? A critical review of EASO guidelines and adipose health."
 cover_image: "assets/images/articles/glp-1-ilaclar-kilo-vermekle-obeziteyi.png"
 substack_url: "https://drcaner.substack.com/p/glp-1-ilaclar-kilo-vermekle-obeziteyi"
 read_time: "10 min"

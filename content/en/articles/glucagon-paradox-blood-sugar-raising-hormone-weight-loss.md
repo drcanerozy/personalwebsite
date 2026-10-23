@@ -2,7 +2,7 @@
 title: "How Does a Blood Sugar-Raising Hormone Promote Weight Loss? The Paradox of Glucagon"
 slug: "glucagon-paradox-blood-sugar-raising-hormone-weight-loss"
 date: "2026-09-24"
-summary: "In classical textbooks, glucagon was labeled the 'evil' counterpart to insulin that raises blood glucose. Why is the newest generation of obesity medications deliberately incorporating glucagon agonism?"
+summary: "How does glucagon, a blood sugar-raising hormone, induce weight loss? Unpacking the glucagon paradox and next-generation tri-agonists like retatrutide."
 cover_image: "assets/images/articles/kan-sekerini-yukselten-hormon-nasl.png"
 substack_url: "https://drcaner.substack.com/p/kan-sekerini-yukselten-hormon-nasl"
 read_time: "9 min"

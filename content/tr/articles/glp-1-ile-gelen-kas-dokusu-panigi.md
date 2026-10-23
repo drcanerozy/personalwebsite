@@ -2,7 +2,7 @@
 title: "GLP-1 ile Gelen Kas Dokusu Paniği: Kaslarımız Mı Eriyor, Vücudumuz Mu Küçülüyor?"
 slug: "glp-1-ile-gelen-kas-dokusu-panigi"
 date: "2026-09-17"
-summary: "Özet: GLP-1 ve çift etkili inkretin tedavileriyle sağlanan hızlı kilo kaybı, medyada ve klinikte kas kaybı endişelerini tetikledi."
+summary: "GLP-1 tedavilerinde kas kütlesi kaybı bir panik nedeni mi? DEXA vücut kompozisyonu analizleri ve yağsız kütle koruma stratejileri üzerine bilimsel bakış."
 cover_image: "assets/images/articles/glp-1-ile-gelen-kas-dokusu-panigi.png"
 substack_url: "https://drcaner.substack.com/p/glp-1-ile-gelen-kas-dokusu-panigi"
 read_time: "8 dk"

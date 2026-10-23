@@ -2,7 +2,7 @@
 title: "Can Nutrients Naturally Stimulate GLP-1? The Science of Dietary Incretin Secretion"
 slug: "can-nutrients-naturally-stimulate-glp-1"
 date: "2026-10-01"
-summary: "From viral 'Oat-zempic' trends to berberine supplements, social media claims nature has its own GLP-1 agonists. What does biochemistry actually say about nutrient-stimulated incretin release?"
+summary: "Can nutrients naturally stimulate GLP-1? We explore the physiology of dietary fiber, protein, and gut L-cells in triggering natural incretin secretion."
 cover_image: "assets/images/articles/besinlerle-glp-1-salglatmak-mumkun.png"
 substack_url: "https://drcaner.substack.com/p/besinlerle-glp-1-salglatmak-mumkun"
 read_time: "11 min"

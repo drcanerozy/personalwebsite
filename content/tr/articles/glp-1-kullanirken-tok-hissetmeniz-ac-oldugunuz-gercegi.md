@@ -2,7 +2,7 @@
 title: "GLP-1 Kullanırken Tok Hissetmeniz, Aç Olduğunuz Gerçeğini Değiştirmiyor"
 slug: "glp-1-kullanirken-tok-hissetmeniz-ac-oldugunuz-gercegi"
 date: "2026-09-09"
-summary: "GLP-1 ilacı kullanan bir hasta düşünün: iştahı neredeyse tamamen kapanmış, tabağındaki yemeğin yarısını bile bitiremiyor."
+summary: "GLP-1 kullanırken iştahınızın tamamen kapanması hücrelerinizin beslendiği anlamına gelmez. Gizli malnütrisyon ve mikro besin yetersizliklerine dikkat."
 cover_image: "assets/images/articles/glp-1-kullanrken-tok-hissetmeniz.jpg"
 substack_url: "https://drcaner.substack.com/p/glp-1-kullanrken-tok-hissetmeniz"
 read_time: "7 dk"
@@ -13,7 +13,7 @@ en_slug: "feeling-full-on-glp-1-cells-starving"
 date_modified: "2026-10-23"
 ---
 
-# GLP-1 Kullanırken Tok Hissetmeniz, Aç Olduğunuz Gerçeğini Değiştirmiyor
+## GLP-1 Kullanırken Tok Hissetmeniz, Aç Olduğunuz Gerçeğini Değiştirmiyor
 
 GLP-1 ilacı kullanan bir hasta düşünün: iştahı neredeyse tamamen kapanmış, tabağındaki yemeğin yarısını bile bitiremiyor. Sessizce eriyen kilolar, uzun yıllardır ilk kez kontrol altına alınan iştah ve tartıda elde edilen tarihi başarılar... Herkes bunu bir başarı hikayesi olarak okuyor. Sonuçta hedef zaten daha az yemekti. GLP-1 reseptör agonistleri, obezite ve metabolizma tıbbında son yılların en büyük devrimine imza attı. Kalp sağlığından karaciğer yağlanmasına kadar sunulan klinik faydalar tartışmasız. Ancak bu büyük başarının gölgesinde kalan, gözle görülmeyen başka bir metabolik süreç işliyor: Gizli bir hücresel açlık riski. 
 

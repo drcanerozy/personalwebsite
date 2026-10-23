@@ -2,7 +2,7 @@
 title: "Besinlerle GLP-1 Salgılatmak Mümkün Mü?"
 slug: "besinlerle-glp-1-salgilatmak-mumkun"
 date: "2026-10-01"
-summary: "Doğal GLP-1 Var Mı?"
+summary: "Doğal besinlerle GLP-1 salgılatmak mümkün mü? Yulaf, lifler ve proteinlerin L-hücreleri üzerindeki fizyolojik etkilerini bilimsel kanıtlarla inceliyoruz."
 cover_image: "assets/images/articles/besinlerle-glp-1-salglatmak-mumkun.png"
 substack_url: "https://drcaner.substack.com/p/besinlerle-glp-1-salglatmak-mumkun"
 read_time: "12 dk"

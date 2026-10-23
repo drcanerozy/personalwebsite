@@ -2,7 +2,7 @@
 title: "Is Sleep Poised to Become a Dietary Risk Factor?"
 slug: "is-sleep-a-dietary-risk-factor"
 date: "2026-10-22"
-summary: "Nutritional science can no longer be confined to what lies on the dinner plate. Controlled metabolic trials show that sleep restriction elevates caloric intake, stimulates hedonic appetite, and causes weight loss during dieting to derive disproportionately from lean muscle rather than body fat."
+summary: "Can inadequate sleep be classified as a dietary risk factor? Analyzing clinical trials on ghrelin, leptin, ultra-processed cravings, and fat loss."
 cover_image: "assets/images/articles/uyku-diyetsel-bir-risk-faktoru-olmaya.png"
 substack_url: "https://drcaner.substack.com/p/uyku-diyetsel-bir-risk-faktoru-olmaya"
 read_time: "8 min"

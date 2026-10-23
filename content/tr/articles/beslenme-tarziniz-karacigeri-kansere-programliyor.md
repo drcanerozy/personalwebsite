@@ -2,7 +2,7 @@
 title: "Beslenme Tarzınız, Yıllar Öncesinden Karaciğerinizi Kansere Programlıyor Olabilir"
 slug: "beslenme-tarziniz-karacigeri-kansere-programliyor"
 date: "2026-10-06"
-summary: "Yıllarca süren yüksek yağlı, yüksek kalorili beslenme, karaciğer kanseri tümörü ortaya çıkmadan çok önce — herhangi bir genetik mutasyon olmaksızın — karaciğer hücrelerinin kimliğini ve gen ifadesini kökten değiştiriyor.Bu süreç sessiz, fark edilmez ve büyük ihtimalle geri döndürülebilir; ancak yeterince erken fark edilebilirse."
+summary: "Yıllarca süren yüksek yağlı beslenme, genetik mutasyon olmaksızın karaciğer hücre kimliğini değiştirerek kansere epigenetik zemin hazırlayabilir mi?"
 cover_image: "assets/images/articles/beslenme-tarznz-yllar-oncesinden.png"
 substack_url: "https://drcaner.substack.com/p/beslenme-tarznz-yllar-oncesinden"
 read_time: "9 dk"

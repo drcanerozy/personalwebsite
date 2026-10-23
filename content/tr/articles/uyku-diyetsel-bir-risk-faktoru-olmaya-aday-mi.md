@@ -2,7 +2,7 @@
 title: "Uyku Diyetsel Bir Risk Faktörü Olmaya Aday mı?"
 slug: "uyku-diyetsel-bir-risk-faktoru-olmaya-aday-mi"
 date: "2026-10-22"
-summary: "Beslenme bilimi artık tabağın içine sığmıyor. Kontrollü deneyler, yetersiz uykunun iştahı ve günlük kalori alımını artırdığını, diyetle kaybedilen kilonun yağ payını azalttığını gösteriyor. Peki uyku 'diyetsel bir risk faktörü' sayılabilir mi?"
+summary: "Yetersiz uyku iştah hormonlarını nasıl bozuyor? Bilimsel çalışmalar ışığında uykunun bağımsız bir metabolik ve diyetsel risk faktörü olma potansiyeli."
 cover_image: "assets/images/articles/uyku-diyetsel-bir-risk-faktoru-olmaya.png"
 substack_url: "https://drcaner.substack.com/p/uyku-diyetsel-bir-risk-faktoru-olmaya"
 read_time: "8 dk"

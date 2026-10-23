@@ -2,7 +2,7 @@
 title: "İnsülin Direnciniz Varken Aç Kalmak İyi Bir Fikir Olmayabilir"
 slug: "insulin-direnciniz-varken-ac-kalmak"
 date: "2026-10-20"
-summary: "İki kişi aynı aralıklı açlık düzenini aynı süre uyguluyor. Birinin bel çevresi daralırken, diğerinin tartısı düşüyor ama bel çevresi yerinde duruyor. Yeni çalışmalar, kronik yüksek insülinin açlığa verilen metabolik yanıtı değiştirebileceğini düşündürüyor."
+summary: "İnsülin direnciniz varken aralıklı açlık yapmak neden beklenen sonucu vermeyebilir? Kronik hiperinsülineminin yağ yakımı ve kas dokusu üzerindeki etkisi."
 cover_image: "assets/images/articles/insulin-direnciniz-varken-ac-kalmak.png"
 substack_url: "https://drcaner.substack.com/p/insulin-direnciniz-varken-ac-kalmak"
 read_time: "8 dk"

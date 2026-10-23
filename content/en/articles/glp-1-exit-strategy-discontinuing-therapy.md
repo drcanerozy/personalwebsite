@@ -2,7 +2,7 @@
 title: "The GLP-1 Exit Strategy: What Actually Happens When You Discontinue Incretin Therapy?"
 slug: "glp-1-exit-strategy-discontinuing-therapy"
 date: "2026-09-22"
-summary: "What happens when patients reach their target weight and discontinue incretin therapy? Exploring the biological weight regain recoil and building a clinically viable de-escalation protocol."
+summary: "What happens when you discontinue GLP-1 incretin therapy? Evidence on metabolic adaptation, weight regain, and clinical maintenance exit strategies."
 cover_image: "assets/images/articles/glp-1den-cks-plan-ilac-braktgnzda.png"
 substack_url: "https://drcaner.substack.com/p/glp-1den-cks-plan-ilac-braktgnzda"
 read_time: "10 min"

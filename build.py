@@ -1762,6 +1762,14 @@ def render_markdown_body(text):
     if in_ol: html.append("</ol>")
     return "\n".join(html)
 
+def format_page_title(title, suffix="Caner Özyıldırım", max_len=65):
+    full = f"{title} | {suffix}"
+    if len(full) <= max_len:
+        return full
+    if len(title) <= max_len:
+        return title
+    return title[:max_len-3].rstrip() + "..."
+
 def generate_single_course_html(course, lang="tr"):
     is_tr = (lang == "tr")
     title = course.get("title", "Ders")
@@ -1848,13 +1856,14 @@ def generate_single_course_html(course, lang="tr"):
     tr_url = f"https://canerozy.com/dersler/{tr_slug}"
     en_url = f"https://canerozy.com/en/courses/{en_slug}"
     course_desc = summary if summary else f"{title} - Dr. Caner ÖZYILDIRIM"
+    page_title = format_page_title(title, suffix="Caner Özyıldırım", max_len=65)
 
     html = f"""<!DOCTYPE html>
 <html lang="{'tr' if is_tr else 'en'}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} | Dr. Caner ÖZYILDIRIM</title>
+    <title>{page_title}</title>
     <meta name="description" content="{course_desc}">
     <link rel="canonical" href="{course_url}">
     <link rel="alternate" hreflang="tr" href="{tr_url}">
@@ -1862,12 +1871,12 @@ def generate_single_course_html(course, lang="tr"):
     <link rel="alternate" hreflang="x-default" href="{tr_url}">
     <link rel="alternate" type="application/rss+xml" title="{'Dr. Caner Özyıldırım — Bilimsel Yazılar' if is_tr else 'Dr. Caner Özyıldırım — Scientific Articles'}" href="{'https://canerozy.com/yazilar/feed.xml' if is_tr else 'https://canerozy.com/en/articles/feed.xml'}">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta property="og:title" content="{page_title}">
     <meta property="og:description" content="{course_desc}">
     <meta property="og:url" content="{course_url}">
     <meta property="og:image" content="https://canerozy.com/assets/images/profil.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta name="twitter:title" content="{page_title}">
     <meta name="twitter:description" content="{course_desc}">
     <meta name="twitter:image" content="https://canerozy.com/assets/images/profil.jpg">
 
@@ -2619,12 +2628,14 @@ def generate_single_article_html(article, lang="tr"):
         "in_article_cta_btn": "Ücretsiz Abone Ol" if is_tr else "Subscribe Free"
     }
 
+    page_title = format_page_title(title, suffix="Caner Özyıldırım", max_len=65)
+
     html = f"""<!DOCTYPE html>
 <html lang="{'tr' if is_tr else 'en'}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} | Dr. Caner ÖZYILDIRIM</title>
+    <title>{page_title}</title>
     <meta name="description" content="{summary}">
     <link rel="canonical" href="{canonical_url}">
     <link rel="alternate" hreflang="tr" href="{tr_url}">
@@ -2634,7 +2645,7 @@ def generate_single_article_html(article, lang="tr"):
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta property="og:title" content="{page_title}">
     <meta property="og:description" content="{summary}">
     <meta property="og:url" content="{canonical_url}">
     <meta property="og:image" content="{full_cover_url}">
@@ -2643,7 +2654,7 @@ def generate_single_article_html(article, lang="tr"):
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{title} | Dr. Caner ÖZYILDIRIM">
+    <meta name="twitter:title" content="{page_title}">
     <meta name="twitter:description" content="{summary}">
     <meta name="twitter:image" content="{full_cover_url}">
     <meta name="twitter:site" content="@CanerOzy">

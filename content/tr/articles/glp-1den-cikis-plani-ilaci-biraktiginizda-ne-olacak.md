@@ -2,7 +2,7 @@
 title: "GLP-1’den Çıkış Planı: İlacı Bıraktığınızda Ne Olacak?"
 slug: "glp-1den-cikis-plani-ilaci-biraktiginizda-ne-olacak"
 date: "2026-09-22"
-summary: "Bir zayıflama iğnesine başlarken herkesin zihninde tek bir soru vardır: “Haftada kaç kilo vereceğim?” Doktor muayenehanelerinde, sosyal medya gönderilerinde veya arkadaş sohbetlerinde bütün dikkat “giriş” anına ve verilen kilolara kilitlenir."
+summary: "GLP-1 zayıflama ilaçlarını bıraktığınızda ne olacak? Hedef kiloya ulaştıktan sonra metabolik adaptasyon ve kilo geri alımını önleme stratejileri."
 cover_image: "assets/images/articles/glp-1den-cks-plan-ilac-braktgnzda.png"
 substack_url: "https://drcaner.substack.com/p/glp-1den-cks-plan-ilac-braktgnzda"
 read_time: "8 dk"

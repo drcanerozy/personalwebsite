@@ -2,7 +2,7 @@
 title: "Intermittent Fasting Isn't Working for You? Your Gut Microbiome Might Be the Reason"
 slug: "intermittent-fasting-gut-microbiome"
 date: "2026-10-08"
-summary: "You adhere strictly to your fasting windows and eat mindfully, yet fail to see the promised metabolic rewards? The bottleneck may not reside in your cells, but within the microscopic ecosystem of your gut flora."
+summary: "Strict intermittent fasting not yielding results? Emerging research shows gut microbiome composition and Akkermansia levels dictate metabolic response."
 cover_image: "assets/images/articles/aralkl-aclk-yapyorsunuz-ama-ise-yaramyor.png"
 substack_url: "https://drcaner.substack.com/p/aralkl-aclk-yapyorsunuz-ama-ise-yaramyor"
 read_time: "8 min"

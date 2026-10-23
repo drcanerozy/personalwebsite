@@ -2,7 +2,7 @@
 title: "Your Diet May Be Epigenetically Programming Your Liver for Cancer Years in Advance"
 slug: "diet-epigenetically-programming-liver-cancer"
 date: "2026-10-06"
-summary: "Years of consuming high-fat, ultra-processed diets can fundamentally alter the identity and epigenetic state of hepatocytes—long before any somatic oncogenic mutations occur. Discover how diet writes the pre-cancerous playbook."
+summary: "Years of high-fat nutrition can epigenetically reprogram liver cells long before tumors appear. Discover how diet alters chromatin and cancer risk."
 cover_image: "assets/images/articles/beslenme-tarznz-yllar-oncesinden.png"
 substack_url: "https://drcaner.substack.com/p/beslenme-tarznz-yllar-oncesinden"
 read_time: "10 min"
