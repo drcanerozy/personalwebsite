@@ -20,18 +20,52 @@
     <meta name="twitter:description" content="Medya mecralarında sunulan beslenme iddialarını eleştirel süzgeçten geçirme, bilgi kirliliğini tanıma ve kanıta dayalı bilimsel bilgiyi topluma doğru aktarma stratejileri.">
     <meta name="twitter:image" content="https://canerozy.com/assets/images/profil.jpg">
 
-    <!-- Course Schema.org JSON-LD -->
+    <!-- Course Schema.org JSON-LD & BreadcrumbList -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Course",
-      "name": "Beslenme ve Medya & Bilim İletişimi",
-      "description": "Medya mecralarında sunulan beslenme iddialarını eleştirel süzgeçten geçirme, bilgi kirliliğini tanıma ve kanıta dayalı bilimsel bilgiyi topluma doğru aktarma stratejileri.",
-      "provider": {
-        "@type": "Person",
-        "name": "Dr. Caner ÖZYILDIRIM",
-        "url": "https://canerozy.com"
-      }
+      "@graph": [
+        {
+          "@type": "Course",
+          "@id": "https://canerozy.com/dersler/03-beslenme-ve-medya.html#course",
+          "name": "Beslenme ve Medya & Bilim İletişimi",
+          "description": "Medya mecralarında sunulan beslenme iddialarını eleştirel süzgeçten geçirme, bilgi kirliliğini tanıma ve kanıta dayalı bilimsel bilgiyi topluma doğru aktarma stratejileri.",
+          "inLanguage": "tr",
+          "provider": {
+            "@type": "EducationalOrganization",
+            "name": "Akdeniz Üniversitesi",
+            "url": "https://www.akdeniz.edu.tr"
+          },
+          "instructor": {
+            "@type": "Person",
+            "@id": "https://canerozy.com/#person",
+            "name": "Dr. Caner ÖZYILDIRIM"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Ana Sayfa",
+              "item": "https://canerozy.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Dersler",
+              "item": "https://canerozy.com/#teaching"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Beslenme ve Medya & Bilim İletişimi",
+              "item": "https://canerozy.com/dersler/03-beslenme-ve-medya.html"
+            }
+          ]
+        }
+      ]
     }
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -78,7 +112,16 @@
     </header>
 
     <!-- Main Course Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
+        
+        <!-- Visible Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-xs text-slate-500 mb-6" aria-label="Breadcrumb">
+            <a href="../" class="hover:text-academic-700 transition">Ana Sayfa</a>
+            <span>/</span>
+            <a href="../#teaching" class="hover:text-academic-700 transition">Dersler</a>
+            <span>/</span>
+            <span class="text-slate-800 font-medium truncate max-w-[200px] sm:max-w-md">Beslenme ve Medya & Bilim İletişimi</span>
+        </nav>
         
         <!-- Header / Title -->
         <div class="mb-8">

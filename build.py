@@ -849,45 +849,59 @@ def generate_html(lang="tr"):
     <script type="application/ld+json">
     {{
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Dr. Caner ÖZYILDIRIM",
-      "jobTitle": "{schema_job}",
-      "url": "https://canerozy.com",
-      "image": "https://canerozy.com/assets/images/profil.jpg",
-      "worksFor": {{
-        "@type": "EducationalOrganization",
-        "name": "{schema_inst}",
-        "url": "https://www.akdeniz.edu.tr"
-      }},
-      "alumniOf": [
+      "@graph": [
         {{
-          "@type": "EducationalOrganization",
-          "name": "{schema_alumni}"
+          "@type": "WebSite",
+          "@id": "https://canerozy.com/#website",
+          "url": "https://canerozy.com/",
+          "name": "Dr. Caner Özyıldırım",
+          "description": "{meta_desc}",
+          "inLanguage": "{'tr' if is_tr else 'en'}",
+          "publisher": {{ "@id": "https://canerozy.com/#person" }}
         }},
         {{
-          "@type": "EducationalOrganization",
-          "name": "Ondokuz Mayıs Üniversitesi"
+          "@type": "Person",
+          "@id": "https://canerozy.com/#person",
+          "name": "Dr. Caner ÖZYILDIRIM",
+          "jobTitle": "{schema_job}",
+          "url": "https://canerozy.com",
+          "image": "https://canerozy.com/assets/images/profil.jpg",
+          "worksFor": {{
+            "@type": "EducationalOrganization",
+            "name": "{schema_inst}",
+            "url": "https://www.akdeniz.edu.tr"
+          }},
+          "alumniOf": [
+            {{
+              "@type": "EducationalOrganization",
+              "name": "{schema_alumni}"
+            }},
+            {{
+              "@type": "EducationalOrganization",
+              "name": "Ondokuz Mayıs Üniversitesi"
+            }}
+          ],
+          "sameAs": [
+            "https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr",
+            "https://orcid.org/0000-0001-8227-9575",
+            "https://avesis.akdeniz.edu.tr/canerozyildirim",
+            "https://drcaner.substack.com",
+            "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab",
+            "https://www.linkedin.com/in/caner-ozyildirim-35345b228",
+            "https://x.com/CanerOzy"
+          ],
+          "knowsAbout": [
+            "Nutrition and Dietetics",
+            "Dietary Patterns",
+            "Obesity Management",
+            "GLP-1 and Incretin Therapies",
+            "Intermittent Fasting",
+            "Ultra-Processed Foods",
+            "Biostatistics",
+            "Data Visualization",
+            "Artificial Intelligence"
+          ]
         }}
-      ],
-      "sameAs": [
-        "https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr",
-        "https://orcid.org/0000-0001-8227-9575",
-        "https://avesis.akdeniz.edu.tr/canerozyildirim",
-        "https://drcaner.substack.com",
-        "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab",
-        "https://www.linkedin.com/in/caner-ozyildirim-35345b228",
-        "https://x.com/CanerOzy"
-      ],
-      "knowsAbout": [
-        "Nutrition and Dietetics",
-        "Dietary Patterns",
-        "Obesity Management",
-        "GLP-1 and Incretin Therapies",
-        "Intermittent Fasting",
-        "Ultra-Processed Foods",
-        "Biostatistics",
-        "Data Visualization",
-        "Artificial Intelligence"
       ]
     }}
     </script>
@@ -1880,18 +1894,52 @@ def generate_single_course_html(course, lang="tr"):
     <meta name="twitter:description" content="{course_desc}">
     <meta name="twitter:image" content="https://canerozy.com/assets/images/profil.jpg">
 
-    <!-- Course Schema.org JSON-LD -->
+    <!-- Course Schema.org JSON-LD & BreadcrumbList -->
     <script type="application/ld+json">
     {{
       "@context": "https://schema.org",
-      "@type": "Course",
-      "name": "{title}",
-      "description": "{course_desc}",
-      "provider": {{
-        "@type": "Person",
-        "name": "Dr. Caner ÖZYILDIRIM",
-        "url": "https://canerozy.com"
-      }}
+      "@graph": [
+        {{
+          "@type": "Course",
+          "@id": "{course_url}#course",
+          "name": "{title}",
+          "description": "{course_desc}",
+          "inLanguage": "{'tr' if is_tr else 'en'}",
+          "provider": {{
+            "@type": "EducationalOrganization",
+            "name": "Akdeniz Üniversitesi",
+            "url": "https://www.akdeniz.edu.tr"
+          }},
+          "instructor": {{
+            "@type": "Person",
+            "@id": "https://canerozy.com/#person",
+            "name": "Dr. Caner ÖZYILDIRIM"
+          }}
+        }},
+        {{
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {{
+              "@type": "ListItem",
+              "position": 1,
+              "name": "{'Ana Sayfa' if is_tr else 'Home'}",
+              "item": "{'https://canerozy.com/' if is_tr else 'https://canerozy.com/en/'}"
+            }},
+            {{
+              "@type": "ListItem",
+              "position": 2,
+              "name": "{'Dersler' if is_tr else 'Courses'}",
+              "item": "{'https://canerozy.com/#teaching' if is_tr else 'https://canerozy.com/en/#teaching'}"
+            }},
+            {{
+              "@type": "ListItem",
+              "position": 3,
+              "name": "{title}",
+              "item": "{course_url}"
+            }}
+          ]
+        }}
+      ]
     }}
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1938,7 +1986,16 @@ def generate_single_course_html(course, lang="tr"):
     </header>
 
     <!-- Main Course Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
+        
+        <!-- Visible Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-xs text-slate-500 mb-6" aria-label="Breadcrumb">
+            <a href="{home_url}" class="hover:text-academic-700 transition">{'Ana Sayfa' if is_tr else 'Home'}</a>
+            <span>/</span>
+            <a href="{home_url}#teaching" class="hover:text-academic-700 transition">{'Dersler' if is_tr else 'Courses'}</a>
+            <span>/</span>
+            <span class="text-slate-800 font-medium truncate max-w-[200px] sm:max-w-md">{title}</span>
+        </nav>
         
         <!-- Header / Title -->
         <div class="mb-8">
@@ -2603,6 +2660,18 @@ def generate_single_article_html(article, lang="tr"):
 
     safe_title_json = json.dumps(title)
     safe_desc_json = json.dumps(summary)
+    
+    word_count = len(body_md.split())
+    date_modified = article.get("date_modified", date_str if date_str else "2026-10-23")
+    article_section = tags[0] if tags else ("Obezite & Metabolizma" if is_tr else "Obesity & Metabolism")
+    headline = title if len(title) <= 110 else title[:107] + "..."
+    safe_headline_json = json.dumps(headline)
+    safe_keywords_json = json.dumps(tags)
+    
+    if is_tr:
+        translation_prop = f'"workTranslation": {{ "@id": "https://canerozy.com/en/articles/{en_slug}.html#article" }},'
+    else:
+        translation_prop = f'"translationOfWork": {{ "@id": "https://canerozy.com/yazilar/{tr_slug}.html#article" }},'
 
     ui_text = {
         "back_to_list": "← Tüm Yazılara Dön" if is_tr else "← Back to All Articles",
@@ -2659,30 +2728,64 @@ def generate_single_article_html(article, lang="tr"):
     <meta name="twitter:image" content="{full_cover_url}">
     <meta name="twitter:site" content="@CanerOzy">
 
-    <!-- Schema.org Article JSON-LD -->
+    <!-- Schema.org BlogPosting & BreadcrumbList JSON-LD -->
     <script type="application/ld+json">
     {{
       "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": {safe_title_json},
-      "description": {safe_desc_json},
-      "image": "{full_cover_url}",
-      "datePublished": "{date_str}",
-      "inLanguage": "{'tr' if is_tr else 'en'}",
-      "author": {{
-        "@type": "Person",
-        "name": "Dr. Caner ÖZYILDIRIM",
-        "url": "https://canerozy.com"
-      }},
-      "publisher": {{
-        "@type": "Person",
-        "name": "Dr. Caner ÖZYILDIRIM",
-        "url": "https://canerozy.com"
-      }},
-      "mainEntityOfPage": {{
-        "@type": "WebPage",
-        "@id": "{canonical_url}"
-      }}
+      "@graph": [
+        {{
+          "@type": "BlogPosting",
+          "@id": "{canonical_url}#article",
+          "mainEntityOfPage": "{canonical_url}",
+          "headline": {safe_headline_json},
+          "description": {safe_desc_json},
+          "inLanguage": "{'tr' if is_tr else 'en'}",
+          "datePublished": "{date_str}",
+          "dateModified": "{date_modified}",
+          "image": {{
+            "@type": "ImageObject",
+            "url": "{full_cover_url}",
+            "width": 1200,
+            "height": 630
+          }},
+          "author": {{ "@id": "https://canerozy.com/#person" }},
+          "publisher": {{
+            "@type": "Person",
+            "@id": "https://canerozy.com/#person",
+            "name": "Dr. Caner ÖZYILDIRIM",
+            "logo": {{ "@type": "ImageObject", "url": "https://canerozy.com/assets/images/profil.jpg" }}
+          }},
+          "isPartOf": {{ "@id": "https://canerozy.com/#website" }},
+          "articleSection": "{article_section}",
+          "keywords": {safe_keywords_json},
+          "wordCount": {word_count},
+          {translation_prop}
+          "url": "{canonical_url}"
+        }},
+        {{
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {{
+              "@type": "ListItem",
+              "position": 1,
+              "name": "{'Ana Sayfa' if is_tr else 'Home'}",
+              "item": "{'https://canerozy.com/' if is_tr else 'https://canerozy.com/en/'}"
+            }},
+            {{
+              "@type": "ListItem",
+              "position": 2,
+              "name": "{'Yazılar' if is_tr else 'Articles'}",
+              "item": "{'https://canerozy.com/yazilar/' if is_tr else 'https://canerozy.com/en/articles/'}"
+            }},
+            {{
+              "@type": "ListItem",
+              "position": 3,
+              "name": {safe_title_json},
+              "item": "{canonical_url}"
+            }}
+          ]
+        }}
+      ]
     }}
     </script>
 
@@ -2752,6 +2855,15 @@ def generate_single_article_html(article, lang="tr"):
 
     <!-- Main Article Container -->
     <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14 flex-grow">
+        
+        <!-- Visible Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-xs text-slate-500 mb-6" aria-label="Breadcrumb">
+            <a href="{home_url}" class="hover:text-academic-700 transition">{'Ana Sayfa' if is_tr else 'Home'}</a>
+            <span>/</span>
+            <a href="{list_url}" class="hover:text-academic-700 transition">{'Yazılar' if is_tr else 'Articles'}</a>
+            <span>/</span>
+            <span class="text-slate-800 font-medium truncate max-w-[200px] sm:max-w-md">{title}</span>
+        </nav>
         
         <!-- Article Header -->
         <header class="mb-8">

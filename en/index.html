@@ -33,45 +33,59 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Dr. Caner ÖZYILDIRIM",
-      "jobTitle": "Nutrition & Dietetics Academic",
-      "url": "https://canerozy.com",
-      "image": "https://canerozy.com/assets/images/profil.jpg",
-      "worksFor": {
-        "@type": "EducationalOrganization",
-        "name": "Akdeniz University",
-        "url": "https://www.akdeniz.edu.tr"
-      },
-      "alumniOf": [
+      "@graph": [
         {
-          "@type": "EducationalOrganization",
-          "name": "Ankara University Graduate School of Health Sciences"
+          "@type": "WebSite",
+          "@id": "https://canerozy.com/#website",
+          "url": "https://canerozy.com/",
+          "name": "Dr. Caner Özyıldırım",
+          "description": "Dr. Caner ÖZYILDIRIM - Akdeniz University Department of Nutrition and Dietetics. Dietary Patterns, Obesity, Biostatistics, Data Visualization, and Artificial Intelligence.",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://canerozy.com/#person" }
         },
         {
-          "@type": "EducationalOrganization",
-          "name": "Ondokuz Mayıs Üniversitesi"
+          "@type": "Person",
+          "@id": "https://canerozy.com/#person",
+          "name": "Dr. Caner ÖZYILDIRIM",
+          "jobTitle": "Nutrition & Dietetics Academic",
+          "url": "https://canerozy.com",
+          "image": "https://canerozy.com/assets/images/profil.jpg",
+          "worksFor": {
+            "@type": "EducationalOrganization",
+            "name": "Akdeniz University",
+            "url": "https://www.akdeniz.edu.tr"
+          },
+          "alumniOf": [
+            {
+              "@type": "EducationalOrganization",
+              "name": "Ankara University Graduate School of Health Sciences"
+            },
+            {
+              "@type": "EducationalOrganization",
+              "name": "Ondokuz Mayıs Üniversitesi"
+            }
+          ],
+          "sameAs": [
+            "https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr",
+            "https://orcid.org/0000-0001-8227-9575",
+            "https://avesis.akdeniz.edu.tr/canerozyildirim",
+            "https://drcaner.substack.com",
+            "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab",
+            "https://www.linkedin.com/in/caner-ozyildirim-35345b228",
+            "https://x.com/CanerOzy"
+          ],
+          "knowsAbout": [
+            "Nutrition and Dietetics",
+            "Dietary Patterns",
+            "Obesity Management",
+            "GLP-1 and Incretin Therapies",
+            "Intermittent Fasting",
+            "Ultra-Processed Foods",
+            "Biostatistics",
+            "Data Visualization",
+            "Artificial Intelligence"
+          ]
         }
-      ],
-      "sameAs": [
-        "https://scholar.google.com/citations?user=AEqyhhgAAAAJ&hl=tr",
-        "https://orcid.org/0000-0001-8227-9575",
-        "https://avesis.akdeniz.edu.tr/canerozyildirim",
-        "https://drcaner.substack.com",
-        "https://open.spotify.com/show/1iDkEseWWy9Sd75Qkmb1Ab",
-        "https://www.linkedin.com/in/caner-ozyildirim-35345b228",
-        "https://x.com/CanerOzy"
-      ],
-      "knowsAbout": [
-        "Nutrition and Dietetics",
-        "Dietary Patterns",
-        "Obesity Management",
-        "GLP-1 and Incretin Therapies",
-        "Intermittent Fasting",
-        "Ultra-Processed Foods",
-        "Biostatistics",
-        "Data Visualization",
-        "Artificial Intelligence"
       ]
     }
     </script>
