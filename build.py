@@ -585,7 +585,7 @@ def generate_html(lang="tr"):
         
         c_filename = course.get("_filename", f"course-{idx}.md")
         slug = c_filename.replace(".md", "")
-        course_url = f"{ui['asset_prefix']}dersler/{slug}.html" if is_tr else f"{ui['asset_prefix']}courses/{slug}.html"
+        course_url = f"dersler/{slug}.html" if is_tr else f"courses/{slug}.html"
         
         card = f"""
                 <!-- Course {idx}: {c_title} -->
@@ -672,6 +672,8 @@ def generate_html(lang="tr"):
         a_desc = art.get("summary", art.get("body", "[Yazı Özeti]"))
         a_time = art.get("read_time", "6 dk" if is_tr else "6 min")
         a_img = art.get("image_url", "")
+        if a_img and not a_img.startswith("http"):
+            a_img = f"{ui['asset_prefix']}{a_img.lstrip('/')}"
 
         if is_local:
             a_url = art.get("url", f"yazilar/{art.get('slug')}.html")
@@ -1789,6 +1791,9 @@ def generate_single_course_html(course, lang="tr"):
         </div>""" if notebooklm else ""
 
     slides_url = course.get("slides_url", "")
+    if slides_url and not slides_url.startswith("http"):
+        clean_slides = slides_url.lstrip("./")
+        slides_url = f"{asset_prefix}{clean_slides}"
     slides_title = course.get("slides_title", "")
     slides_badge = course.get("slides_badge", "")
     slides_box = f"""
