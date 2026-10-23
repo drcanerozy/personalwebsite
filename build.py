@@ -1118,8 +1118,12 @@ def generate_html(lang="tr"):
                     </div>
 
                     <h1 class="text-3xl md:text-4xl font-serif font-bold text-academic-900 leading-tight">
-                        {bio_data.get('heading', 'Metabolik Esneklik, Yağ Dokusu Disfonksiyonu ve Kardiyometabolik Bozukluklarda Biyoistatistiksel Modelleme' if is_tr else 'Metabolic Flexibility, Adipose Dysfunction, and Biostatistical Modeling in Cardiometabolic Disorders')}
+                        {"Dr. Caner Özyıldırım — Beslenme ve Diyetetik, Obezite ve Metabolik Sağlık" if is_tr else "Dr. Caner Özyıldırım — Nutrition & Dietetics, Obesity and Metabolic Health"}
                     </h1>
+
+                    <h2 class="text-xl md:text-2xl font-serif font-semibold text-slate-800">
+                        {bio_data.get('heading', 'Bilimsel Yaşantımın Kısa Bir Özeti' if is_tr else 'A Brief Summary of My Academic Journey')}
+                    </h2>
 
                     <div class="text-slate-700 leading-relaxed text-base space-y-4">
                         {bio_body}
