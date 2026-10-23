@@ -1,6 +1,6 @@
 ---
 title: "Is Sleep Poised to Become a Dietary Risk Factor?"
-slug: "uyku-diyetsel-bir-risk-faktoru-olmaya"
+slug: "is-sleep-a-dietary-risk-factor"
 date: "2026-10-22"
 summary: "Nutritional science can no longer be confined to what lies on the dinner plate. Controlled metabolic trials show that sleep restriction elevates caloric intake, stimulates hedonic appetite, and causes weight loss during dieting to derive disproportionately from lean muscle rather than body fat."
 cover_image: "assets/images/articles/uyku-diyetsel-bir-risk-faktoru-olmaya.png"
@@ -9,6 +9,8 @@ read_time: "8 min"
 badge: "Scientific Review"
 tags: ["Sleep", "Appetite Regulation", "Metabolism", "Chrono-nutrition"]
 draft: false
+tr_slug: "uyku-diyetsel-bir-risk-faktoru-olmaya-aday-mi"
+date_modified: "2026-10-23"
 ---
 
 Nutritional science can no longer be confined strictly to what lies on the plate. Decades ago, dietary practice was dominated by basic energy thermodynamics and macronutrient counting. Then arrived personalization: individualized postprandial glycemic excursions, gut microbiota signatures, and meal chronobiology. Soon after, physical activity, psychosocial stress, and the built environment joined the matrix.

@@ -1,6 +1,6 @@
 ---
 title: "GLP-1 Kullanırken Tok Hissetmeniz, Aç Olduğunuz Gerçeğini Değiştirmiyor"
-slug: "glp-1-kullanrken-tok-hissetmeniz"
+slug: "glp-1-kullanirken-tok-hissetmeniz-ac-oldugunuz-gercegi"
 date: "2026-09-09"
 summary: "GLP-1 ilacı kullanan bir hasta düşünün: iştahı neredeyse tamamen kapanmış, tabağındaki yemeğin yarısını bile bitiremiyor."
 cover_image: "assets/images/articles/glp-1-kullanrken-tok-hissetmeniz.jpg"
@@ -9,6 +9,8 @@ read_time: "7 dk"
 badge: "Bilimsel Analiz"
 tags: ["Malnütrisyon", "Klinik Beslenme", "GLP-1"]
 draft: false
+en_slug: "feeling-full-on-glp-1-cells-starving"
+date_modified: "2026-10-23"
 ---
 
 # GLP-1 Kullanırken Tok Hissetmeniz, Aç Olduğunuz Gerçeğini Değiştirmiyor

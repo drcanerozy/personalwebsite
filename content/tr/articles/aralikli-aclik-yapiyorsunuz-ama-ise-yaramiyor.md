@@ -1,6 +1,6 @@
 ---
 title: "Aralıklı Açlık Yapıyorsunuz Ama İşe Yaramıyor mu? Sebebi Bağırsaklarınız Olabilir"
-slug: "aralkl-aclk-yapyorsunuz-ama-ise-yaramyor"
+slug: "aralikli-aclik-yapiyorsunuz-ama-ise-yaramiyor"
 date: "2026-10-08"
 summary: "Açlık programınızın gerektirdiği kadar aç kalıyor, beslenme pencerenizde özenle besleniyor ama bir türlü vaat edilen o metabolik faydayı görmüyor musunuz?"
 cover_image: "assets/images/articles/aralkl-aclk-yapyorsunuz-ama-ise-yaramyor.png"
@@ -9,6 +9,8 @@ read_time: "7 dk"
 badge: "Bilimsel Analiz"
 tags: ["Aralıklı Açlık", "Mikrobiyota", "Metabolizma"]
 draft: false
+en_slug: "intermittent-fasting-gut-microbiome"
+date_modified: "2026-10-23"
 ---
 
 Açlık programınızın gerektirdiği kadar aç kalıyor, beslenme pencerenizde özenle besleniyor ama bir türlü vaat edilen o metabolik faydayı görmüyor musunuz? Sorun her zaman hücrelerinizde değil, içinizde yaşayan devasa mikroskobik nüfusta, yani bağırsak floranızda olabilir.

@@ -9,6 +9,8 @@ read_time: "8 dk"
 badge: "Bilimsel Analiz"
 tags: ["Aralıklı Açlık", "İnsülin Direnci", "Metabolizma", "Kas Kütlesi"]
 draft: false
+en_slug: "fasting-with-insulin-resistance"
+date_modified: "2026-10-23"
 ---
 
 İki kişi aynı aralıklı açlık düzenini aynı süre uyguluyor. Birinin bel çevresi daralıyor. Diğerinin tartısı düşüyor ama bel çevresi yerinde duruyor. Aynı açlık, farklı sonuç. Neden?

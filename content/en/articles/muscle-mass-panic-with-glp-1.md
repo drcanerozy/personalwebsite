@@ -1,6 +1,6 @@
 ---
 title: "The Muscle Mass Panic with GLP-1: Are We Losing Muscle or Shrinking Overall Body Mass?"
-slug: "glp-1-ile-gelen-kas-dokusu-panigi"
+slug: "muscle-mass-panic-with-glp-1"
 date: "2026-09-17"
 summary: "Alarmist headlines claim GLP-1 medications melt away skeletal muscle. What does DEXA body composition data actually show? Distinguishing between the 'Quarter Rule' and pathological sarcopenia."
 cover_image: "assets/images/articles/glp-1-ile-gelen-kas-dokusu-panigi.png"
@@ -10,6 +10,8 @@ badge: "Body Composition Analysis"
 tags: ["Sarcopenia", "Muscle Mass", "DEXA", "GLP-1", "Sports Nutrition"]
 draft: false
 lang: "en"
+tr_slug: "glp-1-ile-gelen-kas-dokusu-panigi"
+date_modified: "2026-10-23"
 ---
 
 In recent months, alarmist headlines have swept mainstream media: *"Ozempic is eating your muscles," "The silent sarcopenia crisis," "Half of the weight lost is pure muscle."*

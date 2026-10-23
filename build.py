@@ -2103,10 +2103,18 @@ def generate_single_article_html(article, lang="tr"):
     home_url = "../" if is_tr else "../../en/"
     asset_prefix = "../" if is_tr else "../../"
     body_html = render_article_markdown_body(body_md, asset_prefix=asset_prefix)
-    canonical_url = f"https://canerozy.com/yazilar/{slug}.html" if is_tr else f"https://canerozy.com/en/articles/{slug}.html"
-    tr_url = f"https://canerozy.com/yazilar/{slug}.html"
-    en_url = f"https://canerozy.com/en/articles/{slug}.html"
-    switch_lang_url = f"../en/articles/{slug}.html" if is_tr else f"../../yazilar/{slug}.html"
+    
+    if is_tr:
+        tr_slug = slug
+        en_slug = article.get("en_slug", slug)
+    else:
+        en_slug = slug
+        tr_slug = article.get("tr_slug", slug)
+
+    canonical_url = f"https://canerozy.com/yazilar/{tr_slug}.html" if is_tr else f"https://canerozy.com/en/articles/{en_slug}.html"
+    tr_url = f"https://canerozy.com/yazilar/{tr_slug}.html"
+    en_url = f"https://canerozy.com/en/articles/{en_slug}.html"
+    switch_lang_url = f"../en/articles/{en_slug}.html" if is_tr else f"../../yazilar/{tr_slug}.html"
     switch_lang_label = "EN" if is_tr else "TR"
 
     if cover_image:
@@ -2165,7 +2173,7 @@ def generate_single_article_html(article, lang="tr"):
     <link rel="canonical" href="{canonical_url}">
     <link rel="alternate" hreflang="tr" href="{tr_url}">
     <link rel="alternate" hreflang="en" href="{en_url}">
-    <link rel="alternate" hreflang="x-default" href="{en_url}">
+    <link rel="alternate" hreflang="x-default" href="{tr_url}">
 
     <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="article">
@@ -2507,8 +2515,49 @@ Sitemap: https://canerozy.com/sitemap.xml
         f.write(robots_content)
     print("  ✅ Generated: robots.txt")
 
+def generate_redirect_files():
+    redirects_file = BASE_DIR / "redirects.csv"
+    if not redirects_file.exists():
+        return
+    with open(redirects_file, "r", encoding="utf-8") as f:
+        lines = f.read().splitlines()
+    count = 0
+    for line in lines[1:]:
+        if not line.strip():
+            continue
+        parts = line.split(",")
+        old_url, new_url = parts[0].strip(), parts[1].strip()
+        is_tr = not old_url.startswith("/en/")
+        lang = "tr" if is_tr else "en"
+        title = "Yönlendiriliyor…" if is_tr else "Redirecting…"
+        link_text = "Yazıya git" if is_tr else "Go to article"
+        dest_url = f"https://canerozy.com{new_url}"
+        
+        rel_path = old_url.lstrip("/")
+        target_file = BASE_DIR / rel_path
+        target_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        content = f"""<!doctype html>
+<html lang="{lang}">
+<head>
+  <meta charset="utf-8">
+  <title>{title}</title>
+  <link rel="canonical" href="{dest_url}">
+  <meta name="robots" content="noindex,follow">
+  <meta http-equiv="refresh" content="0; url={dest_url}">
+  <script>location.replace("{dest_url}");</script>
+</head>
+<body><a href="{dest_url}">{link_text}</a></body>
+</html>
+"""
+        with open(target_file, "w", encoding="utf-8") as out_f:
+            out_f.write(content)
+        count += 1
+    print(f"  ✅ {count} 301-equivalent redirect files generated")
+
 def main():
     print("🚀 Building Academic Website...")
+    generate_redirect_files()
     
     # 1. Build TR site -> index.html
     tr_html = generate_html("tr")

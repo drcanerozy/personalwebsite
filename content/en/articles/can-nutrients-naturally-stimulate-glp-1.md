@@ -1,6 +1,6 @@
 ---
 title: "Can Nutrients Naturally Stimulate GLP-1? The Science of Dietary Incretin Secretion"
-slug: "besinlerle-glp-1-salglatmak-mumkun"
+slug: "can-nutrients-naturally-stimulate-glp-1"
 date: "2026-10-01"
 summary: "From viral 'Oat-zempic' trends to berberine supplements, social media claims nature has its own GLP-1 agonists. What does biochemistry actually say about nutrient-stimulated incretin release?"
 cover_image: "assets/images/articles/besinlerle-glp-1-salglatmak-mumkun.png"
@@ -10,6 +10,8 @@ badge: "Scientific Review"
 tags: ["GLP-1", "Incretins", "Nutrition", "Satiety", "Pharmacology"]
 draft: false
 lang: "en"
+tr_slug: "besinlerle-glp-1-salgilatmak-mumkun"
+date_modified: "2026-10-23"
 ---
 
 Scroll through Instagram or TikTok for ten minutes, and you are guaranteed to encounter viral promises: oat and lime drinks marketed as "Oat-zempic," warm gelatin cocktails ingested prior to dinner, berberine capsules proclaimed as "nature's Ozempic," and celebrity-endorsed "GLP-1 Daily" nutraceuticals.

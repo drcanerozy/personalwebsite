@@ -1,6 +1,6 @@
 ---
 title: "There Is a Subset of Patients Resistant to GLP-1 Therapies: Why Do Some Not Respond?"
-slug: "glp-1-ilaclarna-direncli-bir-grup"
+slug: "patients-resistant-to-glp-1-therapies"
 date: "2026-09-29"
 summary: "While incretin mimetics are celebrated as clinical breakthroughs, clinical trials prove that roughly 10-15% of patients experience minimal to zero weight loss. What causes GLP-1 resistance?"
 cover_image: "assets/images/articles/glp-1-ilaclarna-direncli-bir-grup.png"
@@ -10,6 +10,8 @@ badge: "Clinical Analysis"
 tags: ["GLP-1", "Non-responders", "Pharmacogenomics", "Obesity Medicine"]
 draft: false
 lang: "en"
+tr_slug: "glp-1-ilaclarina-direncli-bir-grup-var"
+date_modified: "2026-10-23"
 ---
 
 In public discourse, GLP-1 receptor agonists are frequently depicted as universally effective therapies that dissolve appetite with algorithmic certainty. 

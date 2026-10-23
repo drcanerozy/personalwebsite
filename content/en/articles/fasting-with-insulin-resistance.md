@@ -1,6 +1,6 @@
 ---
 title: "Fasting While Having Insulin Resistance May Not Be Such a Good Idea"
-slug: "insulin-direnciniz-varken-ac-kalmak"
+slug: "fasting-with-insulin-resistance"
 date: "2026-10-20"
 summary: "Two individuals follow the exact same intermittent fasting regimen for the same duration. One loses visceral fat and narrows their waistline; the other sees the scale drop, yet abdominal adiposity persists. Emerging evidence suggests hyperinsulinemia fundamentally shifts how the body responds to fasting."
 cover_image: "assets/images/articles/insulin-direnciniz-varken-ac-kalmak.png"
@@ -9,6 +9,8 @@ read_time: "8 min"
 badge: "Scientific Review"
 tags: ["Intermittent Fasting", "Insulin Resistance", "Metabolism", "Muscle Mass"]
 draft: false
+tr_slug: "insulin-direnciniz-varken-ac-kalmak"
+date_modified: "2026-10-23"
 ---
 
 Two individuals adhere to the exact same intermittent fasting schedule for the same period. One notices a pronounced reduction in waist circumference. The other registers a drop on the bathroom scale, yet their abdominal fat remains virtually untouched. Same fasting protocol, completely divergent outcomes. Why?

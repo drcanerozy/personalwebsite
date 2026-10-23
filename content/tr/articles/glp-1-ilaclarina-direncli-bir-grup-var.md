@@ -1,6 +1,6 @@
 ---
 title: "GLP-1 İlaçlarına Dirençli Bir Grup Var"
-slug: "glp-1-ilaclarna-direncli-bir-grup"
+slug: "glp-1-ilaclarina-direncli-bir-grup-var"
 date: "2026-09-29"
 summary: "Zayıflama ilaçları herkes için aynı etkiyi göstermiyor"
 cover_image: "assets/images/articles/glp-1-ilaclarna-direncli-bir-grup.png"
@@ -9,6 +9,8 @@ read_time: "12 dk"
 badge: "Bilimsel Analiz"
 tags: ["GLP-1", "Obezite Farmakoterapisi", "Direnç Mekanizmaları"]
 draft: false
+en_slug: "patients-resistant-to-glp-1-therapies"
+date_modified: "2026-10-23"
 ---
 
 Her iki hastadan birinin mucizevi sonuçlar aldığı, diğerinin ise neredeyse hiç kilo vermediği bir ilaç hayal edin. Semaglutid ve tirzepatid klinik denemelerinin verilerine baktığınızda tam da bunu görürsünüz: ortalamalardaki çarpıcı başarı, gerçekte son derece geniş bir yanıt dağılımını gizliyor. Klinisyenler bu tabloya giderek daha fazla odaklanıyor. Bazı hastalar neden bu ilaçlara bu kadar farklı yanıt veriyor?

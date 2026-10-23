@@ -1,6 +1,6 @@
 ---
 title: "How Does a Blood Sugar-Raising Hormone Promote Weight Loss? The Paradox of Glucagon"
-slug: "kan-sekerini-yukselten-hormon-nasl"
+slug: "glucagon-paradox-blood-sugar-raising-hormone-weight-loss"
 date: "2026-09-24"
 summary: "In classical textbooks, glucagon was labeled the 'evil' counterpart to insulin that raises blood glucose. Why is the newest generation of obesity medications deliberately incorporating glucagon agonism?"
 cover_image: "assets/images/articles/kan-sekerini-yukselten-hormon-nasl.png"
@@ -10,6 +10,8 @@ badge: "Biochemical Deep Dive"
 tags: ["Glucagon", "Incretin Tri-agonists", "Metabolism", "Retatrutide"]
 draft: false
 lang: "en"
+tr_slug: "kan-sekerini-yukselten-hormon-nasil-zayiflatiyor"
+date_modified: "2026-10-23"
 ---
 
 Every medical, biology, and dietetics student has learned the classical endocrine dichotomy: **insulin** lowers blood glucose and stores energy, while **glucagon**, secreted by pancreatic alpha cells, raises blood glucose and mobilizes glycogen during fasting.

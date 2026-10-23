@@ -1,6 +1,6 @@
 ---
 title: "Your Diet May Be Epigenetically Programming Your Liver for Cancer Years in Advance"
-slug: "beslenme-tarznz-yllar-oncesinden"
+slug: "diet-epigenetically-programming-liver-cancer"
 date: "2026-10-06"
 summary: "Years of consuming high-fat, ultra-processed diets can fundamentally alter the identity and epigenetic state of hepatocytes—long before any somatic oncogenic mutations occur. Discover how diet writes the pre-cancerous playbook."
 cover_image: "assets/images/articles/beslenme-tarznz-yllar-oncesinden.png"
@@ -10,6 +10,8 @@ badge: "Scientific Review"
 tags: ["Liver Health", "MASLD", "Epigenetics", "Oncology", "Nutrition"]
 draft: false
 lang: "en"
+tr_slug: "beslenme-tarziniz-karacigeri-kansere-programliyor"
+date_modified: "2026-10-23"
 ---
 
 Years of consuming hypercaloric, ultra-processed, and high-fat diets can fundamentally rewire hepatocyte identity and gene expression—decades before a clinical hepatocellular carcinoma (HCC) lesion becomes detectable, and remarkably, **in the complete absence of somatic driver mutations**.

@@ -1,6 +1,6 @@
 ---
 title: "GLP-1 Agonists: Is Weight Loss the Same as Truly Treating the Disease of Obesity?"
-slug: "glp-1-ilaclar-kilo-vermekle-obeziteyi"
+slug: "glp-1-agonists-weight-loss-vs-obesity-treatment"
 date: "2026-09-15"
 summary: "Do incretin medications actually cure obesity or merely induce substantial mass reduction? Deconstructing the five foundational pillars of modern obesity medicine."
 cover_image: "assets/images/articles/glp-1-ilaclar-kilo-vermekle-obeziteyi.png"
@@ -10,6 +10,8 @@ badge: "Philosophical & Medical Analysis"
 tags: ["Obesity Medicine", "EASO Guidelines", "Pathophysiology", "GLP-1"]
 draft: false
 lang: "en"
+tr_slug: "glp-1-ilaclari-kilo-vermek-obezite-tedavisi"
+date_modified: "2026-10-23"
 ---
 
 The phrase *"GLP-1 drugs treat obesity"* is repeated constantly in modern media and medical advertising. 

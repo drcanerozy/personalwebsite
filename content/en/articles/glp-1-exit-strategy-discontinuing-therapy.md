@@ -1,6 +1,6 @@
 ---
 title: "The GLP-1 Exit Strategy: What Actually Happens When You Discontinue Incretin Therapy?"
-slug: "glp-1den-cks-plan-ilac-braktgnzda"
+slug: "glp-1-exit-strategy-discontinuing-therapy"
 date: "2026-09-22"
 summary: "What happens when patients reach their target weight and discontinue incretin therapy? Exploring the biological weight regain recoil and building a clinically viable de-escalation protocol."
 cover_image: "assets/images/articles/glp-1den-cks-plan-ilac-braktgnzda.png"
@@ -10,6 +10,8 @@ badge: "Clinical Protocol"
 tags: ["GLP-1 Discontinuation", "Weight Maintenance", "Metabolic Adaptation"]
 draft: false
 lang: "en"
+tr_slug: "glp-1den-cikis-plani-ilaci-biraktiginizda-ne-olacak"
+date_modified: "2026-10-23"
 ---
 
 One of the most consequential yet underdeveloped questions in modern endocrinology is: **What is the exit plan?**

@@ -1,6 +1,6 @@
 ---
 title: "GLP-1 İlaçları: Kilo Vermekle Obeziteyi Tedavi Etmek Aynı Şey Mi?"
-slug: "glp-1-ilaclar-kilo-vermekle-obeziteyi"
+slug: "glp-1-ilaclari-kilo-vermek-obezite-tedavisi"
 date: "2026-09-15"
 summary: "“GLP-1 ilaçları obeziteyi tedavi ediyor” cümlesini defalarca duydunuz."
 cover_image: "assets/images/articles/glp-1-ilaclar-kilo-vermekle-obeziteyi.png"
@@ -9,6 +9,8 @@ read_time: "10 dk"
 badge: "Bilimsel Analiz"
 tags: ["Obezite Tedavisi", "Kronik Hastalık", "Farmakoterapi"]
 draft: false
+en_slug: "glp-1-agonists-weight-loss-vs-obesity-treatment"
+date_modified: "2026-10-23"
 ---
 
 # GLP-1, Obeziteyi mi Tedavi Ediyor, Obezitenin Bir Bölümünü mü?

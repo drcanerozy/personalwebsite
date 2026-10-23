@@ -9,6 +9,8 @@ read_time: "8 dk"
 badge: "Bilimsel Analiz"
 tags: ["Kas Kütlesi", "Sarkopeni", "GLP-1"]
 draft: false
+en_slug: "muscle-mass-panic-with-glp-1"
+date_modified: "2026-10-23"
 ---
 
 GLP-1 ile Kas Dokusu Paniği: Kas Eriyor Değil, Vücudunuz Küçülüyor

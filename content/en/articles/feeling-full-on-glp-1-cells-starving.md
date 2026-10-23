@@ -1,6 +1,6 @@
 ---
 title: "Feeling Full on GLP-1 Doesn't Change the Fact That Your Cells Might Be Starving"
-slug: "glp-1-kullanrken-tok-hissetmeniz"
+slug: "feeling-full-on-glp-1-cells-starving"
 date: "2026-09-09"
 summary: "When incretin medications completely turn off hunger, patients often celebrate surviving on a coffee and a single cracker. But cellular starvation and micronutrient collapse are a silent clinical hazard."
 cover_image: "assets/images/articles/glp-1-kullanrken-tok-hissetmeniz.jpg"
@@ -10,6 +10,8 @@ badge: "Clinical Nutrition"
 tags: ["Nutritional Deficiencies", "Malnutrition", "GLP-1", "Clinical Practice"]
 draft: false
 lang: "en"
+tr_slug: "glp-1-kullanirken-tok-hissetmeniz-ac-oldugunuz-gercegi"
+date_modified: "2026-10-23"
 ---
 
 On social media and in clinical exam rooms, new GLP-1 patients frequently share a common boast: *"I haven't felt hungry in three days! I had half an apple and an iced latte today, and I couldn't take another bite."*

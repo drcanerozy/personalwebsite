@@ -1,6 +1,6 @@
 ---
 title: "Uyku Diyetsel Bir Risk Faktörü Olmaya Aday mı?"
-slug: "uyku-diyetsel-bir-risk-faktoru-olmaya"
+slug: "uyku-diyetsel-bir-risk-faktoru-olmaya-aday-mi"
 date: "2026-10-22"
 summary: "Beslenme bilimi artık tabağın içine sığmıyor. Kontrollü deneyler, yetersiz uykunun iştahı ve günlük kalori alımını artırdığını, diyetle kaybedilen kilonun yağ payını azalttığını gösteriyor. Peki uyku 'diyetsel bir risk faktörü' sayılabilir mi?"
 cover_image: "assets/images/articles/uyku-diyetsel-bir-risk-faktoru-olmaya.png"
@@ -9,6 +9,8 @@ read_time: "8 dk"
 badge: "Bilimsel Analiz"
 tags: ["Uyku", "İştah Regülasyonu", "Metabolizma", "Kronobeslenme"]
 draft: false
+en_slug: "is-sleep-a-dietary-risk-factor"
+date_modified: "2026-10-23"
 ---
 
 Beslenme bilimi artık tabağın içine sığmıyor. Bir zamanlar her şey enerji dengesi ve makro sayımıydı. Sonra kişiselleştirme geldi: aynı yemeğe farklı kan şekeri yanıtı, bağırsak mikrobiyotası, öğün saati. Ardından hareket, stres, ruh hali, yaşadığımız çevre.

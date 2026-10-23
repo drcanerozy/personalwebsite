@@ -1,6 +1,6 @@
 ---
 title: "GLP-1’den Çıkış Planı: İlacı Bıraktığınızda Ne Olacak?"
-slug: "glp-1den-cks-plan-ilac-braktgnzda"
+slug: "glp-1den-cikis-plani-ilaci-biraktiginizda-ne-olacak"
 date: "2026-09-22"
 summary: "Bir zayıflama iğnesine başlarken herkesin zihninde tek bir soru vardır: “Haftada kaç kilo vereceğim?” Doktor muayenehanelerinde, sosyal medya gönderilerinde veya arkadaş sohbetlerinde bütün dikkat “giriş” anına ve verilen kilolara kilitlenir."
 cover_image: "assets/images/articles/glp-1den-cks-plan-ilac-braktgnzda.png"
@@ -9,6 +9,8 @@ read_time: "8 dk"
 badge: "Bilimsel Analiz"
 tags: ["GLP-1", "Kilo Koruma", "Klinik Takip"]
 draft: false
+en_slug: "glp-1-exit-strategy-discontinuing-therapy"
+date_modified: "2026-10-23"
 ---
 
 Bir zayıflama iğnesine başlarken herkesin zihninde tek bir soru vardır: "Haftada kaç kilo vereceğim?" Doktor muayenehanelerinde, sosyal medya gönderilerinde veya arkadaş sohbetlerinde bütün dikkat "giriş" anına ve verilen kilolara kilitlenir. Ancak tıp dünyasının ve hastaların sormaktan imtina ettiği çok daha hayati bir soru var: "İlacı bıraktığımda ne olacak?"

@@ -1,6 +1,6 @@
 ---
 title: "Intermittent Fasting Isn't Working for You? Your Gut Microbiome Might Be the Reason"
-slug: "aralkl-aclk-yapyorsunuz-ama-ise-yaramyor"
+slug: "intermittent-fasting-gut-microbiome"
 date: "2026-10-08"
 summary: "You adhere strictly to your fasting windows and eat mindfully, yet fail to see the promised metabolic rewards? The bottleneck may not reside in your cells, but within the microscopic ecosystem of your gut flora."
 cover_image: "assets/images/articles/aralkl-aclk-yapyorsunuz-ama-ise-yaramyor.png"
@@ -10,6 +10,8 @@ badge: "Scientific Review"
 tags: ["Intermittent Fasting", "Gut Microbiota", "Metabolism", "Akkermansia"]
 draft: false
 lang: "en"
+tr_slug: "aralikli-aclik-yapiyorsunuz-ama-ise-yaramiyor"
+date_modified: "2026-10-23"
 ---
 
 You adhere strictly to your fasting protocol, curate clean meals during your eating window, yet the anticipated metabolic breakthroughs—weight loss, insulin sensitivity, visceral fat reduction—remain stubbornly out of reach. The primary metabolic roadblock may not reside within your human cells, but within the trillions of microorganisms colonizing your gastrointestinal tract.

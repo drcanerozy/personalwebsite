@@ -1,6 +1,6 @@
 ---
 title: "Kan Şekerini Yükselten Hormon Nasıl Zayıflatıyor?"
-slug: "kan-sekerini-yukselten-hormon-nasl"
+slug: "kan-sekerini-yukselten-hormon-nasil-zayiflatiyor"
 date: "2026-09-24"
 summary: "Yeni Nesil GLP-1 İlaçlarının Etkileyici Dünyası"
 cover_image: "assets/images/articles/kan-sekerini-yukselten-hormon-nasl.png"
@@ -9,6 +9,8 @@ read_time: "6 dk"
 badge: "Bilimsel Analiz"
 tags: ["Glukagon", "Metabolizma", "GLP-1"]
 draft: false
+en_slug: "glucagon-paradox-blood-sugar-raising-hormone-weight-loss"
+date_modified: "2026-10-23"
 ---
 
 Tıp dünyasında öyle kırılma anları vardır ki, yıllarca ders kitaplarında okutulan ve "kesin doğru" kabul edilen kurallar bir anda altüst olur. Obezite ve metabolizma tıbbı şu an tam da böyle bir dönüşümün ortasında. Bariatrik cerrahinin onlarca yıldır tekeline aldığı kilo kaybı eşiklerine artık bir enjektörle ulaşılabiliyor — ve bu süreç henüz başlangıç aşamasında.

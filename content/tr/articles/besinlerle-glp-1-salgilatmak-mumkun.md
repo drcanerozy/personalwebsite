@@ -1,6 +1,6 @@
 ---
 title: "Besinlerle GLP-1 Salgılatmak Mümkün Mü?"
-slug: "besinlerle-glp-1-salglatmak-mumkun"
+slug: "besinlerle-glp-1-salgilatmak-mumkun"
 date: "2026-10-01"
 summary: "Doğal GLP-1 Var Mı?"
 cover_image: "assets/images/articles/besinlerle-glp-1-salglatmak-mumkun.png"
@@ -9,6 +9,8 @@ read_time: "12 dk"
 badge: "Bilimsel Analiz"
 tags: ["GLP-1", "İnkretinler", "Besin Etkileşimi"]
 draft: false
+en_slug: "can-nutrients-naturally-stimulate-glp-1"
+date_modified: "2026-10-23"
 ---
 
 TikTok veya Instagram'da birkaç dakika geçirdiyseniz o meşhur tariflere ve takviyelere kesinlikle denk gelmişsinizdir: Bir bardak suya yulaf ve misket limonu sıkılarak hazırlanan viral "Oatempic" karışımları, ılık suya sade jelatin karıştırıp yemekten önce içilen "jelatin içeceği", aramaları tek bir ayda %800 artan limon balmı çayı, 2024'te viral olan "Rice-zempic" (pirinç suyu), aktarlarda yok satan Berberin kapsülleri ve hatta Kourtney Kardashian'ın markası Lemme tarafından çıkarılan "GLP-1 Daily" takviyeleri... Başlıklar hep aynı vaadi fısıldar: "Zayıflama iğnelerine servet ödemeyin, doğanın Ozempic'i bulundu!"
