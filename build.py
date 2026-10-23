@@ -2893,83 +2893,8 @@ def generate_single_article_html(article, lang="tr"):
     return html
 
 def generate_sitemap_and_robots(tr_teaching, en_teaching, tr_articles=None, en_articles=None):
-    from datetime import date
-    today = date.today().isoformat()
-    
-    urls = [
-        {"loc": "https://canerozy.com/", "lastmod": today, "changefreq": "daily", "priority": "1.0", "tr": "https://canerozy.com/", "en": "https://canerozy.com/en/"},
-        {"loc": "https://canerozy.com/en/", "lastmod": today, "changefreq": "weekly", "priority": "0.9", "tr": "https://canerozy.com/", "en": "https://canerozy.com/en/"},
-    ]
-    
-    for c in tr_teaching:
-        fname = c.get("_filename", "course.md").replace(".md", ".html")
-        urls.append({
-            "loc": f"https://canerozy.com/dersler/{fname}",
-            "lastmod": today,
-            "changefreq": "monthly",
-            "priority": "0.8"
-        })
-        
-    for c in en_teaching:
-        fname = c.get("_filename", "course.md").replace(".md", ".html")
-        urls.append({
-            "loc": f"https://canerozy.com/en/courses/{fname}",
-            "lastmod": today,
-            "changefreq": "monthly",
-            "priority": "0.8"
-        })
-
-    # Paired bilingual articles
-    if tr_articles:
-        for a in tr_articles:
-            slug = a.get("slug")
-            if slug:
-                urls.append({
-                    "loc": f"https://canerozy.com/yazilar/{slug}.html",
-                    "lastmod": a.get("date", today),
-                    "changefreq": "monthly",
-                    "priority": "0.8",
-                    "tr": f"https://canerozy.com/yazilar/{slug}.html",
-                    "en": f"https://canerozy.com/en/articles/{slug}.html"
-                })
-
-    if en_articles:
-        for a in en_articles:
-            slug = a.get("slug")
-            if slug:
-                urls.append({
-                    "loc": f"https://canerozy.com/en/articles/{slug}.html",
-                    "lastmod": a.get("date", today),
-                    "changefreq": "monthly",
-                    "priority": "0.8",
-                    "tr": f"https://canerozy.com/yazilar/{slug}.html",
-                    "en": f"https://canerozy.com/en/articles/{slug}.html"
-                })
-        
-    xml_lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
-    for u in urls:
-        xml_lines.append("  <url>")
-        xml_lines.append(f"    <loc>{u['loc']}</loc>")
-        xml_lines.append(f"    <lastmod>{u['lastmod']}</lastmod>")
-        xml_lines.append(f"    <changefreq>{u['changefreq']}</changefreq>")
-        xml_lines.append(f"    <priority>{u['priority']}</priority>")
-        if "tr" in u and "en" in u:
-            xml_lines.append(f'    <xhtml:link rel="alternate" hreflang="tr" href="{u["tr"]}"/>')
-            xml_lines.append(f'    <xhtml:link rel="alternate" hreflang="en" href="{u["en"]}"/>')
-        xml_lines.append("  </url>")
-    xml_lines.append("</urlset>\n")
-    
-    with open(BASE_DIR / "sitemap.xml", "w", encoding="utf-8") as f:
-        f.write("\n".join(xml_lines))
-    print("  ✅ Generated: sitemap.xml")
-    
-    robots_content = """User-agent: *
-Allow: /
-
-Sitemap: https://canerozy.com/sitemap.xml
-"""
-    with open(BASE_DIR / "robots.txt", "w", encoding="utf-8") as f:
-        f.write(robots_content)
+    from scripts.build_sitemap import build_sitemap
+    build_sitemap(tr_articles, en_articles)
     print("  ✅ Generated: robots.txt")
 
 def generate_redirect_files():
