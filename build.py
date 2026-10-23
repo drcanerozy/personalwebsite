@@ -2604,7 +2604,31 @@ def generate_articles_list_html(articles, lang="tr"):
 </html>"""
     return html
 
-def generate_single_article_html(article, lang="tr"):
+def get_related_articles(current_article, all_articles, count=3):
+    if not all_articles:
+        return []
+    curr_slug = current_article.get("slug", "")
+    curr_tags = set(t.lower() for t in current_article.get("tags", []))
+    curr_words = set(re.findall(r'\w+', current_article.get("title", "").lower()))
+    stopwords = {"ve", "ile", "bir", "ama", "icin", "için", "ne", "nasil", "nasıl", "mi", "mu", "the", "and", "or", "to", "in", "of", "a", "an", "is"}
+    
+    scored = []
+    for cand in all_articles:
+        if cand.get("slug") == curr_slug:
+            continue
+        cand_tags = set(t.lower() for t in cand.get("tags", []))
+        shared_tags = curr_tags.intersection(cand_tags)
+        
+        cand_words = set(re.findall(r'\w+', cand.get("title", "").lower()))
+        shared_words = curr_words.intersection(cand_words) - stopwords
+        
+        score = len(shared_tags) * 3 + len(shared_words) * 1
+        scored.append((score, cand.get("date", ""), cand))
+    
+    scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
+    return [item[2] for item in scored[:count]]
+
+def generate_single_article_html(article, lang="tr", all_articles=None):
     is_tr = (lang == "tr")
     slug = article.get("slug", "")
     title = article.get("title", "Makale" if is_tr else "Article")
@@ -2698,6 +2722,47 @@ def generate_single_article_html(article, lang="tr"):
     }
 
     page_title = format_page_title(title, suffix="Caner Özyıldırım", max_len=65)
+
+    # Compute 3 related articles for internal linking cluster
+    related_list = get_related_articles(article, all_articles, count=3)
+    related_cards = []
+    for rel in related_list:
+        rel_slug = rel.get("slug", "")
+        rel_title = rel.get("title", "")
+        rel_date = rel.get("date", "")
+        rel_badge = rel.get("badge", "")
+        if not rel_badge:
+            rel_tags = rel.get("tags", [])
+            rel_badge = rel_tags[0] if rel_tags else ("Bilimsel Analiz" if is_tr else "Scientific Review")
+        rel_read = rel.get("read_time", "7 dk" if is_tr else "7 min")
+        rel_summary = rel.get("summary", "")
+        rel_url = f"{rel_slug}.html"
+        
+        card = f"""
+                <a href="{rel_url}" class="group flex flex-col justify-between bg-white border border-slate-200 hover:border-academic-700 rounded-xl p-4 transition-all duration-200 hover:shadow-md">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] mb-2 text-slate-500">
+                            <span class="font-semibold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">{rel_badge}</span>
+                            <span>{rel_read}</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition line-clamp-2 leading-snug">
+                            {rel_title}
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                            {rel_summary}
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span>{rel_date}</span>
+                        <span class="text-academic-700 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center space-x-1">
+                            <span>{'Oku' if is_tr else 'Read'}</span>
+                            <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </a>"""
+        related_cards.append(card)
+    
+    related_cards_html = "\n".join(related_cards)
 
     html = f"""<!DOCTYPE html>
 <html lang="{'tr' if is_tr else 'en'}" class="scroll-smooth">
@@ -2876,8 +2941,10 @@ def generate_single_article_html(article, lang="tr"):
                 {title}
             </h1>
 
-            <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium mt-4 pb-6 border-b border-slate-200">
-                <span class="flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i> {date_str}</span>
+            <div class="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 font-medium mt-4 pb-6 border-b border-slate-200">
+                <span class="flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i> {'Yayın:' if is_tr else 'Published:'} {date_str}</span>
+                <span class="text-slate-300">•</span>
+                <span class="flex items-center"><i class="fa-solid fa-arrows-rotate mr-1.5 text-slate-400"></i> {'Son Güncelleme:' if is_tr else 'Updated:'} {date_modified}</span>
                 <span class="text-slate-300">•</span>
                 <span class="flex items-center"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> {read_time}</span>
                 <span class="text-slate-300">•</span>
@@ -2964,6 +3031,15 @@ def generate_single_article_html(article, lang="tr"):
             </div>
         </section>
 
+        <!-- Medical Disclaimer -->
+        <div class="my-8 p-4 bg-amber-50/60 border border-amber-200/80 rounded-xl text-xs text-slate-600 flex items-start space-x-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+                <strong class="font-semibold text-slate-800">{'Tıbbi Sorumluluk Reddi:' if is_tr else 'Medical Disclaimer:'}</strong>
+                <span>{'Bu sayfada yer alan analizler ve bilimsel değerlendirmeler yalnızca bilgilendirme ve akademik tartışma amaçlıdır; tıbbi teşhis, tedavi veya bireysel beslenme danışmanlığı yerine geçmez. Sağlık durumunuz, ilaç kullanımınız veya diyet tedavinizle ilgili tüm kararları hekiminize ve yetkili sağlık profesyonellerine danışarak alınız.' if is_tr else 'The analyses and literature reviews published on this website are for informational and academic purposes only and do not constitute medical diagnosis, treatment, or personalized clinical nutrition advice. Always consult your physician or licensed healthcare provider for health and medication decisions.'}</span>
+            </div>
+        </div>
+
         <!-- Author Card -->
         <div class="mt-12 p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xs">
             <img src="{author_img_src}" alt="Dr. Caner ÖZYILDIRIM" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
@@ -2983,6 +3059,23 @@ def generate_single_article_html(article, lang="tr"):
                 </div>
             </div>
         </div>
+
+        <!-- Related Articles Section -->
+        <section class="mt-12 pt-10 border-t border-slate-200">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="font-serif font-bold text-xl text-academic-900">{'İlgili Bilimsel Yazılar' if is_tr else 'Related Scientific Articles'}</h3>
+                    <p class="text-xs text-slate-500 mt-1">{'Benzer metabolik mekanizmalar ve klinik kanıtlar üzerine diğer incelemeler' if is_tr else 'Further reviews exploring related metabolic mechanisms and clinical evidence'}</p>
+                </div>
+                <a href="{list_url}" class="hidden sm:inline-flex text-xs font-semibold text-academic-700 hover:text-academic-900 transition items-center space-x-1">
+                    <span>{ui_text['bottom_view_all']}</span>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {related_cards_html}
+            </div>
+        </section>
 
         <!-- Bottom Back Button -->
         <div class="mt-8 flex justify-between items-center text-xs">
@@ -3088,7 +3181,7 @@ def main():
     local_tr_articles = [a for a in tr_articles if a.get("is_local")]
     for a in local_tr_articles:
         fname = f"{a['slug']}.html"
-        ahtml = generate_single_article_html(a, "tr")
+        ahtml = generate_single_article_html(a, "tr", all_articles=local_tr_articles)
         with open(yazilar_dir / fname, "w", encoding="utf-8") as f:
             f.write(ahtml)
     print(f"  ✅ {len(local_tr_articles)} Turkish article detail pages generated in yazilar/")
@@ -3128,7 +3221,7 @@ def main():
     local_en_articles = [a for a in en_articles if a.get("is_local")]
     for a in local_en_articles:
         fname = f"{a['slug']}.html"
-        ahtml = generate_single_article_html(a, "en")
+        ahtml = generate_single_article_html(a, "en", all_articles=local_en_articles)
         with open(en_articles_dir / fname, "w", encoding="utf-8") as f:
             f.write(ahtml)
     print(f"  ✅ {len(local_en_articles)} English article detail pages generated in en/articles/")

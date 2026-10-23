@@ -175,8 +175,10 @@
                 Fasting While Having Insulin Resistance May Not Be Such a Good Idea
             </h1>
 
-            <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium mt-4 pb-6 border-b border-slate-200">
-                <span class="flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i> 2026-10-20</span>
+            <div class="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 font-medium mt-4 pb-6 border-b border-slate-200">
+                <span class="flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i> Published: 2026-10-20</span>
+                <span class="text-slate-300">•</span>
+                <span class="flex items-center"><i class="fa-solid fa-arrows-rotate mr-1.5 text-slate-400"></i> Updated: 2026-10-23</span>
                 <span class="text-slate-300">•</span>
                 <span class="flex items-center"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> 8 min</span>
                 <span class="text-slate-300">•</span>
@@ -343,6 +345,15 @@
             </div>
         </section>
 
+        <!-- Medical Disclaimer -->
+        <div class="my-8 p-4 bg-amber-50/60 border border-amber-200/80 rounded-xl text-xs text-slate-600 flex items-start space-x-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+                <strong class="font-semibold text-slate-800">Medical Disclaimer:</strong>
+                <span>The analyses and literature reviews published on this website are for informational and academic purposes only and do not constitute medical diagnosis, treatment, or personalized clinical nutrition advice. Always consult your physician or licensed healthcare provider for health and medication decisions.</span>
+            </div>
+        </div>
+
         <!-- Author Card -->
         <div class="mt-12 p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xs">
             <img src="../../assets/images/profil.jpg" alt="Dr. Caner ÖZYILDIRIM" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
@@ -362,6 +373,88 @@
                 </div>
             </div>
         </div>
+
+        <!-- Related Articles Section -->
+        <section class="mt-12 pt-10 border-t border-slate-200">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="font-serif font-bold text-xl text-academic-900">Related Scientific Articles</h3>
+                    <p class="text-xs text-slate-500 mt-1">Further reviews exploring related metabolic mechanisms and clinical evidence</p>
+                </div>
+                <a href="./" class="hidden sm:inline-flex text-xs font-semibold text-academic-700 hover:text-academic-900 transition items-center space-x-1">
+                    <span>← View All Articles</span>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                
+                <a href="intermittent-fasting-gut-microbiome.html" class="group flex flex-col justify-between bg-white border border-slate-200 hover:border-academic-700 rounded-xl p-4 transition-all duration-200 hover:shadow-md">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] mb-2 text-slate-500">
+                            <span class="font-semibold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">Scientific Review</span>
+                            <span>8 min</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition line-clamp-2 leading-snug">
+                            Intermittent Fasting Isn't Working for You? Your Gut Microbiome Might Be the Reason
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                            Strict intermittent fasting not yielding results? Emerging research shows gut microbiome composition and Akkermansia levels dictate metabolic response.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span>2026-10-08</span>
+                        <span class="text-academic-700 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center space-x-1">
+                            <span>Read</span>
+                            <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <a href="feeling-full-on-glp-1-cells-starving.html" class="group flex flex-col justify-between bg-white border border-slate-200 hover:border-academic-700 rounded-xl p-4 transition-all duration-200 hover:shadow-md">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] mb-2 text-slate-500">
+                            <span class="font-semibold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">Clinical Nutrition</span>
+                            <span>8 min</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition line-clamp-2 leading-snug">
+                            Feeling Full on GLP-1 Doesn't Change the Fact That Your Cells Might Be Starving
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                            Suppressed appetite on GLP-1 does not mean your cells are nourished. Learn why hidden malnutrition and micronutrient deficiencies emerge during therapy.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span>2026-09-09</span>
+                        <span class="text-academic-700 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center space-x-1">
+                            <span>Read</span>
+                            <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <a href="is-sleep-a-dietary-risk-factor.html" class="group flex flex-col justify-between bg-white border border-slate-200 hover:border-academic-700 rounded-xl p-4 transition-all duration-200 hover:shadow-md">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] mb-2 text-slate-500">
+                            <span class="font-semibold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">Scientific Review</span>
+                            <span>8 min</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition line-clamp-2 leading-snug">
+                            Is Sleep Poised to Become a Dietary Risk Factor?
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                            Can inadequate sleep be classified as a dietary risk factor? Analyzing clinical trials on ghrelin, leptin, ultra-processed cravings, and fat loss.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span>2026-10-22</span>
+                        <span class="text-academic-700 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center space-x-1">
+                            <span>Read</span>
+                            <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </section>
 
         <!-- Bottom Back Button -->
         <div class="mt-8 flex justify-between items-center text-xs">

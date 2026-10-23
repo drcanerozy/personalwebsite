@@ -175,8 +175,10 @@
                 Beslenme Tarzınız, Yıllar Öncesinden Karaciğerinizi Kansere Programlıyor Olabilir
             </h1>
 
-            <div class="flex flex-wrap items-center gap-4 text-xs text-slate-500 font-medium mt-4 pb-6 border-b border-slate-200">
-                <span class="flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i> 2026-10-06</span>
+            <div class="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs text-slate-500 font-medium mt-4 pb-6 border-b border-slate-200">
+                <span class="flex items-center"><i class="fa-regular fa-calendar mr-1.5 text-slate-400"></i> Yayın: 2026-10-06</span>
+                <span class="text-slate-300">•</span>
+                <span class="flex items-center"><i class="fa-solid fa-arrows-rotate mr-1.5 text-slate-400"></i> Son Güncelleme: 2026-10-23</span>
                 <span class="text-slate-300">•</span>
                 <span class="flex items-center"><i class="fa-regular fa-clock mr-1.5 text-amber-600"></i> 9 dk</span>
                 <span class="text-slate-300">•</span>
@@ -373,6 +375,15 @@
             </div>
         </section>
 
+        <!-- Medical Disclaimer -->
+        <div class="my-8 p-4 bg-amber-50/60 border border-amber-200/80 rounded-xl text-xs text-slate-600 flex items-start space-x-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-600 mt-0.5 flex-shrink-0 text-sm"></i>
+            <div>
+                <strong class="font-semibold text-slate-800">Tıbbi Sorumluluk Reddi:</strong>
+                <span>Bu sayfada yer alan analizler ve bilimsel değerlendirmeler yalnızca bilgilendirme ve akademik tartışma amaçlıdır; tıbbi teşhis, tedavi veya bireysel beslenme danışmanlığı yerine geçmez. Sağlık durumunuz, ilaç kullanımınız veya diyet tedavinizle ilgili tüm kararları hekiminize ve yetkili sağlık profesyonellerine danışarak alınız.</span>
+            </div>
+        </div>
+
         <!-- Author Card -->
         <div class="mt-12 p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xs">
             <img src="../assets/images/profil.jpg" alt="Dr. Caner ÖZYILDIRIM" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
@@ -392,6 +403,88 @@
                 </div>
             </div>
         </div>
+
+        <!-- Related Articles Section -->
+        <section class="mt-12 pt-10 border-t border-slate-200">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="font-serif font-bold text-xl text-academic-900">İlgili Bilimsel Yazılar</h3>
+                    <p class="text-xs text-slate-500 mt-1">Benzer metabolik mekanizmalar ve klinik kanıtlar üzerine diğer incelemeler</p>
+                </div>
+                <a href="./" class="hidden sm:inline-flex text-xs font-semibold text-academic-700 hover:text-academic-900 transition items-center space-x-1">
+                    <span>← Tüm Yazılarıma Göz At</span>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                
+                <a href="insulin-direnciniz-varken-ac-kalmak.html" class="group flex flex-col justify-between bg-white border border-slate-200 hover:border-academic-700 rounded-xl p-4 transition-all duration-200 hover:shadow-md">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] mb-2 text-slate-500">
+                            <span class="font-semibold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">Bilimsel Analiz</span>
+                            <span>8 dk</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition line-clamp-2 leading-snug">
+                            İnsülin Direnciniz Varken Aç Kalmak İyi Bir Fikir Olmayabilir
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                            İnsülin direnciniz varken aralıklı açlık yapmak neden beklenen sonucu vermeyebilir? Kronik hiperinsülineminin yağ yakımı ve kas dokusu üzerindeki etkisi.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span>2026-10-20</span>
+                        <span class="text-academic-700 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center space-x-1">
+                            <span>Oku</span>
+                            <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <a href="uyku-diyetsel-bir-risk-faktoru-olmaya-aday-mi.html" class="group flex flex-col justify-between bg-white border border-slate-200 hover:border-academic-700 rounded-xl p-4 transition-all duration-200 hover:shadow-md">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] mb-2 text-slate-500">
+                            <span class="font-semibold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">Bilimsel Analiz</span>
+                            <span>8 dk</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition line-clamp-2 leading-snug">
+                            Uyku Diyetsel Bir Risk Faktörü Olmaya Aday mı?
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                            Yetersiz uyku iştah hormonlarını nasıl bozuyor? Bilimsel çalışmalar ışığında uykunun bağımsız bir metabolik ve diyetsel risk faktörü olma potansiyeli.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span>2026-10-22</span>
+                        <span class="text-academic-700 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center space-x-1">
+                            <span>Oku</span>
+                            <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </a>
+
+                <a href="glp-1-ilaclarina-direncli-bir-grup-var.html" class="group flex flex-col justify-between bg-white border border-slate-200 hover:border-academic-700 rounded-xl p-4 transition-all duration-200 hover:shadow-md">
+                    <div>
+                        <div class="flex items-center justify-between text-[11px] mb-2 text-slate-500">
+                            <span class="font-semibold text-academic-700 bg-academic-50 px-2 py-0.5 rounded">Bilimsel Analiz</span>
+                            <span>12 dk</span>
+                        </div>
+                        <h4 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition line-clamp-2 leading-snug">
+                            GLP-1 İlaçlarına Dirençli Bir Grup Var
+                        </h4>
+                        <p class="text-xs text-slate-600 mt-2 line-clamp-2 leading-relaxed">
+                            GLP-1 zayıflama ilaçlarına dirençli ve yanıt vermeyen hastalar neden kilo veremiyor? Genetik polimorfizm ve farmakogenomik direnç mekanizmaları masada.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                        <span>2026-09-29</span>
+                        <span class="text-academic-700 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center space-x-1">
+                            <span>Oku</span>
+                            <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </section>
 
         <!-- Bottom Back Button -->
         <div class="mt-8 flex justify-between items-center text-xs">
