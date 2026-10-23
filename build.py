@@ -691,7 +691,7 @@ def generate_html(lang="tr"):
         if a_img:
             img_block = f"""
                     <div class="h-44 sm:h-48 w-full overflow-hidden relative bg-slate-100 border-b border-slate-100">
-                        <img src="{a_img}" alt="{a_title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="{a_img}" alt="{a_title}" loading="lazy" width="600" height="340" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-3 left-3 text-[11px] font-bold bg-white/95 backdrop-blur-md text-amber-900 border border-amber-200/80 px-2.5 py-0.5 rounded-full shadow-sm">{a_badge}</span>
                     </div>"""
             content_padding = "p-6"
@@ -1067,6 +1067,7 @@ def generate_html(lang="tr"):
                     <div class="relative mb-6">
                         <img src="{avatar_img}" 
                              alt="Dr. Caner ÖZYILDIRIM" 
+                             width="256" height="256" fetchpriority="high"
                              class="w-56 h-56 md:w-64 md:h-64 object-cover rounded-2xl shadow-xl border-4 border-white ring-1 ring-slate-200">
                         <span class="absolute bottom-3 right-3 bg-emerald-500 text-white p-2 rounded-full text-xs shadow-md" title="Aktif Araştırmacı">
                             <i class="fa-solid fa-check"></i>
@@ -2171,7 +2172,7 @@ def render_article_markdown_body(text, asset_prefix="../"):
             clean_src = src.lstrip("/")
             final_src = f"{asset_prefix}{clean_src}" if not src.startswith("http") else src
             caption_html = f'<figcaption class="text-center text-xs text-slate-500 mt-2.5 italic font-sans">{alt}</figcaption>' if alt else ''
-            html.append(f'<figure class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white p-2 sm:p-4 text-center"><img src="{final_src}" alt="{alt}" class="w-full max-w-2xl h-auto rounded-xl mx-auto shadow-xs">{caption_html}</figure>')
+            html.append(f'<figure class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white p-2 sm:p-4 text-center"><img src="{final_src}" alt="{alt}" loading="lazy" class="w-full max-w-2xl h-auto rounded-xl mx-auto shadow-xs">{caption_html}</figure>')
         elif ls:
             if in_ul: html.append("</ul>"); in_ul = False
             if in_ol: html.append("</ol>"); in_ol = False
@@ -2351,7 +2352,7 @@ def generate_articles_list_html(articles, lang="tr"):
                 cover_src = f"{asset_prefix}{clean_path}"
             img_html = f"""
                 <div class="h-48 w-full overflow-hidden bg-slate-100 relative">
-                    <img src="{cover_src}" alt="{title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="{cover_src}" alt="{title}" loading="lazy" width="600" height="340" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <span class="absolute top-3 left-3 text-[11px] font-bold bg-white/95 backdrop-blur-md text-amber-900 border border-amber-200/80 px-2.5 py-0.5 rounded-full shadow-sm">{badge}</span>
                 </div>"""
         else:
@@ -2677,7 +2678,7 @@ def generate_single_article_html(article, lang="tr", all_articles=None):
             cover_img_src = f"{asset_prefix}{clean_path}"
         cover_html = f"""
         <div class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-md bg-slate-100">
-            <img src="{cover_img_src}" alt="{title}" class="w-full h-auto max-h-[500px] object-cover">
+            <img src="{cover_img_src}" alt="{title}" width="1200" height="630" class="w-full h-auto max-h-[500px] object-cover">
         </div>"""
     else:
         full_cover_url = "https://canerozy.com/assets/images/profil.jpg"
@@ -3046,7 +3047,7 @@ def generate_single_article_html(article, lang="tr", all_articles=None):
 
         <!-- Author Card -->
         <div class="mt-12 p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xs">
-            <img src="{author_img_src}" alt="Dr. Caner ÖZYILDIRIM" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
+            <img src="{author_img_src}" alt="Dr. Caner ÖZYILDIRIM" width="80" height="80" loading="lazy" class="w-20 h-20 rounded-full object-cover border-2 border-academic-700 shadow-sm flex-shrink-0">
             <div class="text-center sm:text-left space-y-2">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                     <h4 class="font-serif font-bold text-lg text-academic-900">{ui_text['author_name']}</h4>
@@ -3157,6 +3158,146 @@ def generate_redirect_files():
         count += 1
     print(f"  ✅ {count} 301-equivalent redirect files generated")
 
+def generate_404_html():
+    return """<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Sayfa Bulunamadı | Page Not Found | Dr. Caner Özyıldırım</title>
+    <meta name="description" content="Aradığınız sayfa taşınmış, güncellenmiş veya silinmiş olabilir. The page you are looking for might have been moved or updated.">
+    <meta name="robots" content="noindex, follow">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        academic: { 50: '#f4f6f8', 100: '#e5eaf0', 700: '#1b365d', 800: '#132744', 900: '#0b172a' },
+                        accent: '#c5a059',
+                        warmBg: '#fcfbf9'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'Merriweather', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warmBg text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-academic-700 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center space-x-2 text-academic-900 font-serif font-bold text-base hover:text-academic-700 transition">
+                <i class="fa-solid fa-graduation-cap text-academic-700"></i>
+                <span>Dr. Caner ÖZYILDIRIM</span>
+            </a>
+            <div class="flex items-center space-x-3">
+                <a href="/" class="text-xs font-semibold text-slate-600 hover:text-academic-700 transition">Ana Sayfa</a>
+                <span class="text-slate-300">/</span>
+                <a href="/en/" class="text-xs font-semibold text-slate-600 hover:text-academic-700 transition">Home (EN)</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-2xl mx-auto px-4 sm:px-6 py-16 sm:py-24 flex-grow flex flex-col items-center text-center">
+        <div class="w-20 h-20 rounded-2xl bg-amber-100/80 text-amber-700 flex items-center justify-center text-3xl font-mono font-bold mb-6 shadow-sm border border-amber-200">
+            404
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl font-serif font-bold text-academic-900 mb-3">
+            Sayfa Bulunamadı <span class="text-slate-400 font-light text-xl">/ Page Not Found</span>
+        </h1>
+
+        <p class="text-sm sm:text-base text-slate-600 max-w-lg mb-8 leading-relaxed">
+            Aradığınız sayfa taşınmış, güncellenmiş veya bağlantısı değişmiş olabilir. Aşağıdaki hızlı bağlantıları kullanarak dilediğiniz içeriğe kolayca ulaşabilirsiniz.
+        </p>
+
+        <!-- Quick Links Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-left mb-10">
+            <a href="/yazilar/" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-academic-700 shadow-xs hover:shadow transition">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-academic-50 text-academic-700 flex items-center justify-center text-sm group-hover:bg-academic-700 group-hover:text-white transition">
+                        <i class="fa-solid fa-newspaper"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition">Bilimsel Yazılar</h2>
+                        <span class="text-[11px] text-slate-400">Scientific Articles</span>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-600">GLP-1, aralıklı açlık, obezite ve metabolizma incelemeleri.</p>
+            </a>
+
+            <a href="/en/articles/" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-academic-700 shadow-xs hover:shadow transition">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-academic-50 text-academic-700 flex items-center justify-center text-sm group-hover:bg-academic-700 group-hover:text-white transition">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition">English Articles</h2>
+                        <span class="text-[11px] text-slate-400">Translations & Essays</span>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-600">English scientific reviews and metabolic literature analyses.</p>
+            </a>
+
+            <a href="/#teaching" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-academic-700 shadow-xs hover:shadow transition">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-academic-50 text-academic-700 flex items-center justify-center text-sm group-hover:bg-academic-700 group-hover:text-white transition">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition">Dersler & Sunumlar</h2>
+                        <span class="text-[11px] text-slate-400">University Courses</span>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-600">Akdeniz Üniversitesi ders notları ve interaktif slaytlar.</p>
+            </a>
+
+            <a href="/" class="group p-5 bg-white rounded-xl border border-slate-200 hover:border-academic-700 shadow-xs hover:shadow transition">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-8 h-8 rounded-lg bg-academic-50 text-academic-700 flex items-center justify-center text-sm group-hover:bg-academic-700 group-hover:text-white transition">
+                        <i class="fa-solid fa-house"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-serif font-bold text-sm text-slate-900 group-hover:text-academic-700 transition">Ana Sayfa</h2>
+                        <span class="text-[11px] text-slate-400">Academic Homepage</span>
+                    </div>
+                </div>
+                <p class="text-xs text-slate-600">Akademik biyografi, yayınlar ve araştırma projeleri.</p>
+            </a>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 w-full flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
+            <span>Sorularınız veya kırık bir bağlantıyı bildirmek için:</span>
+            <a href="mailto:canerozyildirim@akdeniz.edu.tr" class="font-medium text-academic-700 hover:text-academic-900 underline flex items-center space-x-1">
+                <i class="fa-regular fa-envelope"></i>
+                <span>canerozyildirim@akdeniz.edu.tr</span>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-academic-900 text-slate-400 py-6 border-t border-academic-800 text-center text-xs">
+        <div class="max-w-4xl mx-auto px-4">
+            <p>© 2026 Dr. Caner ÖZYILDIRIM. Bütün Hakları Saklıdır.</p>
+        </div>
+    </footer>
+</body>
+</html>"""
+
 def main():
     print("🚀 Building Academic Website...")
     generate_redirect_files()
@@ -3238,6 +3379,11 @@ def main():
     with open(en_articles_dir / "feed.xml", "w", encoding="utf-8") as f:
         f.write(en_feed_xml)
     print("  ✅ English articles list & RSS feed generated: en/articles/index.html, en/articles/feed.xml")
+    
+    # 4.7 Build 404 page -> 404.html
+    with open(BASE_DIR / "404.html", "w", encoding="utf-8") as f:
+        f.write(generate_404_html())
+    print("  ✅ Bilingual 404 page generated: 404.html")
     
     # 5. Generate XML Sitemap & robots.txt for Google Search Console
     generate_sitemap_and_robots(tr_teaching, en_teaching, local_tr_articles, local_en_articles)
