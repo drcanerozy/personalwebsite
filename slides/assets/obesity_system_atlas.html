@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foresight Obezite Sistem Haritası | 108 Değişkenli Sinematik Sunum</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --border-color: #e2e8f0;
+      --text-title: #0f172a;
+      --text-body: #334155;
+      
+      --color-core: #ef4444;
+      --color-bio: #2563eb;
+      --color-ind-psy: #0891b2;
+      --color-soc-psy: #7c3aed;
+      --color-food-con: #059669;
+      --color-food-prod: #d97706;
+      --color-ind-act: #ca8a04;
+      --color-act-env: #db2777;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-body);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      user-select: none;
+    }
+
+    .font-serif-title { font-family: 'Fraunces', Georgia, serif; }
+    .font-mono-code { font-family: 'IBM Plex Mono', monospace; }
+
+    #viewport {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #ffffff 0%, #f1f5f9 100%);
+      cursor: grab;
+    }
+
+    #viewport.dragging { cursor: grabbing; }
+
+    #map-world {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3600px;
+      height: 2400px;
+      transform-origin: 0 0;
+      transition: transform 1.2s cubic-bezier(0.25, 1, 0.35, 1);
+      will-change: transform;
+    }
+
+    /* CLUSTER BOUNDARIES */
+    .cluster-boundary {
+      fill-opacity: 0.04;
+      stroke-width: 2;
+      stroke-dasharray: 6 5;
+      transition: all 0.4s ease;
+    }
+
+    .cluster-boundary.active-cluster {
+      fill-opacity: 0.14;
+      stroke-width: 4;
+      stroke-dasharray: none;
+      filter: drop-shadow(0 8px 30px rgba(0,0,0,0.08));
+    }
+
+    /* NODES - FIXED HOVER */
+    .map-node {
+      cursor: pointer;
+      transition: opacity 0.4s ease;
+    }
+
+    .node-card {
+      fill: #ffffff;
+      stroke-width: 1.6;
+      rx: 10px;
+      ry: 10px;
+      filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.05));
+      transition: stroke-width 0.2s ease, stroke 0.2s ease, fill 0.2s ease, filter 0.2s ease;
+    }
+
+    .map-node:hover .node-card {
+      stroke-width: 3.5;
+      filter: drop-shadow(0 6px 16px rgba(15, 23, 42, 0.15));
+      fill: #f8fafc;
+    }
+
+    .node-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      fill: #0f172a;
+      pointer-events: none;
+    }
+
+    .node-sub {
+      font-size: 9.5px;
+      font-weight: 500;
+      fill: #64748b;
+      pointer-events: none;
+    }
+
+    /* CENTER CORE SPECIAL DESIGN */
+    .core-node .node-card {
+      stroke-width: 3;
+      filter: drop-shadow(0 4px 14px rgba(239, 68, 68, 0.25));
+    }
+
+    #node-c4 .node-card {
+      stroke: #dc2626 !important;
+      stroke-width: 4 !important;
+      fill: #fef2f2 !important;
+      rx: 14px;
+      ry: 14px;
+      filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.45)) !important;
+    }
+
+    #node-c4 .node-title {
+      font-size: 14px;
+      fill: #991b1b;
+      font-weight: 800;
+    }
+
+    #node-c4 .node-sub {
+      font-size: 11px;
+      fill: #b91c1c;
+      font-weight: 600;
+    }
+
+    /* LINKS / CAUSAL ARROWS */
+    .map-link {
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      opacity: 0.25;
+      transition: opacity 0.4s ease, stroke-width 0.4s ease, stroke 0.4s ease;
+    }
+
+    .map-link.active-link {
+      opacity: 0.85;
+      stroke-width: 3;
+      stroke-dasharray: 8 5;
+      animation: linkFlow 1.5s linear infinite;
+    }
+
+    .map-link.loop-active {
+      stroke-width: 5 !important;
+      opacity: 1 !important;
+      stroke-dasharray: 12 6;
+      animation: linkFlow 0.9s linear infinite;
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+
+    @keyframes linkFlow {
+      to { stroke-dashoffset: -100; }
+    }
+
+    .polarity-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      text-anchor: middle;
+      dominant-baseline: central;
+      opacity: 0.8;
+    }
+
+    /* DIMMING & HIDING */
+    .dimmed-node {
+      opacity: 0.04 !important;
+      filter: grayscale(100%) !important;
+      pointer-events: none;
+    }
+
+    .hidden-node {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    .nav-hidden {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.03);
+    }
+
+    /* SEARCH HIGHLIGHT */
+    .node-highlight .node-card {
+      stroke-width: 4 !important;
+      stroke: #0d9488 !important;
+      fill: #f0fdfa !important;
+      filter: drop-shadow(0 0 20px rgba(13, 148, 136, 0.7)) !important;
+    }
+
+    /* DEDICATED LOOP STAGE (FOCUSED ENLARGED CYCLE OVERLAY) */
+    #dedicated-loop-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(100vw - 500px);
+      height: calc(100vh - 80px);
+      z-index: 30;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    #dedicated-loop-stage.active {
+      pointer-events: auto;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="selection:bg-teal-100 selection:text-teal-900">
+
+  <!-- VIEWPORT -->
+  <div id="viewport">
+    <div id="map-world">
+      <svg id="vector-map-svg" width="3600" height="2400" viewBox="0 0 3600 2400" class="block">
+        <defs>
+          <marker id="arrow-bio" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M 0 0 L 6 3 L 0 6 z" fill="#2563eb" />
+          </marker>
+          <marker id="arrow-ind-psy" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M 0 0 L 6 3 L 0 6 z" fill="#0891b2" />
+          </marker>
+          <marker id="arrow-soc-psy" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M 0 0 L 6 3 L 0 6 z" fill="#7c3aed" />
+          </marker>
+          <marker id="arrow-food-con" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M 0 0 L 6 3 L 0 6 z" fill="#059669" />
+          </marker>
+          <marker id="arrow-food-prod" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M 0 0 L 6 3 L 0 6 z" fill="#d97706" />
+          </marker>
+          <marker id="arrow-ind-act" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M 0 0 L 6 3 L 0 6 z" fill="#ca8a04" />
+          </marker>
+          <marker id="arrow-act-env" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M 0 0 L 6 3 L 0 6 z" fill="#db2777" />
+          </marker>
+          <marker id="arrow-core" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+            <path d="M 0 0 L 7 3.5 L 0 7 z" fill="#ef4444" />
+          </marker>
+          <marker id="arrow-loop" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+            <path d="M 0 0 L 8 4 L 0 8 z" fill="currentColor" />
+          </marker>
+        </defs>
+
+        <g id="cluster-regions"></g>
+        <g id="map-links"></g>
+        <g id="map-nodes"></g>
+      </svg>
+
+      <img id="raster-map-img" src="./obesity_map_hires.png" alt="Foresight Obesity Map" style="display:none; width:3370px; height:2384px; filter: contrast(1.1) brightness(0.98);" />
+    </div>
+  </div>
+
+  <!-- DEDICATED LARGE FEEDBACK LOOP STAGE (FOCUSED HIGH-LEGIBILITY VIEW FOR STEPS 9-12) -->
+  <div id="dedicated-loop-stage" class="hidden opacity-0 flex items-center justify-center p-6">
+    <div class="relative w-full max-w-5xl h-full flex items-center justify-center">
+      <!-- SVGLoopCycle injected via JavaScript -->
+      <svg id="loop-cycle-svg" class="w-full h-full max-h-[720px]" viewBox="0 0 960 720">
+        <!-- Dynamic loop nodes and curved animated arrows -->
+      </svg>
+    </div>
+  </div>
+
+  <!-- TOP HEADER -->
+  <header class="absolute top-4 left-6 z-40 flex items-center gap-3">
+    <div class="glass-panel px-4 py-2.5 rounded-2xl flex items-center gap-3 shadow-sm">
+      <span id="header-badge" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-rose-50 text-rose-700 border border-rose-200">
+        Merkez: Obezite & Enerji Dengesi
+      </span>
+      <h1 class="text-sm font-bold text-slate-800">
+        Foresight Obezite Sistem Atlası
+      </h1>
+      <button onclick="toggleHelpModal()" title="Atlas Nasıl Okunur? & Telif" class="text-xs font-semibold text-teal-700 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-lg border border-teal-200 transition flex items-center gap-1">
+        ❓ Nasıl Yorumlanır?
+      </button>
+    </div>
+
+    <!-- SEARCH INPUT (HIDDEN ON STEP 0) -->
+    <div id="search-container" class="glass-panel px-3 py-1.5 rounded-2xl flex items-center gap-2 shadow-sm transition-all duration-300">
+      <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="map-search" placeholder="108 değişken içinde ara..." oninput="handleSearch(this.value)" class="bg-transparent border-none outline-none text-xs text-slate-800 placeholder-slate-400 w-44 font-medium" />
+    </div>
+
+    <!-- MAP VIEW SWITCHER (HIDDEN ON STEP 0) -->
+    <div id="map-mode-container" class="glass-panel p-1 rounded-2xl flex items-center gap-1 text-xs font-semibold shadow-sm transition-all duration-300">
+      <button id="btn-mode-tr" onclick="setMapMode('tr')" class="px-3 py-1.5 rounded-xl bg-teal-600 text-white shadow-sm transition">
+        🇹🇷 Türkçe Model
+      </button>
+      <button id="btn-mode-en" onclick="setMapMode('en')" class="px-3 py-1.5 rounded-xl text-slate-600 hover:text-slate-900 transition">
+        🇬🇧 Orijinal Harita
+      </button>
+    </div>
+  </header>
+
+  <!-- QUICK STEP JUMP BAR (TOP CENTER - STRICTLY HIDDEN ON STEP 0) -->
+  <nav id="quick-jump-nav" class="nav-hidden absolute top-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1 glass-panel p-1.5 rounded-full text-xs font-semibold shadow-sm transition-all duration-500">
+    <button onclick="goToStep(0)" class="pill-btn px-2.5 py-1 rounded-full text-rose-700 hover:bg-rose-50 transition">01. Çekirdek</button>
+    <button onclick="goToStep(1)" class="pill-btn px-2.5 py-1 rounded-full text-slate-700 hover:bg-slate-100 transition">02. 108 Faktör</button>
+    <button onclick="goToStep(2)" class="pill-btn px-2.5 py-1 rounded-full text-blue-700 hover:bg-blue-50 transition">Biyoloji</button>
+    <button onclick="goToStep(3)" class="pill-btn px-2.5 py-1 rounded-full text-cyan-700 hover:bg-cyan-50 transition">Psikoloji</button>
+    <button onclick="goToStep(4)" class="pill-btn px-2.5 py-1 rounded-full text-purple-700 hover:bg-purple-50 transition">Sosyal</button>
+    <button onclick="goToStep(5)" class="pill-btn px-2.5 py-1 rounded-full text-emerald-700 hover:bg-emerald-50 transition">Tüketim</button>
+    <button onclick="goToStep(6)" class="pill-btn px-2.5 py-1 rounded-full text-amber-700 hover:bg-amber-50 transition">Üretim</button>
+    <button onclick="goToStep(7)" class="pill-btn px-2.5 py-1 rounded-full text-yellow-700 hover:bg-yellow-50 transition">Aktivite</button>
+    <button onclick="goToStep(8)" class="pill-btn px-2.5 py-1 rounded-full text-pink-700 hover:bg-pink-50 transition">Çevre</button>
+    <button onclick="goToStep(9)" class="pill-btn px-2.5 py-1 rounded-full text-rose-700 hover:bg-rose-50 transition font-bold">🔴 Döngü 1</button>
+    <button onclick="goToStep(10)" class="pill-btn px-2.5 py-1 rounded-full text-yellow-700 hover:bg-yellow-50 transition font-bold">🟡 Döngü 2</button>
+    <button onclick="goToStep(11)" class="pill-btn px-2.5 py-1 rounded-full text-amber-700 hover:bg-amber-50 transition font-bold">🟠 Döngü 3</button>
+    <button onclick="goToStep(12)" class="pill-btn px-2.5 py-1 rounded-full text-purple-700 hover:bg-purple-50 transition font-bold">🟣 Döngü 4</button>
+    <button onclick="goToStep(13)" class="pill-btn px-2.5 py-1 rounded-full text-teal-700 hover:bg-teal-50 transition font-bold">🎯 Çözüm</button>
+  </nav>
+
+  <!-- CITATION / SOURCE BADGE (BOTTOM LEFT) -->
+  <div id="citation-badge" class="absolute bottom-4 left-6 z-40 hidden md:flex items-center gap-2 glass-panel px-3.5 py-2 rounded-2xl text-xs font-medium text-slate-600 shadow-sm border border-slate-200">
+    <span class="text-rose-600 font-bold flex items-center gap-1">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      Kaynak:
+    </span>
+    <span>UK Government Foresight Programme (2007) · <em>Tackling Obesities: Future Choices</em></span>
+    <a href="https://www.gov.uk/government/publications/reducing-obesity-future-choices" target="_blank" rel="noopener noreferrer" class="text-teal-700 hover:text-teal-900 font-semibold underline underline-offset-2 flex items-center gap-0.5 ml-1">
+      <span>Resmi Rapor</span>
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+    </a>
+  </div>
+
+  <!-- STORY PANEL (RIGHT) - ENLARGED & HIGHLY READABLE -->
+  <aside id="story-panel" class="absolute top-4 right-6 bottom-24 w-[420px] lg:w-[470px] z-40 glass-panel rounded-3xl p-6 lg:p-7 flex flex-col justify-between shadow-2xl transition-transform duration-300">
+    <div class="flex flex-col h-full overflow-hidden">
+      <!-- Step Badge -->
+      <div class="flex items-center justify-between mb-3">
+        <span id="step-badge" class="inline-flex items-center gap-1.5 text-xs font-bold font-mono-code uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-lg border border-rose-200">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
+          <span id="step-num-text">01. Çekirdek</span>
+        </span>
+        <button onclick="toggleFreeRoam()" title="Paneli Gizle / Serbest Gez (M)" class="text-slate-400 hover:text-slate-600 p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <h2 id="story-title" class="font-serif-title text-2xl lg:text-3xl font-bold text-slate-900 leading-tight mb-1.5">
+        Enerji Dengesi Çekirdeği
+      </h2>
+      <p id="story-subtitle" class="text-xs lg:text-sm text-slate-500 font-medium mb-4 leading-relaxed">
+        10. Slaytın Devamı: Temel Fizyolojik Denklem
+      </p>
+
+      <!-- Scrollable Body Content -->
+      <div id="story-body" class="flex-1 overflow-y-auto pr-1 text-sm lg:text-base text-slate-700 leading-relaxed space-y-4">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- HOW TO READ & CITATION MODAL -->
+  <div id="help-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-panel max-w-xl w-full rounded-3xl p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <h3 class="font-serif-title text-xl font-bold text-slate-900 flex items-center gap-2">
+          🧭 Obezite Atlası Nasıl Yorumlanır?
+        </h3>
+        <button onclick="toggleHelpModal()" class="text-slate-400 hover:text-slate-600 p-1">✕</button>
+      </div>
+      <div class="space-y-3 text-xs lg:text-sm leading-relaxed text-slate-700">
+        <div class="bg-rose-50 border border-rose-200 p-3.5 rounded-xl">
+          <strong class="text-rose-900 font-bold block mb-1">1. Obezitenin Kendisi Nerede?</strong>
+          Haritanın tam merkezindeki kırmızı çekirdeğe bakın: <strong>"Net Enerji Dengesi"</strong> ve <strong>"Obezite Derecesi (Adipozite Artışı)"</strong>. 108 değişkenin neredeyse tamamı eninde sonunda buraya akar!
+        </div>
+        <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-1.5">
+          <strong class="text-slate-900 font-bold block">2. Her Kutu Bir "Risk" midir?</strong>
+          Hayır; kutular birer <strong>biyofiziksel durum veya çevre parametresidir</strong> (örn: <em>"Porsiyon Boyutu"</em>, <em>"NEAT Hareketi"</em>, <em>"Leptin Sinyali"</em>). Risk, bu değişkenlerin oklarla merkeze aktardığı yönden kaynaklanır.
+        </div>
+        <div class="bg-teal-50 border border-teal-200 p-3.5 rounded-xl space-y-1">
+          <strong class="text-teal-900 font-bold block">3. Oklar ve Polariteler (+ / -) Ne Anlatır?</strong>
+          <p><strong>• (+) Pozitif İlişki (Aynı Yönlü):</strong> Kaynak artarsa hedef de artar. (Örn: <em>Porsiyon (+) $\rightarrow$ Enerji Alımı</em>).</p>
+          <p><strong>• (-) Negatif İlişki (Ters Yönlü):</strong> Kaynak artarsa hedef azalır. (Örn: <em>NEAT Hareketi (-) $\rightarrow$ Yağ Depolama</em>).</p>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl space-y-1.5">
+          <strong class="text-amber-900 font-bold block">4. Akademik Kaynak & Telif Bilgisi (Lisans)</strong>
+          <p class="text-xs text-slate-700">
+            <strong>Orijinal Rapor:</strong> UK Government Office for Science, <em>"Tackling Obesities: Future Choices – Obesity System Atlas"</em> (Butland et al., 2007).
+          </p>
+          <p class="text-xs text-slate-600">
+            <strong>Telif Durumu:</strong> Birleşik Krallık Açık Hükümet Lisansı (Open Government Licence - OGL v3.0 / Crown Copyright) kapsamında kamuya açık bir halk sağlığı ve araştırma çıktısıdır. Akademik eğitim, ders anlatımı, Türkçe bilimsel uyarlama ve araştırma amaçlı kullanımı <strong>tamamen serbesttir ve teşvik edilmektedir</strong>.
+          </p>
+        </div>
+      </div>
+      <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+        <a href="https://www.gov.uk/government/publications/reducing-obesity-future-choices" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-teal-700 hover:text-teal-900 underline flex items-center gap-1">
+          gov.uk Orijinal Rapor Bağlantısı ↗
+        </a>
+        <button onclick="toggleHelpModal()" class="px-5 py-2.5 bg-slate-900 text-white font-bold rounded-xl text-xs hover:bg-slate-800 transition">Anladım</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPEAKER NOTES -->
+  <div id="speaker-notes-box" class="absolute bottom-24 left-6 max-w-md z-50 glass-panel border border-amber-200 rounded-2xl p-4 shadow-xl hidden">
+    <div class="flex items-center justify-between text-xs font-bold text-amber-800 uppercase tracking-wider mb-2">
+      <span class="flex items-center gap-1.5">🎙️ Konuşmacı İpucu (Slayt 10+)</span>
+      <span class="text-slate-400 font-normal">Kapatmak için 'N'</span>
+    </div>
+    <div id="speaker-notes-content" class="text-xs lg:text-sm text-slate-800 leading-relaxed"></div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <footer class="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-lg">
+    <button onclick="toggleNotes()" id="btn-notes" title="Konuşmacı Notları (N)" class="p-2 text-slate-500 hover:text-amber-600 hover:bg-amber-50 rounded-full transition">
+      🎙️
+    </button>
+    <button onclick="prevStep()" class="px-4 py-2 rounded-full border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-100 transition flex items-center gap-1.5">
+      ← Önceki
+    </button>
+    <div id="timeline-dots-wrap" class="flex items-center gap-1.5 px-2"></div>
+    <button onclick="nextStep()" class="px-5 py-2 rounded-full bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold shadow-md hover:shadow transition flex items-center gap-1.5">
+      Sonraki →
+    </button>
+    <button onclick="toggleFreeRoam()" id="btn-roam" title="Serbest İnceleme (M)" class="p-2 text-slate-500 hover:text-teal-600 hover:bg-teal-50 rounded-full transition">
+      🔍
+    </button>
+    <button onclick="toggleFullScreen()" title="Tam Ekran (F)" class="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full transition">
+      ⛶
+    </button>
+  </footer>
+
+  <script>
+    /* =========================================================================
+       108-VARIABLE DATABASE (ALL 7 CLUSTERS + ENLARGED CORE)
+       ========================================================================= */
+
+    const CLUSTERS = [
+      { id: "core", name: "Enerji Dengesi Çekirdeği", color: "#ef4444", bg: "#fef2f2", bbox: { x: 1520, y: 960, w: 580, h: 480 }, count: 4 },
+      { id: "bio", name: "Biyoloji & Fizyoloji", color: "#2563eb", bg: "#eff6ff", bbox: { x: 180, y: 900, w: 1250, h: 720 }, count: 21 },
+      { id: "ind_psy", name: "Bireysel Psikoloji", color: "#0891b2", bg: "#ecfeff", bbox: { x: 220, y: 180, w: 1200, h: 680 }, count: 18 },
+      { id: "soc_psy", name: "Sosyal Psikoloji", color: "#7c3aed", bg: "#f5f3ff", bbox: { x: 1480, y: 150, w: 980, h: 740 }, count: 14 },
+      { id: "food_con", name: "Gıda Tüketimi", color: "#059669", bg: "#ecfdf5", bbox: { x: 1620, y: 840, w: 880, h: 560 }, count: 13 },
+      { id: "food_prod", name: "Gıda Üretimi & Pazarı", color: "#d97706", bg: "#fffbeb", bbox: { x: 2540, y: 280, w: 980, h: 920 }, count: 16 },
+      { id: "ind_act", name: "Bireysel Aktivite", color: "#ca8a04", bg: "#fefce8", bbox: { x: 550, y: 1680, w: 1050, h: 660 }, count: 12 },
+      { id: "act_env", name: "Aktivite Çevresi", color: "#db2777", bg: "#fdf2f8", bbox: { x: 1680, y: 1520, w: 1150, h: 760 }, count: 10 }
+    ];
+
+    const NODES = [
+      // 1. CORE (ENLARGED & EMPHASIZED)
+      { id: "c1", cluster: "core", isCore: true, x: 1570, y: 1020, w: 220, h: 62, title: "⚡ Enerji Alımı (Giriş)", sub: "kcal / gün (Diyetle Alınan Kimyasal Enerji)" },
+      { id: "c2", cluster: "core", isCore: true, x: 1570, y: 1280, w: 220, h: 62, title: "🔥 Enerji Harcaması (Çıkış)", sub: "TDEE (BMR + TEF + NEAT + EAT)" },
+      { id: "c3", cluster: "core", isCore: true, x: 1840, y: 1140, w: 230, h: 72, title: "⚖️ Net Enerji Dengesi (ΔE)", sub: "Giriş - Çıkış (Pozitif / Negatif Denge)" },
+      { id: "c4", cluster: "core", isCore: true, x: 1830, y: 1290, w: 250, h: 80, title: "🔴 OBEZİTE DERECESİ", sub: "Adipoz Doku Genişlemesi & BKİ Artışı" },
+
+      // 2. BIOLOGY (21)
+      { id: "b1", cluster: "bio", x: 220, y: 940, w: 180, h: 50, title: "Genetik Yatkınlık", sub: "FTO, MC4R, Poligenik" },
+      { id: "b2", cluster: "bio", x: 430, y: 940, w: 180, h: 50, title: "Leptin Tokluk Sinyali", sub: "Hipotalamik POMC/CART" },
+      { id: "b3", cluster: "bio", x: 640, y: 940, w: 180, h: 50, title: "Leptin Direnci", sub: "Santral Tokluk Blokajı" },
+      { id: "b4", cluster: "bio", x: 850, y: 940, w: 180, h: 50, title: "Ghrelin & Açlık Sinyali", sub: "Mide Kaynaklı İştah" },
+      { id: "b5", cluster: "bio", x: 1060, y: 940, w: 180, h: 50, title: "NPY / AgRP Nöronları", sub: "Oksijenik İştah Sürücüsü" },
+      { id: "b6", cluster: "bio", x: 220, y: 1030, w: 180, h: 50, title: "Metabolik Adaptasyon", sub: "BMR Kısılması (Adaptive)" },
+      { id: "b7", cluster: "bio", x: 430, y: 1030, w: 180, h: 50, title: "İnsülin Direnci", sub: "Kas/Karaciğer Glukoz Bloku" },
+      { id: "b8", cluster: "bio", x: 640, y: 1030, w: 180, h: 50, title: "Adiposit Hipertrofisi", sub: "Patolojik Yağ Hücre Şişmesi" },
+      { id: "b9", cluster: "bio", x: 850, y: 1030, w: 180, h: 50, title: "Adipoz İnflamasyonu", sub: "Kronik Düşük Düzeyli Sitokin" },
+      { id: "b10", cluster: "bio", x: 1060, y: 1030, w: 180, h: 50, title: "Ektopik Yağlanma", sub: "Karaciğer & Pankreas Yağlanması" },
+      { id: "b11", cluster: "bio", x: 220, y: 1120, w: 180, h: 50, title: "DIT & Termojenez", sub: "Besinlerin Termik Etkisi" },
+      { id: "b12", cluster: "bio", x: 430, y: 1120, w: 180, h: 50, title: "Bağırsak Mikrobiyotası", sub: "Firmicutes/Bacteroidetes" },
+      { id: "b13", cluster: "bio", x: 640, y: 1120, w: 180, h: 50, title: "SCFA Üretimi", sub: "Kısa Zincirli Yağ Asitleri" },
+      { id: "b14", cluster: "bio", x: 850, y: 1120, w: 180, h: 50, title: "Peptid YY & GLP-1", sub: "İleal Fren ve Tokluk Peptitleri" },
+      { id: "b15", cluster: "bio", x: 1060, y: 1120, w: 180, h: 50, title: "Adiponektin Düşüklüğü", sub: "Metabolik Koruyucu Kaybı" },
+      { id: "b16", cluster: "bio", x: 220, y: 1210, w: 180, h: 50, title: "Serbest Yağ Asitleri", sub: "Lipolitik FFA Yükü" },
+      { id: "b17", cluster: "bio", x: 430, y: 1210, w: 180, h: 50, title: "Glukokortikoidler", sub: "Kortizol & Viseral Yağ Tutulumu" },
+      { id: "b18", cluster: "bio", x: 640, y: 1210, w: 180, h: 50, title: "Sempatik Tonus", sub: "Otonom Sinir Sistemi Yanıtı" },
+      { id: "b19", cluster: "bio", x: 850, y: 1210, w: 180, h: 50, title: "Cinsiyet Hormonları", sub: "Östrojen/Androjen Dağılımı" },
+      { id: "b20", cluster: "bio", x: 1060, y: 1210, w: 180, h: 50, title: "Epigenetik Hafıza (DOHaD)", sub: "Adiposit Çekirdek İmzası" },
+      { id: "b21", cluster: "bio", x: 530, y: 1300, w: 200, h: 50, title: "Mitokondriyal Verim", sub: "Hücresel Enerji Oksidasyonu" },
+
+      // 3. INDIVIDUAL PSYCHOLOGY (18)
+      { id: "p1", cluster: "ind_psy", x: 260, y: 220, w: 180, h: 50, title: "Duygusal Yeme", sub: "Duygu Regülasyonu" },
+      { id: "p2", cluster: "ind_psy", x: 460, y: 220, w: 180, h: 50, title: "Ödül & Haz Duyarlılığı", sub: "Dopaminerjik Hedonik Sürücü" },
+      { id: "p3", cluster: "ind_psy", x: 660, y: 220, w: 180, h: 50, title: "Algılanan Stres", sub: "Kronik Psikolojik Yük" },
+      { id: "p4", cluster: "ind_psy", x: 860, y: 220, w: 180, h: 50, title: "İrade & Öz-Kontrol", sub: "Prefrontal İnhibisyon" },
+      { id: "p5", cluster: "ind_psy", x: 1060, y: 220, w: 180, h: 50, title: "Dürtüsellik (Impulsivity)", sub: "Hızlı Tatmin Güdüsü" },
+      { id: "p6", cluster: "ind_psy", x: 260, y: 310, w: 180, h: 50, title: "Beden Memnuniyetsizliği", sub: "Negatif Beden İmajı" },
+      { id: "p7", cluster: "ind_psy", x: 460, y: 310, w: 180, h: 50, title: "Öz-Yeterlilik İnancı", sub: "Değişim Özgüveni (Bandura)" },
+      { id: "p8", cluster: "ind_psy", x: 660, y: 310, w: 180, h: 50, title: "Alışkanlık Otomatizmi", sub: "Bilinçdışı Yeme Davranışı" },
+      { id: "p9", cluster: "ind_psy", x: 860, y: 310, w: 180, h: 50, title: "Yiyeceğe Dikkat Odaklanması", sub: "Attentional Bias" },
+      { id: "p10", cluster: "ind_psy", x: 1060, y: 310, w: 180, h: 50, title: "Gıda Aşermesi (Cravings)", sub: "Şeker/Yağ Kompulsif İsteği" },
+      { id: "p11", cluster: "ind_psy", x: 260, y: 400, w: 180, h: 50, title: "Gecikmeli Ödül İndirimi", sub: "Delay Discounting" },
+      { id: "p12", cluster: "ind_psy", x: 460, y: 400, w: 180, h: 50, title: "Beslenme Okuryazarlığı", sub: "Etiket & Sağlık Bilinci" },
+      { id: "p13", cluster: "ind_psy", x: 660, y: 400, w: 180, h: 50, title: "Anksiyete & Depresif Duygu", sub: "Negative Affect" },
+      { id: "p14", cluster: "ind_psy", x: 860, y: 400, w: 180, h: 50, title: "Tıkınırcasına Yeme (BED)", sub: "Kontrolsüz Aşırı Alım" },
+      { id: "p15", cluster: "ind_psy", x: 1060, y: 400, w: 180, h: 50, title: "Hedonik Açlık", sub: "Fizyolojik Olmayan İştah" },
+      { id: "p16", cluster: "ind_psy", x: 360, y: 490, w: 180, h: 50, title: "Uyku Yoksunluğu & Yorgunluk", sub: "Sirkadiyen Faz Kayması" },
+      { id: "p17", cluster: "ind_psy", x: 580, y: 490, w: 180, h: 50, title: "Kendini İzleme Kapasitesi", sub: "Self-Monitoring Yeteneği" },
+      { id: "p18", cluster: "ind_psy", x: 800, y: 490, w: 180, h: 50, title: "Psikolojik Esneklik", sub: "Plato ve Hata Yönetimi" },
+
+      // 4. SOCIAL PSYCHOLOGY (14)
+      { id: "s1", cluster: "soc_psy", x: 1520, y: 200, w: 180, h: 50, title: "Sosyal Normlar & Akranlar", sub: "Grup İçi Porsiyon Taklidi" },
+      { id: "s2", cluster: "soc_psy", x: 1730, y: 200, w: 180, h: 50, title: "Aile Beslenme Kültürü", sub: "Çocukluk Sofrası Mirası" },
+      { id: "s3", cluster: "soc_psy", x: 1940, y: 200, w: 180, h: 50, title: "Yemekle Sosyalleşme", sub: "Kutlama & Ziyafet Kültürü" },
+      { id: "s4", cluster: "soc_psy", x: 2150, y: 200, w: 180, h: 50, title: "Kilo Damgalaması (Stigma)", sub: "Toplumsal Önyargı & Suçlama" },
+      { id: "s5", cluster: "soc_psy", x: 1520, y: 290, w: 180, h: 50, title: "Sosyoekonomik Gelir Düzeyi", sub: "Sağlıklı Gıdaya Finansal Güç" },
+      { id: "s6", cluster: "soc_psy", x: 1730, y: 290, w: 180, h: 50, title: "Medya & Sosyal Medya", sub: "Görsel Gıda Maruziyeti" },
+      { id: "s7", cluster: "soc_psy", x: 1940, y: 290, w: 180, h: 50, title: "Toplumsal Beden İdeali", sub: "Estetik Baskı & Diyet Modası" },
+      { id: "s8", cluster: "soc_psy", x: 2150, y: 290, w: 180, h: 50, title: "Ebeveyn Besleme Stili", sub: "Tabağı Bitir Baskısı" },
+      { id: "s9", cluster: "soc_psy", x: 1520, y: 380, w: 180, h: 50, title: "Yalnızlık & İzolasyon", sub: "Sosyal Bağ Eksikliği" },
+      { id: "s10", cluster: "soc_psy", x: 1730, y: 380, w: 180, h: 50, title: "Misafirperverlik Kodları", sub: "İkramı Reddedememe" },
+      { id: "s11", cluster: "soc_psy", x: 1940, y: 380, w: 180, h: 50, title: "Sosyal Destek Ağı", sub: "Diyet/Aktivite Desteği" },
+      { id: "s12", cluster: "soc_psy", x: 2150, y: 380, w: 180, h: 50, title: "Gıda Güvencesizliği", sub: "Kalori Kaygısı & Stoklama" },
+      { id: "s13", cluster: "soc_psy", x: 1620, y: 470, w: 190, h: 50, title: "Aidiyet & Grup Uyumu", sub: "Sosyal Çevreye Entegrasyon" },
+      { id: "s14", cluster: "soc_psy", x: 1850, y: 470, w: 190, h: 50, title: "Toplumsal Normalleşme", sub: "Kilolu Olmanın Kanıksanması" },
+
+      // 5. FOOD CONSUMPTION (13)
+      { id: "fc1", cluster: "food_con", x: 1660, y: 880, w: 170, h: 48, title: "Porsiyon Boyutları", sub: "Portion Distortion" },
+      { id: "fc2", cluster: "food_con", x: 1860, y: 880, w: 170, h: 48, title: "Gıda Enerji Yoğunluğu", sub: "kcal / gram (Yoğun Enerji)" },
+      { id: "fc3", cluster: "food_con", x: 2060, y: 880, w: 170, h: 48, title: "Sıvı Şeker & İçecekler", sub: "Meşrubat & Enerji İçeceği" },
+      { id: "fc4", cluster: "food_con", x: 2260, y: 880, w: 170, h: 48, title: "Düşük Diyet Lifi", sub: "Lif Eksikliği & Hızlı Açlık" },
+      { id: "fc5", cluster: "food_con", x: 1660, y: 950, w: 170, h: 48, title: "Rafine Karbonhidrat", sub: "Yüksek Glisemik İndeks" },
+      { id: "fc6", cluster: "food_con", x: 1860, y: 950, w: 170, h: 48, title: "Doymuş & Trans Yağ", sub: "İşlenmiş Yağ Yükü" },
+      { id: "fc7", cluster: "food_con", x: 2060, y: 950, w: 170, h: 48, title: "Öğün Düzensizliği", sub: "Atlanan Öğün & Açlık Atağı" },
+      { id: "fc8", cluster: "food_con", x: 2260, y: 950, w: 170, h: 48, title: "Gece Yeme Sendromu", sub: "Sirkadiyen Uyumsuzluk" },
+      { id: "fc9", cluster: "food_con", x: 1660, y: 1020, w: 170, h: 48, title: "Atıştırma (Snacking)", sub: "Sürekli Gıda Tüketimi" },
+      { id: "fc10", cluster: "food_con", x: 1860, y: 1020, w: 170, h: 48, title: "Dışarıda Yeme Oranı", sub: "Fast-Food & Restoran" },
+      { id: "fc11", cluster: "food_con", x: 2060, y: 1020, w: 170, h: 48, title: "Mikrobesin Yetersizliği", sub: "Gizli Açlık (Hidden Hunger)" },
+      { id: "fc12", cluster: "food_con", x: 2260, y: 1020, w: 170, h: 48, title: "Yeme Hızı & Çiğneme", sub: "Hızlı Tüketim & Geç Doyma" },
+      { id: "fc13", cluster: "food_con", x: 1960, y: 1090, w: 180, h: 48, title: "Alkol Kalorileri", sub: "Sıvı Etanol Enerjisi" },
+
+      // 6. FOOD PRODUCTION (16)
+      { id: "fp1", cluster: "food_prod", x: 2580, y: 340, w: 190, h: 50, title: "Ultra-İşlenmiş Gıda (UPF)", sub: "Paketli Endüstriyel Ürünler" },
+      { id: "fp2", cluster: "food_prod", x: 2800, y: 340, w: 190, h: 50, title: "Bliss Point Mühendisliği", sub: "Şeker-Yağ-Tuz Optimizasyonu" },
+      { id: "fp3", cluster: "food_prod", x: 3020, y: 340, w: 190, h: 50, title: "Ucuz Kalori Sübvansiyonu", sub: "Mısır Şurubu & Palm Yağı" },
+      { id: "fp4", cluster: "food_prod", x: 3240, y: 340, w: 190, h: 50, title: "Agresif Dijital Reklamlar", sub: "Algoritmik Gıda Pazarlaması" },
+      { id: "fp5", cluster: "food_prod", x: 2580, y: 440, w: 190, h: 50, title: "Çocuk Odaklı Pazarlama", sub: "Maskotlar & Çizgi Karakterler" },
+      { id: "fp6", cluster: "food_prod", x: 2800, y: 440, w: 190, h: 50, title: "Süpermarket Kasa Tuzağı", sub: "Göz Hizası & Dürtüsel Satış" },
+      { id: "fp7", cluster: "food_prod", x: 3020, y: 440, w: 190, h: 50, title: "Fast-Food Zincir Ağı", sub: "Adım Başı Erişilebilirlik" },
+      { id: "fp8", cluster: "food_prod", x: 3240, y: 440, w: 190, h: 50, title: "Gıda Bataklığı (Swamp)", sub: "Sağlıksız Kalori Yoğunluğu" },
+      { id: "fp9", cluster: "food_prod", x: 2580, y: 540, w: 190, h: 50, title: "Gıda Çölü (Food Desert)", sub: "Taze Gıdaya Fiziksel Mesafe" },
+      { id: "fp10", cluster: "food_prod", x: 2800, y: 540, w: 190, h: 50, title: "Paket Büyütme Stratejisi", sub: "Mega Boy & Value Deal" },
+      { id: "fp11", cluster: "food_prod", x: 3020, y: 540, w: 190, h: 50, title: "Raf Ömrü Emülgatörleri", sub: "Gıda Katkı Maddeleri" },
+      { id: "fp12", cluster: "food_prod", x: 3240, y: 540, w: 190, h: 50, title: "Şirket Kâr Önceliği", sub: "Düşük Maliyet, Yüksek Satış" },
+      { id: "fp13", cluster: "food_prod", x: 2580, y: 640, w: 190, h: 50, title: "Kapıya Teslimat Ağı", sub: "Tek Tıkla Sıcak Yemek" },
+      { id: "fp14", cluster: "food_prod", x: 2800, y: 640, w: 190, h: 50, title: "Cazip Kampanya Fiyatları", sub: "Çok Al Az Öde İndirimi" },
+      { id: "fp15", cluster: "food_prod", x: 3020, y: 640, w: 190, h: 50, title: "Yanıltıcı Besin Etiketi", sub: "Health Halo İddiaları" },
+      { id: "fp16", cluster: "food_prod", x: 3240, y: 640, w: 190, h: 50, title: "Tarımsal Monokültür", sub: "İşlenmiş Hububat Baskınlığı" },
+
+      // 7. INDIVIDUAL ACTIVITY (12)
+      { id: "ia1", cluster: "ind_act", x: 600, y: 1740, w: 180, h: 50, title: "NEAT (Spontan Hareket)", sub: "Kıpırdanma, Ayakta Durma" },
+      { id: "ia2", cluster: "ind_act", x: 800, y: 1740, w: 180, h: 50, title: "Yapılandırılmış Egzersiz", sub: "Planlı Spor & Fitness" },
+      { id: "ia3", cluster: "ind_act", x: 1000, y: 1740, w: 180, h: 50, title: "VO2max & Kondisyon", sub: "Kardiyovasküler Kapasite" },
+      { id: "ia4", cluster: "ind_act", x: 1200, y: 1740, w: 180, h: 50, title: "İskelet Kas Kütlesi", sub: "Metabolik Motor (Glikoz Depo)" },
+      { id: "ia5", cluster: "ind_act", x: 600, y: 1830, w: 180, h: 50, title: "Hareket Eforu Algısı", sub: "Aşırı Kiloda Ağırlaşma" },
+      { id: "ia6", cluster: "ind_act", x: 800, y: 1830, w: 180, h: 50, title: "Kompensatuar Sedanterlik", sub: "Spor Sonrası Tembelleşme" },
+      { id: "ia7", cluster: "ind_act", x: 1000, y: 1830, w: 180, h: 50, title: "Günlük Adım Sayısı", sub: "Bazal Hareket Miktarı" },
+      { id: "ia8", cluster: "ind_act", x: 1200, y: 1830, w: 180, h: 50, title: "Eklem Ağrısı & Artroz", sub: "Mekanik Yük Engeli" },
+      { id: "ia9", cluster: "ind_act", x: 700, y: 1920, w: 180, h: 50, title: "Aktivite Öz-Yeterliliği", sub: "Egzersizi Başarma İnancı" },
+      { id: "ia10", cluster: "ind_act", x: 900, y: 1920, w: 180, h: 50, title: "Hareketten Zevk Alma", sub: "İçsel Motivasyon" },
+      { id: "ia11", cluster: "ind_act", x: 1100, y: 1920, w: 180, h: 50, title: "Egzersiz Alışkanlık Gücü", sub: "Süreklilik & Rutin" },
+      { id: "ia12", cluster: "ind_act", x: 900, y: 2010, w: 180, h: 50, title: "Sedanter Oturma Süresi", sub: "Günlük Ekran & Masa Başı" },
+
+      // 8. ACTIVITY ENVIRONMENT (10)
+      { id: "ae1", cluster: "act_env", x: 1720, y: 1580, w: 190, h: 50, title: "Otomobil Bağımlılığı", sub: "Araç Odaklı Ulaşım Kültürü" },
+      { id: "ae2", cluster: "act_env", x: 1940, y: 1580, w: 190, h: 50, title: "Yürünebilirlik Eksikliği", sub: "Kaldırım & Yaya Geçidi Yokluğu" },
+      { id: "ae3", cluster: "act_env", x: 2160, y: 1580, w: 190, h: 50, title: "Bisiklet Yolu Altyapısı", sub: "Güvenli Aktif Ulaşım Hattı" },
+      { id: "ae4", cluster: "act_env", x: 2380, y: 1580, w: 190, h: 50, title: "Toplu Taşıma Entegrasyonu", sub: "Aktif Yürüyüşlü Transit" },
+      { id: "ae5", cluster: "act_env", x: 1720, y: 1680, w: 190, h: 50, title: "Yeşil Alan & Park Varlığı", sub: "Rekreasyonel Spor Alanları" },
+      { id: "ae6", cluster: "act_env", x: 1940, y: 1680, w: 190, h: 50, title: "Masa Başı İş Ortamları", sub: "Ergonomik Oturma Kültürü" },
+      { id: "ae7", cluster: "act_env", x: 2160, y: 1680, w: 190, h: 50, title: "Okul Spor Tesisleri", sub: "Çocukluk Hareket Alanı" },
+      { id: "ae8", cluster: "act_env", x: 2380, y: 1680, w: 190, h: 50, title: "Efor Tasarruf Mimarisi", sub: "Asansörler & Yürüyen Merdiven" },
+      { id: "ae9", cluster: "act_env", x: 1850, y: 1780, w: 190, h: 50, title: "Mahalle Güvenliği", sub: "Gece Yürüyüş Güvenliği" },
+      { id: "ae10", cluster: "act_env", x: 2080, y: 1780, w: 190, h: 50, title: "İklim & Hava Koşulları", sub: "Aşırı Sıcak/Soğuk Koruması" }
+    ];
+
+    const LINKS = [
+      { from: "c1", to: "c3", polarity: "+", color: "#ef4444" },
+      { from: "c2", to: "c3", polarity: "-", color: "#2563eb" },
+      { from: "c3", to: "c4", polarity: "+", color: "#ef4444" },
+
+      // Food consumption -> c1
+      { from: "fc1", to: "c1", polarity: "+", color: "#059669" },
+      { from: "fc2", to: "c1", polarity: "+", color: "#059669" },
+      { from: "fc3", to: "c1", polarity: "+", color: "#059669" },
+      { from: "fc9", to: "c1", polarity: "+", color: "#059669" },
+      { from: "fc10", to: "fc1", polarity: "+", color: "#059669" },
+
+      // Food Production -> Food Consumption
+      { from: "fp1", to: "fc2", polarity: "+", color: "#d97706" },
+      { from: "fp2", to: "fc1", polarity: "+", color: "#d97706" },
+      { from: "fp3", to: "fp1", polarity: "+", color: "#d97706" },
+      { from: "fp4", to: "fc9", polarity: "+", color: "#d97706" },
+      { from: "fp6", to: "fc9", polarity: "+", color: "#d97706" },
+      { from: "fp8", to: "fc10", polarity: "+", color: "#d97706" },
+
+      // Individual Psychology -> Food Consumption
+      { from: "p1", to: "c1", polarity: "+", color: "#0891b2" },
+      { from: "p2", to: "p1", polarity: "+", color: "#0891b2" },
+      { from: "p3", to: "p2", polarity: "+", color: "#0891b2" },
+      { from: "p6", to: "p3", polarity: "+", color: "#0891b2" },
+      { from: "p10", to: "c1", polarity: "+", color: "#0891b2" },
+      { from: "p16", to: "p3", polarity: "+", color: "#0891b2" },
+
+      // Biology -> In/Out
+      { from: "b1", to: "b4", polarity: "+", color: "#2563eb" },
+      { from: "b2", to: "c1", polarity: "-", color: "#2563eb" },
+      { from: "b3", to: "b2", polarity: "-", color: "#2563eb" },
+      { from: "b4", to: "c1", polarity: "+", color: "#2563eb" },
+      { from: "b6", to: "c2", polarity: "-", color: "#2563eb" },
+      { from: "c3", to: "b8", polarity: "+", color: "#ef4444" },
+      { from: "b8", to: "b3", polarity: "+", color: "#2563eb" },
+
+      // Individual Activity -> c2
+      { from: "ia1", to: "c2", polarity: "+", color: "#ca8a04" },
+      { from: "ia2", to: "c2", polarity: "+", color: "#ca8a04" },
+      { from: "ia3", to: "ia1", polarity: "+", color: "#ca8a04" },
+      { from: "ia5", to: "ia1", polarity: "-", color: "#ca8a04" },
+      { from: "c4", to: "ia5", polarity: "+", color: "#ef4444" },
+
+      // Activity Environment -> Activity
+      { from: "ae1", to: "ia1", polarity: "-", color: "#db2777" },
+      { from: "ae2", to: "ia1", polarity: "-", color: "#db2777" },
+      { from: "ae3", to: "ia1", polarity: "+", color: "#db2777" },
+      { from: "ae6", to: "ia12", polarity: "+", color: "#db2777" },
+      { from: "ae8", to: "ia1", polarity: "-", color: "#db2777" },
+
+      // Social Psychology
+      { from: "s1", to: "fc1", polarity: "+", color: "#7c3aed" },
+      { from: "s4", to: "p3", polarity: "+", color: "#7c3aed" },
+      { from: "c4", to: "s4", polarity: "+", color: "#ef4444" },
+      { from: "s14", to: "s1", polarity: "+", color: "#7c3aed" }
+    ];
+
+    /* =========================================================================
+       DYNAMIC FEEDBACK LOOPS CONFIGURATION (HIGH-LEGIBILITY LARGE CYCLE DATA)
+       ========================================================================= */
+
+    const DYNAMIC_LOOPS = {
+      loop1: {
+        title: "Stres & Duygusal Yeme Kısır Döngüsü",
+        color: "#ef4444",
+        summaryText: "Kilo Artışı ➔ Utanç & Damgalanma ➔ Kronik Kortizol ➔ Dopamin Arayışı ➔ Fazla Kalori ➔ Kilo Artışı",
+        steps: [
+          { num: "1", title: "🔴 Obezite Derecesi", sub: "Adipozite ve Kilo Artışı", color: "#ef4444" },
+          { num: "2", title: "👥 Kilo Damgalaması (Stigma)", sub: "Toplumsal Utanç ve Yargılanma", color: "#7c3aed" },
+          { num: "3", title: "🧠 Algılanan Stres & Kortizol", sub: "HPA Aksı Aktivasyonu", color: "#0891b2" },
+          { num: "4", title: "🧠 Ödül & Dopamin Arayışı", sub: "Hedonik Açlık ve Yatışma İsteği", color: "#0891b2" },
+          { num: "5", title: "🍽️ Duygusal Yeme Davranışı", sub: "Konfor Gıdaları (Şeker/Yağ)", color: "#059669" },
+          { num: "6", title: "⚡ Enerji Alımı Fazlası", sub: "Pozitif Kalori Dengesi", color: "#ef4444" }
+        ]
+      },
+      loop2: {
+        title: "Kondisyonsuzluk & NEAT Çöküşü Kısır Döngüsü",
+        color: "#ca8a04",
+        summaryText: "Kilo Artışı ➔ Ağırlaşan Efor Algısı ➔ Eklem Ağrısı & Kaçınma ➔ NEAT Çöküşü ➔ Düşük Kalori Yakımı ➔ Kilo Artışı",
+        steps: [
+          { num: "1", title: "🔴 Aşırı Beden Ağırlığı", sub: "Mekanik Yük Artışı", color: "#ef4444" },
+          { num: "2", title: "🏃 Hareket Eforu Algısı", sub: "Ağırlaşma & Çabuk Yorulma", color: "#ca8a04" },
+          { num: "3", title: "🏃 Eklem Rahatsızlığı & Artroz", sub: "Fiziksel Ağrı ve Egzersiz Engeli", color: "#ca8a04" },
+          { num: "4", title: "🏃 NEAT (Spontan Hareket) Çöküşü", sub: "Gün İçi Hareketsizlik", color: "#ca8a04" },
+          { num: "5", title: "🔥 Enerji Harcamasında Düşüş", sub: "TDEE / Günlük Yakım Azalması", color: "#2563eb" },
+          { num: "6", title: "⚖️ Pozitif Enerji Depolama", sub: "Harcanamayan Kalori Yağa Dönüşür", color: "#ef4444" }
+        ]
+      },
+      loop3: {
+        title: "UPF Arzı & Bliss Point Kısır Döngüsü",
+        color: "#d97706",
+        summaryText: "Ucuz Kalori ➔ Bliss Point Mühendisliği ➔ Mega Porsiyonlar ➔ Pasif Aşırı Tüketim ➔ Sanayi Kârı ➔ Daha Çok Üretim",
+        steps: [
+          { num: "1", title: "🏭 Ucuz Kalori Sübvansiyonu", sub: "Mısır Şurubu & Palm Yağı", color: "#d97706" },
+          { num: "2", title: "🏭 Bliss Point Mühendisliği", sub: "Şeker-Yağ-Tuz Bağımlılığı", color: "#d97706" },
+          { num: "3", title: "🏭 Paket Büyütme (Value Deal)", sub: "Mega Porsiyon ve Fiyat Tuzağı", color: "#d97706" },
+          { num: "4", title: "🍽️ Yüksek Enerji Yoğunluğu", sub: "Liften Yoksun Yoğun Kalori", color: "#059669" },
+          { num: "5", title: "🍽️ Pasif Aşırı Tüketim", sub: "Tokluk Sinyalinin Devre Dışı Kalması", color: "#059669" },
+          { num: "6", title: "⚡ Satış & Şirket Kâr Artışı", sub: "Endüstriyel Üretimin Katlanması", color: "#d97706" }
+        ]
+      },
+      loop4: {
+        title: "Sosyal Normalleşme & Akran Kısır Döngüsü",
+        color: "#7c3aed",
+        summaryText: "Toplumda Kilo Artışı ➔ Eşik Değişimi & Normalleşme ➔ Akran Porsiyon Taklidi ➔ Dev Porsiyonların Benimsenmesi ➔ Kalori Artışı",
+        steps: [
+          { num: "1", title: "🔴 Toplumda Kilo Artışı", sub: "Nüfusun Çoğunluğunun Kilo Alması", color: "#ef4444" },
+          { num: "2", title: "👥 Toplumsal Normalleşme", sub: "Kilolu Olmanın Kanıksanması", color: "#7c3aed" },
+          { num: "3", title: "👥 Sosyal Normlar & Akranlar", sub: "Sofrada Büyük Porsiyon Taklidi", color: "#7c3aed" },
+          { num: "4", title: "🍽️ Restoran & Ev Porsiyonları", sub: "Standart Servislerin Büyümesi", color: "#059669" },
+          { num: "5", title: "⚡ Toplumsal Ortalama Kalori Alımı", sub: "Grupça Artan Enerji Tüketimi", color: "#ef4444" },
+          { num: "6", title: "👶 Yeni Nesillere Aktarım", sub: "Obezojenik Çevrenin Varsayılan Olması", color: "#7c3aed" }
+        ]
+      }
+    };
+
+    /* =========================================================================
+       14 SEQUENTIAL STORY STEPS
+       ========================================================================= */
+
+    const STORY_STEPS = [
+      // STEP 0: START TIGHTLY ZOOMED IN ON THE ISOLATED CENTER CORE
+      {
+        id: 0,
+        cluster: "core",
+        color: "#ef4444",
+        badge: "01. Giriş: Enerji Dengesi Çekirdeği",
+        title: "Temel Denklem: Kalori Girişi vs. Çıkışı",
+        subtitle: "10. Slaytın Devamı — Klasik Termodinamik Bakış",
+        target: { x: -1350, y: -850, scale: 1.35 },
+        isIntroCoreOnly: true,
+        body: `
+          <p class="font-medium text-slate-800 text-base leading-relaxed">
+            10. Slaytta tartıştığımız temel model burasıdır: <strong>Enerji Alımı</strong> ile <strong>Enerji Harcaması</strong> arasındaki fark net enerji dengesini $(\\Delta E)$ belirler ve doğrudan <strong>Obezite Derecesi</strong>ne akar.
+          </p>
+          <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold font-mono-code uppercase tracking-wider text-rose-800">Sınıfla Tartışma Sorusu</div>
+            <p class="text-sm text-rose-950 leading-relaxed font-semibold">
+              "Eğer denklem bu kadar basitse (Kalori Girişi > Kalori Çıkışı = Kilo Alımı), neden tüm dünyada milyonlarca insan aynı anda kilo alıyor? Bireysel irade nerede tıkanıyor?"
+            </p>
+          </div>
+          <div class="bg-teal-50 border border-teal-200 p-3.5 rounded-xl text-xs text-teal-900 font-semibold flex items-center gap-2">
+            <span>👉</span>
+            <span><strong>İleri tuşuna basın:</strong> Bu 2 kutunun arkasındaki gerçek dünyaya (108 faktörlük devasa ekosisteme) zoom-out yapalım!</span>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Konuşmacı Girişi:</strong> "10. slaytta enerji dengesini özetledik. Termodinamik olarak doğru: Az hareket edip çok yersek kilo alırız. Peki neden herkes çok yiyip az hareket ediyor? Şimdi bir adım geri çekilip bu çekirdeğin arkasındaki gerçek dünyayı açalım."
+        `
+      },
+
+      // STEP 1: THE SPAGHETTI SHOCK (ZOOM OUT TO ALL 108 FACTORS)
+      {
+        id: 1,
+        cluster: "all",
+        color: "#0f172a",
+        badge: "02. Büyük Resim & Şok (108 Değişken)",
+        title: "İşte Gerçek Ekosistem: 108 Değişken!",
+        subtitle: "Foresight Obezite Sistem Haritasının Tamamı",
+        target: { x: 50, y: 50, scale: 0.38 },
+        body: `
+          <p class="font-semibold text-slate-900 text-base leading-relaxed">
+            Obezite tek bir irade veya diyet meselesi değildir; merkezdeki o küçük enerji dengesini çevreleyen <strong>108 değişken</strong> ve <strong>300'den fazla nedensel bağın</strong> oluşturduğu karmaşık bir adaptif sistemdir.
+          </p>
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5">
+            <div class="text-xs font-bold uppercase tracking-wider text-teal-800">Haritadaki 7 Temel Küme</div>
+            <div class="grid grid-cols-2 gap-2 text-xs font-medium text-slate-700">
+              <div class="p-2 bg-blue-50/70 rounded-lg text-blue-900 font-semibold">• 🧬 Biyoloji (21)</div>
+              <div class="p-2 bg-cyan-50/70 rounded-lg text-cyan-900 font-semibold">• 🧠 Bireysel Psikoloji (18)</div>
+              <div class="p-2 bg-purple-50/70 rounded-lg text-purple-900 font-semibold">• 👥 Sosyal Psikoloji (14)</div>
+              <div class="p-2 bg-emerald-50/70 rounded-lg text-emerald-900 font-semibold">• 🍽️ Gıda Tüketimi (13)</div>
+              <div class="p-2 bg-amber-50/70 rounded-lg text-amber-900 font-semibold">• 🏭 Gıda Üretimi (16)</div>
+              <div class="p-2 bg-yellow-50/70 rounded-lg text-yellow-900 font-semibold">• 🏃 Bireysel Aktivite (12)</div>
+              <div class="p-2 bg-pink-50/70 rounded-lg text-pink-900 font-semibold col-span-2">• 🏙️ Aktivite Çevresi (10)</div>
+            </div>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Etki Cümlesi:</strong> "İşte tıp ve halk sağlığı dünyasını sarsan ünlü Foresight Haritası! Gördüğünüz gibi obezite bir karakter zaafı değil; insan biyolojisinin inşa ettiğimiz bu 108 faktörlük yapay dünyayla karşılaşmasıdır."
+        `
+      },
+
+      // STEP 2: BIOLOGY
+      {
+        id: 2,
+        cluster: "bio",
+        color: "#2563eb",
+        badge: "03. Tema: Biyoloji (21 Değişken)",
+        title: "Evrimsel Miras ve Hormonal Savunma",
+        subtitle: "Leptin Direnci, Ghrelin Fırtınası ve Metabolik Adaptasyon",
+        target: { x: -80, y: -500, scale: 0.88 },
+        body: `
+          <p class="text-base leading-relaxed">İnsan biyolojisi kıtlık şartlarında enerjiyi depolamaya programlanmıştır. Kilo kaybına karşı metabolik hızını kısarak şiddetle direnir.</p>
+          <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-blue-800">Kritik Biyolojik Mekanizmalar</div>
+            <ul class="text-sm space-y-2 text-slate-700">
+              <li><strong>• Metabolik Adaptasyon:</strong> Kilo verildiğinde BMR'nin beklenenden %15-20 fazla yavaşlaması.</li>
+              <li><strong>• Leptin Direnci:</strong> Artan yağ dokusuna rağmen beynin tokluk sinyali alamaması (Açlık çeken beyin).</li>
+              <li><strong>• Genetik Yatkınlık:</strong> FTO ve MC4R poligenik varyantlarının iştah frenini gevşetmesi.</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Vurgu:</strong> Biyoloji kilo almayı kolaylaştırır, kilo vermeye ise şiddetle direnir (asimetrik savunma). Diyet yapan hastanın yaşadığı şey 'iradesizlik' değil, hipotalamik hayatta kalma alarmıdır.
+        `
+      },
+
+      // STEP 3: INDIVIDUAL PSYCHOLOGY
+      {
+        id: 3,
+        cluster: "ind_psy",
+        color: "#0891b2",
+        badge: "04. Tema: Bireysel Psikoloji (18 Değişken)",
+        title: "Dopamin, Ödül ve Stres Ekseni",
+        subtitle: "Duygusal Yeme, HPA Aksı ve Anlık Haz Güdüsü",
+        target: { x: -100, y: -80, scale: 0.88 },
+        body: `
+          <p class="text-base leading-relaxed">Gıda modern dünyada sadece kalori değil; stres, yalnızlık ve tükenmişlik anlarında en hızlı ulaşılabilen dopaminerjik ödüldür.</p>
+          <div class="bg-cyan-50 border border-cyan-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-cyan-800">Psikolojik Faktörler</div>
+            <ul class="text-sm space-y-2 text-slate-700">
+              <li><strong>• Duygusal Yeme:</strong> Negatif duygudurumun lezzetli gıdalarla bastırılması.</li>
+              <li><strong>• Ödül Duyarlılığı:</strong> Yağ ve şekerin striatumda yarattığı bağımlılık benzeri dopamin akışı.</li>
+              <li><strong>• Stres-Kortizol:</strong> Kronik stresin abdominal yağlanmayı ve yüksek kalorili gıda arayışını tetiklemesi.</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Klinik İpucu:</strong> Hastalarınıza 'iradene sahip çık' demek yerine, stres ve duygu regülasyonu stratejileri kazandırmadan kalıcı kilo kontrolü sağlanamaz.
+        `
+      },
+
+      // STEP 4: SOCIAL PSYCHOLOGY
+      {
+        id: 4,
+        cluster: "soc_psy",
+        color: "#7c3aed",
+        badge: "05. Tema: Sosyal Psikoloji (14 Değişken)",
+        title: "Sosyal Normlar ve Aile Mirası",
+        subtitle: "Akran Etkisi, Sosyalleşme ve Damgalanma (Stigma)",
+        target: { x: -800, y: -50, scale: 0.88 },
+        body: `
+          <p class="text-base leading-relaxed">Yeme davranışı sosyal bir eylemdir. İnsanlar çevrelerindeki porsiyon boyutlarını ve yeme hızını bilinçdışı olarak taklit eder.</p>
+          <div class="bg-purple-50 border border-purple-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-purple-800">Sosyal Belirleyiciler</div>
+            <ul class="text-sm space-y-2 text-slate-700">
+              <li><strong>• Sosyal Normalleşme:</strong> Çevrede kilo arttıkça büyük porsiyonların 'normal' sayılması.</li>
+              <li><strong>• Kilo Damgalaması (Stigma):</strong> Bireyi suçlamanın stres yaratıp daha fazla yemeğe yol açması.</li>
+              <li><strong>• Akran Etkisi:</strong> Yakın arkadaşı obez olan birinin obez olma riski %57 artar (Christakis).</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Atıf:</strong> Christakis & Fowler'ın meşhur sosyal ağ çalışması: Bir bireyin yakın arkadaşı obez olduğunda, kendisinin de obez olma riski %57 artmaktadır.
+        `
+      },
+
+      // STEP 5: FOOD CONSUMPTION
+      {
+        id: 5,
+        cluster: "food_con",
+        color: "#059669",
+        badge: "06. Tema: Gıda Tüketimi (13 Değişken)",
+        title: "Porsiyon Bozulması ve Enerji Yoğunluğu",
+        subtitle: "Portion Distortion, Sıvı Şekerler ve Öğün Sıklığı",
+        target: { x: -900, y: -480, scale: 0.88 },
+        body: `
+          <p class="text-base leading-relaxed">Son 40 yılda porsiyon boyutları katlanmış, lifi soyulmuş gıdaların enerji yoğunluğu (kcal/g) aşırı yükselmiştir.</p>
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-800">Tüketim Dinamikleri</div>
+            <ul class="text-sm space-y-2 text-slate-700">
+              <li><strong>• Portion Distortion:</strong> Standart porsiyonların fizyolojik ihtiyacın 2-3 katına çıkması.</li>
+              <li><strong>• Sıvı Kaloriler:</strong> Şekerli içeceklerin beyinde katı gıdalar gibi tokluk oluşturmaması.</li>
+              <li><strong>• Snacking Kültürü:</strong> Gün boyu süren sürekli insülin yüksekliği.</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Vurgu:</strong> İnsan midesi hacimle doyar, kaloriyle değil. Enerji yoğunluğu artırılmış gıdalar, mide gerilme reseptörlerini uyarmadan binlerce ekstra kalori aldırır.
+        `
+      },
+
+      // STEP 6: FOOD PRODUCTION
+      {
+        id: 6,
+        cluster: "food_prod",
+        color: "#d97706",
+        badge: "07. Tema: Gıda Üretimi & Pazarı (16 Değişken)",
+        title: "Ultra-İşlenmiş Gıda Ekonomisi",
+        subtitle: "Bliss Point, Ucuz Kaloriler ve Agresif Reklamlar",
+        target: { x: -1600, y: -200, scale: 0.82 },
+        body: `
+          <p class="text-base leading-relaxed">Gıda endüstrisi, biyolojimizin tokluk mekanizmalarını devre dışı bırakan <strong>"Bliss Point" (mükemmel şeker-yağ-tuz dengesi)</strong> formüllerine dev bütçeler ayırmaktadır.</p>
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-amber-800">Pazar Gerçekleri</div>
+            <ul class="text-sm space-y-2 text-slate-700">
+              <li><strong>• Ultra-İşlenmiş Gıda (UPF):</strong> Liften soyulmuş, hızlı emilen ve aşırı karlı ürünler.</li>
+              <li><strong>• Ucuz Kalori Paradoksu:</strong> En ucuz kalorilerin en zararlı işlenmiş ürünler olması.</li>
+              <li><strong>• Kevin Hall (2019):</strong> UPF tüketenler günde kendiliğinden +500 kcal fazla almaktadır.</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Çarpıcı Veri:</strong> Kevin Hall'un 2019 Cell Metabolism çalışmasını hatırlatın: UPF tüketen bireyler, tamamen aynı besin değerine sahip doğal beslenenlere göre günde fazladan 500 kcal almaktadır.
+        `
+      },
+
+      // STEP 7: INDIVIDUAL ACTIVITY
+      {
+        id: 7,
+        cluster: "ind_act",
+        color: "#ca8a04",
+        badge: "08. Tema: Bireysel Aktivite (12 Değişken)",
+        title: "Fiziksel Kapasite ve NEAT",
+        subtitle: "Spontan Hareket, Kondisyon ve Egzersiz Motivasyonu",
+        target: { x: -380, y: -1050, scale: 0.88 },
+        body: `
+          <p class="text-base leading-relaxed">Enerji harcamasının en değişken bileşeni spor salonundaki 45 dakika değil, gün boyu süren <strong>NEAT (Egzersiz Dışı Hareket)</strong> miktarıdır.</p>
+          <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-yellow-800">Aktivite Gerçekleri</div>
+            <ul class="text-sm space-y-2 text-slate-700">
+              <li><strong>• NEAT Farkı:</strong> İki birey arasında sadece ayakta durma ve yürüme ile 800-1000 kcal fark.</li>
+              <li><strong>• Kondisyonsuzluk Eşiği:</strong> Kilo aldıkça hareket etmenin eklemlerde ağrı ve yorgunluk yaratması.</li>
+              <li><strong>• Kompensatuar Tembellik:</strong> Egzersiz sonrası günün geri kalanında hareketsiz kalma eğilimi.</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Anahtar Mesaj:</strong> Egzersiz kilo koruma ve metabolik sağlık için vazgeçilmezdir; ancak tek başına kilo vermede gıda alımının yarattığı enerji fazlasını kapatamaz.
+        `
+      },
+
+      // STEP 8: ACTIVITY ENVIRONMENT
+      {
+        id: 8,
+        cluster: "act_env",
+        color: "#db2777",
+        badge: "09. Tema: Aktivite Çevresi (10 Değişken)",
+        title: "Eforu Sıfırlayan Yapılı Çevre",
+        subtitle: "Otomobil Bağımlılığı, Yürünemez Şehirler ve Masa Başı Hayat",
+        target: { x: -1100, y: -980, scale: 0.85 },
+        body: `
+          <p class="text-base leading-relaxed">Modern şehirler ve teknoloji, insanın hayatta kalmak için harcaması gereken fiziksel eforu neredeyse sıfıra indirmiştir.</p>
+          <div class="bg-pink-50 border border-pink-200 rounded-2xl p-4 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-pink-800">Çevresel Faktörler</div>
+            <ul class="text-sm space-y-2 text-slate-700">
+              <li><strong>• Otomobil Odaklılık:</strong> Güvenli bisiklet ve yaya yollarının eksikliği.</li>
+              <li><strong>• Masa Başı Yaşam:</strong> Günde 8-10 saat ekran karşısında hareketsiz oturma.</li>
+              <li><strong>• Efor Tasarrufu:</strong> Asansörler, yürüyen merdivenler ve tek tıkla eve teslimat servisleri.</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Soru Sorun:</strong> "Ecdadımız bir öğün yemek için kilometrelerce yürüyüp avlanmak zorundaydı; bugün tek bir parmak dokunuşuyla 30 dakikada 2500 kaloriyi koltuğumuza getirtebiliyoruz."
+        `
+      },
+
+      // STEP 9: DEDICATED SLIDE - LOOP 1
+      {
+        id: 9,
+        loopKey: "loop1",
+        color: "#ef4444",
+        badge: "10. Kısır Döngü 1/4 (Psikolojik Tuzak)",
+        title: "🔴 Stres & Duygusal Yeme Tuzağı",
+        subtitle: "Kilo Artışının Yarattığı Stresin Yemeyi Tetiklemesi",
+        body: `
+          <div class="bg-rose-50/90 border border-rose-200 rounded-2xl p-4 space-y-3">
+            <div class="text-xs font-bold font-mono-code uppercase tracking-wider text-rose-800">Döngünün Adım Adım İşleyişi</div>
+            <div class="space-y-2 text-sm text-slate-800 font-medium leading-relaxed">
+              <div class="p-2.5 bg-white rounded-xl border border-rose-100 shadow-xs">
+                <strong>1. Kilo Artışı:</strong> Birey kilo aldığında beden stresi ve utanç artar.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-rose-100 shadow-xs">
+                <strong>2. Stigma & Kortizol:</strong> Toplumsal damgalanma kronik kortizol salgısını fırlatır.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-rose-100 shadow-xs">
+                <strong>3. Dopamin Arayışı:</strong> Beyin stresi yatıştırmak için acil hedonik ödül arar.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-rose-100 shadow-xs">
+                <strong>4. Duygusal Yeme:</strong> Şeker ve yağlı gıdalarla anlık rahatlama sağlanır.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-rose-100 shadow-xs text-rose-900 font-bold">
+                <strong>5. Tekrar Kilo Artışı:</strong> Kalori fazlası yağa dönüşür ve döngü kendini kilitler!
+              </div>
+            </div>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Klinik Çıkarım:</strong> Hastaya diyet verirken stresini ve duygusal yeme tetikleyicilerini yönetmezseniz, bu döngü diyeti 2. haftada bozdurur.
+        `
+      },
+
+      // STEP 10: DEDICATED SLIDE - LOOP 2
+      {
+        id: 10,
+        loopKey: "loop2",
+        color: "#ca8a04",
+        badge: "11. Kısır Döngü 2/4 (Fiziksel Tuzak)",
+        title: "🟡 Kondisyonsuzluk & Hareketsizlik Tuzağı",
+        subtitle: "Kilo Arttıkça Hareket Eforunun Ağırlaşması ve NEAT Çöküşü",
+        body: `
+          <div class="bg-yellow-50/90 border border-yellow-200 rounded-2xl p-4 space-y-3">
+            <div class="text-xs font-bold font-mono-code uppercase tracking-wider text-yellow-800">Döngünün Adım Adım İşleyişi</div>
+            <div class="space-y-2 text-sm text-slate-800 font-medium leading-relaxed">
+              <div class="p-2.5 bg-white rounded-xl border border-yellow-100 shadow-xs">
+                <strong>1. Aşırı Beden Ağırlığı:</strong> Eklemlere binen mekanik yük ve kas yorgunluğu artar.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-yellow-100 shadow-xs">
+                <strong>2. Efor Algısının Ağırlaşması:</strong> Yürümek ve merdiven çıkmak acı verici ve zor hale gelir.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-yellow-100 shadow-xs">
+                <strong>3. NEAT Çöküşü:</strong> Birey gün içi spontan hareketlerden tamamen kaçınır.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-yellow-100 shadow-xs">
+                <strong>4. Enerji Harcamasında Düşüş:</strong> Günlük kalori yakımı minimuma iner.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-yellow-100 shadow-xs text-yellow-900 font-bold">
+                <strong>5. Pozitif Enerji Fazlası:</strong> Kilo daha da artar ve hareket kabiliyeti kilitlenir!
+              </div>
+            </div>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Klinik Çıkarım:</strong> 130 kg bir hastaya 'her gün 1 saat koş' diyemezsiniz. Önce eklem yükünü alacak düşük eforlu hareketlerle NEAT inşa edilmelidir.
+        `
+      },
+
+      // STEP 11: DEDICATED SLIDE - LOOP 3
+      {
+        id: 11,
+        loopKey: "loop3",
+        color: "#d97706",
+        badge: "12. Kısır Döngü 3/4 (Pazar Tuzağı)",
+        title: "🟠 UPF Arzı & Ucuz Kalori Tuzağı",
+        subtitle: "Sanayinin Düşük Maliyetli Bağımlılık Yaratan Üretim Çarkı",
+        body: `
+          <div class="bg-amber-50/90 border border-amber-200 rounded-2xl p-4 space-y-3">
+            <div class="text-xs font-bold font-mono-code uppercase tracking-wider text-amber-800">Döngünün Adım Adım İşleyişi</div>
+            <div class="space-y-2 text-sm text-slate-800 font-medium leading-relaxed">
+              <div class="p-2.5 bg-white rounded-xl border border-amber-100 shadow-xs">
+                <strong>1. Ucuz Kalori Sübvansiyonu:</strong> Sanayi mısır şurubu ve palm yağını ucuza üretir.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-amber-100 shadow-xs">
+                <strong>2. Bliss Point Mühendisliği:</strong> Tokluk hissini engelleyen şeker-yağ formülleri geliştirilir.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-amber-100 shadow-xs">
+                <strong>3. Paket Büyütme (Value Deal):</strong> Mega Porsiyon ve Fiyat Tuzağı.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-amber-100 shadow-xs">
+                <strong>4. Yüksek Enerji Yoğunluğu:</strong> Liften Yoksun Yoğun Kalori.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-amber-100 shadow-xs">
+                <strong>5. Pasif Aşırı Tüketim:</strong> Tokluk Sinyalinin Devre Dışı Kalması.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-amber-100 shadow-xs text-amber-900 font-bold">
+                <strong>6. Satış & Şirket Kâr Artışı:</strong> Endüstriyel Üretimin Katlanması!
+              </div>
+            </div>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Pazar Gerçeği:</strong> Kalorisi en yüksek ve en sağlıksız gıdaların en ucuz olması bir tesadüf değil; endüstriyel bir geri bildirim döngüsüdür.
+        `
+      },
+
+      // STEP 12: DEDICATED SLIDE - LOOP 4
+      {
+        id: 12,
+        loopKey: "loop4",
+        color: "#7c3aed",
+        badge: "13. Kısır Döngü 4/4 (Sosyal Tuzak)",
+        title: "🟣 Sosyal Normalleşme Tuzağı",
+        subtitle: "Aşırı Kilo ve Dev Porsiyonların Toplumsal Standarda Dönüşmesi",
+        body: `
+          <div class="bg-purple-50/90 border border-purple-200 rounded-2xl p-4 space-y-3">
+            <div class="text-xs font-bold font-mono-code uppercase tracking-wider text-purple-800">Döngünün Adım Adım İşleyişi</div>
+            <div class="space-y-2 text-sm text-slate-800 font-medium leading-relaxed">
+              <div class="p-2.5 bg-white rounded-xl border border-purple-100 shadow-xs">
+                <strong>1. Toplumda Kilo Artışı:</strong> Nüfusun yarısından fazlası aşırı kilolu hale gelir.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-purple-100 shadow-xs">
+                <strong>2. Eşik Yükselmesi:</strong> Büyük bedenler ve dev porsiyonlar 'normal' algılanmaya başlar.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-purple-100 shadow-xs">
+                <strong>3. Akran Etkisi:</strong> Sofrada aşırı yemek yemek sorgulanmayan bir norm olur.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-purple-100 shadow-xs">
+                <strong>4. Standart Porsiyonların Büyümesi:</strong> Restoranlar porsiyonları büyütür.
+              </div>
+              <div class="p-2.5 bg-white rounded-xl border border-purple-100 shadow-xs text-purple-900 font-bold">
+                <strong>5. Yeni Nesillere Aktarım:</strong> Çocuklar obeziteyi varsayılan biyoloji olarak devralır!
+              </div>
+            </div>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Sosyolojik Çıkarım:</strong> Bir sorun toplumda genelleştiğinde görünmez hale gelir. Normalleşme, bireyin sağlık farkındalığını köreltir.
+        `
+      },
+
+      // STEP 13: CONCLUSION & LEVERAGE POINTS
+      {
+        id: 13,
+        cluster: "all",
+        color: "#0d9488",
+        badge: "14. Çözüm & Çıkarımlar",
+        title: "Bütüncül Sistem Yaklaşımı (Whole-Systems)",
+        subtitle: "Kaldıraç Noktaları (Leverage Points) ve Politika Dönüşümü",
+        target: { x: 50, y: 50, scale: 0.38 },
+        body: `
+          <p class="text-base text-slate-900 font-semibold leading-relaxed">
+            Atlasın nihai sonucu açıktır: Obeziteyle mücadele tekil diyetlerle kazanılamaz. <strong>Çok sektörlü bir sistem dönüşümü şarttır.</strong>
+          </p>
+          <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4 space-y-2.5">
+            <div class="text-xs font-bold uppercase tracking-wider text-teal-900 font-mono-code">Stratejik Kaldıraç Noktaları</div>
+            <ul class="text-sm space-y-2 text-slate-800 font-medium">
+              <li><strong>• Default Choice (Varsayılan Tercih):</strong> Sağlıklı tercihi en ucuz, en kolay ve en erişilebilir seçenek yapmak.</li>
+              <li><strong>• Yapısal Regülasyonlar:</strong> Şeker vergileri, çocuklara gıda reklamı yasakları ve gıda formülasyonu reformu.</li>
+              <li><strong>• Aktif Şehir Planlaması:</strong> Yürünebilir caddeler, güvenli bisiklet yolları ve yeşil alanlar.</li>
+              <li><strong>• Damgalamayı Bitirmek:</strong> Bireyi suçlamak yerine sistemi iyileştirmek.</li>
+            </ul>
+          </div>
+        `,
+        speakerNotes: `
+          <strong>Kapanış Cümlesi:</strong> "Sonuç olarak: Obezite bir karakter kusuru değil, biyolojimiz ile inşa ettiğimiz medeniyet arasındaki derin bir sistemik uyumsuzluktur. Çözüm bireyi suçlamakta değil, sistemi ve çevreyi dönüştürmektedir."
+        `
+      }
+    ];
+
+    /* =========================================================================
+       APP ENGINE: RENDERING, NAVIGATION & INTERACTION
+       ========================================================================= */
+
+    let currentStepIndex = 0;
+    let isFreeRoam = false;
+    let showSpeakerNotes = false;
+    let currentMapMode = 'tr';
+
+    let curX = -1350, curY = -850, curScale = 1.35;
+    let isDragging = false;
+    let startX, startY;
+
+    const mapWorld = document.getElementById("map-world");
+    const vectorSvg = document.getElementById("vector-map-svg");
+    const rasterImg = document.getElementById("raster-map-img");
+    const clusterRegionsG = document.getElementById("cluster-regions");
+    const mapLinksG = document.getElementById("map-links");
+    const mapNodesG = document.getElementById("map-nodes");
+    const dedicatedLoopStage = document.getElementById("dedicated-loop-stage");
+    const loopCycleSvg = document.getElementById("loop-cycle-svg");
+    const quickJumpNav = document.getElementById("quick-jump-nav");
+    const searchContainer = document.getElementById("search-container");
+    const mapModeContainer = document.getElementById("map-mode-container");
+
+    function init() {
+      renderVectorGraph();
+      buildTimelineDots();
+      setupEventListeners();
+      goToStep(0);
+    }
+
+    function renderVectorGraph() {
+      // 1. Boundaries
+      clusterRegionsG.innerHTML = "";
+      CLUSTERS.forEach(c => {
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("id", `cluster-bg-${c.id}`);
+        rect.setAttribute("x", c.bbox.x);
+        rect.setAttribute("y", c.bbox.y);
+        rect.setAttribute("width", c.bbox.w);
+        rect.setAttribute("height", c.bbox.h);
+        rect.setAttribute("rx", "24");
+        rect.setAttribute("ry", "24");
+        rect.setAttribute("fill", c.bg);
+        rect.setAttribute("stroke", c.color);
+        rect.setAttribute("class", `cluster-boundary ${c.id === 'core' ? 'core-element' : ''}`);
+        clusterRegionsG.appendChild(rect);
+
+        const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        txt.setAttribute("id", `cluster-txt-${c.id}`);
+        txt.setAttribute("x", c.bbox.x + 22);
+        txt.setAttribute("y", c.bbox.y + 34);
+        txt.setAttribute("fill", c.color);
+        txt.setAttribute("font-size", "14");
+        txt.setAttribute("font-weight", "800");
+        txt.setAttribute("letter-spacing", "0.5px");
+        txt.setAttribute("class", c.id === 'core' ? 'core-element' : '');
+        txt.textContent = `${c.name.toUpperCase()} (${c.count})`;
+        clusterRegionsG.appendChild(txt);
+      });
+
+      // 2. Links
+      mapLinksG.innerHTML = "";
+      LINKS.forEach(l => {
+        const fromNode = NODES.find(n => n.id === l.from);
+        const toNode = NODES.find(n => n.id === l.to);
+        if (!fromNode || !toNode) return;
+
+        const x1 = fromNode.x + fromNode.w / 2;
+        const y1 = fromNode.y + fromNode.h / 2;
+        const x2 = toNode.x + toNode.w / 2;
+        const y2 = toNode.y + toNode.h / 2;
+
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const cx = (x1 + x2) / 2 - dy * 0.12;
+        const cy = (y1 + y2) / 2 + dx * 0.12;
+
+        const isCoreLink = fromNode.isCore && toNode.isCore;
+
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("id", `link-${l.from}-${l.to}`);
+        path.setAttribute("d", `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+        path.setAttribute("stroke", l.color);
+        path.setAttribute("class", `map-link ${isCoreLink ? "core-element" : ""}`);
+        path.setAttribute("marker-end", `url(#arrow-${fromNode.cluster})`);
+        mapLinksG.appendChild(path);
+
+        const pTxt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        pTxt.setAttribute("id", `badge-${l.from}-${l.to}`);
+        pTxt.setAttribute("x", cx);
+        pTxt.setAttribute("y", cy);
+        pTxt.setAttribute("fill", l.polarity === "+" ? "#ef4444" : "#2563eb");
+        pTxt.setAttribute("class", `polarity-badge ${isCoreLink ? "core-element" : ""}`);
+        pTxt.textContent = `(${l.polarity})`;
+        mapLinksG.appendChild(pTxt);
+      });
+
+      // 3. Nodes
+      mapNodesG.innerHTML = "";
+      NODES.forEach(n => {
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("id", `node-${n.id}`);
+        g.setAttribute("class", `map-node ${n.isCore ? "core-node core-element" : ""}`);
+        g.onclick = () => showNodeDetails(n);
+
+        const cluster = CLUSTERS.find(c => c.id === n.cluster);
+        const borderColor = cluster ? cluster.color : "#94a3b8";
+
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", n.x);
+        rect.setAttribute("y", n.y);
+        rect.setAttribute("width", n.w);
+        rect.setAttribute("height", n.h);
+        rect.setAttribute("stroke", borderColor);
+        rect.setAttribute("class", "node-card");
+        g.appendChild(rect);
+
+        // Title text
+        const t1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        t1.setAttribute("x", n.x + 12);
+        t1.setAttribute("y", n.y + (n.isCore ? 26 : 21));
+        t1.setAttribute("class", "node-title");
+        t1.textContent = n.title;
+        g.appendChild(t1);
+
+        // Subtitle text
+        const t2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        t2.setAttribute("x", n.x + 12);
+        t2.setAttribute("y", n.y + (n.isCore ? 48 : 38));
+        t2.setAttribute("class", "node-sub");
+        t2.textContent = n.sub;
+        g.appendChild(t2);
+
+        mapNodesG.appendChild(g);
+      });
+    }
+
+    function buildTimelineDots() {
+      const wrap = document.getElementById("timeline-dots-wrap");
+      wrap.innerHTML = "";
+      STORY_STEPS.forEach((step, idx) => {
+        const dot = document.createElement("button");
+        dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${idx === 0 ? "w-5 bg-teal-600 rounded-full" : "bg-slate-300 hover:bg-slate-400"}`;
+        dot.title = `${idx + 1}. ${step.title}`;
+        dot.onclick = () => goToStep(idx);
+        wrap.appendChild(dot);
+      });
+    }
+
+    /* RENDER DEDICATED PERFECTLY ALIGNED LOOP CYCLE */
+    function renderDedicatedLoopCycle(loopKey) {
+      const loop = DYNAMIC_LOOPS[loopKey];
+      if (!loop) return;
+
+      const N = loop.steps.length;
+      const cx = 480;
+      const cy = 360;
+      const R = 250; // Radius for card centers
+
+      const cardW = 230;
+      const cardH = 64;
+
+      let html = `
+        <defs>
+          <filter id="glow-${loopKey}" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="5" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+
+        <!-- CENTER LOCKED PULSING CYCLE BADGE -->
+        <g transform="translate(${cx}, ${cy})">
+          <circle r="72" fill="#ffffff" stroke="${loop.color}" stroke-width="3" filter="drop-shadow(0 10px 25px rgba(15,23,42,0.08))" />
+          <circle r="62" fill="${loop.color}" fill-opacity="0.08" />
+          
+          <!-- In-place rotation arrows with native SVG animateTransform -->
+          <g>
+            <path d="M -24 -6 A 25 25 0 0 1 24 -6" fill="none" stroke="${loop.color}" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M 21 -11 L 26 -6 L 20 -2" fill="none" stroke="${loop.color}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            
+            <path d="M 24 6 A 25 25 0 0 1 -24 6" fill="none" stroke="${loop.color}" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M -21 11 L -26 6 L -20 2" fill="none" stroke="${loop.color}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            
+            <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="18s" repeatCount="indefinite" />
+          </g>
+
+          <text text-anchor="middle" y="24" fill="${loop.color}" font-size="11" font-weight="800" font-family="'IBM Plex Mono', monospace" letter-spacing="0.5px">KISIR DÖNGÜ</text>
+          <text text-anchor="middle" y="38" fill="#64748b" font-size="9" font-weight="700">Self-Reinforcing</text>
+        </g>
+      `;
+
+      // Compute precise node coordinates on circle
+      const positions = [];
+      for (let i = 0; i < N; i++) {
+        // Start from top (-90 deg) and go clockwise
+        const angle = (2 * Math.PI * i / N) - (Math.PI / 2);
+        const x = cx + R * Math.cos(angle);
+        const y = cy + R * Math.sin(angle);
+        positions.push({ x, y, angle });
+      }
+
+      // Draw curved connector links between consecutive step perimeters
+      for (let i = 0; i < N; i++) {
+        const p1 = positions[i];
+        const p2 = positions[(i + 1) % N];
+
+        // Mid-angle for control point
+        let midAngle = (p1.angle + p2.angle) / 2;
+        if (p2.angle < p1.angle) midAngle += Math.PI;
+
+        const cpx = cx + (R * 1.05) * Math.cos(midAngle);
+        const cpy = cy + (R * 1.05) * Math.sin(midAngle);
+
+        html += `
+          <path d="M ${p1.x} ${p1.y} Q ${cpx} ${cpy} ${p2.x} ${p2.y}" 
+                fill="none" 
+                stroke="${loop.color}" 
+                stroke-width="4" 
+                stroke-dasharray="10 5" 
+                class="map-link loop-active" 
+                marker-end="url(#arrow-loop)" 
+                style="color: ${loop.color};" />
+        `;
+      }
+
+      // Draw large, crystal-clear Step Cards
+      loop.steps.forEach((step, idx) => {
+        const pos = positions[idx];
+        const cardX = pos.x - cardW / 2;
+        const cardY = pos.y - cardH / 2;
+
+        html += `
+          <g transform="translate(${cardX}, ${cardY})" class="map-node">
+            <!-- Card Base -->
+            <rect width="${cardW}" height="${cardH}" rx="14" ry="14" fill="#ffffff" stroke="${step.color}" stroke-width="2.2" filter="drop-shadow(0 6px 16px rgba(15,23,42,0.08))" />
+            
+            <!-- Step Number Badge Circle -->
+            <circle cx="20" cy="${cardH / 2}" r="12" fill="${step.color}" />
+            <text x="20" y="${cardH / 2 + 4}" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="800" font-family="'IBM Plex Mono', monospace">${step.num}</text>
+            
+            <!-- Step Title -->
+            <text x="38" y="${cardH / 2 - 3}" fill="#0f172a" font-size="12" font-weight="800" font-family="'Plus Jakarta Sans', sans-serif">${step.title}</text>
+            
+            <!-- Step Subtitle -->
+            <text x="38" y="${cardH / 2 + 13}" fill="#64748b" font-size="9.5" font-weight="600" font-family="'Plus Jakarta Sans', sans-serif">${step.sub}</text>
+          </g>
+        `;
+      });
+
+      loopCycleSvg.innerHTML = html;
+    }
+
+    function goToStep(index) {
+      if (index < 0 || index >= STORY_STEPS.length) return;
+      currentStepIndex = index;
+      const step = STORY_STEPS[index];
+
+      // Update story panel text
+      document.getElementById("step-num-text").innerText = step.badge;
+      document.getElementById("story-title").innerText = step.title;
+      document.getElementById("story-subtitle").innerText = step.subtitle;
+      document.getElementById("story-body").innerHTML = step.body;
+      document.getElementById("speaker-notes-content").innerHTML = step.speakerNotes;
+
+      // Update timeline dots
+      const dots = document.querySelectorAll("#timeline-dots-wrap button");
+      dots.forEach((d, i) => {
+        if (i === index) d.className = "w-5 h-2 rounded-full bg-teal-600 transition-all duration-300";
+        else d.className = "w-2 h-2 rounded-full bg-slate-300 hover:bg-slate-400 transition-all duration-300";
+      });
+
+      // Update active cluster boundary
+      document.querySelectorAll(".cluster-boundary").forEach(r => r.classList.remove("active-cluster"));
+      if (step.cluster && step.cluster !== "all" && step.cluster !== "core") {
+        const activeRect = document.getElementById(`cluster-bg-${step.cluster}`);
+        if (activeRect) activeRect.classList.add("active-cluster");
+      }
+
+      // STEP 0: STRICT ISOLATION (ZERO SNEAK PEEK OF CLUSTERS OR 108 NODES)
+      if (step.isIntroCoreOnly) {
+        quickJumpNav.classList.add("nav-hidden");
+        searchContainer.classList.add("nav-hidden");
+        mapModeContainer.classList.add("nav-hidden");
+
+        // Hide loop stage
+        dedicatedLoopStage.classList.add("hidden", "opacity-0");
+        dedicatedLoopStage.classList.remove("active");
+
+        // Hide all non-core elements strictly in SVG
+        document.querySelectorAll(".map-node, .map-link, .polarity-badge, .cluster-boundary, #cluster-regions text").forEach(el => {
+          if (!el.classList.contains("core-element")) {
+            el.classList.add("hidden-node");
+          } else {
+            el.classList.remove("hidden-node", "dimmed-node");
+          }
+        });
+
+        applyTransform(step.target.x, step.target.y, step.target.scale);
+
+      } else if (step.loopKey) {
+        // STEPS 9-12: DEDICATED FOCUSED LOOP CYCLE STAGE
+        quickJumpNav.classList.remove("nav-hidden");
+        searchContainer.classList.remove("nav-hidden");
+        mapModeContainer.classList.remove("nav-hidden");
+
+        // Soft-dim background map
+        document.querySelectorAll(".map-node, .map-link, .polarity-badge, .cluster-boundary, #cluster-regions text").forEach(el => {
+          el.classList.remove("hidden-node");
+          el.classList.add("dimmed-node");
+        });
+
+        // Render and show dedicated loop cycle
+        renderDedicatedLoopCycle(step.loopKey);
+        dedicatedLoopStage.classList.remove("hidden");
+        setTimeout(() => {
+          dedicatedLoopStage.classList.remove("opacity-0");
+          dedicatedLoopStage.classList.add("active");
+        }, 50);
+
+      } else {
+        // STEPS 1-8, 13: FULL SYSTEM ATLAS VIEW
+        quickJumpNav.classList.remove("nav-hidden");
+        searchContainer.classList.remove("nav-hidden");
+        mapModeContainer.classList.remove("nav-hidden");
+
+        // Hide dedicated loop stage
+        dedicatedLoopStage.classList.add("hidden", "opacity-0");
+        dedicatedLoopStage.classList.remove("active");
+
+        // Reset visibility and dimming
+        resetDimming();
+        applyTransform(step.target.x, step.target.y, step.target.scale);
+      }
+    }
+
+    function resetDimming() {
+      document.querySelectorAll(".map-node").forEach(n => {
+        n.classList.remove("dimmed-node", "hidden-node", "loop-highlight-node");
+      });
+      document.querySelectorAll(".map-link").forEach(l => {
+        l.classList.remove("dimmed-node", "hidden-node", "loop-active");
+      });
+      document.querySelectorAll(".polarity-badge").forEach(p => {
+        p.classList.remove("dimmed-node", "hidden-node");
+      });
+      document.querySelectorAll(".cluster-boundary, #cluster-regions text").forEach(b => {
+        b.classList.remove("dimmed-node", "hidden-node");
+      });
+    }
+
+    function applyTransform(x, y, scale) {
+      curX = x;
+      curY = y;
+      curScale = scale;
+      mapWorld.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    }
+
+    function nextStep() {
+      if (currentStepIndex < STORY_STEPS.length - 1) goToStep(currentStepIndex + 1);
+      else goToStep(0);
+    }
+
+    function prevStep() {
+      if (currentStepIndex > 0) goToStep(currentStepIndex - 1);
+    }
+
+    function toggleNotes() {
+      showSpeakerNotes = !showSpeakerNotes;
+      const box = document.getElementById("speaker-notes-box");
+      const btn = document.getElementById("btn-notes");
+      box.classList.toggle("hidden", !showSpeakerNotes);
+      btn.classList.toggle("text-amber-600", showSpeakerNotes);
+    }
+
+    function toggleHelpModal() {
+      const m = document.getElementById("help-modal");
+      m.classList.toggle("hidden");
+    }
+
+    function toggleFreeRoam() {
+      isFreeRoam = !isFreeRoam;
+      const panel = document.getElementById("story-panel");
+      const btn = document.getElementById("btn-roam");
+      if (isFreeRoam) {
+        panel.style.transform = "translateX(520px)";
+        btn.classList.add("text-teal-600", "bg-teal-50");
+      } else {
+        panel.style.transform = "translateX(0)";
+        btn.classList.remove("text-teal-600", "bg-teal-50");
+        goToStep(currentStepIndex);
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(e => {});
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function setMapMode(mode) {
+      currentMapMode = mode;
+      const btnTr = document.getElementById("btn-mode-tr");
+      const btnEn = document.getElementById("btn-mode-en");
+
+      if (mode === 'tr') {
+        vectorSvg.style.display = "block";
+        rasterImg.style.display = "none";
+        btnTr.className = "px-3 py-1.5 rounded-xl bg-teal-600 text-white shadow-sm transition";
+        btnEn.className = "px-3 py-1.5 rounded-xl text-slate-600 hover:text-slate-900 transition";
+      } else {
+        vectorSvg.style.display = "none";
+        rasterImg.style.display = "block";
+        btnEn.className = "px-3 py-1.5 rounded-xl bg-teal-600 text-white shadow-sm transition";
+        btnTr.className = "px-3 py-1.5 rounded-xl text-slate-600 hover:text-slate-900 transition";
+      }
+    }
+
+    function handleSearch(query) {
+      const q = query.trim().toLowerCase();
+      document.querySelectorAll(".map-node").forEach(g => g.classList.remove("node-highlight"));
+
+      if (!q) {
+        document.querySelectorAll(".map-node").forEach(g => g.style.opacity = "1");
+        return;
+      }
+
+      let matchedNode = null;
+      NODES.forEach(n => {
+        const el = document.getElementById(`node-${n.id}`);
+        if (!el) return;
+
+        const match = n.title.toLowerCase().includes(q) || n.sub.toLowerCase().includes(q);
+        if (match) {
+          el.style.opacity = "1";
+          el.classList.add("node-highlight");
+          if (!matchedNode) matchedNode = n;
+        } else {
+          el.style.opacity = "0.15";
+        }
+      });
+
+      if (matchedNode) {
+        const targetX = -matchedNode.x + 800;
+        const targetY = -matchedNode.y + 400;
+        applyTransform(targetX, targetY, 0.9);
+      }
+    }
+
+    function showNodeDetails(node) {
+      const panel = document.getElementById("story-panel");
+      panel.style.transform = "translateX(0)";
+      isFreeRoam = false;
+
+      const cluster = CLUSTERS.find(c => c.id === node.cluster);
+      document.getElementById("step-num-text").innerText = cluster ? `${cluster.name}` : "Değişken Detayı";
+      document.getElementById("story-title").innerText = node.title;
+      document.getElementById("story-subtitle").innerText = node.sub;
+      document.getElementById("story-body").innerHTML = `
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3">
+          <div class="text-xs font-bold uppercase tracking-wider text-teal-800 font-mono-code">108 Değişken Analizi</div>
+          <p class="text-sm text-slate-800 leading-relaxed font-medium">
+            Bu değişken <strong>${cluster ? cluster.name : 'Sistem'}</strong> kümesine aittir. Orijinal Foresight Atlasında obezite sistem haritasının 108 temel yapı taşından biridir.
+          </p>
+          <div class="text-xs text-slate-500 pt-2 border-t border-slate-200 leading-relaxed">
+            <strong>Sistemik Rolü:</strong> Merkezi enerji dengesi ($\Delta E$) ve yağ depolama üzerinde doğrudan ve dolaylı regülasyon sağlar.
+          </div>
+        </div>
+      `;
+    }
+
+    function setupEventListeners() {
+      window.addEventListener("keydown", (e) => {
+        if (e.target.tagName === "INPUT") return;
+        if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+          e.preventDefault();
+          nextStep();
+        } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+          e.preventDefault();
+          prevStep();
+        } else if (e.key === "n" || e.key === "N") {
+          toggleNotes();
+        } else if (e.key === "m" || e.key === "M") {
+          toggleFreeRoam();
+        } else if (e.key === "f" || e.key === "F") {
+          toggleFullScreen();
+        }
+      });
+
+      const vp = document.getElementById("viewport");
+      vp.addEventListener("mousedown", (e) => {
+        if (e.target.closest("#story-panel, footer, header, nav, #speaker-notes-box, #help-modal, #dedicated-loop-stage, #citation-badge")) return;
+        isDragging = true;
+        startX = e.clientX - curX;
+        startY = e.clientY - curY;
+        vp.classList.add("dragging");
+        mapWorld.style.transition = "none";
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        curX = e.clientX - startX;
+        curY = e.clientY - startY;
+        mapWorld.style.transform = `translate(${curX}px, ${curY}px) scale(${curScale})`;
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        vp.classList.remove("dragging");
+        mapWorld.style.transition = "transform 1.2s cubic-bezier(0.25, 1, 0.35, 1)";
+      });
+
+      vp.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.15 : 0.85;
+        const newScale = Math.min(Math.max(curScale * factor, 0.22), 2.8);
+
+        const rect = vp.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        curX = mx - (mx - curX) * (newScale / curScale);
+        curY = my - (my - curY) * (newScale / curScale);
+        curScale = newScale;
+
+        mapWorld.style.transition = "transform 0.15s ease-out";
+        mapWorld.style.transform = `translate(${curX}px, ${curY}px) scale(${curScale})`;
+      }, { passive: false });
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>

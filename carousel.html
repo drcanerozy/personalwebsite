@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Carousel Tasarım Stüdyosu | Dr. Caner ÖZYILDIRIM</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- html2canvas & JSZip for High-Res PNG Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        academic: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            700: '#2b4c6f',
+                            800: '#1e3854',
+                            900: '#0f1f31',
+                        },
+                        warmBg: '#fbfaf8',
+                        warmCard: '#f4f2ee',
+                        accent: {
+                            DEFAULT: '#c5a059',
+                            hover: '#b38f48',
+                            light: '#f7f2e7',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b131f;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* 4:5 Aspect Ratio Container (Instagram Portrait: 1080 x 1350) */
+        .slide-canvas {
+            width: 540px;
+            height: 675px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* 1:1 Aspect Ratio Toggle */
+        .aspect-square-mode .slide-canvas {
+            height: 540px;
+        }
+
+        /* Content editable subtle focus */
+        [contenteditable="true"]:hover {
+            outline: 1px dashed rgba(197, 160, 89, 0.5);
+            cursor: text;
+        }
+        [contenteditable="true"]:focus {
+            outline: 2px solid #c5a059;
+            background: rgba(197, 160, 89, 0.05);
+            border-radius: 4px;
+        }
+
+        /* Subtle grid background pattern */
+        .academic-pattern {
+            background-image: radial-gradient(rgba(197, 160, 89, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .academic-pattern-light {
+            background-image: radial-gradient(rgba(43, 76, 111, 0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Control Bar -->
+    <header class="sticky top-0 z-50 bg-[#0f1f31]/95 backdrop-blur border-b border-slate-800 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-accent/20 border border-accent/40 flex items-center justify-center text-accent">
+                    <i class="fa-solid fa-layer-group text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-white font-serif tracking-wide">Dr. Caner ÖZYILDIRIM</h1>
+                    <p class="text-xs text-slate-400">Instagram Carousel Tasarım & İndirme Stüdyosu</p>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center flex-wrap gap-3">
+                <!-- Theme Select -->
+                <div class="flex items-center bg-slate-800/80 p-1 rounded-xl border border-slate-700 text-xs">
+                    <button id="themeLightBtn" onclick="setTheme('light')" class="px-3 py-1.5 rounded-lg transition font-medium text-slate-300 hover:text-white">
+                        <i class="fa-solid fa-sun mr-1 text-amber-400"></i> Açık Krem
+                    </button>
+                    <button id="themeDarkBtn" onclick="setTheme('dark')" class="px-3 py-1.5 rounded-lg bg-accent text-slate-900 font-bold shadow transition">
+                        <i class="fa-solid fa-moon mr-1"></i> Akademik Lacivert
+                    </button>
+                </div>
+
+                <!-- Aspect Ratio Select -->
+                <div class="flex items-center bg-slate-800/80 p-1 rounded-xl border border-slate-700 text-xs">
+                    <button id="ratioPortraitBtn" onclick="setRatio('portrait')" class="px-3 py-1.5 rounded-lg bg-slate-700 text-white font-bold transition">
+                        4:5 (1080x1350)
+                    </button>
+                    <button id="ratioSquareBtn" onclick="setRatio('square')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">
+                        1:1 (Kare)
+                    </button>
+                </div>
+
+                <!-- Download All Button -->
+                <button onclick="downloadAllSlides()" id="downloadAllBtn" class="flex items-center space-x-2 px-5 py-2 bg-gradient-to-r from-accent to-[#d4af37] text-slate-950 font-bold text-sm rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                    <span>Tüm Slaytları İndir (ZIP)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Header / Tip -->
+    <div class="bg-accent/10 border-b border-accent/20 px-6 py-2.5 text-center text-xs text-amber-200/90 flex items-center justify-center gap-2">
+        <i class="fa-solid fa-wand-magic-sparkles text-accent"></i>
+        <span><strong>İpucu:</strong> Slaytların üzerindeki tüm metinler <strong>düzenlenebilirdir</strong>. Doğrudan tıklayıp yazıyı değiştirebilir, ardından "İndir" butonuna basarak 1080x1350px formatında alabilirsiniz.</span>
+    </div>
+
+    <!-- Main Carousel Canvas Workspace -->
+    <main class="flex-1 max-w-[1400px] w-full mx-auto p-6 md:p-10">
+        <div id="slidesGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 justify-items-center">
+
+            <!-- ================= SLIDE 1: KAPAK ================= -->
+            <div class="flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-2 px-1 text-xs text-slate-400">
+                    <span class="font-semibold text-accent"><i class="fa-solid fa-hashtag mr-1"></i>Slayt 1: Kapak</span>
+                    <button onclick="downloadSingleSlide(1)" class="hover:text-white flex items-center gap-1 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                        <i class="fa-solid fa-download"></i> İndir
+                    </button>
+                </div>
+
+                <div id="slide-1" class="slide-canvas rounded-2xl flex flex-col justify-between p-10 relative select-none">
+                    <!-- Top Bar -->
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
+                            <span class="text-xs tracking-widest font-mono uppercase text-accent font-semibold" contenteditable="true">canerozy.com</span>
+                        </div>
+                        <div class="px-3 py-1 rounded-full text-[11px] font-medium tracking-wider uppercase border border-current opacity-70" contenteditable="true">
+                            Açık Bilim
+                        </div>
+                    </div>
+
+                    <!-- Middle Content -->
+                    <div class="my-auto z-10 space-y-6">
+                        <div class="space-y-3">
+                            <div class="inline-block px-3 py-1 rounded-md text-xs font-semibold bg-accent/15 text-accent border border-accent/30" contenteditable="true">
+                                YAYINDA
+                            </div>
+                            <h2 class="text-4xl font-serif font-bold leading-tight tracking-normal slide-title" contenteditable="true">
+                                Açık Erişim Bir Akademik Portföy
+                            </h2>
+                        </div>
+
+                        <p class="text-sm leading-relaxed opacity-85 font-light slide-desc" contenteditable="true">
+                            Akademik çalışmalarımı, ders içeriklerimi ve ürettiğim materyalleri bir araya getirdiğim kişisel web sitem yayında.
+                        </p>
+
+                        <!-- Profile Mini-Card -->
+                        <div class="pt-2">
+                            <div class="flex items-center space-x-4 p-4 rounded-xl slide-card border backdrop-blur-sm">
+                                <img src="data:image/jpeg;base64,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" alt="Dr. Caner ÖZYILDIRIM" class="w-14 h-14 rounded-full object-cover border-2 border-accent shadow-md">
+                                <div>
+                                    <h4 class="font-serif font-bold text-sm tracking-wide" contenteditable="true">Dr. Caner ÖZYILDIRIM</h4>
+                                    <p class="text-[11px] opacity-70" contenteditable="true">Beslenme ve Diyetetik • Açık Erişim</p>
+                                    <p class="text-[10px] text-accent font-mono mt-0.5" contenteditable="true">Akdeniz Üniversitesi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Indicator -->
+                    <div class="flex justify-between items-center pt-4 border-t border-current/10 text-xs z-10">
+                        <span class="font-mono text-[11px] opacity-60">01 / 06</span>
+                        <div class="flex items-center space-x-2 text-accent font-medium">
+                            <span contenteditable="true">Kaydırın</span>
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                    </div>
+
+                    <!-- Background Accents -->
+                    <div class="absolute inset-0 pointer-events-none slide-pattern opacity-40"></div>
+                    <div class="absolute -right-20 -bottom-20 w-64 h-64 rounded-full bg-accent/10 blur-3xl pointer-events-none"></div>
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 2: DERSLER ================= -->
+            <div class="flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-2 px-1 text-xs text-slate-400">
+                    <span class="font-semibold text-accent"><i class="fa-solid fa-hashtag mr-1"></i>Slayt 2: Dersler</span>
+                    <button onclick="downloadSingleSlide(2)" class="hover:text-white flex items-center gap-1 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                        <i class="fa-solid fa-download"></i> İndir
+                    </button>
+                </div>
+
+                <div id="slide-2" class="slide-canvas rounded-2xl flex flex-col justify-between p-10 relative select-none">
+                    <!-- Top Bar -->
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center space-x-2 text-xs font-mono text-accent">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span contenteditable="true">EĞİTİM & MATERYALLER</span>
+                        </div>
+                        <span class="text-xs font-mono opacity-60">02 / 06</span>
+                    </div>
+
+                    <!-- Middle Content -->
+                    <div class="my-auto z-10 space-y-6">
+                        <div class="w-14 h-14 rounded-2xl bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-2xl shadow-inner">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+
+                        <h2 class="text-3xl font-serif font-bold leading-snug slide-title" contenteditable="true">
+                            Ders Materyalleri ve Uygulamalar
+                        </h2>
+
+                        <p class="text-sm leading-relaxed opacity-85 font-light slide-desc" contenteditable="true">
+                            Anlattığım derslerin sunum önizlemelerine ve ders uygulamalarına siteden açık erişim olarak ulaşabilirsiniz.
+                        </p>
+
+                        <!-- Highlight Callout Box -->
+                        <div class="p-5 rounded-xl slide-card border-l-4 border-l-accent border backdrop-blur-sm space-y-2">
+                            <div class="flex items-center space-x-2 text-accent font-semibold text-xs">
+                                <i class="fa-regular fa-lightbulb"></i>
+                                <span contenteditable="true">Ders İpuçları & Yaklaşım</span>
+                            </div>
+                            <p class="text-xs leading-relaxed opacity-80" contenteditable="true">
+                                Derslerimizde ne yapıyoruz, konuları nasıl ele alıyoruz merak ediyorsanız bunlara yönelik ipuçları ve içerikler de yer alıyor.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Indicator -->
+                    <div class="flex justify-between items-center pt-4 border-t border-current/10 text-xs z-10">
+                        <span class="font-mono text-[11px] opacity-60">canerozy.com</span>
+                        <div class="flex items-center space-x-2 text-accent font-medium">
+                            <span contenteditable="true">Kaydırın</span>
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                    </div>
+
+                    <!-- Background Accents -->
+                    <div class="absolute inset-0 pointer-events-none slide-pattern opacity-40"></div>
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 3: ARAÇLAR ================= -->
+            <div class="flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-2 px-1 text-xs text-slate-400">
+                    <span class="font-semibold text-accent"><i class="fa-solid fa-hashtag mr-1"></i>Slayt 3: Araçlar</span>
+                    <button onclick="downloadSingleSlide(3)" class="hover:text-white flex items-center gap-1 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                        <i class="fa-solid fa-download"></i> İndir
+                    </button>
+                </div>
+
+                <div id="slide-3" class="slide-canvas rounded-2xl flex flex-col justify-between p-10 relative select-none">
+                    <!-- Top Bar -->
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center space-x-2 text-xs font-mono text-accent">
+                            <i class="fa-solid fa-wrench"></i>
+                            <span contenteditable="true">DİJİTAL ÇÖZÜMLER</span>
+                        </div>
+                        <span class="text-xs font-mono opacity-60">03 / 06</span>
+                    </div>
+
+                    <!-- Middle Content -->
+                    <div class="my-auto z-10 space-y-6">
+                        <div class="w-14 h-14 rounded-2xl bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-2xl shadow-inner">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+
+                        <h2 class="text-3xl font-serif font-bold leading-snug slide-title" contenteditable="true">
+                            Araçlar
+                        </h2>
+
+                        <p class="text-sm leading-relaxed opacity-85 font-light slide-desc" contenteditable="true">
+                            Kendi ihtiyacıma yönelik geliştirmiş olduğum veya uygulama derslerimizin sonunda ortaya çıkan çeşitli interaktif araçları paylaşıyorum.
+                        </p>
+
+                        <!-- Highlight Callout Box -->
+                        <div class="p-5 rounded-xl slide-card border-l-4 border-l-accent border backdrop-blur-sm space-y-2">
+                            <div class="flex items-center space-x-2 text-accent font-semibold text-xs">
+                                <i class="fa-solid fa-code-branch"></i>
+                                <span contenteditable="true">Pratik Kullanım</span>
+                            </div>
+                            <p class="text-xs leading-relaxed opacity-80" contenteditable="true">
+                                Belki sizin de araştırmalarınızda veya günlük çalışmalarınızda işinize yarayacak pratik bir şeyler olabilir.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Indicator -->
+                    <div class="flex justify-between items-center pt-4 border-t border-current/10 text-xs z-10">
+                        <span class="font-mono text-[11px] opacity-60">canerozy.com</span>
+                        <div class="flex items-center space-x-2 text-accent font-medium">
+                            <span contenteditable="true">Kaydırın</span>
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                    </div>
+
+                    <!-- Background Accents -->
+                    <div class="absolute inset-0 pointer-events-none slide-pattern opacity-40"></div>
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 4: YAZILAR & PODCAST ================= -->
+            <div class="flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-2 px-1 text-xs text-slate-400">
+                    <span class="font-semibold text-accent"><i class="fa-solid fa-hashtag mr-1"></i>Slayt 4: Yazılar & Podcast</span>
+                    <button onclick="downloadSingleSlide(4)" class="hover:text-white flex items-center gap-1 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                        <i class="fa-solid fa-download"></i> İndir
+                    </button>
+                </div>
+
+                <div id="slide-4" class="slide-canvas rounded-2xl flex flex-col justify-between p-10 relative select-none">
+                    <!-- Top Bar -->
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center space-x-2 text-xs font-mono text-accent">
+                            <i class="fa-solid fa-headphones"></i>
+                            <span contenteditable="true">BÜLTEN & SESLİ YAYIN</span>
+                        </div>
+                        <span class="text-xs font-mono opacity-60">04 / 06</span>
+                    </div>
+
+                    <!-- Middle Content -->
+                    <div class="my-auto z-10 space-y-6">
+                        <div class="w-14 h-14 rounded-2xl bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-2xl shadow-inner">
+                            <i class="fa-solid fa-microphone-lines"></i>
+                        </div>
+
+                        <h2 class="text-3xl font-serif font-bold leading-snug slide-title" contenteditable="true">
+                            Yazı Dizileri & Podcast
+                        </h2>
+
+                        <p class="text-sm leading-relaxed opacity-85 font-light slide-desc" contenteditable="true">
+                            Meraktan doğan yazılar, farklı bakış açıları ve sesli yayınlar sitede bir arada.
+                        </p>
+
+                        <!-- Highlight Callout Box -->
+                        <div class="p-5 rounded-xl slide-card border-l-4 border-l-accent border backdrop-blur-sm space-y-2">
+                            <div class="flex items-center space-x-2 text-accent font-semibold text-xs">
+                                <i class="fa-regular fa-compass"></i>
+                                <span contenteditable="true">Tek Noktadan Erişim</span>
+                            </div>
+                            <p class="text-xs leading-relaxed opacity-80" contenteditable="true">
+                                Substack bülten yazıları ile podcast bölümlerine tek bir noktadan dilediğiniz zaman göz atabilirsiniz.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Indicator -->
+                    <div class="flex justify-between items-center pt-4 border-t border-current/10 text-xs z-10">
+                        <span class="font-mono text-[11px] opacity-60">canerozy.com</span>
+                        <div class="flex items-center space-x-2 text-accent font-medium">
+                            <span contenteditable="true">Kaydırın</span>
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                    </div>
+
+                    <!-- Background Accents -->
+                    <div class="absolute inset-0 pointer-events-none slide-pattern opacity-40"></div>
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 5: YAYINLAR & CV ================= -->
+            <div class="flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-2 px-1 text-xs text-slate-400">
+                    <span class="font-semibold text-accent"><i class="fa-solid fa-hashtag mr-1"></i>Slayt 5: Yayınlar & CV</span>
+                    <button onclick="downloadSingleSlide(5)" class="hover:text-white flex items-center gap-1 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                        <i class="fa-solid fa-download"></i> İndir
+                    </button>
+                </div>
+
+                <div id="slide-5" class="slide-canvas rounded-2xl flex flex-col justify-between p-10 relative select-none">
+                    <!-- Top Bar -->
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center space-x-2 text-xs font-mono text-accent">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                            <span contenteditable="true">BİLİMSEL ÜRETİM</span>
+                        </div>
+                        <span class="text-xs font-mono opacity-60">05 / 06</span>
+                    </div>
+
+                    <!-- Middle Content -->
+                    <div class="my-auto z-10 space-y-6">
+                        <div class="w-14 h-14 rounded-2xl bg-accent/15 border border-accent/30 flex items-center justify-center text-accent text-2xl shadow-inner">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                        </div>
+
+                        <h2 class="text-3xl font-serif font-bold leading-snug slide-title" contenteditable="true">
+                            Yayınlar & Güncel Özgeçmiş
+                        </h2>
+
+                        <p class="text-sm leading-relaxed opacity-85 font-light slide-desc" contenteditable="true">
+                            Yayımlanan bilimsel makalelerim, dahil olduğum araştırma projeleri ve güncel akademik özgeçmişim.
+                        </p>
+
+                        <!-- Academic Identifiers Box -->
+                        <div class="p-5 rounded-xl slide-card border-l-4 border-l-accent border backdrop-blur-sm space-y-2">
+                            <div class="flex items-center space-x-2 text-accent font-semibold text-xs">
+                                <i class="fa-solid fa-fingerprint"></i>
+                                <span contenteditable="true">Akademik Ağlar</span>
+                            </div>
+                            <p class="text-xs leading-relaxed opacity-80" contenteditable="true">
+                                ORCID, Google Scholar ve AVESİS profillerine de doğrudan bağlantılar mevcut.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Indicator -->
+                    <div class="flex justify-between items-center pt-4 border-t border-current/10 text-xs z-10">
+                        <span class="font-mono text-[11px] opacity-60">canerozy.com</span>
+                        <div class="flex items-center space-x-2 text-accent font-medium">
+                            <span contenteditable="true">Son Slayt</span>
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </div>
+                    </div>
+
+                    <!-- Background Accents -->
+                    <div class="absolute inset-0 pointer-events-none slide-pattern opacity-40"></div>
+                </div>
+            </div>
+
+            <!-- ================= SLIDE 6: KAPANIŞ / CTA ================= -->
+            <div class="flex flex-col items-center">
+                <div class="w-full flex justify-between items-center mb-2 px-1 text-xs text-slate-400">
+                    <span class="font-semibold text-accent"><i class="fa-solid fa-hashtag mr-1"></i>Slayt 6: Kapanış</span>
+                    <button onclick="downloadSingleSlide(6)" class="hover:text-white flex items-center gap-1 bg-slate-800 px-2 py-1 rounded border border-slate-700">
+                        <i class="fa-solid fa-download"></i> İndir
+                    </button>
+                </div>
+
+                <div id="slide-6" class="slide-canvas rounded-2xl flex flex-col justify-between p-10 relative select-none">
+                    <!-- Top Bar -->
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center space-x-2 text-xs font-mono text-accent">
+                            <i class="fa-solid fa-globe"></i>
+                            <span contenteditable="true">ZİYARET EDİN</span>
+                        </div>
+                        <span class="text-xs font-mono opacity-60">06 / 06</span>
+                    </div>
+
+                    <!-- Middle Content -->
+                    <div class="my-auto z-10 space-y-6 text-center">
+                        <div class="w-16 h-16 rounded-full bg-accent/20 border-2 border-accent mx-auto flex items-center justify-center text-accent text-2xl shadow-lg">
+                            <i class="fa-solid fa-arrow-pointer"></i>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="text-xs font-mono text-accent tracking-widest uppercase font-semibold" contenteditable="true">KİŞİSEL WEB SİTESİ</span>
+                            <h2 class="text-4xl font-serif font-bold leading-tight slide-title" contenteditable="true">
+                                canerozy.com
+                            </h2>
+                        </div>
+
+                        <p class="text-sm leading-relaxed opacity-85 font-light max-w-xs mx-auto slide-desc" contenteditable="true">
+                            Dersleri incelemek, araçlara göz atmak veya iletişime geçmek için web sitesini ziyaret edebilirsiniz.
+                        </p>
+
+                        <!-- CTA Button pill -->
+                        <div class="pt-2">
+                            <div class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full bg-accent text-slate-950 font-bold text-xs shadow-md">
+                                <i class="fa-solid fa-link"></i>
+                                <span contenteditable="true">Bağlantı Profilde</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Indicator & Save/Share Bar -->
+                    <div class="flex justify-between items-center pt-4 border-t border-current/10 text-xs z-10">
+                        <span class="font-mono text-[11px] opacity-60">Dr. Caner ÖZYILDIRIM</span>
+                        <div class="flex items-center space-x-3 text-sm opacity-70">
+                            <i class="fa-regular fa-bookmark" title="Kaydet"></i>
+                            <i class="fa-regular fa-paper-plane" title="Paylaş"></i>
+                        </div>
+                    </div>
+
+                    <!-- Background Accents -->
+                    <div class="absolute inset-0 pointer-events-none slide-pattern opacity-40"></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Status -->
+    <footer class="mt-auto border-t border-slate-800 bg-[#0a101a] py-6 px-6 text-center text-xs text-slate-400">
+        <p>Instagram Carousel Tasarım Stüdyosu — <a href="./index.html" class="text-accent hover:underline">canerozy.com</a> için hazırlandı.</p>
+    </footer>
+
+    <!-- Script for Themes, Ratios and High-Res Canvas Rendering -->
+    <script>
+        let currentTheme = 'dark';
+        let currentRatio = 'portrait';
+
+        // Apply Initial Theme & Aspect Ratio
+        function applyStyles() {
+            const slides = document.querySelectorAll('.slide-canvas');
+            
+            slides.forEach(slide => {
+                const title = slide.querySelector('.slide-title');
+                const desc = slide.querySelector('.slide-desc');
+                const cards = slide.querySelectorAll('.slide-card');
+                const patterns = slide.querySelectorAll('.slide-pattern');
+
+                if (currentTheme === 'dark') {
+                    // Dark Academic Navy Theme
+                    slide.style.backgroundColor = '#0f1f31';
+                    slide.style.color = '#f8fafc';
+                    slide.style.border = '1px solid rgba(197, 160, 89, 0.25)';
+                    
+                    if (title) title.style.color = '#ffffff';
+                    if (desc) desc.style.color = '#cbd5e1';
+                    
+                    cards.forEach(card => {
+                        card.style.backgroundColor = 'rgba(30, 56, 84, 0.7)';
+                        card.style.borderColor = 'rgba(197, 160, 89, 0.3)';
+                    });
+
+                    patterns.forEach(pat => {
+                        pat.className = 'absolute inset-0 pointer-events-none slide-pattern academic-pattern';
+                    });
+
+                } else {
+                    // Warm Academic Cream Theme (Light)
+                    slide.style.backgroundColor = '#fbfaf8';
+                    slide.style.color = '#1e293b';
+                    slide.style.border = '1px solid rgba(43, 76, 111, 0.15)';
+                    
+                    if (title) title.style.color = '#0f1f31';
+                    if (desc) desc.style.color = '#475569';
+
+                    cards.forEach(card => {
+                        card.style.backgroundColor = 'rgba(244, 242, 238, 0.9)';
+                        card.style.borderColor = 'rgba(43, 76, 111, 0.12)';
+                    });
+
+                    patterns.forEach(pat => {
+                        pat.className = 'absolute inset-0 pointer-events-none slide-pattern academic-pattern-light';
+                    });
+                }
+            });
+        }
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            const lightBtn = document.getElementById('themeLightBtn');
+            const darkBtn = document.getElementById('themeDarkBtn');
+
+            if (theme === 'light') {
+                lightBtn.className = 'px-3 py-1.5 rounded-lg bg-accent text-slate-900 font-bold shadow transition';
+                darkBtn.className = 'px-3 py-1.5 rounded-lg transition font-medium text-slate-300 hover:text-white';
+            } else {
+                darkBtn.className = 'px-3 py-1.5 rounded-lg bg-accent text-slate-900 font-bold shadow transition';
+                lightBtn.className = 'px-3 py-1.5 rounded-lg transition font-medium text-slate-300 hover:text-white';
+            }
+            applyStyles();
+        }
+
+        function setRatio(ratio) {
+            currentRatio = ratio;
+            const portraitBtn = document.getElementById('ratioPortraitBtn');
+            const squareBtn = document.getElementById('ratioSquareBtn');
+            const body = document.body;
+
+            if (ratio === 'square') {
+                body.classList.add('aspect-square-mode');
+                squareBtn.className = 'px-3 py-1.5 rounded-lg bg-slate-700 text-white font-bold transition';
+                portraitBtn.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition';
+            } else {
+                body.classList.remove('aspect-square-mode');
+                portraitBtn.className = 'px-3 py-1.5 rounded-lg bg-slate-700 text-white font-bold transition';
+                squareBtn.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition';
+            }
+        }
+
+        // High-res export via html2canvas (Scale 2x for 1080x1350 HD resolution)
+        async function captureSlideCanvas(slideId) {
+            const slideEl = document.getElementById(slideId);
+            if (document.fonts && document.fonts.ready) {
+                await document.fonts.ready;
+            }
+            const scale = 2; // 540x675 * 2 = 1080x1350 px (Retina HD)
+            
+            return await html2canvas(slideEl, {
+                scale: scale,
+                useCORS: true,
+                allowTaint: false, // Critical: do NOT allow taint so toDataURL/toBlob succeeds
+                backgroundColor: currentTheme === 'dark' ? '#0f1f31' : '#fbfaf8',
+                logging: false,
+                imageTimeout: 0
+            });
+        }
+
+        async function downloadSingleSlide(num) {
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            try {
+                const canvas = await captureSlideCanvas(`slide-${num}`);
+                if (canvas.toBlob) {
+                    canvas.toBlob((blob) => {
+                        if (blob && window.saveAs) {
+                            saveAs(blob, `canerozy-carousel-slayt-${num}.png`);
+                        } else {
+                            const link = document.createElement('a');
+                            link.download = `canerozy-carousel-slayt-${num}.png`;
+                            link.href = canvas.toDataURL('image/png');
+                            link.click();
+                        }
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }, 'image/png');
+                } else {
+                    const link = document.createElement('a');
+                    link.download = `canerozy-carousel-slayt-${num}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error("Görsel yakalama hatası:", err);
+                alert("Slayt indirilirken hata oluştu:\n" + (err.message || err));
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        async function downloadAllSlides() {
+            const btn = document.getElementById('downloadAllBtn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Hazırlanıyor (1/6)...</span>';
+            btn.disabled = true;
+
+            try {
+                if (document.fonts && document.fonts.ready) {
+                    await document.fonts.ready;
+                }
+                const zip = new JSZip();
+                const total = 6;
+
+                for (let i = 1; i <= total; i++) {
+                    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>İşleniyor (${i}/${total})...</span>`;
+                    const canvas = await captureSlideCanvas(`slide-${i}`);
+                    const dataUrl = canvas.toDataURL('image/png');
+                    const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
+                    zip.file(`slayt-${i}.png`, base64Data, { base64: true });
+                }
+
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>ZIP Paketleniyor...</span>';
+                const content = await zip.generateAsync({ type: 'blob' });
+                saveAs(content, 'canerozy-instagram-carousel.zip');
+
+            } catch (err) {
+                console.error("Toplu indirme hatası:", err);
+                // Fallback: If zip fails, allow downloading each slide directly
+                const retry = confirm("ZIP oluşturulamadı (" + (err.message || err) + ").\nSlaytları tek tek PNG olarak indirmek ister misiniz?");
+                if (retry) {
+                    for (let i = 1; i <= 6; i++) {
+                        try {
+                            const canvas = await captureSlideCanvas(`slide-${i}`);
+                            const link = document.createElement('a');
+                            link.download = `canerozy-carousel-slayt-${i}.png`;
+                            link.href = canvas.toDataURL('image/png');
+                            link.click();
+                            await new Promise(r => setTimeout(r, 500));
+                        } catch(e) {
+                            console.error(e);
+                        }
+                    }
+                }
+            } finally {
+                btn.innerHTML = originalHtml;
+                btn.disabled = false;
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            applyStyles();
+        });
+    </script>
+</body>
+</html>

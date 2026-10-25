@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İnsülin Direnci vs Sağlıklı Hücre Karşılaştırmalı Simülasyonu</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            clinicalBg: '#F8FAFC',
+            glucose: '#D97706',
+            insulin: '#7C3AED',
+            lipid: '#DC2626',
+            cytokine: '#9333EA',
+            glut4: '#059669',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F1F5F9;
+      color: #0F172A;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 9999px;
+    }
+    .panel-card {
+      background: #FFFFFF;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+    }
+    .tab-active {
+      background: #0F172A;
+      color: #FFFFFF;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.2);
+    }
+    .tab-inactive {
+      background: #FFFFFF;
+      color: #475569;
+      border: 1px solid #E2E8F0;
+    }
+    .tab-inactive:hover {
+      background: #F8FAFC;
+      color: #0F172A;
+    }
+    canvas {
+      image-rendering: auto;
+      touch-action: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+  <!-- Header & Interactive Step Navigation -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:py-3.5 flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Brand & Description -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white font-black shadow-md shadow-emerald-500/20">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+            Metabolik Karşılaştırma Laboratuvarı
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200">Klinik Görünüm</span>
+          </h1>
+          <p class="text-xs text-slate-500">Adım Adım Biyokimyasal İnceleme: Sağlıklı Hücre &rarr; İnsülin Direnci Mekanizması</p>
+        </div>
+      </div>
+
+      <!-- View Selector Tabs: Step 1, Step 2, Comparative -->
+      <div class="flex items-center p-1 bg-slate-100/90 rounded-xl border border-slate-200 text-xs font-semibold">
+        <button id="viewTabHealthy" class="tab-active px-3 py-1.5 rounded-lg transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
+          1. Sağlıklı Hücre
+        </button>
+        <button id="viewTabResistant" class="tab-inactive px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ml-1">
+          <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span>
+          2. İnsülin Direnci (IR)
+        </button>
+        <button id="viewTabBoth" class="tab-inactive px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ml-1">
+          <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span>
+          Yan Yana Karşılaştır
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Molecular Legend Bar -->
+  <section class="max-w-7xl mx-auto px-4 pt-3 pb-1 w-full">
+    <div class="bg-white border border-slate-200 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3 text-xs shadow-xs">
+      <div class="flex items-center gap-2 text-slate-500 font-medium">
+        <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>Moleküler Lejant:</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 rounded-sm rotate-45 bg-amber-500 inline-block shadow-xs"></span>
+          <span class="text-slate-700 font-medium">Glukoz (Şeker)</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 rounded-full bg-violet-600 inline-block shadow-xs"></span>
+          <span class="text-slate-700 font-medium">İnsülin</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="w-3.5 h-2 rounded bg-emerald-600 border border-emerald-400 inline-block"></span>
+          <span class="text-slate-700 font-medium">GLUT-4 Taşıyıcı Kapı</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="w-3 h-3 rounded-full bg-rose-500 border border-rose-600 inline-block"></span>
+          <span class="text-slate-700 font-medium">Kan Yağı / FFA (Lipotoksisite)</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rotate-12 bg-purple-600 inline-block rounded-xs"></span>
+          <span class="text-slate-700 font-medium">TNF-α / Sitokin (İnflamasyon)</span>
+        </div>
+      </div>
+      <div class="text-[11px] text-slate-500 hidden xl:block font-medium">
+        Her iki simülasyon birbirinden bağımsız butonlarla yönetilir.
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 py-3 flex-1 w-full grid grid-cols-1 lg:grid-cols-2 gap-5 transition-all">
+
+    <!-- LEFT PANEL: SAĞLIKLI ORTAM (Normal İnsülin Duyarlılığı) -->
+    <div id="healthyContainer" class="panel-card border border-emerald-200/80 rounded-2xl overflow-hidden flex flex-col transition-all">
+      
+      <!-- Top Control & Status Header (Healthy) -->
+      <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-white px-4 py-3 border-b border-emerald-100 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
+          <div>
+            <h2 class="text-sm font-bold text-emerald-950 flex items-center gap-2">
+              1. Normal Sağlıklı Hücre
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200">Duyarlı</span>
+            </h2>
+            <p class="text-[11px] text-slate-500">Pankreas ideal insülin salgılar &bull; GLUT-4 zarda açılarak şekeri çeker</p>
+          </div>
+        </div>
+
+        <!-- Independent Controls for Healthy Cell -->
+        <div class="flex items-center gap-1.5">
+          <button id="hPlayBtn" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-xs">
+            <svg id="hPlayIcon" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            <span id="hPlayText">Durdur</span>
+          </button>
+          <button id="hResetBtn" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-xs font-medium transition shadow-2xs" title="Başa Al">
+            ↺ Sıfırla
+          </button>
+        </div>
+      </div>
+
+      <!-- Phase Stepper Indicator (Healthy) -->
+      <div class="px-4 py-2 bg-emerald-50/40 border-b border-emerald-100/60 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-slate-500 font-medium">Aşama:</span>
+          <span id="hPhaseName" class="font-bold text-emerald-900 bg-emerald-100/70 px-2 py-0.5 rounded text-[11px]">1. Yemek Yenildi (Glukoz Yükseliyor)</span>
+        </div>
+        <div class="text-[11px] font-mono text-emerald-700 font-semibold" id="hTimerDisplay">00:00 / 00:16</div>
+      </div>
+
+      <!-- Real-Time Biomarker Readouts (Healthy - Light clinical design) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-3 bg-slate-50/70 border-b border-slate-200/80 text-xs">
+        <div class="bg-white p-2.5 rounded-xl border border-slate-200/90 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">Kan Şekeri</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="hGlucoseVal" class="text-base font-mono font-extrabold text-amber-600">90</span>
+            <span class="text-[10px] text-slate-400">mg/dL</span>
+          </div>
+          <span id="hGlucoseState" class="text-[10px] text-emerald-600 font-semibold mt-0.5">Dengeli</span>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-xl border border-slate-200/90 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">İnsülin Düzeyi</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="hInsulinVal" class="text-base font-mono font-extrabold text-violet-700">7.2</span>
+            <span class="text-[10px] text-slate-400">µU/mL</span>
+          </div>
+          <span id="hInsulinState" class="text-[10px] text-emerald-600 font-semibold mt-0.5">Normal</span>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-xl border border-slate-200/90 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">Kan Yağı (FFA)</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="hLipidVal" class="text-base font-mono font-extrabold text-slate-700">0.28</span>
+            <span class="text-[10px] text-slate-400">mmol/L</span>
+          </div>
+          <span id="hLipidState" class="text-[10px] text-emerald-600 font-semibold mt-0.5">Baskılanmış</span>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-xl border border-slate-200/90 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">Hücre İçi Enerji (ATP)</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="hAtpVal" class="text-base font-mono font-extrabold text-teal-700">96%</span>
+          </div>
+          <span class="text-[10px] text-emerald-600 font-semibold mt-0.5">Mitokondri Aktif</span>
+        </div>
+      </div>
+
+      <!-- Healthy Canvas -->
+      <div class="relative w-full flex-1 min-h-[380px] bg-slate-50 overflow-hidden">
+        <canvas id="canvasHealthy" class="w-full h-full block"></canvas>
+        <div class="absolute top-2.5 left-2.5 pointer-events-none bg-white/90 backdrop-blur-xs px-2 py-1 rounded-md text-[11px] font-semibold text-slate-700 border border-slate-200 shadow-2xs">
+          🩸 Kılcal Damar (Dolaşım)
+        </div>
+        <div class="absolute bottom-2.5 left-2.5 pointer-events-none bg-white/90 backdrop-blur-xs px-2 py-1 rounded-md text-[11px] font-semibold text-emerald-800 border border-emerald-200 shadow-2xs">
+          🧬 Hücre İçi Sitoplazma &bull; GLUT-4 Aktif
+        </div>
+      </div>
+
+      <!-- Healthy Live Biological Narrative -->
+      <div class="p-3 bg-emerald-50/70 border-t border-emerald-100 text-xs text-slate-700 leading-relaxed flex items-start gap-2.5">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1 shrink-0"></div>
+        <div id="healthyStatusLog">
+          Öğün sonrası bağırsaklardan kana glukoz girer. Pankreas duyarlı beta hücreleriyle gerektiği kadar insülin salgılar. İnsülin reseptöre bağlanınca GLUT-4 kapıları açılır ve şeker hücre içine hızla emilir.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL: İNSÜLİN DİRENCİ (Patolojik Durum & Kök Nedenler) -->
+    <div id="resistantContainer" class="panel-card border border-rose-200/90 rounded-2xl overflow-hidden flex flex-col transition-all">
+      
+      <!-- Top Control & Status Header (Resistant) -->
+      <div class="bg-gradient-to-r from-rose-50 via-red-50 to-white px-4 py-3 border-b border-rose-100 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 rounded-full bg-rose-500 shadow-sm shadow-rose-500/50"></span>
+          <div>
+            <h2 class="text-sm font-bold text-rose-950 flex items-center gap-2">
+              2. İnsülin Direnci Olan Hücre
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">Patolojik</span>
+            </h2>
+            <p class="text-[11px] text-slate-500">Reseptör kilitli &bull; GLUT-4 açılamaz &bull; Kanda hiperinsülinemi & yağ birikimi</p>
+          </div>
+        </div>
+
+        <!-- Independent Controls for Resistant Cell -->
+        <div class="flex items-center gap-1.5">
+          <button id="rPlayBtn" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-xs">
+            <svg id="rPlayIcon" class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            <span id="rPlayText">Durdur</span>
+          </button>
+          <button id="rResetBtn" class="px-2.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-xs font-medium transition shadow-2xs" title="Başa Al">
+            ↺ Sıfırla
+          </button>
+        </div>
+      </div>
+
+      <!-- Root Causes Selector (Neden İnsülin Direnci Oldu?) -->
+      <div class="px-3 py-2 bg-rose-50/50 border-b border-rose-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-1.5 text-rose-900 font-semibold text-[11px]">
+          <span>Kök Neden Katmanları:</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Toggle 1: Ectopic Fat / Lipotoxicity -->
+          <label class="flex items-center gap-1.5 cursor-pointer bg-white px-2 py-1 rounded-md border border-rose-200 shadow-2xs text-[11px]">
+            <input type="checkbox" id="toggleLipotoxicity" checked class="rounded text-rose-600 focus:ring-rose-500">
+            <span class="font-medium text-slate-800">Ektopik Yağ & DAG (Lipotoksisite)</span>
+          </label>
+          <!-- Toggle 2: Chronic Inflammation / TNF-alpha -->
+          <label class="flex items-center gap-1.5 cursor-pointer bg-white px-2 py-1 rounded-md border border-rose-200 shadow-2xs text-[11px]">
+            <input type="checkbox" id="toggleInflammation" checked class="rounded text-purple-600 focus:ring-purple-500">
+            <span class="font-medium text-slate-800">İnflamasyon (TNF-α Sitokinleri)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Phase Stepper Indicator (Resistant) -->
+      <div class="px-4 py-2 bg-rose-50/30 border-b border-rose-100/60 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-slate-500 font-medium">Aşama:</span>
+          <span id="rPhaseName" class="font-bold text-rose-900 bg-rose-100/70 px-2 py-0.5 rounded text-[11px]">1. Besin Alımı (Şeker Hızla Yükseliyor)</span>
+        </div>
+        <div class="text-[11px] font-mono text-rose-700 font-semibold" id="rTimerDisplay">00:00 / 00:16</div>
+      </div>
+
+      <!-- Real-Time Biomarker Readouts (Resistant - Light clinical design) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 p-3 bg-slate-50/70 border-b border-slate-200/80 text-xs">
+        <div class="bg-white p-2.5 rounded-xl border border-rose-200 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">Kan Şekeri</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="rGlucoseVal" class="text-base font-mono font-extrabold text-rose-600">210</span>
+            <span class="text-[10px] text-slate-400">mg/dL</span>
+          </div>
+          <span id="rGlucoseState" class="text-[10px] text-rose-600 font-bold mt-0.5">Hiperglisemi ⚠️</span>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-xl border border-rose-200 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">İnsülin Düzeyi</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="rInsulinVal" class="text-base font-mono font-extrabold text-purple-700">54.0</span>
+            <span class="text-[10px] text-slate-400">µU/mL</span>
+          </div>
+          <span id="rInsulinState" class="text-[10px] text-rose-600 font-bold mt-0.5">6-7 Kat Yüksek!</span>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-xl border border-rose-200 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">Kan Yağı (FFA)</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="rLipidVal" class="text-base font-mono font-extrabold text-rose-600">0.98</span>
+            <span class="text-[10px] text-slate-400">mmol/L</span>
+          </div>
+          <span id="rLipidState" class="text-[10px] text-rose-600 font-bold mt-0.5">Kontrolsüz Lipoliz</span>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-xl border border-rose-200 flex flex-col shadow-2xs">
+          <span class="text-slate-500 text-[10px] font-medium">Hücre İçi Enerji (ATP)</span>
+          <div class="flex items-baseline gap-1 mt-0.5">
+            <span id="rAtpVal" class="text-base font-mono font-extrabold text-slate-400">28%</span>
+          </div>
+          <span class="text-[10px] text-rose-600 font-bold mt-0.5">Hücresel Açlık</span>
+        </div>
+      </div>
+
+      <!-- Resistant Canvas -->
+      <div class="relative w-full flex-1 min-h-[380px] bg-slate-50 overflow-hidden">
+        <canvas id="canvasResistant" class="w-full h-full block"></canvas>
+        <div class="absolute top-2.5 left-2.5 pointer-events-none bg-white/90 backdrop-blur-xs px-2 py-1 rounded-md text-[11px] font-semibold text-rose-800 border border-rose-200 shadow-2xs">
+          ⚠️ Damarda Şeker, Aşırı İnsülin & Yağ Birikimi
+        </div>
+        <div class="absolute bottom-2.5 left-2.5 pointer-events-none bg-white/90 backdrop-blur-xs px-2 py-1 rounded-md text-[11px] font-semibold text-amber-800 border border-amber-200 shadow-2xs">
+          🚫 Reseptör İnhibe &bull; GLUT-4 Vezikülde Hapis
+        </div>
+      </div>
+
+      <!-- Resistant Live Biological Narrative -->
+      <div class="p-3 bg-rose-50/70 border-t border-rose-100 text-xs text-slate-700 leading-relaxed flex items-start gap-2.5">
+        <div class="w-2.5 h-2.5 rounded-full bg-rose-500 mt-1 shrink-0"></div>
+        <div id="resistantStatusLog">
+          Hücre zarındaki ektopik yağ damlacıkları (DAG) ve inflamatuar sitokinler (TNF-α), insülin reseptörünün sinyal iletimini bozar. Pankreas şekeri indirebilmek için aşırı insülin pompalar fakat GLUT-4 açılamaz.
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Educational Insight Section: Why IR Happens in Depth -->
+  <footer class="max-w-7xl mx-auto px-4 py-4 w-full">
+    <div class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+        <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+          <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          İnsülin Direncinin Biyolojik ve Moleküler Nedenleri (Etiyoloji)
+        </h3>
+        <span class="text-[11px] font-medium text-slate-500 hidden sm:inline">Mekanizma Kılavuzu</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-xs">
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+              <strong class="text-slate-900 text-xs font-bold">1. Ektopik Yağ & Lipotoksisite (DAG/PKC)</strong>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              Viseral yağ doku dolduğunda, yağlar kas ve karaciğer hücrelerine sızar. Hücre zarında biriken <strong>diasilgliserol (DAG)</strong>, PKC-θ enzimini tetikler. Bu enzim insülin reseptörünü (IRS-1) <em>serin</em> aminoasidinden fosforilleyerek sinyal iletimini kilitler.
+            </p>
+          </div>
+          <span class="mt-2 text-[10px] text-rose-700 font-semibold">&rarr; Simülasyonda sarı/kırmızı yağ damlacıkları ile gösterilir.</span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+              <strong class="text-slate-900 text-xs font-bold">2. Kronik İnflamasyon (TNF-α & Sitokinler)</strong>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              Genişleyen yağ dokusu makrofajları aktive eder ve dolaşıma <strong>TNF-α</strong> gibi pro-inflamatuar sitokinler yayar. Bu sitokinler hücre içi <em>JNK ve IKK-β</em> kinazlarını uyararak insülin reseptörünün duyarsızlaşmasına yol açar.
+            </p>
+          </div>
+          <span class="mt-2 text-[10px] text-purple-700 font-semibold">&rarr; Simülasyonda mor sitokin parçacıkları ile gösterilir.</span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              <strong class="text-slate-900 text-xs font-bold">3. GLUT-4 Hapsi & Kompansatuar Hiperinsülinemi</strong>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              Reseptörden sinyal gitmediği için <strong>GLUT-4</strong> zarlara taşınamaz (vezikülde hapsolur). Glukoz hücreye giremeyince beyin pankreasa emir verir ve kanda 5-8 kat fazla insülin birikir. Buna rağmen kapılar açılamaz.
+            </p>
+          </div>
+          <span class="mt-2 text-[10px] text-amber-700 font-semibold">&rarr; Sağ panelde hücre sitoplazmasında vezikül içinde görülür.</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* -------------------------------------------------------------
+       Independent States & Timeline Controllers for Each Cell
+       ------------------------------------------------------------- */
+    const CYCLE_DURATION = 16; // 16 seconds full physiological cycle
+
+    const phases = [
+      { start: 0, end: 4, name: "1. Besin Alımı (Glukoz Yükseliyor)", descH: "Besin sindirildi; glukoz damara akıyor.", descR: "Glukoz dolaşıma akıyor; bazal şeker zaten yüksek." },
+      { start: 4, end: 8, name: "2. Pankreas İnsülin Yanıtı", descH: "Dengeli insülin salgısı; reseptör hemen algılar.", descR: "Pankreas yükselen şekere karşı yüksek dozda insülin pompalar!" },
+      { start: 8, end: 12, name: "3. GLUT-4 Yanıtı & Hücresel Geçiş", descH: "IRS-1/Akt aktif: GLUT-4 açıldı, şeker hücreye akıyor!", descR: "Reseptör kilitli! GLUT-4 kapalı kaldı; şeker içeri giremiyor!" },
+      { start: 12, end: 16, name: "4. Dengeleme & Kan Yağları", descH: "Şeker 90 mg/dL'ye indi, enerji üretildi, kan yağları düşük.", descR: "Şeker damarda hapsoldu (>200 mg/dL). Kan yağları kontrolsüz fırladı!" }
+    ];
+
+    // Healthy Cell Controller
+    const healthySim = {
+      running: true,
+      timer: 0,
+      phase: 0,
+      particles: {
+        glucose: [],
+        insulin: [],
+        lipids: [],
+        intracellularGlucose: []
+      }
+    };
+
+    // Resistant Cell Controller (Independent!)
+    const resistantSim = {
+      running: false, // Starts paused so user can inspect healthy first!
+      timer: 0,
+      phase: 0,
+      showLipotoxicity: true,
+      showInflammation: true,
+      particles: {
+        glucose: [],
+        insulin: [],
+        lipids: [],
+        cytokines: [],
+        intracellularGlucose: []
+      }
+    };
+
+    const canvasH = document.getElementById('canvasHealthy');
+    const canvasR = document.getElementById('canvasResistant');
+    const ctxH = canvasH.getContext('2d');
+    const ctxR = canvasR.getContext('2d');
+
+    let widthH = 0, heightH = 0;
+    let widthR = 0, heightR = 0;
+
+    function resizeCanvases() {
+      const dpr = window.devicePixelRatio || 1;
+
+      // Healthy
+      const rectH = canvasH.parentElement.getBoundingClientRect();
+      widthH = rectH.width;
+      heightH = rectH.height;
+      canvasH.width = widthH * dpr;
+      canvasH.height = heightH * dpr;
+      ctxH.resetTransform();
+      ctxH.scale(dpr, dpr);
+
+      // Resistant
+      const rectR = canvasR.parentElement.getBoundingClientRect();
+      widthR = rectR.width;
+      heightR = rectR.height;
+      canvasR.width = widthR * dpr;
+      canvasR.height = heightR * dpr;
+      ctxR.resetTransform();
+      ctxR.scale(dpr, dpr);
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvases();
+      initHealthyParticles();
+      initResistantParticles();
+    });
+
+    function randomRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    /* -------------------------------------------------------------
+       Particle Initializers
+       ------------------------------------------------------------- */
+    function initHealthyParticles() {
+      const bloodBottom = heightH * 0.40;
+      healthySim.particles.glucose = [];
+      healthySim.particles.insulin = [];
+      healthySim.particles.lipids = [];
+      healthySim.particles.intracellularGlucose = [];
+
+      // 36 Glucose molecules
+      for (let i = 0; i < 36; i++) {
+        healthySim.particles.glucose.push({
+          x: randomRange(20, widthH - 20),
+          y: randomRange(25, bloodBottom - 15),
+          vx: randomRange(-0.8, 0.8),
+          vy: randomRange(-0.5, 0.5),
+          size: 5.5,
+          angle: Math.random() * Math.PI * 2,
+          vAngle: randomRange(-0.03, 0.03),
+          entered: false
+        });
+      }
+
+      // 10 Insulin molecules (physiological)
+      for (let i = 0; i < 10; i++) {
+        healthySim.particles.insulin.push({
+          x: randomRange(20, widthH - 20),
+          y: randomRange(25, bloodBottom - 15),
+          vx: randomRange(-0.7, 0.7),
+          vy: randomRange(-0.4, 0.4),
+          size: 4.5
+        });
+      }
+
+      // 6 Normal blood lipids (low)
+      for (let i = 0; i < 6; i++) {
+        healthySim.particles.lipids.push({
+          x: randomRange(20, widthH - 20),
+          y: randomRange(25, bloodBottom - 15),
+          vx: randomRange(-0.4, 0.4),
+          vy: randomRange(-0.3, 0.3),
+          size: 5.5,
+          angle: Math.random() * Math.PI
+        });
+      }
+    }
+
+    function initResistantParticles() {
+      const bloodBottom = heightR * 0.40;
+      resistantSim.particles.glucose = [];
+      resistantSim.particles.insulin = [];
+      resistantSim.particles.lipids = [];
+      resistantSim.particles.cytokines = [];
+      resistantSim.particles.intracellularGlucose = [];
+
+      // 55 Glucose molecules (High hyperglycemia)
+      for (let i = 0; i < 55; i++) {
+        resistantSim.particles.glucose.push({
+          x: randomRange(20, widthR - 20),
+          y: randomRange(25, bloodBottom - 15),
+          vx: randomRange(-0.9, 0.9),
+          vy: randomRange(-0.5, 0.5),
+          size: 5.5,
+          angle: Math.random() * Math.PI * 2,
+          vAngle: randomRange(-0.03, 0.03),
+          entered: false
+        });
+      }
+
+      // 45 Insulin molecules (Hyperinsulinemia: 5x higher)
+      for (let i = 0; i < 45; i++) {
+        resistantSim.particles.insulin.push({
+          x: randomRange(20, widthR - 20),
+          y: randomRange(25, bloodBottom - 15),
+          vx: randomRange(-1.1, 1.1),
+          vy: randomRange(-0.6, 0.6),
+          size: 4.5
+        });
+      }
+
+      // 32 Circulating Lipids (Dyslipidemia)
+      for (let i = 0; i < 32; i++) {
+        resistantSim.particles.lipids.push({
+          x: randomRange(20, widthR - 20),
+          y: randomRange(25, bloodBottom - 15),
+          vx: randomRange(-0.8, 0.8),
+          vy: randomRange(-0.5, 0.5),
+          size: 5.5,
+          angle: Math.random() * Math.PI
+        });
+      }
+
+      // 14 Inflammatory Cytokines (TNF-alpha)
+      for (let i = 0; i < 14; i++) {
+        resistantSim.particles.cytokines.push({
+          x: randomRange(20, widthR - 20),
+          y: randomRange(25, bloodBottom - 15),
+          vx: randomRange(-0.7, 0.7),
+          vy: randomRange(-0.4, 0.4),
+          size: 4
+        });
+      }
+    }
+
+    /* -------------------------------------------------------------
+       Light Theme Canvas Drawing Routines
+       ------------------------------------------------------------- */
+    function drawArchitecture(ctx, w, h, isResistant, phase) {
+      const membraneY = h * 0.45;
+      const membraneH = h * 0.12;
+      const cellY = membraneY + membraneH;
+
+      // 1. Bloodstream Area (Top - Clean light clinical vessel tone)
+      const bloodGrad = ctx.createLinearGradient(0, 0, 0, membraneY);
+      if (isResistant) {
+        bloodGrad.addColorStop(0, '#FFF1F2'); // Very soft light rose
+        bloodGrad.addColorStop(1, '#FFE4E6');
+      } else {
+        bloodGrad.addColorStop(0, '#F0FDF4'); // Very soft light emerald
+        bloodGrad.addColorStop(1, '#E6FBF0');
+      }
+      ctx.fillStyle = bloodGrad;
+      ctx.fillRect(0, 0, w, membraneY);
+
+      // Endothelial vessel upper border
+      ctx.strokeStyle = isResistant ? '#FDA4AF' : '#A7F3D0';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(0, 18);
+      ctx.lineTo(w, 18);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // 2. Phospholipid Bilayer Membrane (Middle)
+      const membGrad = ctx.createLinearGradient(0, membraneY, 0, cellY);
+      membGrad.addColorStop(0, '#F1F5F9');
+      membGrad.addColorStop(0.5, isResistant ? '#FEE2E2' : '#E0F2FE');
+      membGrad.addColorStop(1, '#E2E8F0');
+      ctx.fillStyle = membGrad;
+      ctx.fillRect(0, membraneY, w, membraneH);
+
+      // Phospholipid Bilayer Heads & Tails
+      ctx.strokeStyle = isResistant ? '#FCA5A5' : '#7DD3FC';
+      ctx.fillStyle = isResistant ? '#EF4444' : '#0284C7';
+      ctx.lineWidth = 1.2;
+
+      const beadSpacing = 15;
+      for (let x = 10; x < w; x += beadSpacing) {
+        // Outer layer
+        ctx.beginPath();
+        ctx.arc(x, membraneY + 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(x, membraneY + 7);
+        ctx.lineTo(x, membraneY + 16);
+        ctx.stroke();
+
+        // Inner layer
+        ctx.beginPath();
+        ctx.moveTo(x, cellY - 7);
+        ctx.lineTo(x, cellY - 16);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, cellY - 4, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // 3. Intracellular Cytoplasm (Bottom - Light clean tone)
+      const cytoGrad = ctx.createLinearGradient(0, cellY, 0, h);
+      if (isResistant) {
+        cytoGrad.addColorStop(0, '#FFF7ED'); // Warm/fatty amber-tinted cytoplasm
+        cytoGrad.addColorStop(1, '#FEF2F2');
+      } else {
+        cytoGrad.addColorStop(0, '#F8FAFC');
+        cytoGrad.addColorStop(1, '#F1F5F9');
+      }
+      ctx.fillStyle = cytoGrad;
+      ctx.fillRect(0, cellY, w, h - cellY);
+
+      // 4. Mitochondria
+      drawMitochondria(ctx, w * 0.78, cellY + (h - cellY) * 0.48, isResistant);
+
+      // 5. Receptors & Channels
+      drawReceptorAndChannels(ctx, w, h, isResistant, phase, membraneY, membraneH);
+
+      // 6. Root Cause Layers (Lipotoxicity Ectopic Fat & Inflammation)
+      if (isResistant) {
+        drawPathologyLayers(ctx, w, h, membraneY, membraneH, cellY);
+      }
+    }
+
+    function drawMitochondria(ctx, cx, cy, isResistant) {
+      ctx.save();
+      ctx.translate(cx, cy);
+
+      // Outer bean shape
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 42, 22, -0.15, 0, Math.PI * 2);
+      ctx.fillStyle = isResistant ? '#FEE2E2' : '#D1FAE5';
+      ctx.fill();
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = isResistant ? '#F87171' : '#10B981';
+      ctx.stroke();
+
+      // Cristae
+      ctx.beginPath();
+      ctx.strokeStyle = isResistant ? '#FCA5A5' : '#6EE7B7';
+      ctx.lineWidth = 2;
+      for (let i = -24; i <= 24; i += 12) {
+        ctx.moveTo(i, -12);
+        ctx.lineTo(i + (i % 8), 12);
+      }
+      ctx.stroke();
+
+      // Text label
+      ctx.fillStyle = isResistant ? '#991B1B' : '#065F46';
+      ctx.font = 'bold 9px Inter';
+      ctx.textAlign = 'center';
+      ctx.fillText(isResistant ? "Mitokondri (Yetersiz ATP)" : "Mitokondri (Aktif ATP)", 0, 24);
+
+      ctx.restore();
+    }
+
+    function drawReceptorAndChannels(ctx, w, h, isResistant, phase, membY, membH) {
+      const receptorX = w * 0.28;
+      const glut4X = w * 0.58;
+
+      // --- INSULIN RECEPTOR ---
+      ctx.save();
+      ctx.translate(receptorX, membY + 4);
+
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = isResistant ? '#E11D48' : '#0284C7';
+      ctx.fillStyle = isResistant ? '#FFE4E6' : '#E0F2FE';
+
+      // Receptor extracellular Y pocket
+      ctx.beginPath();
+      ctx.moveTo(-10, -22);
+      ctx.lineTo(-4, -6);
+      ctx.lineTo(-4, 10);
+      ctx.lineTo(4, 10);
+      ctx.lineTo(4, -6);
+      ctx.lineTo(10, -22);
+      ctx.stroke();
+
+      // Transmembrane stems
+      ctx.beginPath();
+      ctx.moveTo(-4, 10);
+      ctx.lineTo(-4, membH + 8);
+      ctx.moveTo(4, 10);
+      ctx.lineTo(4, membH + 8);
+      ctx.stroke();
+
+      // Bound insulin molecule when phase >= 1
+      if (phase >= 1) {
+        ctx.fillStyle = '#7C3AED';
+        ctx.beginPath();
+        ctx.arc(0, -12, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        if (!isResistant) {
+          // Healthy: Active Tyrosine phosphorylation cascade into cell
+          ctx.strokeStyle = '#10B981';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.moveTo(0, membH + 8);
+          ctx.quadraticCurveTo(glut4X - receptorX - 25, membH + 32, glut4X - receptorX - 10, membH + 6);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Phosphate beads (IRS-1 / PI3K / Akt)
+          ctx.fillStyle = '#F59E0B';
+          ctx.beginPath();
+          ctx.arc(-4, membH + 6, 3.5, 0, Math.PI * 2);
+          ctx.arc(4, membH + 6, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#065F46';
+          ctx.font = 'bold 9px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText('IRS-1/Akt Sinyali Aktif ⚡', 0, membH + 24);
+        } else {
+          // Resistant: Serine Phosphorylation / Blocked
+          ctx.fillStyle = '#DC2626';
+          ctx.font = '13px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText('❌', 0, membH + 16);
+
+          ctx.fillStyle = '#991B1B';
+          ctx.font = 'bold 9px Inter';
+          ctx.fillText('Serin İnhibisyonu (Bloke!)', 0, membH + 28);
+        }
+      }
+
+      ctx.fillStyle = isResistant ? '#9F1239' : '#0369A1';
+      ctx.font = 'bold 10px Inter';
+      ctx.textAlign = 'center';
+      ctx.fillText(isResistant ? "Dirençli Reseptör" : "İnsülin Reseptörü", 0, -28);
+
+      ctx.restore();
+
+      // --- GLUT-4 TRANSPORTER ---
+      ctx.save();
+      ctx.translate(glut4X, membY);
+
+      const isHealthyOpen = !isResistant && (phase === 2 || phase === 3);
+
+      if (isHealthyOpen) {
+        // OPEN CHANNEL AT MEMBRANE
+        const channelW = 26;
+        const gateOpenW = 12;
+
+        ctx.fillStyle = '#059669';
+        ctx.strokeStyle = '#047857';
+        ctx.lineWidth = 1.5;
+
+        // Left barrel
+        ctx.beginPath();
+        ctx.roundRect(-channelW / 2, 0, (channelW - gateOpenW) / 2, membH, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        // Right barrel
+        ctx.beginPath();
+        ctx.roundRect(gateOpenW / 2, 0, (channelW - gateOpenW) / 2, membH, 4);
+        ctx.fill();
+        ctx.stroke();
+
+        // Flow pathway
+        ctx.fillStyle = 'rgba(5, 150, 105, 0.15)';
+        ctx.fillRect(-gateOpenW / 2, 0, gateOpenW, membH);
+
+        // Arrow down
+        ctx.strokeStyle = '#D97706';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 4);
+        ctx.lineTo(0, membH - 4);
+        ctx.moveTo(-3, membH - 9);
+        ctx.lineTo(0, membH - 4);
+        ctx.lineTo(3, membH - 9);
+        ctx.stroke();
+
+        ctx.fillStyle = '#065F46';
+        ctx.font = 'bold 10px Inter';
+        ctx.textAlign = 'center';
+        ctx.fillText("GLUT-4 AÇIK (Glukoz Geçiyor)", 0, -10);
+
+      } else {
+        // CLOSED CHANNEL
+        if (!isResistant) {
+          ctx.fillStyle = '#94A3B8';
+          ctx.strokeStyle = '#64748B';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(-12, 0, 24, membH, 4);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#475569';
+          ctx.font = 'bold 10px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText("GLUT-4 (Dinlenmede/Kapalı)", 0, -10);
+        } else {
+          // Resistant: GLUT-4 stuck in cytoplasm vesicle, pore tightly sealed
+          ctx.fillStyle = '#CBD5E1';
+          ctx.strokeStyle = '#94A3B8';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.roundRect(-12, 0, 24, membH, 4);
+          ctx.fill();
+          ctx.stroke();
+
+          // Lipid barrier marker
+          ctx.strokeStyle = '#DC2626';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(-6, membH / 2 - 6);
+          ctx.lineTo(6, membH / 2 + 6);
+          ctx.moveTo(6, membH / 2 - 6);
+          ctx.lineTo(-6, membH / 2 + 6);
+          ctx.stroke();
+
+          ctx.fillStyle = '#991B1B';
+          ctx.font = 'bold 10px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText("GLUT-4 KAPALI (Geçiş Yok!)", 0, -10);
+
+          // Intracellular Vesicle Trapped in Cytoplasm
+          ctx.save();
+          ctx.translate(0, membH + 30);
+          ctx.strokeStyle = '#DC2626';
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath();
+          ctx.arc(0, 0, 16, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#FEE2E2';
+          ctx.beginPath();
+          ctx.roundRect(-7, -7, 14, 14, 2);
+          ctx.fill();
+          ctx.strokeStyle = '#DC2626';
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          ctx.fillStyle = '#991B1B';
+          ctx.font = 'bold 8px Inter';
+          ctx.fillText("Hapis Vezikül", 0, 22);
+          ctx.restore();
+        }
+      }
+
+      ctx.restore();
+    }
+
+    // Deepening IR: Draw Ectopic Lipid Droplets & TNF-alpha Macrophage Infiltration
+    function drawPathologyLayers(ctx, w, h, membY, membH, cellY) {
+      // 1. Ectopic Fat (Lipotoxicity: DAG & Lipid Droplets along inner/outer membrane)
+      if (resistantSim.showLipotoxicity) {
+        ctx.save();
+
+        // Droplets lining the sub-membrane
+        const droplets = [
+          { x: w * 0.15, y: cellY + 12, r: 8 },
+          { x: w * 0.22, y: cellY + 18, r: 12 },
+          { x: w * 0.35, y: cellY + 10, r: 10 },
+          { x: w * 0.44, y: cellY + 16, r: 13 },
+          { x: w * 0.68, y: cellY + 14, r: 11 },
+          { x: w * 0.72, y: cellY + 22, r: 9 },
+        ];
+
+        droplets.forEach(d => {
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.35)'; // Amber lipid oil
+          ctx.fill();
+          ctx.strokeStyle = '#D97706';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+          // Inner droplet core
+          ctx.beginPath();
+          ctx.arc(d.x - 2, d.y - 2, d.r * 0.4, 0, Math.PI * 2);
+          ctx.fillStyle = '#FDE68A';
+          ctx.fill();
+        });
+
+        // Clinical badge on canvas
+        ctx.fillStyle = '#B45309';
+        ctx.font = 'bold 9px Inter';
+        ctx.textAlign = 'left';
+        ctx.fillText('Ektopik Yağ & DAG Birikimi (Membran Altı Yağlanma)', w * 0.10, cellY + 38);
+
+        ctx.restore();
+      }
+
+      // 2. Chronic Inflammation: TNF-alpha Cytokine Infiltration from Visceral Fat
+      if (resistantSim.showInflammation) {
+        ctx.save();
+        ctx.fillStyle = '#7E22CE';
+        ctx.font = 'bold 9px Inter';
+        ctx.textAlign = 'right';
+        ctx.fillText('İnflamasyon: Viseral TNF-α Saldırısı', w - 15, membY - 10);
+        ctx.restore();
+      }
+    }
+
+    // Molecular Entities
+    function drawGlucose(ctx, p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+
+      // Gold hexagon
+      const r = p.size;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const a = (i * Math.PI) / 3;
+        const x = r * Math.cos(a);
+        const y = r * Math.sin(a);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = '#F59E0B';
+      ctx.fill();
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#B45309';
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawInsulin(ctx, p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+
+      // Purple circular hormone
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = '#7C3AED';
+      ctx.fill();
+      ctx.strokeStyle = '#5B21B6';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // White center
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size * 0.4, 0, Math.PI * 2);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawLipid(ctx, p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+
+      // Red FFA lipid droplet
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.size * 1.2, p.size * 0.8, p.angle, 0, Math.PI * 2);
+      ctx.fillStyle = '#EF4444';
+      ctx.fill();
+      ctx.strokeStyle = '#B91C1C';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Highlight
+      ctx.beginPath();
+      ctx.arc(-1, -1, 1.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawCytokine(ctx, p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+
+      // Inflammatory diamond marker (TNF-a)
+      ctx.beginPath();
+      ctx.moveTo(0, -p.size);
+      ctx.lineTo(p.size, 0);
+      ctx.lineTo(0, p.size);
+      ctx.lineTo(-p.size, 0);
+      ctx.closePath();
+      ctx.fillStyle = '#9333EA';
+      ctx.fill();
+      ctx.strokeStyle = '#581C87';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    /* -------------------------------------------------------------
+       Physics & State Updates (Healthy)
+       ------------------------------------------------------------- */
+    function updateHealthyPhysics(dt) {
+      const bloodTop = 22;
+      const membraneY = heightH * 0.45;
+      const membraneH = heightH * 0.12;
+      const cellY = membraneY + membraneH;
+      const glut4X = widthH * 0.58;
+
+      const isHealthyOpen = healthySim.phase === 2 || healthySim.phase === 3;
+
+      // Glucose
+      healthySim.particles.glucose.forEach(p => {
+        p.angle += p.vAngle;
+
+        if (!p.entered) {
+          if (isHealthyOpen && Math.abs(p.x - glut4X) < 32 && p.y > membraneY - 25 && p.y < membraneY + 12) {
+            // Channel intake suction
+            p.x += (glut4X - p.x) * 0.18;
+            p.y += 2.6;
+            if (p.y > cellY + 8) {
+              p.entered = true;
+              healthySim.particles.intracellularGlucose.push({
+                ...p,
+                vx: randomRange(-0.6, 0.6),
+                vy: randomRange(0.4, 0.9)
+              });
+            }
+          } else {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 15 || p.x > widthH - 15) p.vx *= -1;
+            if (p.y < bloodTop) { p.y = bloodTop; p.vy *= -1; }
+            if (p.y > membraneY - 8) { p.y = membraneY - 8; p.vy *= -1; }
+          }
+        }
+      });
+
+      // Intracellular Glucose
+      healthySim.particles.intracellularGlucose.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 15 || p.x > widthH - 15) p.vx *= -1;
+        if (p.y < cellY + 6) { p.y = cellY + 6; p.vy *= -1; }
+        if (p.y > heightH - 15) { p.y = heightH - 15; p.vy *= -1; }
+      });
+
+      // Insulin
+      healthySim.particles.insulin.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 15 || p.x > widthH - 15) p.vx *= -1;
+        if (p.y < bloodTop) { p.y = bloodTop; p.vy *= -1; }
+        if (p.y > membraneY - 6) { p.y = membraneY - 6; p.vy *= -1; }
+      });
+
+      // Lipids
+      healthySim.particles.lipids.forEach(p => {
+        p.x += p.vx * 0.6;
+        p.y += p.vy * 0.6;
+        if (p.x < 15 || p.x > widthH - 15) p.vx *= -1;
+        if (p.y < bloodTop) { p.y = bloodTop; p.vy *= -1; }
+        if (p.y > membraneY - 6) { p.y = membraneY - 6; p.vy *= -1; }
+      });
+    }
+
+    /* -------------------------------------------------------------
+       Physics & State Updates (Resistant)
+       ------------------------------------------------------------- */
+    function updateResistantPhysics(dt) {
+      const bloodTop = 22;
+      const membraneY = heightR * 0.45;
+
+      // Glucose cannot enter! Bounces off blocked membrane
+      resistantSim.particles.glucose.forEach(p => {
+        p.angle += p.vAngle;
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 15 || p.x > widthR - 15) p.vx *= -1;
+        if (p.y < bloodTop) { p.y = bloodTop; p.vy *= -1; }
+        if (p.y > membraneY - 8) {
+          p.y = membraneY - 8;
+          p.vy *= -1; // Blocked!
+        }
+      });
+
+      // High Insulin swarming
+      resistantSim.particles.insulin.forEach(p => {
+        p.x += p.vx * 1.2;
+        p.y += p.vy * 1.2;
+        if (p.x < 15 || p.x > widthR - 15) p.vx *= -1;
+        if (p.y < bloodTop) { p.y = bloodTop; p.vy *= -1; }
+        if (p.y > membraneY - 6) { p.y = membraneY - 6; p.vy *= -1; }
+      });
+
+      // High Lipids
+      resistantSim.particles.lipids.forEach(p => {
+        p.x += p.vx * 1.1;
+        p.y += p.vy * 1.1;
+        if (p.x < 15 || p.x > widthR - 15) p.vx *= -1;
+        if (p.y < bloodTop) { p.y = bloodTop; p.vy *= -1; }
+        if (p.y > membraneY - 6) { p.y = membraneY - 6; p.vy *= -1; }
+      });
+
+      // Cytokines (TNF-alpha)
+      resistantSim.particles.cytokines.forEach(p => {
+        p.x += p.vx * 0.9;
+        p.y += p.vy * 0.9;
+        if (p.x < 15 || p.x > widthR - 15) p.vx *= -1;
+        if (p.y < bloodTop) { p.y = bloodTop; p.vy *= -1; }
+        if (p.y > membraneY - 6) { p.y = membraneY - 6; p.vy *= -1; }
+      });
+    }
+
+    /* -------------------------------------------------------------
+       Clinical Biomarker Metric Displays
+       ------------------------------------------------------------- */
+    function formatTime(s) {
+      const sec = Math.floor(s);
+      return `00:${sec < 10 ? '0' + sec : sec}`;
+    }
+
+    function updateHealthyMetrics() {
+      const pIdx = healthySim.phase;
+      const progress = (healthySim.timer - phases[pIdx].start) / (phases[pIdx].end - phases[pIdx].start);
+
+      document.getElementById('hPhaseName').textContent = phases[pIdx].name;
+      document.getElementById('hTimerDisplay').textContent = `${formatTime(healthySim.timer)} / 00:16`;
+
+      const hGlu = document.getElementById('hGlucoseVal');
+      const hIns = document.getElementById('hInsulinVal');
+      const hLip = document.getElementById('hLipidVal');
+      const hAtp = document.getElementById('hAtpVal');
+      const hGluState = document.getElementById('hGlucoseState');
+      const hLog = document.getElementById('healthyStatusLog');
+
+      if (pIdx === 0) {
+        hGlu.textContent = Math.round(85 + 45 * progress);
+        hIns.textContent = (5.0 + 7.0 * progress).toFixed(1);
+        hLip.textContent = (0.32 - 0.04 * progress).toFixed(2);
+        hAtp.textContent = "88%";
+        hGluState.textContent = "Yemek Sonrası Artış";
+        hLog.textContent = "Yemek sonrası glukoz kana geçer. Sağlıklı pankreas beta hücreleri uyarılır ve ilk faz insülin salgısı başlar.";
+      } else if (pIdx === 1) {
+        hGlu.textContent = Math.round(130 - 15 * progress);
+        hIns.textContent = (12.0 - 2.0 * progress).toFixed(1);
+        hLip.textContent = "0.28";
+        hAtp.textContent = "92%";
+        hGluState.textContent = "İnsülin Kontrolünde";
+        hLog.textContent = "İnsülin reseptöre bağlandı. Tirosin kinaz sinyali pürüzsüzce hücre içine iletiliyor (IRS-1 ve Akt aktivasyonu).";
+      } else if (pIdx === 2) {
+        hGlu.textContent = Math.round(115 - 22 * progress);
+        hIns.textContent = (10.0 - 3.0 * progress).toFixed(1);
+        hLip.textContent = "0.25";
+        hAtp.textContent = "98%";
+        hGluState.textContent = "Hücreye Giriş Aktif";
+        hLog.textContent = "GLUT-4 glukoz kapıları zarda açıldı! Glukoz molekülleri hızla içeri emiliyor ve mitokondride ATP'ye dönüşüyor.";
+      } else {
+        hGlu.textContent = Math.round(93 - 3 * progress);
+        hIns.textContent = (7.0 - 1.0 * progress).toFixed(1);
+        hLip.textContent = "0.22";
+        hAtp.textContent = "100%";
+        hGluState.textContent = "Normoglisemi (Dengede)";
+        hLog.textContent = "Döngü tamamlandı: Kan şekeri 90 mg/dL'ye indi, insülin bazala döndü. Kan yağları tamamen baskılandı.";
+      }
+    }
+
+    function updateResistantMetrics() {
+      const pIdx = resistantSim.phase;
+      const progress = (resistantSim.timer - phases[pIdx].start) / (phases[pIdx].end - phases[pIdx].start);
+
+      document.getElementById('rPhaseName').textContent = phases[pIdx].name;
+      document.getElementById('rTimerDisplay').textContent = `${formatTime(resistantSim.timer)} / 00:16`;
+
+      const rGlu = document.getElementById('rGlucoseVal');
+      const rIns = document.getElementById('rInsulinVal');
+      const rLip = document.getElementById('rLipidVal');
+      const rAtp = document.getElementById('rAtpVal');
+      const rLog = document.getElementById('resistantStatusLog');
+
+      if (pIdx === 0) {
+        rGlu.textContent = Math.round(140 + 60 * progress);
+        rIns.textContent = (18.0 + 16.0 * progress).toFixed(1);
+        rLip.textContent = (0.75 + 0.12 * progress).toFixed(2);
+        rAtp.textContent = "42%";
+        rLog.textContent = "Dirençli vücutta açlık şekeri zaten yüksektir (>140 mg/dL). Yemek sonrası glukoz hızla tehlikeli sınırlara tırmanır.";
+      } else if (pIdx === 1) {
+        rGlu.textContent = Math.round(200 + 15 * progress);
+        rIns.textContent = (34.0 + 20.0 * progress).toFixed(1); // Spike
+        rLip.textContent = (0.87 + 0.08 * progress).toFixed(2);
+        rAtp.textContent = "36%";
+        rLog.textContent = "Pankreas yükselen şekere karşı çaresizce durmaksızın insülin pompalar (Kompansatuar Hiperinsülinemi). Fakat reseptör yanıt vermez.";
+      } else if (pIdx === 2) {
+        rGlu.textContent = Math.round(215 - 3 * progress);
+        rIns.textContent = (54.0 - 2.0 * progress).toFixed(1);
+        rLip.textContent = (0.95 + 0.03 * progress).toFixed(2);
+        rAtp.textContent = "30%";
+        rLog.textContent = "Ektopik yağ (DAG) ve TNF-α nedeniyle reseptör serin fosforilasyonu ile kilitlenmiştir. GLUT-4 zarda açılamaz; şeker kanda mahsur kalır!";
+      } else {
+        rGlu.textContent = Math.round(212 - 5 * progress);
+        rIns.textContent = (52.0 - 4.0 * progress).toFixed(1);
+        rLip.textContent = (0.98 + 0.02 * progress).toFixed(2);
+        rAtp.textContent = "28%";
+        rLog.textContent = "Kronik tablo: Şeker kanda kaldı (>200 mg/dL), insülin 6 kat yüksek. Yağ doku yıkımı durdurulamadığı için serbest yağ asitleri (FFA) damarı doldurur.";
+      }
+    }
+
+    /* -------------------------------------------------------------
+       Main Animation Loop
+       ------------------------------------------------------------- */
+    let lastTime = performance.now();
+
+    function loop(now) {
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      // 1. HEALTHY ENGINE TICK
+      if (healthySim.running) {
+        healthySim.timer += delta;
+        if (healthySim.timer >= CYCLE_DURATION) {
+          healthySim.timer = 0;
+          initHealthyParticles();
+        }
+        for (let i = 0; i < phases.length; i++) {
+          if (healthySim.timer >= phases[i].start && healthySim.timer < phases[i].end) {
+            healthySim.phase = i;
+            break;
+          }
+        }
+        updateHealthyPhysics(delta);
+        updateHealthyMetrics();
+      }
+
+      // Render Healthy Canvas
+      ctxH.clearRect(0, 0, widthH, heightH);
+      drawArchitecture(ctxH, widthH, heightH, false, healthySim.phase);
+      healthySim.particles.lipids.forEach(p => drawLipid(ctxH, p));
+      healthySim.particles.glucose.forEach(p => { if (!p.entered) drawGlucose(ctxH, p); });
+      healthySim.particles.intracellularGlucose.forEach(p => drawGlucose(ctxH, p));
+      healthySim.particles.insulin.forEach(p => drawInsulin(ctxH, p));
+
+      // 2. RESISTANT ENGINE TICK
+      if (resistantSim.running) {
+        resistantSim.timer += delta;
+        if (resistantSim.timer >= CYCLE_DURATION) {
+          resistantSim.timer = 0;
+          initResistantParticles();
+        }
+        for (let i = 0; i < phases.length; i++) {
+          if (resistantSim.timer >= phases[i].start && resistantSim.timer < phases[i].end) {
+            resistantSim.phase = i;
+            break;
+          }
+        }
+        updateResistantPhysics(delta);
+        updateResistantMetrics();
+      }
+
+      // Render Resistant Canvas
+      ctxR.clearRect(0, 0, widthR, heightR);
+      drawArchitecture(ctxR, widthR, heightR, true, resistantSim.phase);
+      resistantSim.particles.lipids.forEach(p => drawLipid(ctxR, p));
+      if (resistantSim.showInflammation) {
+        resistantSim.particles.cytokines.forEach(p => drawCytokine(ctxR, p));
+      }
+      resistantSim.particles.glucose.forEach(p => drawGlucose(ctxR, p));
+      resistantSim.particles.insulin.forEach(p => drawInsulin(ctxR, p));
+
+      requestAnimationFrame(loop);
+    }
+
+    /* -------------------------------------------------------------
+       UI Event Listeners & Step View Controller
+       ------------------------------------------------------------- */
+    // Healthy Play/Pause
+    const hPlayBtn = document.getElementById('hPlayBtn');
+    const hPlayText = document.getElementById('hPlayText');
+    const hPlayIcon = document.getElementById('hPlayIcon');
+
+    hPlayBtn.addEventListener('click', () => {
+      healthySim.running = !healthySim.running;
+      if (healthySim.running) {
+        hPlayText.textContent = 'Durdur';
+        hPlayIcon.innerHTML = '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>';
+        hPlayBtn.className = "px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-xs";
+      } else {
+        hPlayText.textContent = 'Oynat';
+        hPlayIcon.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>';
+        hPlayBtn.className = "px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-xs";
+      }
+    });
+
+    document.getElementById('hResetBtn').addEventListener('click', () => {
+      healthySim.timer = 0;
+      healthySim.phase = 0;
+      initHealthyParticles();
+      updateHealthyMetrics();
+    });
+
+    // Resistant Play/Pause
+    const rPlayBtn = document.getElementById('rPlayBtn');
+    const rPlayText = document.getElementById('rPlayText');
+    const rPlayIcon = document.getElementById('rPlayIcon');
+
+    function updateRPlayButtonUI() {
+      if (resistantSim.running) {
+        rPlayText.textContent = 'Durdur';
+        rPlayIcon.innerHTML = '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>';
+        rPlayBtn.className = "px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-xs";
+      } else {
+        rPlayText.textContent = 'Oynat';
+        rPlayIcon.innerHTML = '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>';
+        rPlayBtn.className = "px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-semibold transition flex items-center gap-1.5 shadow-xs";
+      }
+    }
+
+    rPlayBtn.addEventListener('click', () => {
+      resistantSim.running = !resistantSim.running;
+      updateRPlayButtonUI();
+    });
+
+    document.getElementById('rResetBtn').addEventListener('click', () => {
+      resistantSim.timer = 0;
+      resistantSim.phase = 0;
+      initResistantParticles();
+      updateResistantMetrics();
+    });
+
+    // Root Cause Toggles
+    document.getElementById('toggleLipotoxicity').addEventListener('change', (e) => {
+      resistantSim.showLipotoxicity = e.target.checked;
+    });
+
+    document.getElementById('toggleInflammation').addEventListener('change', (e) => {
+      resistantSim.showInflammation = e.target.checked;
+    });
+
+    // Step View Tabs (Healthy Only / Resistant Only / Both Side-by-side)
+    const tabH = document.getElementById('viewTabHealthy');
+    const tabR = document.getElementById('viewTabResistant');
+    const tabBoth = document.getElementById('viewTabBoth');
+    const healthyContainer = document.getElementById('healthyContainer');
+    const resistantContainer = document.getElementById('resistantContainer');
+
+    function setViewMode(mode) {
+      tabH.className = mode === 'healthy' ? 'tab-active px-3 py-1.5 rounded-lg transition flex items-center gap-1.5' : 'tab-inactive px-3 py-1.5 rounded-lg transition flex items-center gap-1.5';
+      tabR.className = mode === 'resistant' ? 'tab-active px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ml-1' : 'tab-inactive px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ml-1';
+      tabBoth.className = mode === 'both' ? 'tab-active px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ml-1' : 'tab-inactive px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ml-1';
+
+      if (mode === 'healthy') {
+        healthyContainer.classList.remove('hidden');
+        healthyContainer.classList.add('lg:col-span-2');
+        resistantContainer.classList.add('hidden');
+        resistantContainer.classList.remove('lg:col-span-2');
+      } else if (mode === 'resistant') {
+        healthyContainer.classList.add('hidden');
+        healthyContainer.classList.remove('lg:col-span-2');
+        resistantContainer.classList.remove('hidden');
+        resistantContainer.classList.add('lg:col-span-2');
+        // Auto start resistant if user clicks it and it is stopped
+        if (!resistantSim.running) {
+          resistantSim.running = true;
+          updateRPlayButtonUI();
+        }
+      } else {
+        healthyContainer.classList.remove('hidden', 'lg:col-span-2');
+        resistantContainer.classList.remove('hidden', 'lg:col-span-2');
+      }
+
+      setTimeout(() => {
+        resizeCanvases();
+      }, 50);
+    }
+
+    tabH.addEventListener('click', () => setViewMode('healthy'));
+    tabR.addEventListener('click', () => setViewMode('resistant'));
+    tabBoth.addEventListener('click', () => setViewMode('both'));
+
+    // Start with Step 1 (Healthy Cell View) so user focuses on normal physiology first
+    setViewMode('healthy');
+    updateRPlayButtonUI();
+
+    window.onload = function() {
+      resizeCanvases();
+      initHealthyParticles();
+      initResistantParticles();
+      updateHealthyMetrics();
+      updateResistantMetrics();
+      lastTime = performance.now();
+      requestAnimationFrame(loop);
+    };
+  </script>
+</body>
+</html>

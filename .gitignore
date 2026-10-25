@@ -1,0 +1,30 @@
+.DS_Store
+*.swp
+*~
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+__pycache__/
+*.pyc
+.venv/
+
+# Vault / Obsidian içeriği bu repoya girmez
+node_modules/
+.obsidian/
+.smart-env/
+.agents/
+.pandoc/
+.mcp.json
+*.canvas
+Files/*
+!Files/albertstunkard.png
+!Files/yanlisdiyetimiseciyoruz.png
+!Files/yanlisyeremiodaklaniyoruz.png
+Ekran Resmi*
+*.docx
+/dersler/*/
+/Sosyal Medya/
+/Akademik/
+/Templates/
+/ders materyalleri/
+/_Inbox/

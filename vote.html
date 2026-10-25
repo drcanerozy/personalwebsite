@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Canlı Sınıf Oylaması · Dr. Caner Özyıldırım</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<!-- Paho MQTT WebSocket Client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-border: #334155;
+    --teal: #14b8a6;
+    --teal-glow: rgba(20, 184, 166, 0.25);
+    --rose: #f43f5e;
+    --indigo: #6366f1;
+    --gold: #f59e0b;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .app-container {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .header {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-brand {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: inline-block;
+  }
+  .status-dot.connected {
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+  }
+  .status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-tabs {
+    display: grid;
+    gap: 6px;
+    background: #090d16;
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .nav-tabs.two-tabs { grid-template-columns: 1fr 1fr; }
+  .nav-tabs.three-tabs { grid-template-columns: 1fr 1fr 1fr; }
+
+  .nav-tab {
+    padding: 9px 4px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+    background: transparent;
+  }
+  .nav-tab.active {
+    background: var(--card);
+    color: var(--teal);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .poll-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .poll-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--teal);
+    letter-spacing: 0.05em;
+  }
+  .poll-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #fff;
+  }
+  .poll-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .q-label {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .text-input {
+    width: 100%;
+    background: #0b1120;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: #fff;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  .text-input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  textarea.text-input {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.45;
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media(max-width: 400px) {
+    .tools-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .tool-btn {
+    background: #0b1120;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 8px;
+    color: var(--text);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+  }
+  .tool-btn.selected {
+    border-color: var(--teal);
+    background: rgba(20, 184, 166, 0.15);
+    color: #fff;
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  .likert-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .likert-btn {
+    background: #0b1120;
+    border: 1.5px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .likert-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-muted);
+  }
+  .likert-desc {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.2;
+  }
+  .likert-btn.selected {
+    border-color: var(--teal);
+    background: rgba(20, 184, 166, 0.15);
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  .likert-btn.selected .likert-num {
+    color: var(--teal);
+  }
+  .likert-btn.selected .likert-desc {
+    color: #fff;
+  }
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .option-item {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: #0b1120;
+    border: 1.5px solid var(--card-border);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    width: 100%;
+    line-height: 1.4;
+  }
+  .option-item.selected {
+    border-color: var(--teal);
+    background: rgba(20, 184, 166, 0.15);
+    color: #fff;
+    box-shadow: 0 0 0 1px var(--teal);
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #0d9488, #14b8a6);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(20, 184, 166, 0.4);
+    transition: all 0.15s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .submit-btn:active {
+    transform: scale(0.98);
+  }
+  .success-banner {
+    display: none;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    font-size: 13px;
+    color: #34d399;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease;
+  }
+  .slider-box {
+    background: #0b1120;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .slider-val-badge {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: 0 0 16px var(--teal-glow);
+  }
+  .slider-input {
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    background: #1e293b;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  .slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 3px solid #fff;
+    box-shadow: 0 0 12px rgba(20, 184, 166, 0.6);
+    cursor: pointer;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ======================================================== */
+  /* BES339 15 DİYET × 4 BOYUT MATRİS TABLOSU STİLLERİ       */
+  /* ======================================================== */
+  .matrix-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    background: #090d16;
+    margin-top: 6px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 440px;
+    font-size: 12px;
+  }
+  .matrix-table th {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 4px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--card-border);
+    text-align: center;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .matrix-table th.col-diet {
+    position: sticky;
+    left: 0;
+    background: #0f172a;
+    z-index: 3;
+    text-align: left;
+    padding-left: 12px;
+    min-width: 125px;
+    border-right: 1.5px solid var(--card-border);
+  }
+  .matrix-table td {
+    padding: 6px 3px;
+    border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+    text-align: center;
+  }
+  .matrix-table tr:hover td {
+    background: rgba(30, 41, 59, 0.45);
+  }
+  .matrix-table td.cell-diet {
+    position: sticky;
+    left: 0;
+    background: #0b1120;
+    z-index: 2;
+    text-align: left;
+    padding-left: 12px;
+    border-right: 1.5px solid var(--card-border);
+    white-space: nowrap;
+  }
+  .matrix-table tr:hover td.cell-diet {
+    background: #131d31;
+  }
+  .cell-select {
+    width: 100%;
+    max-width: 66px;
+    height: 32px;
+    background: #1e293b;
+    border: 1.5px solid #334155;
+    border-radius: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    text-align: center;
+    text-align-last: center;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .cell-select:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 2px var(--teal-glow);
+  }
+  .cell-select.pos-high { background: rgba(16, 185, 129, 0.3); color: #34d399; border-color: #059669; }
+  .cell-select.pos-mid  { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border-color: #10b981; }
+  .cell-select.pos-low  { background: rgba(16, 185, 129, 0.1); color: #a7f3d0; border-color: #34d399; }
+  .cell-select.zero     { background: #1e293b; color: #94a3b8; border-color: #334155; }
+  .cell-select.neg-low  { background: rgba(244, 63, 94, 0.1); color: #fecdd3; border-color: #fb7185; }
+  .cell-select.neg-mid  { background: rgba(244, 63, 94, 0.2); color: #fda4af; border-color: #f43f5e; }
+  .cell-select.neg-high { background: rgba(244, 63, 94, 0.3); color: #fb7185; border-color: #e11d48; }
+
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- ÜST BİLGİ -->
+  <header class="header">
+    <div class="header-brand">
+      <span id="weekIcon">🎓</span> <span id="weekTitle">Canlı Sınıf Oylaması</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="courseSwitchBtn" onclick="toggleCourse()" style="background:#0b1120; border:1px solid var(--card-border); color:var(--text-muted); font-size:11px; font-weight:700; padding:4px 8px; border-radius:6px; cursor:pointer;" title="Dersi Değiştir">🤖 AI Dersi Oylaması</button>
+      <div class="status-badge" id="statusBadge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Bağlanıyor...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BAŞARI BİLDİRİMİ -->
+  <div class="success-banner" id="successBanner">
+    ✅ Yanıtlarınız tahtaya anında iletildi! Teşekkürler.
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- DERS SEÇİM EKRANI (Parametresiz Doğrudan Girişler İçin)    -->
+  <!-- ======================================================== -->
+  <div id="courseSelectorContainer" style="display:none; flex-direction:column; gap:14px;">
+    <div class="poll-card">
+      <span class="poll-tag">DERS VE ANKET SEÇİMİ</span>
+      <h2 class="poll-title">Katılmak İstediğiniz Dersi Seçiniz</h2>
+      <p class="poll-desc">Akdeniz Üniversitesi Beslenme ve Diyetetik Bölümü Canlı Anket &amp; Oylama Platformu</p>
+      
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+        <button type="button" class="tool-btn" onclick="selectCourseMode('bes339')" style="padding:16px; text-align:left; display:flex; align-items:center; gap:14px; background:#0b1120; border:1.5px solid #059669; border-radius:12px;">
+          <span style="font-size:28px;">🥗</span>
+          <div>
+            <div style="font-weight:700; color:#34d399; font-size:15px;">BES339 · Diyet İlkeleri ve Popüler Diyetler</div>
+            <div style="color:#94a3b8; font-size:12px; margin-top:2px;">Popüler Diyetler Algı Haritası ve Bilişsel İkilemler Anketi</div>
+          </div>
+        </button>
+
+        <button type="button" class="tool-btn" onclick="selectCourseMode('bes200_h1')" style="padding:16px; text-align:left; display:flex; align-items:center; gap:14px; background:#0b1120; border:1.5px solid #0284c7; border-radius:12px;">
+          <span style="font-size:28px;">🤖</span>
+          <div>
+            <div style="font-weight:700; color:#38bdf8; font-size:15px;">BES200 · Bilgisayar ve Yapay Zeka (Hafta 1)</div>
+            <div style="color:#94a3b8; font-size:12px; margin-top:2px;">AI Araçları Tanışma ve Ders Sonu Gelişim Anketi</div>
+          </div>
+        </button>
+
+        <button type="button" class="tool-btn" onclick="selectCourseMode('bes200_h2')" style="padding:16px; text-align:left; display:flex; align-items:center; gap:14px; background:#0b1120; border:1.5px solid #8b5cf6; border-radius:12px;">
+          <span style="font-size:28px;">🧬</span>
+          <div>
+            <div style="font-weight:700; color:#c084fc; font-size:15px;">BES200 · Bilgisayar ve Yapay Zeka (Hafta 2)</div>
+            <div style="color:#94a3b8; font-size:12px; margin-top:2px;">Tıbbın ve Beslenmenin Dönüşümü Oylaması</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- HAFTA 1 ANKETLERİ -->
+  <!-- ======================================================== -->
+  <div id="week1Container" style="display:none; flex-direction:column; gap:16px;">
+    <!-- SEKMELER (HAFTA 1: 2 SEKME - AÇILIŞ & KAPANIŞ) -->
+    <div class="nav-tabs two-tabs" id="h1Tabs">
+      <button class="nav-tab active" onclick="switchH1Section('pre')">1. Açılış &amp; Tanışma</button>
+      <button class="nav-tab" onclick="switchH1Section('post')">2. Ders Sonu Gelişim</button>
+    </div>
+
+    <!-- H1 - 1. BÖLÜM: DERS BAŞI TANIŞMA & DENEYİM ANKETİ -->
+    <div id="h1SectionPre" class="poll-card">
+      <span class="poll-tag">Hafta 1 · Açılış &amp; Tanışma Anketi</span>
+      
+      <!-- S1: KULLANILAN ARAÇLAR -->
+      <div>
+        <label class="q-label">1. En sık hangi yapay zeka aracını kullanıyorsunuz?</label>
+        <div class="tools-grid" id="h1ToolsGrid">
+          <button type="button" class="tool-btn" onclick="selectH1Tool('ChatGPT', this)">ChatGPT</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Gemini', this)">Gemini</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Claude', this)">Claude</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('DeepSeek', this)">DeepSeek</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Perplexity', this)">Perplexity</button>
+          <button type="button" class="tool-btn" onclick="selectH1Tool('Copilot', this)">Copilot</button>
+        </div>
+        <input type="text" id="h1ToolOther" class="text-input" placeholder="Diğer / Farklı bir araç kullanıyorsanız yazın..." style="margin-top:8px;">
+      </div>
+
+      <!-- S2: EN ÇOK ŞAŞIRTAN AN -->
+      <div>
+        <label class="q-label">2. Yapay zekada sizi en çok şaşırtan / tuhafınıza giden ne olmuştu?</label>
+        <textarea id="h1SurpriseText" class="text-input" placeholder="Örn: 'Verdiği uydurma kaynak', 'Beni benden iyi anlaması', 'Hızlı tablo yapması' vb."></textarea>
+      </div>
+
+      <!-- S3: EN ETKİLEYİCİ KULLANIM ANI -->
+      <div>
+        <label class="q-label">3. Yapay zekayı en etkileyici / en faydalı olarak kullandığınız an neydi?</label>
+        <textarea id="h1ImpressiveText" class="text-input" placeholder="Örn: 'Bir vaka analizinde', 'Ödev özetlerken', 'Yemek tarifi türetirken' vb."></textarea>
+      </div>
+
+      <!-- S4: PROMPT DÜZEYİ (1-5 LIKERT) -->
+      <div>
+        <label class="q-label">4. Şu anki Prompt (Komut) yazma becerinizi nasıl puanlarsınız?</label>
+        <div class="likert-grid" id="h1PreLikert">
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(1, this)">
+            <span class="likert-num">1</span>
+            <span class="likert-desc">Çok Temel</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(2, this)">
+            <span class="likert-num">2</span>
+            <span class="likert-desc">Başlangıç</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(3, this)">
+            <span class="likert-num">3</span>
+            <span class="likert-desc">Orta</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(4, this)">
+            <span class="likert-num">4</span>
+            <span class="likert-desc">İyi</span>
+          </button>
+          <button type="button" class="likert-btn" onclick="selectH1PreLevel(5, this)">
+            <span class="likert-num">5</span>
+            <span class="likert-desc">İleri</span>
+          </button>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="submitH1PreSurvey()">
+        <span>🚀</span> <span>Yanıtları Tahtaya Gönder</span>
+      </button>
+    </div>
+
+    <!-- H1 - 2. BÖLÜM: DERS SONU PROMPT DÜZEYİ GELİŞİMİ -->
+    <div id="h1SectionPost" class="poll-card" style="display:none;">
+      <span class="poll-tag">Hafta 1 · Kapanış Değerlendirmesi</span>
+      <h2 class="poll-title">Dersin Sonunda: Prompt (Komut) Yetkinlik Düzeyinizi Nasıl Puanlarsınız?</h2>
+      <p class="poll-desc">CLEAR çerçevesi, 6 bileşenli anatomi ve kritik teknikleri gördükten sonra kendinizi nerede görüyorsunuz?</p>
+
+      <div class="likert-grid" id="h1PostLikert">
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(1, this)">
+          <span class="likert-num">1</span>
+          <span class="likert-desc">Çok Temel</span>
+        </button>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(2, this)">
+          <span class="likert-num">2</span>
+          <span class="likert-desc">Başlangıç</span>
+        </button>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(3, this)">
+          <span class="likert-num">3</span>
+          <span class="likert-desc">Orta</span>
+        </button>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(4, this)">
+          <span class="likert-num">4</span>
+          <span class="likert-desc">İyi</span>
+        </button>
+        <button type="button" class="likert-btn" onclick="selectH1PostLevel(5, this)">
+          <span class="likert-num">5</span>
+          <span class="likert-desc">İleri</span>
+        </button>
+      </div>
+
+      <button class="submit-btn" onclick="submitH1PostSurvey()" style="margin-top:8px;">
+        <span>🎯</span> <span>Ders Sonu Puanımı Gönder</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- HAFTA 2 ANKETLERİ -->
+  <!-- ======================================================== -->
+  <div id="week2Container" style="display:none; flex-direction:column; gap:16px;">
+    <!-- ANKET SEKMELERİ (HAFTA 2) -->
+    <div class="nav-tabs three-tabs" id="h2Tabs">
+      <button class="nav-tab active" onclick="switchH2Section('pre')">1. Giriş Anketi</button>
+      <button class="nav-tab" onclick="switchH2Section('roles')">2. Gelecek Rolüm</button>
+      <button class="nav-tab" onclick="switchH2Section('post')">3. Kapanış / Evrim</button>
+    </div>
+
+    <!-- 1. BÖLÜM: DERS BAŞI ZİHNİYET ANKETİ -->
+    <div id="sectionPre" class="poll-card">
+      <span class="poll-tag">Ders Öncesi · Beklenti Anketi</span>
+      <h2 class="poll-title">Sizce yapay zeka bir diyetisyenin rutin görevlerinin % kaçını devralabilir?</h2>
+      <p class="poll-desc">Dersin başında aklınızdaki tahmini belirleyin. Sunum sonunda fikirlerinizi tekrar ölçeceğiz.</p>
+      
+      <div class="slider-box">
+        <div class="slider-val-badge" id="preSliderVal">35%</div>
+        <input type="range" min="0" max="100" value="35" class="slider-input" id="preRange" oninput="document.getElementById('preSliderVal').textContent = this.value + '%'">
+      </div>
+
+      <h3 style="font-size:14px; font-weight:700; margin-top:8px;">Yapay zeka diyetisyenden daha hatasız kalori & menü hesabı yapabilir mi?</h3>
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('preQ2', 1, this)">
+          <span>🟢</span> <span>Evet, matematiksel olarak hatasızdır</span>
+        </button>
+        <button class="option-item" onclick="selectOption('preQ2', 2, this)">
+          <span>🔴</span> <span>Hayır, diyetisyen kesinlikle üstündür</span>
+        </button>
+        <button class="option-item" onclick="selectOption('preQ2', 3, this)">
+          <span>🟡</span> <span>Kararsızım / Vakaya göre değişir</span>
+        </button>
+      </div>
+
+      <button class="submit-btn" onclick="submitPreSurvey()">
+        <span>🚀</span> <span>Oyu Tahtaya Gönder</span>
+      </button>
+    </div>
+
+    <!-- 2. BÖLÜM: GELECEĞİN DİYETİSYEN ROLÜ -->
+    <div id="sectionRoles" class="poll-card" style="display:none;">
+      <span class="poll-tag">Kişisel Vizyon · Kariyer Tercihi</span>
+      <h2 class="poll-title">Hangi Geleceğin Diyetisyen Rolü Sizi En Çok Heyecanlandırıyor?</h2>
+      <p class="poll-desc">Mezuniyet sonrası kendinizi en yakın hissettiğiniz uzmanlık alanını seçin:</p>
+
+      <div class="options-list">
+        <button class="option-item" onclick="selectOption('role', 1, this)">
+          <span>🧬</span> <span>1. Biyolojik Veri & Omiks Mimarı</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 2, this)">
+          <span>🛡️</span> <span>2. Klinik AI Güvenlik & Halüsinasyon Denetçisi</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 3, this)">
+          <span>🧠</span> <span>3. Nöro-Beslenme & Longevity Uzmanı</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 4, this)">
+          <span>🎗️</span> <span>4. Hassas Onko-Radyomiks Diyetisyeni</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 5, this)">
+          <span>🤍</span> <span>5. Davranışsal Stratejist & Empatik Lider</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 6, this)">
+          <span>🌿</span> <span>6. Sürdürülebilir Eko-TBS Tasarımcısı</span>
+        </button>
+        <button class="option-item" onclick="selectOption('role', 7, this)">
+          <span>🛠️</span> <span>7. Beslenme Biyoenformatikçisi & Prompt Mühendisi</span>
+        </button>
+      </div>
+
+      <button class="submit-btn" onclick="submitRoleSurvey()">
+        <span>🚀</span> <span>Kariyer Tercihimi Gönder</span>
+      </button>
+    </div>
+
+    <!-- 3. BÖLÜM: DERS SONU ZİHNİYET EVRİMİ -->
+    <div id="sectionPost" class="poll-card" style="display:none;">
+      <span class="poll-tag">Ders Sonu · Zihniyet Evrimi</span>
+      <h2 class="poll-title">16 klinik alanı ve kanıtları gördükten sonra: AI rutin görevleri ne oranda devralır?</h2>
+      <p class="poll-desc">Ders öncesindeki % tahmininiz ile bu yeni tahmininiz karşılaştırılacaktır.</p>
+
+      <div class="slider-box">
+        <div class="slider-val-badge" id="postSliderVal">85%</div>
+        <input type="range" min="0" max="100" value="85" class="slider-input" id="postRange" oninput="document.getElementById('postSliderVal').textContent = this.value + '%'">
+      </div>
+
+      <button class="submit-btn" onclick="submitPostSurvey()" style="margin-top:8px;">
+        <span>🚀</span> <span>Dönüşüm Oyumu Gönder</span>
+      </button>
+    </div>
+
+  </div>
+
+
+    <!-- ======================================================== -->
+  <!-- BES339 POPÜLER DİYETLER VE ALGI ANKETİ CONTAINER         -->
+  <!-- ======================================================== -->
+  <div id="populerContainer" style="display:none; flex-direction:column; gap:20px;">
+
+    <!-- 1. BÖLÜM: 15 POPÜLER DİYET DEĞERLENDİRME MATRİSİ -->
+    <div class="poll-card" style="padding:16px 14px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <span class="poll-tag">BES 339 · 1. BÖLÜM</span>
+        <span style="font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--teal); font-weight:700;">15 DİYET × 4 BOYUT</span>
+      </div>
+      <h2 class="poll-title" style="font-size:16px;">Popüler Diyetler Değerlendirme Matrisi</h2>
+      <p class="poll-desc" style="font-size:12.5px; margin-bottom:10px;">
+        15 popüler diyeti 4 boyutta <strong>-3 ile +3</strong> arasında puanlayınız. Kutucuklara dokunarak değeri hızlıca seçebilirsiniz.
+      </p>
+
+      <!-- 4 Boyut Rehberi -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:6px; margin-bottom:12px; font-size:10.5px; font-weight:600;">
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#a7f3d0;">
+          🧠 <strong>Bilgi:</strong> 0 (Fikrim yok) ➔ +3 (Uzmanım)
+        </div>
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#6ee7b7;">
+          🥗 <strong>Sağlık:</strong> -3 (Zararlı) ➔ +3 (Çok Sağlıklı)
+        </div>
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#93c5fd;">
+          🔬 <strong>Kanıt:</strong> -3 (Safsata) ➔ +3 (Güçlü Kanıt)
+        </div>
+        <div style="background:#090d16; padding:6px 8px; border-radius:8px; border:1px solid #1e293b; color:#fcd34d;">
+          💊 <strong>Reçete:</strong> -3 (Asla) ➔ +3 (İlk Tercih)
+        </div>
+      </div>
+
+      <!-- MATRİS TABLOSU -->
+      <div class="matrix-wrapper">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th class="col-diet">DİYET</th>
+              <th>🧠 Bilgi<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+              <th>🥗 Sağlık<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+              <th>🔬 Kanıt<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+              <th>💊 Reçete<br><span style="color:#64748b; font-weight:normal; font-size:9.5px;">-3..+3</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-diet="akdeniz">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Akdeniz</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Geleneksel / Kardiyo</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'akdeniz', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="dash">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">DASH</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Hipertansiyon & Mineral</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dash', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="nordic">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Nordic</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">İskandinav / Yerel</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'nordic', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="portfolyo">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Portfolyo</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Sterol & Kolesterol</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'portfolyo', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="anti_inf">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Anti-inflamatuvar</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Mikrobiyota & İmmün</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'anti_inf', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="if_oruc">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Aralıklı Oruç (IF)</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">16:8 Sirkadiyen</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'if_oruc', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="keto">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Ketojenik</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Düşük KH / Ketoz</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'keto', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="atkins">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Atkins</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Yüksek Pro & Yağ</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'atkins', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="dusuk_yag">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Düşük Yağlı</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Klasik Low-Fat</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_yag', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="glutensiz">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Glutensiz</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Non-Çölyak Popüler</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'glutensiz', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="paleo">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Paleolitik</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Taş Devri / Atasal</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'paleo', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="raw_food">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Raw Food</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Çiğ / Canlı Enzim</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'raw_food', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="karnivor">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Karnivor</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Sıfır Bitki / Saf Et</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'karnivor', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="vegan">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Vegan</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">Tamamen Bitkisel</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'vegan', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+            <tr data-diet="dusuk_fodmap">
+              <td class="cell-diet">
+                <div style="font-size:12.5px; font-weight:700; color:#fff;">Düşük FODMAP</div>
+                <div style="font-size:9.5px; color:#94a3b8; font-weight:normal;">IBS & Fermente KH</div>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'knowledge')">
+                  <option value="3">+3 (Uzmanım)</option>
+                  <option value="2">+2 (İyi Bilirim)</option>
+                  <option value="1">+1 (Az Bilirim)</option>
+                  <option value="0" selected>0 (Nötr / Fikrim Yok)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çok Az Duydum)</option>
+                  <option value="-3">-3 (Hiç Bilmem)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'health')">
+                  <option value="3">+3 (Çok Sağlıklı)</option>
+                  <option value="2">+2 (Sağlıklı)</option>
+                  <option value="1">+1 (Hafif İyi)</option>
+                  <option value="0" selected>0 (Nötr / Kararsız)</option>
+                  <option value="-1">-1 (Hafif Zararlı)</option>
+                  <option value="-2">-2 (Zararlı)</option>
+                  <option value="-3">-3 (Çok Zararlı)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'evidence')">
+                  <option value="3">+3 (Güçlü Kanıt)</option>
+                  <option value="2">+2 (Yüksek Kanıt)</option>
+                  <option value="1">+1 (Zayıf Kanıt)</option>
+                  <option value="0" selected>0 (Nötr / Belirsiz)</option>
+                  <option value="-1">-1 (Yetersiz)</option>
+                  <option value="-2">-2 (Çelişkili/Zayıf)</option>
+                  <option value="-3">-3 (Safsata/Yok)</option>
+                </select>
+              </td>
+              <td>
+                <select class="cell-select zero" onchange="onMatrixChange(this, 'dusuk_fodmap', 'prescribe')">
+                  <option value="3">+3 (İlk Tercihim)</option>
+                  <option value="2">+2 (Yazarım)</option>
+                  <option value="1">+1 (Düşünürüm)</option>
+                  <option value="0" selected>0 (Kararsızım)</option>
+                  <option value="-1">-1 (Tercih Etmem)</option>
+                  <option value="-2">-2 (Yazmam)</option>
+                  <option value="-3">-3 (Asla Yazmam)</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:8px; text-align:right;">
+        <span style="font-size:11px; color:#64748b; font-style:italic;">* Puanları değiştirmek için kutucuklara dokunun. Varsayılan değer 0'dır (Nötr).</span>
+      </div>
+    </div>
+
+    <!-- 2. BÖLÜM: 4 TEMEL BİLİŞSEL İKİLEM (AYRI SAYFA YOK, DİREKT AŞAĞIDA) -->
+    <div class="poll-card" style="padding:18px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <span class="poll-tag">BES 339 · 2. BÖLÜM</span>
+        <span style="font-size:11px; font-family:'JetBrains Mono',monospace; color:#f59e0b; font-weight:700;">4 KARAR TUZAĞI</span>
+      </div>
+      <h2 class="poll-title" style="font-size:16px;">Bilişsel Önyargı ve Klinik Karar İkilemleri</h2>
+      <p class="poll-desc" style="font-size:12.5px; margin-bottom:14px;">
+        Aşağıdaki 4 klinik ikilemde içgüdüsel refleksinizi dürüstçe işaretleyiniz.
+      </p>
+
+      <!-- İKİLEM 1 -->
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 1 · Doğallık Yanılgısı (Naturalistic Fallacy)</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Atasal Diyet mi, Modern Formüle Beslenme mi?</h4>
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
+          Biri "Doğada 200.000 yıldır yediğimiz avcı-toplayıcı besinler en sağlıklısıdır" diyor. Diğeri "Tüm mikro-makro besinleri mükemmel dengelenmiş yapay-tıbbi bir içecek daha sağlıklıdır" diyor. Hangisine daha yakınsınız?
+        </p>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'A', this)">
+            <span>🌿</span> <span>A) Kesinlikle Atasal Diyet (Evrim yanılmış olamaz)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'B', this)">
+            <span>🍃</span> <span>B) Muhtemelen Atasal Diyet (Doğala yakın olmak güvenlidir)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'C', this)">
+            <span>🧪</span> <span>C) Kesinlikle Modern Formül (Tüm riskler kontrol altında)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d1', 'D', this)">
+            <span>🔬</span> <span>D) Muhtemelen Modern Formül (Bilimsel optimizasyon)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- İKİLEM 2 -->
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 2 · Ahlaki Saflık (Ortoreksiya)</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Katı/Anksiyeteli Diyet mi, Esnek Metabolik Sağlık mı?</h4>
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
+          1. Birey: Sıfır katkı, sıfır şeker, ancak sosyal ortamlardan kaçan ve sürekli yemek anksiyetesi yaşayan biri.<br>
+          2. Birey: %80 dengeli, bazen pizza-tatlı yiyen, kan biyomarkerları normal ve ruhsal olarak çok huzurlu biri. Sizce hangisi "daha sağlıklı"?
+        </p>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'A', this)">
+            <span>🥗</span> <span>A) 1. Birey (Biyolojik olarak vücuduna toksin sokmuyor)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'B', this)">
+            <span>🧘</span> <span>B) 2. Birey (Sağlık ruhsal-sosyal bütünlüktür, tahlilleri de iyi)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d2', 'C', this)">
+            <span>⚖️</span> <span>C) İkisi de eşit derecede sağlıklı/sağlıksız</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- İKİLEM 3 -->
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 3 · Tek Suçlu İndirgemeciliği</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Kronik Hastalıkların Tek Bir 'Baş Sorumlusu' Var mı?</h4>
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
+          Modern dünyada obezite ve diyabet patlamasını tek bir unsura bağlayacak olsanız içgüdünüz ne söylerdi?
+        </p>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'A', this)">
+            <span>🍬</span> <span>A) Şeker ve Rafine Karbonhidratlar (İnsülin Hipotezi)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'B', this)">
+            <span>🌻</span> <span>B) Endüstriyel Tohum Yağları (Omega-6 İnflamasyonu)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'C', this)">
+            <span>🥩</span> <span>C) Doymuş Yağ ve Kırmızı Et (Lipit-Kalp Hipotezi)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'D', this)">
+            <span>🏭</span> <span>D) Ultra İşlenmiş Gıda Matrisi (NOVA 4 Endüstrisi)</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d3', 'E', this)">
+            <span>🌍</span> <span>E) Tek bir suçlu aramak bilim dışıdır (Bütünsel çevre & hareketsizlik)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- İKİLEM 4 -->
+      <div style="background:#090d16; border:1px solid #1e293b; border-radius:12px; padding:14px; margin-bottom:14px;">
+        <span style="font-size:10.5px; font-weight:700; color:#14b8a6; text-transform:uppercase;">İkilem 4 · Otorite & N=1 Anlatısı</span>
+        <h4 style="color:#fff; font-size:13.5px; font-weight:700; margin:4px 0 8px;">Karizmatik Hekim Deneyimi mi, 10.000 Kişilik Kohort mu?</h4>
+        <p style="font-size:12px; color:#94a3b8; line-height:1.45; margin-bottom:10px;">
+          Ünlü bir hekim "Bu diyetle 15 kilo verdim, zihnim açıldı, tüm hastalarıma öneriyorum" diyor. Ancak 10.000 kişilik kohort çalışması uzun vadede KV riski %18 artırdığını gösteriyor. İçinizdeki diyetisyen adayı kime daha çok inanmak istiyor?
+        </p>
+        <div class="options-list">
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d4', 'A', this)">
+            <span>🎙️</span> <span>A) İtiraf edeyim, hekimin karizmatik deneyimi ve hikayesi beni daha çok cezbediyor</span>
+          </button>
+          <button type="button" class="option-item" onclick="selectPopulerDilemma('d4', 'B', this)">
+            <span>📊</span> <span>B) İstatistiğe ve kohort çalışmasına güvenirim, n=1 deneyimleri kılavuz olamaz</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TEK VE BÜYÜK GÖNDER BUTONU -->
+      <button class="submit-btn" onclick="submitPopulerSurvey()" style="font-size:15.5px; padding:17px; margin-top:10px; box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4);">
+        <span>🚀</span> <span>Tüm Yanıtlarımı Canlı Tahtaya Gönder</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+// =========================================================
+// BES339 POPÜLER DİYETLER ANKET MANTIĞI
+// =========================================================
+var populerData = {
+  diets: {
+    akdeniz: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    dash: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    nordic: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    portfolyo: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    anti_inf: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    if_oruc: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    keto: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    atkins: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    dusuk_yag: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    glutensiz: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    paleo: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    raw_food: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    karnivor: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    vegan: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 },
+    dusuk_fodmap: { health: 0, prescribe: 0, knowledge: 0, evidence: 0 }
+  },
+  dilemmas: {
+    d1: null,
+    d2: null,
+    d3: null,
+    d4: null
+  }
+};
+
+function onMatrixChange(el, dietId, metric) {
+  var val = parseInt(el.value, 10);
+  if (!populerData.diets[dietId]) {
+    populerData.diets[dietId] = { health: 0, prescribe: 0, knowledge: 0, evidence: 0 };
+  }
+  populerData.diets[dietId][metric] = val;
+
+  el.className = 'cell-select';
+  if (val === 3) el.classList.add('pos-high');
+  else if (val === 2) el.classList.add('pos-mid');
+  else if (val === 1) el.classList.add('pos-low');
+  else if (val === 0) el.classList.add('zero');
+  else if (val === -1) el.classList.add('neg-low');
+  else if (val === -2) el.classList.add('neg-mid');
+  else if (val === -3) el.classList.add('neg-high');
+}
+
+function selectPopulerDilemma(dimId, choice, el) {
+  populerData.dilemmas[dimId] = choice;
+  var parent = el.closest('.options-list');
+  parent.querySelectorAll('.option-item').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function submitPopulerSurvey() {
+  sendPayload('populer_diyetler_survey', {
+    diets: populerData.diets,
+    dilemmas: populerData.dilemmas
+  });
+}
+
+// URL Parametreleri
+var urlParams = new URLSearchParams(window.location.search);
+var courseParam = (urlParams.get('c') || urlParams.get('course') || '').toLowerCase();
+var weekParam = (urlParams.get('w') || urlParams.get('week') || urlParams.get('h') || '').toLowerCase();
+var requestedTab = (urlParams.get('tab') || urlParams.get('step') || urlParams.get('section') || '').toLowerCase();
+var rawRoom = urlParams.get('room') || '';
+
+var currentWeek = null;
+var roomId = 'bes339-populer';
+
+function applyCourseRoute(mode) {
+  var selectorEl = document.getElementById('courseSelectorContainer');
+  var w1El = document.getElementById('week1Container');
+  var w2El = document.getElementById('week2Container');
+  var popEl = document.getElementById('populerContainer');
+
+  if (selectorEl) selectorEl.style.display = 'none';
+  if (w1El) w1El.style.display = 'none';
+  if (w2El) w2El.style.display = 'none';
+  if (popEl) popEl.style.display = 'none';
+
+  if (mode === 'bes339' || mode === 'populer') {
+    currentWeek = 'populer';
+    roomId = 'bes339-populer';
+    if (popEl) popEl.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES339 · Popüler Diyetler';
+    document.getElementById('weekIcon').textContent = '🥗';
+    document.title = 'BES339 Canlı Anket · Popüler Diyetler';
+    var btn = document.getElementById('courseSwitchBtn');
+    if (btn) btn.textContent = '🤖 AI Dersi Oylaması';
+  } else if (mode === 'bes200_h1' || mode === '1') {
+    currentWeek = 1;
+    roomId = 'bes339-h1';
+    if (w1El) w1El.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES200 · H1: AI ile Tanışma';
+    document.getElementById('weekIcon').textContent = '🤖';
+    document.title = 'BES200 · Hafta 1 Canlı Oylama';
+    var btn = document.getElementById('courseSwitchBtn');
+    if (btn) btn.textContent = '🥗 Popüler Diyetler Anketi';
+  } else if (mode === 'bes200_h2' || mode === '2') {
+    currentWeek = 2;
+    roomId = 'bes339-h2';
+    if (w2El) w2El.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES200 · H2: Beslenmenin Dönüşümü';
+    document.getElementById('weekIcon').textContent = '🧬';
+    document.title = 'BES200 · Hafta 2 Canlı Oylama';
+    var btn = document.getElementById('courseSwitchBtn');
+    if (btn) btn.textContent = '🥗 Popüler Diyetler Anketi';
+  } else {
+    // Varsayılan olarak Popüler Diyetleri aç
+    currentWeek = 'populer';
+    roomId = 'bes339-populer';
+    if (popEl) popEl.style.display = 'flex';
+    document.getElementById('weekTitle').textContent = 'BES339 · Popüler Diyetler';
+    document.getElementById('weekIcon').textContent = '🥗';
+    document.title = 'BES339 Canlı Anket · Popüler Diyetler';
+  }
+
+  if (rawRoom) roomId = rawRoom;
+
+  if (isConnected) {
+    document.getElementById("statusText").textContent = "Canlı Oda: " + roomId.toUpperCase();
+  }
+}
+
+function toggleCourse() {
+  if (currentWeek === 'populer') {
+    applyCourseRoute('bes200_h2');
+  } else {
+    applyCourseRoute('bes339');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function selectCourseMode(mode) {
+  applyCourseRoute(mode);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showCourseSelector() {
+  toggleCourse();
+}
+
+// Başlangıç Rota Tespiti
+var isH1Route = (courseParam === 'bes200' && weekParam === '1') || weekParam === '1' || rawRoom.indexOf('h1') !== -1 || ['tanisma', 'pre', 'post', 'kapanis'].indexOf(requestedTab) !== -1;
+var isH2Route = (courseParam === 'bes200' && weekParam === '2') || weekParam === '2' || rawRoom.indexOf('h2') !== -1 || courseParam === 'bes200';
+
+if (isH1Route) {
+  applyCourseRoute('bes200_h1');
+} else if (isH2Route) {
+  applyCourseRoute('bes200_h2');
+} else {
+  // Parametre olsun veya olmasın: VARSAYILAN OLARAK BES339 POPÜLER DİYETLER ANKETİNİ AÇ!
+  applyCourseRoute('bes339');
+}
+
+// Benzersiz Öğrenci Kimliği
+var studentId = 'std_' + Math.random().toString(36).substr(2, 9);
+var selectedValues = {
+  // Hafta 1
+  h1_tools: [],
+  h1_toolOther: '',
+  h1_surprise: '',
+  h1_impressive: '',
+  h1_prePromptLevel: null,
+  h1_postPromptLevel: null,
+  // Hafta 2
+  preQ1: 35,
+  preQ2: null,
+  role: null,
+  postQ1: 85,
+  postQ2: null
+};
+
+// MQTT Client (HiveMQ Public WebSocket Broker)
+var mqttBroker = "broker.hivemq.com";
+var mqttPort = 8884;
+var client = new Paho.MQTT.Client(mqttBroker, mqttPort, "/mqtt", "voter_" + studentId);
+var isConnected = false;
+
+function onConnect() {
+  isConnected = true;
+  document.getElementById("statusDot").classList.add("connected");
+  document.getElementById("statusText").textContent = "Canlı Oda: " + roomId.toUpperCase();
+}
+
+function onFailure(err) {
+  isConnected = false;
+  document.getElementById("statusText").textContent = "Yeniden deneniyor...";
+  setTimeout(connectMQTT, 2500);
+}
+
+function onConnectionLost(responseObject) {
+  isConnected = false;
+  if (responseObject.errorCode !== 0) {
+    document.getElementById("statusDot").classList.remove("connected");
+    document.getElementById("statusText").textContent = "Koptu, bağlanıyor...";
+    setTimeout(connectMQTT, 2000);
+  }
+}
+
+function connectMQTT() {
+  client.onConnectionLost = onConnectionLost;
+  client.connect({
+    useSSL: true,
+    timeout: 10,
+    keepAliveInterval: 30,
+    cleanSession: true,
+    onSuccess: onConnect,
+    onFailure: onFailure
+  });
+}
+connectMQTT();
+
+function sendPayload(type, data) {
+  var payload = {
+    studentId: studentId,
+    type: type,
+    roomId: roomId,
+    week: currentWeek,
+    timestamp: Date.now(),
+    data: data
+  };
+  var message = new Paho.MQTT.Message(JSON.stringify(payload));
+  message.destinationName = "bes339/" + roomId + "/votes";
+
+  if (!isConnected) {
+    client.connect({
+      useSSL: true,
+      timeout: 5,
+      keepAliveInterval: 30,
+      cleanSession: true,
+      onSuccess: function(){
+        onConnect();
+        client.send(message);
+        showSuccessBanner();
+      },
+      onFailure: function(){
+        alert("Bağlantı kurulamadı. Lütfen internet bağlantınızı kontrol edip tekrar deneyin.");
+      }
+    });
+    return;
+  }
+
+  client.send(message);
+  showSuccessBanner();
+}
+
+function showSuccessBanner() {
+  var banner = document.getElementById("successBanner");
+  banner.style.display = "block";
+  setTimeout(function(){ banner.style.display = "none"; }, 3500);
+}
+
+function selectOption(key, val, el) {
+  selectedValues[key] = val;
+  var parent = el.closest('.options-list');
+  parent.querySelectorAll('.option-item').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+/* ---------- HAFTA 1 FONKSİYONLARI ---------- */
+function switchH1Section(sec) {
+  var tabs = document.querySelectorAll('#h1Tabs .nav-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+
+  document.getElementById('h1SectionPre').style.display = (sec === 'pre') ? 'flex' : 'none';
+  document.getElementById('h1SectionPost').style.display = (sec === 'post') ? 'flex' : 'none';
+
+  if(sec === 'pre' && tabs[0]) tabs[0].classList.add('active');
+  if(sec === 'post' && tabs[1]) tabs[1].classList.add('active');
+}
+
+function selectH1Tool(toolName, el) {
+  var idx = selectedValues.h1_tools.indexOf(toolName);
+  if (idx > -1) {
+    selectedValues.h1_tools.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    selectedValues.h1_tools.push(toolName);
+    el.classList.add('selected');
+  }
+}
+
+function selectH1PreLevel(lvl, el) {
+  selectedValues.h1_prePromptLevel = lvl;
+  var parent = document.getElementById('h1PreLikert');
+  parent.querySelectorAll('.likert-btn').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function selectH1PostLevel(lvl, el) {
+  selectedValues.h1_postPromptLevel = lvl;
+  var parent = document.getElementById('h1PostLikert');
+  parent.querySelectorAll('.likert-btn').forEach(function(b){ b.classList.remove('selected'); });
+  el.classList.add('selected');
+}
+
+function submitH1PreSurvey() {
+  var otherTool = document.getElementById('h1ToolOther').value.trim();
+  var surprise = document.getElementById('h1SurpriseText').value.trim();
+  var impressive = document.getElementById('h1ImpressiveText').value.trim();
+
+  var tools = selectedValues.h1_tools.slice();
+  if (otherTool && tools.indexOf(otherTool) === -1) {
+    tools.push(otherTool);
+  }
+
+  sendPayload('h1_pre_survey', {
+    tools: tools,
+    otherTool: otherTool,
+    surprise: surprise,
+    impressive: impressive,
+    promptLevel: selectedValues.h1_prePromptLevel || 2
+  });
+}
+
+function submitH1PostSurvey() {
+  if (!selectedValues.h1_postPromptLevel) {
+    alert("Lütfen ders sonu prompt yetkinlik seviyenizi seçiniz (1-5)!");
+    return;
+  }
+  sendPayload('h1_post_survey', {
+    promptLevel: selectedValues.h1_postPromptLevel
+  });
+}
+
+/* ---------- HAFTA 2 FONKSİYONLARI ---------- */
+function switchH2Section(sec) {
+  var tabs = document.querySelectorAll('#h2Tabs .nav-tab');
+  tabs.forEach(function(t){ t.classList.remove('active'); });
+
+  document.getElementById('sectionPre').style.display = (sec === 'pre') ? 'flex' : 'none';
+  document.getElementById('sectionRoles').style.display = (sec === 'roles') ? 'flex' : 'none';
+  document.getElementById('sectionPost').style.display = (sec === 'post') ? 'flex' : 'none';
+  
+  if(sec === 'pre' && tabs[0]) tabs[0].classList.add('active');
+  if(sec === 'roles' && tabs[1]) tabs[1].classList.add('active');
+  if(sec === 'post' && tabs[2]) tabs[2].classList.add('active');
+}
+
+function submitPreSurvey() {
+  selectedValues.preQ1 = parseInt(document.getElementById('preRange').value, 10);
+  sendPayload('pre_survey', {
+    q1: selectedValues.preQ1,
+    q2: selectedValues.preQ2 || 1
+  });
+}
+
+function submitRoleSurvey() {
+  if(!selectedValues.role){
+    alert("Lütfen bir rol seçiniz!");
+    return;
+  }
+  sendPayload('role_survey', {
+    roleIdx: selectedValues.role
+  });
+}
+
+function submitPostSurvey() {
+  selectedValues.postQ1 = parseInt(document.getElementById('postRange').value, 10);
+  sendPayload('post_survey', {
+    q1: selectedValues.postQ1,
+    q2: selectedValues.postQ2 || 1
+  });
+}
+
+// URL Parametresine göre doğrudan ilgili sekme aç
+if (currentWeek === 1) {
+  if (requestedTab === 'post' || requestedTab === '2' || requestedTab === 'kapanis' || requestedTab === 'h1_post') {
+    switchH1Section('post');
+  } else {
+    switchH1Section('pre');
+  }
+} else {
+  if (requestedTab === 'roles' || requestedTab === '2' || requestedTab === 'roller') {
+    switchH2Section('roles');
+  } else if (requestedTab === 'post' || requestedTab === '3' || requestedTab === 'kapanis') {
+    switchH2Section('post');
+  } else {
+    switchH2Section('pre');
+  }
+}
+</script>
+
+</body>
+</html>
