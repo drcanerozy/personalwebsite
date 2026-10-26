@@ -208,26 +208,120 @@
     return html;
   }
 
-  // 4. Doğrudan PDF İndirme Motoru
-  window.triggerPresentationPdfDownload = function () {
+  // Modal: 4'lü ve 6'lı Slayt PDF Seçim Ekranı
+  function ensurePdfModal() {
+    if (document.getElementById('pdf-options-modal')) return;
+    const modal = document.createElement('div');
+    modal.id = 'pdf-options-modal';
+    modal.style.cssText = 'display:none; position:fixed; inset:0; background:rgba(15,23,42,0.85); backdrop-filter:blur(8px); z-index:999999; align-items:center; justify-content:center; padding:16px; font-family:"Inter",system-ui,sans-serif;';
+    modal.innerHTML = `
+    <div style="background:#1e293b; border:1px solid #334155; border-radius:20px; max-width:440px; width:100%; padding:26px 24px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.5); text-align:center; position:relative; color:#f8fafc;">
+      <button type="button" onclick="window.closePdfOptionsModal()" style="position:absolute; top:14px; right:14px; background:none; border:none; color:#94a3b8; font-size:18px; cursor:pointer; padding:4px 8px; border-radius:6px;">✕</button>
+      <div style="width:48px; height:48px; border-radius:14px; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#ef4444; display:flex; align-items:center; justify-content:center; font-size:22px; margin:0 auto 12px;">📄</div>
+      <h3 style="font-size:18px; font-weight:700; margin:0 0 6px; color:#ffffff;">Ders Notlarını İndir (PDF)</h3>
+      <p style="font-size:12px; color:#94a3b8; line-height:1.5; margin:0 0 20px;">Lütfen çalışma ve yazdırma tercihinize uygun slayt düzenini seçiniz:</p>
+      
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <button type="button" onclick="window.triggerPresentationPdfDownload('4lu')" style="background:#0f172a; border:1px solid rgba(56,189,248,0.4); border-radius:12px; padding:14px; text-align:left; cursor:pointer; display:flex; align-items:center; justify-content:space-between; transition:all .15s; color:#fff;" onmouseover="this.style.borderColor='#38bdf8'; this.style.background='#132238';" onmouseout="this.style.borderColor='rgba(56,189,248,0.4)'; this.style.background='#0f172a';">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:24px;">📑</span>
+            <div>
+              <div style="font-size:14px; font-weight:700; color:#38bdf8;">4'lü Slayt Düzeni (A4)</div>
+              <div style="font-size:11px; color:#94a3b8;">Sayfa başına 4 slayt • Not almak ve rahat okumak için ideal</div>
+            </div>
+          </div>
+          <span style="font-size:12px; font-weight:700; color:#38bdf8; padding:5px 10px; background:rgba(56,189,248,0.15); border-radius:8px;">İndir ↓</span>
+        </button>
+
+        <button type="button" onclick="window.triggerPresentationPdfDownload('6li')" style="background:#0f172a; border:1px solid rgba(52,211,153,0.4); border-radius:12px; padding:14px; text-align:left; cursor:pointer; display:flex; align-items:center; justify-content:space-between; transition:all .15s; color:#fff;" onmouseover="this.style.borderColor='#34d399'; this.style.background='#0e2e25';" onmouseout="this.style.borderColor='rgba(52,211,153,0.4)'; this.style.background='#0f172a';">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:24px;">📚</span>
+            <div>
+              <div style="font-size:14px; font-weight:700; color:#34d399;">6'lı Slayt Düzeni (A4)</div>
+              <div style="font-size:11px; color:#94a3b8;">Sayfa başına 6 slayt • Kompakt ve ekonomik yazdırma</div>
+            </div>
+          </div>
+          <span style="font-size:12px; font-weight:700; color:#34d399; padding:5px 10px; background:rgba(52,211,153,0.15); border-radius:8px;">İndir ↓</span>
+        </button>
+      </div>
+
+      <div style="margin-top:16px; font-size:11px; color:#64748b;">
+        🔒 Notlar ders şifresi ile korunan resmi sunum içeriğidir.
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+  }
+
+  window.openPdfOptionsModal = function() {
+    ensurePdfModal();
+    const m = document.getElementById('pdf-options-modal');
+    if (m) m.style.display = 'flex';
+  };
+
+  window.closePdfOptionsModal = function() {
+    const m = document.getElementById('pdf-options-modal');
+    if (m) m.style.display = 'none';
+  };
+
+  // 4. Doğrudan PDF İndirme Motoru (4'lü ve 6'lı seçenek desteği ile)
+  window.triggerPresentationPdfDownload = function (layout) {
+    // Mevcut sayfanın dosya adı / slug'ını belirle
+    const pathParts = window.location.pathname.split('/');
+    const currentFileName = pathParts[pathParts.length - 1] || '';
+    const slugBase = currentFileName.replace(/\.html$/, '');
+
+    // Çoklu düzen (4'lü / 6'lı) destekleyen sunum haritası
+    const multiPdfMap = {
+      '01-obezite-ve-tibbi-beslenme-tedavisi': {
+        '4lu': '01-obezite-ve-tibbi-beslenme-tedavisi-4lu.pdf',
+        '6li': '01-obezite-ve-tibbi-beslenme-tedavisi-6li.pdf'
+      },
+      'Konu1_Obezite_Sunum': {
+        '4lu': '01-obezite-ve-tibbi-beslenme-tedavisi-4lu.pdf',
+        '6li': '01-obezite-ve-tibbi-beslenme-tedavisi-6li.pdf'
+      },
+      '03-diyabet-ve-tibbi-beslenme-tedavisi': {
+        '4lu': '03-diyabet-ve-tibbi-beslenme-tedavisi-4lu.pdf',
+        '6li': '03-diyabet-ve-tibbi-beslenme-tedavisi-6li.pdf'
+      },
+      'Konu2_Diyabet_Sunum': {
+        '4lu': '03-diyabet-ve-tibbi-beslenme-tedavisi-4lu.pdf',
+        '6li': '03-diyabet-ve-tibbi-beslenme-tedavisi-6li.pdf'
+      },
+      '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon': {
+        '4lu': '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon-4lu.pdf',
+        '6li': '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon-6li.pdf'
+      },
+      'Konu3_KVH_HT_Sunum': {
+        '4lu': '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon-4lu.pdf',
+        '6li': '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon-6li.pdf'
+      }
+    };
+
+    // Eğer sunum 4'lü/6'lı destekliyorsa ve layout belirtilmemişse seçim modalını aç
+    if (!layout && multiPdfMap[slugBase]) {
+      window.openPdfOptionsModal();
+      return;
+    }
+
     // Kilit çözülmemişse önce şifre sor
     if (!window.isUnlocked) {
       window.pendingDownloadPdf = true;
+      window.pendingPdfLayout = layout;
+      window.closePdfOptionsModal();
       if (typeof window.openLockModal === 'function') {
         window.openLockModal(null, true);
       }
       return;
     }
 
-    // Mevcut sayfanın dosya adı / slug'ını belirle
-    const pathParts = window.location.pathname.split('/');
-    const currentFileName = pathParts[pathParts.length - 1] || '';
-    const slugBase = currentFileName.replace(/\.html$/, '');
+    // Seçim yapıldıysa modalı kapat
+    window.closePdfOptionsModal();
 
-    // GitHub Repo Bilgisi (raw.githubusercontent yüksek hızlı CDN dağıtımı için)
+    // GitHub Repo & Doğrudan İndirme Base Yolları
     const rawGithubBase = 'https://raw.githubusercontent.com/drcanerozy/personalwebsite/main/slides/pdf';
 
-    // Bilinen sunumlar için özel dosya adı eşleştirmeleri
+    // Standart tekli eşleştirmeler
     const pdfMap = {
       '01-beslenmenin-evrimi': '01-beslenmenin-evrimi.pdf',
       'beslenmenin_evrimi_sunum': '01-beslenmenin-evrimi.pdf',
@@ -239,11 +333,19 @@
       '03-diyabet-ve-tibbi-beslenme-tedavisi': '03-diyabet-ve-tibbi-beslenme-tedavisi.pdf',
       'Konu2_Diyabet_Sunum': '03-diyabet-ve-tibbi-beslenme-tedavisi.pdf',
       'diyabet-ve-tibbi-beslenme-tedavisi': '03-diyabet-ve-tibbi-beslenme-tedavisi.pdf',
+      '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon': '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon.pdf',
+      'Konu3_KVH_HT_Sunum': '04-kardiyovaskuler-hastaliklar-ve-hipertansiyon.pdf',
       'diyetler-ise-yaramiyor-mu': '02-diyetler-ise-yaramiyor-mu.pdf'
     };
 
-    const targetPdfName = pdfMap[slugBase] || (slugBase ? `${slugBase}.pdf` : 'ders_notlari.pdf');
-    const downloadUrl = `${rawGithubBase}/${targetPdfName}`;
+    let targetPdfName = '';
+    if (layout && multiPdfMap[slugBase] && multiPdfMap[slugBase][layout]) {
+      targetPdfName = multiPdfMap[slugBase][layout];
+    } else {
+      targetPdfName = pdfMap[slugBase] || (slugBase ? `${slugBase}.pdf` : 'ders_notlari.pdf');
+    }
+
+    const downloadUrl = `pdf/${targetPdfName}`;
 
     // PDF indirme durumunu butonlarda göster
     const pdfBtns = document.querySelectorAll('#header-pdf-btn, .pdf-download-btn');
@@ -258,7 +360,7 @@
       });
     }
 
-    // Yüksek hızlı CDN üzerinden doğrudan indirmeyi tetikle
+    // Doğrudan indirmeyi tetikle
     const a = document.createElement('a');
     a.href = downloadUrl;
     a.download = targetPdfName;
@@ -442,6 +544,7 @@
     protectNavButtons();
     setupMobileSwipe();
     ensureHtml2Pdf();
+    ensurePdfModal();
     setTimeout(window.updateGlobalLockUI, 300);
   });
 

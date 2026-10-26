@@ -32,6 +32,7 @@ INDEXABLE_SLIDES = [
     "slides/02-hafta-2-yapay-zeka-beslenme-bilimini-nasil-donusturuyor.html",
     "slides/02-obezite-uygulama.html",
     "slides/03-diyabet-ve-tibbi-beslenme-tedavisi.html",
+    "slides/04-kardiyovaskuler-hastaliklar-ve-hipertansiyon.html",
 ]
 
 def get_git_lastmod(file_rel_path, fallback_date=None):

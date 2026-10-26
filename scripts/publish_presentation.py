@@ -230,6 +230,41 @@ def main():
     print(f"🔑 Şifre      : {password}")
     print(f"=======================================================\n")
 
+    # BES317 Özel İşleyici
+    if course_key == "BES317":
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("build_yhtbt_presentations", str(BASE_DIR / "scripts/build_yhtbt_presentations.py"))
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        
+        fn = input_path.name.lower()
+        if "obezite" in fn or "konu1" in fn:
+            mod.build_konu1()
+        elif "diyabet" in fn or "konu2" in fn:
+            mod.build_konu2()
+        elif "kvh" in fn or "konu3" in fn or "hipertansiyon" in fn:
+            mod.build_konu3()
+        else:
+            mod.build_konu1()
+            mod.build_konu2()
+            mod.build_konu3()
+            
+        mod.update_content_markdown()
+        print("5️⃣  Web sitesi derleniyor (build.py)...")
+        res = subprocess.run(["python3", str(BASE_DIR / "build.py")], capture_output=True, text=True)
+        print("  " + res.stdout.replace("\n", "\n  ").strip())
+
+        if args.deploy:
+            print("6️⃣  Canlıya alınıyor (git add, commit & push)...")
+            subprocess.run(["git", "add", "."], cwd=BASE_DIR, check=True)
+            commit_msg = f"feat(slides): {pres_title} ({course_key}) güncellendi ve yayına alındı"
+            subprocess.run(["git", "commit", "-m", commit_msg], cwd=BASE_DIR, check=True)
+            subprocess.run(["git", "push", "origin", "main"], cwd=BASE_DIR, check=True)
+            print("\n🎉 TEK KOMUTLA TAMAMLANDI! Sunum GitHub Pages üzerinde anında yayında.")
+        else:
+            print("\n💡 Değişiklikler hazırlandı. Yayına almak için: git push origin main")
+        return
+
     # 1. Görselleri Çözümle ve Normalleştir
     print("1️⃣  Görseller kontrol ediliyor...")
     html = normalize_images(html, input_path.parent)

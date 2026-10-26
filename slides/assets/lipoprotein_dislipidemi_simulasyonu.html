@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lipoprotein ve Dislipidemi Simülasyonu</title>
+<style>
+:root{--ink:#1f2933;--soft:#5f6b76;--line:#e3e0d8;--paper:#fff;--bg:#faf7f2;--accent:#8c1d2f;--ok:#1f7a5a;--warn:#c47f00;--bad:#b3261e}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);font-size:13px}
+.wrap{display:grid;grid-template-columns:270px 1fr 300px;gap:10px;height:100%;padding:10px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 12px;overflow:auto}
+h3{margin:0 0 6px;font-size:13px;letter-spacing:.02em;color:var(--accent);text-transform:uppercase}
+.presets{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.presets button{font:inherit;font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.presets button:hover{border-color:var(--accent);color:var(--accent)}
+.sl{margin:7px 0}
+.sl label{display:flex;justify-content:space-between;font-weight:600;font-size:12px}
+.sl small{display:block;color:var(--soft);font-size:10.5px;margin-top:-1px}
+input[type=range]{width:100%;accent-color:var(--accent);margin:2px 0}
+.tg{display:flex;align-items:center;gap:6px;margin:6px 0;font-size:12px;font-weight:600}
+.mid{display:flex;flex-direction:column;gap:8px;min-width:0}
+canvas{width:100%;flex:1;min-height:200px;border-radius:10px;background:#fdf3ee;border:1px solid var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--soft)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+.note{background:#fff8e6;border:1px solid #f0dca0;border-radius:10px;padding:7px 10px;font-size:12px}
+table{width:100%;border-collapse:collapse}
+td{padding:4px 2px;border-bottom:1px solid var(--line);font-size:12px}
+td.v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+td.r{color:var(--soft);font-size:10.5px;text-align:right}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+.dx{margin-top:8px;padding:8px 10px;border-radius:10px;background:#f6efe9;font-size:12px;line-height:1.45}
+.dx b.t{display:block;font-size:13px;margin-bottom:3px}
+.bar{height:9px;border-radius:6px;background:linear-gradient(90deg,#1f7a5a,#e0b000,#b3261e);position:relative;margin:4px 0 2px}
+.bar i{position:absolute;top:-3px;width:3px;height:15px;background:#111;border-radius:2px;transition:left .3s}
+@media(max-width:900px){.wrap{grid-template-columns:1fr;height:auto}canvas{min-height:260px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h3>1 · Tabağı ve yaşamı ayarla</h3>
+    <div class="presets" id="presets"></div>
+    <div id="sliders"></div>
+    <label class="tg"><input type="checkbox" id="fh"> Ailesel hiperkolesterolemi (genetik)</label>
+    <label class="tg"><input type="checkbox" id="statin"> Statin kullanıyor</label>
+  </div>
+  <div class="mid">
+    <div class="card" style="padding:8px;display:flex;flex-direction:column;flex:1;min-height:0">
+      <h3>2 · Kandaki taşıyıcılar ve damar duvarı</h3>
+      <canvas id="cv"></canvas>
+      <div class="legend" style="margin-top:6px">
+        <span><i style="background:#f59e0b"></i>VLDL (trigliseritten zengin, büyük)</span>
+        <span><i style="background:#fb7185"></i>Geniş LDL</span>
+        <span><i style="background:#b91c1c"></i>Küçük yoğun LDL (sdLDL)</span>
+        <span><i style="background:#10b981"></i>HDL</span>
+      </div>
+    </div>
+    <div class="note"><b>Apo B kuralı:</b> VLDL, LDL ve sdLDL'in her partikülünde 1 adet Apo B bulunur. Apo B ve non-HDL kolesterol, damara girebilecek zararlı partikül sayısını yansıtır. LDL-C normal olsa bile partikül sayısı yüksek olabilir.</div>
+  </div>
+  <div class="card">
+    <h3>3 · Tahlil paneli (tahmini)</h3>
+    <table id="panel"></table>
+    <div style="font-size:11px;color:var(--soft);margin-top:6px">Aterojenik yük (damara sızan partikül)</div>
+    <div class="bar"><i id="riskmark" style="left:10%"></i></div>
+    <div class="dx" id="dx"></div>
+    <div style="font-size:10.5px;color:var(--soft);margin-top:8px">Değerler eğitim amacıyla basitleştirilmiş modelden gelir; gerçek hasta verisi veya tanı aracı değildir.</div>
+  </div>
+</div>
+<script>
+const SL=[
+ {k:'sugar',n:'Şeker ve fruktoz',d:'Şekerli içecek, rafine unlu gıda',v:3},
+ {k:'alc',n:'Alkol',d:'Haftalık alkol miktarı',v:1},
+ {k:'sat',n:'Doymuş ve trans yağ',d:'Tereyağı, işlenmiş et, kızartma',v:3},
+ {k:'fib',n:'Çözünür lif ve bitkisel sterol',d:'Yulaf, baklagil, sterol/stanol',v:4},
+ {k:'uns',n:'Zeytinyağı, yemiş, yağlı balık',d:'MUFA ve omega-3',v:3},
+ {k:'wt',n:'Fazla kilo (karın yağı)',d:'0 = ideal, 10 = ileri obezite',v:2},
+ {k:'ex',n:'Fiziksel aktivite',d:'Haftalık düzenli hareket',v:4}
+];
+const PRE=[
+ ['Dengeli (Akdeniz)',{sugar:2,alc:0,sat:2,fib:6,uns:7,wt:1,ex:6}],
+ ['Batı tipi + insülin direnci',{sugar:8,alc:3,sat:6,fib:1,uns:1,wt:7,ex:1}],
+ ['Aşırı doymuş yağ',{sugar:2,alc:1,sat:9,fib:1,uns:1,wt:3,ex:3}],
+ ['Şeker ve alkol',{sugar:8,alc:8,sat:3,fib:2,uns:2,wt:5,ex:2}],
+ ['Portföy diyeti',{sugar:2,alc:0,sat:2,fib:10,uns:7,wt:2,ex:5}],
+ ['Ailesel hiperkolesterolemi',{sugar:3,alc:1,sat:3,fib:4,uns:3,wt:2,ex:4,fh:1}]
+];
+const S={};SL.forEach(s=>S[s.k]=s.v);S.fh=0;S.statin=0;
+const sl=document.getElementById('sliders');
+SL.forEach(s=>{
+ const d=document.createElement('div');d.className='sl';
+ d.innerHTML=`<label><span>${s.n}</span><span id="v_${s.k}">${s.v}</span></label><input type="range" min="0" max="10" step="1" value="${s.v}" id="r_${s.k}"><small>${s.d}</small>`;
+ sl.appendChild(d);
+ d.querySelector('input').addEventListener('input',e=>{S[s.k]=+e.target.value;upd()});
+});
+document.getElementById('fh').onchange=e=>{S.fh=e.target.checked?1:0;upd()};
+document.getElementById('statin').onchange=e=>{S.statin=e.target.checked?1:0;upd()};
+const pr=document.getElementById('presets');
+PRE.forEach(([n,p])=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{
+ SL.forEach(s=>{S[s.k]=p[s.k];document.getElementById('r_'+s.k).value=p[s.k]});
+ S.fh=p.fh?1:0;S.statin=0;document.getElementById('fh').checked=!!S.fh;document.getElementById('statin').checked=false;upd()};pr.appendChild(b)});
+
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+function model(){
+ const {sugar,alc,sat,fib,uns,wt,ex,fh,statin}=S;
+ let TG=80+9*sugar+11*alc+1.5*sat+9*wt-3*ex;
+ TG*= (1+0.035*wt*(sugar+alc)/10);
+ TG*= (1-0.025*uns);
+ let LDL=95+8*sat+2.2*wt+0.6*sugar-3.6*fib-1.5*uns-0.3*ex+(fh?105:0);
+ if(statin){LDL*=0.58;TG*=0.9}
+ TG=clamp(TG,40,1200);LDL=clamp(LDL,30,420);
+ let HDL=52-2*wt-0.5*sugar+1.2*ex+0.8*uns-(TG-100)*0.025;
+ HDL=clamp(HDL,20,90);
+ const vldl=TG/5;
+ const nonHDL=LDL+vldl, TK=nonHDL+HDL;
+ let sd=clamp(14+0.11*(TG-100)+0.9*(50-HDL),8,85);
+ const apoB=clamp(0.5*nonHDL+0.33*sd+8,30,200);
+ const risk=clamp((apoB-55)/110,0,1);
+ return {TG,LDL,HDL,vldl,nonHDL,TK,sd,apoB,risk};
+}
+function cls(m){
+ const {TG,LDL,HDL,sd}=m;
+ if(S.fh&&LDL>=160&&TG<150)return ['Ailesel hiperkolesterolemi benzeri tablo','LDL belirgin yüksek, TG normal. Genetik nedenle karaciğer LDL\'yi temizleyemiyor; diyet tek başına yetmez, ilaç tedavisi gerekir. Diyette doymuş yağı azalt, çözünür lif ve sterol/stanol ekle.'];
+ if(TG>=1000)return ['Ağır hipertrigliseridemi','TG ≥1000 mg/dL: akut pankreatit riski. Toplam yağı sert kısıtla, alkol ve şekeri kes; hekimle acil değerlendirme.'];
+ if(TG>=500)return ['Belirgin hipertrigliseridemi','TG ≥500 mg/dL: pankreatit riski artar. Şeker, fruktoz ve alkolü kes, yağı kısıtla, kilo ver, omega-3 ekle.'];
+ if(TG>=150&&(HDL<40||sd>=40||LDL>=130))return ['Karma (aterojenik) dislipidemi','TG yüksek, HDL düşük, sdLDL fazla: insülin direnci tablosu. LDL-C bu tabloyu hafife alabilir; non-HDL ve Apo B\'ye bak. Kilo kaybı, rafine karbonhidrat ve alkol azaltma, doymuş yağı azaltma birlikte.'];
+ if(TG>=150)return ['Hipertrigliseridemi','TG yüksek. Şeker, fruktoz ve alkolü azalt, kilo ver, omega-3 ve egzersizi artır.'];
+ if(LDL>=160)return ['İzole yüksek LDL (hiperkolesterolemi)','LDL yüksek, TG normal. Doymuş ve trans yağı azalt; çözünür lif, bitkisel sterol/stanol ve Akdeniz tipi beslenme ekle.'];
+ if(HDL<40)return ['Düşük HDL','Hareketsizlik, fazla kilo ve rafine karbonhidratla ilişkili. Kilo kaybı, egzersiz, doymamış yağ; sigara varsa bırakma.'];
+ if(LDL>=130)return ['Sınırda yüksek LDL','Doymuş yağı azalt, lif ve doymamış yağı artır.'];
+ return ['Lipid profili hedefte','Mevcut beslenme ve yaşam tarzı lipid profilini koruyor. Akdeniz tipi beslenmeyi sürdür.'];
+}
+function lvl(v,a,b,rev){const x=rev?(v<a?2:v<b?1:0):(v>=b?2:v>=a?1:0);return ['ok','warn','bad'][x]}
+function upd(){
+ SL.forEach(s=>document.getElementById('v_'+s.k).textContent=S[s.k]);
+ const m=model();M=m;
+ const rows=[
+  ['Total kolesterol',m.TK,'<200',lvl(m.TK,200,240)],
+  ['LDL-C',m.LDL,'<100 (risk grubuna göre)',lvl(m.LDL,100,160)],
+  ['HDL-C',m.HDL,'>40 (E) / >50 (K)',lvl(m.HDL,40,50,true)],
+  ['Trigliserit',m.TG,'<150',lvl(m.TG,150,500)],
+  ['Non-HDL (LDL + VLDL)',m.nonHDL,'<130',lvl(m.nonHDL,130,190)],
+  ['sdLDL oranı (LDL içinde)',m.sd,'<%35 (Patern A)',lvl(m.sd,35,55)],
+  ['Apo B (tahmini)',m.apoB,'<90 mg/dL',lvl(m.apoB,90,120)]
+ ];
+ document.getElementById('panel').innerHTML=rows.map(r=>`<tr><td>${r[0]}<br><span style="color:var(--soft);font-size:10.5px">hedef ${r[2]}</span></td><td class="v ${r[3]}">${Math.round(r[1])}${r[0].startsWith('sd')?'%':''}</td></tr>`).join('');
+ document.getElementById('riskmark').style.left=(m.risk*97)+'%';
+ const c=cls(m);
+ let extra=m.TG>400?'<br><i>Not: TK, VLDL-C = TG/5 (Friedewald) varsayımıyla hesaplanır; TG >400 mg/dL iken geçerli değildir.</i>':'';
+ document.getElementById('dx').innerHTML=`<b class="t">${c[0]}</b>${c[1]}${extra}`;
+ build();
+}
+/* ---- canvas ---- */
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');let M=null,P=[],W=0,H=0,wallDots=[];
+function resize(){const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;cv.width=r.width*d;cv.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);W=r.width;H=r.height;build()}
+function build(){
+ if(!M||!W)return;
+ const lumenTop=H*0.08,lumenBot=H*0.62;P=[];
+ const nV=Math.round(clamp(M.TG/28,2,32));
+ const nL=Math.round(clamp(M.LDL/9,2,40));
+ const nH=Math.round(clamp(M.HDL/5,3,18));
+ const nSd=Math.round(nL*M.sd/100);
+ const mk=(t,r,col)=>P.push({t,r,col,x:Math.random()*W,y:lumenTop+r+Math.random()*(lumenBot-lumenTop-2*r),vx:0.4+Math.random()*0.5});
+ for(let i=0;i<nV;i++)mk('v',9,'#f59e0b');
+ for(let i=0;i<nL-nSd;i++)mk('l',6.5,'#fb7185');
+ for(let i=0;i<nSd;i++)mk('s',4,'#b91c1c');
+ for(let i=0;i<nH;i++)mk('h',3.6,'#10b981');
+ const nw=Math.round(clamp((M.apoB-55)/5,0,24));
+ wallDots=[];for(let i=0;i<nw;i++)wallDots.push({x:(i+0.5)/nw*W*0.92+W*0.04+(Math.random()-.5)*14,y:H*0.7+Math.random()*H*0.14,r:3+Math.random()*2.5});
+}
+function draw(){
+ ctx.clearRect(0,0,W,H);
+ const lt=H*0.08,lb=H*0.62;
+ // lumen
+ ctx.fillStyle='#fde8e1';ctx.fillRect(0,lt-4,W,lb-lt+8);
+ // endothelium
+ ctx.fillStyle='#c98b6b';ctx.fillRect(0,lb+4,W,H*0.05);
+ ctx.fillStyle='#e8c4a8';ctx.fillRect(0,lb+4+H*0.05,W,H-lb-H*0.05);
+ ctx.fillStyle='#8c5a3c';ctx.font='11px system-ui';
+ ctx.fillText('Endotel',8,lb+4+H*0.035);ctx.fillText('Damar duvarı (subendotel)',8,lb+H*0.12+14);
+ // wall dots
+ wallDots.forEach(d=>{ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,6.283);ctx.fillStyle='#7f1d1d';ctx.fill()});
+ if(wallDots.length>10){ctx.fillStyle='#7f1d1d';ctx.font='bold 11px system-ui';ctx.fillText('Duvara sızan LDL → oksidasyon → köpük hücre',W*0.04,H*0.95)}
+ else if(wallDots.length>0){ctx.fillStyle='#7f1d1d';ctx.font='11px system-ui';ctx.fillText('Duvara sızan partikül az',W*0.04,H*0.95)}
+ // particles
+ P.forEach(p=>{
+  p.x+=p.vx;if(p.x>W+12)p.x=-12;
+  ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fillStyle=p.col;ctx.fill();
+  if(p.t==='v'){ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.arc(p.x-2.5,p.y-2.5,2.2,0,6.283);ctx.fill()}
+ });
+ ctx.fillStyle='#8a6a58';ctx.font='11px system-ui';ctx.fillText('Kan akımı →',W-80,lt+12);
+ requestAnimationFrame(draw);
+}
+new ResizeObserver(resize).observe(cv);
+upd();resize();draw();
+</script>
+</body>
+</html>

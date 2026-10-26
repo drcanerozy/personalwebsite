@@ -11,7 +11,7 @@ lab_ai_practice: "Gerçek klinik vaka senaryoları üzerinden Nutrisyonel Bakım
 classroom_practices: "Akdeniz & DASH Diyet Planlama Atölyesi (Güz dönemi) ve GLP-1 Reseptör Agonisti kullanan metabolik sendromlu bireylere yönelik Yapay Zeka Destekli Klinik Vaka Simülasyonları (Bahar dönemi)."
 learning_outcomes: "Karmaşık metabolik ve kronik tablolarda hastaya özgü tıbbi beslenme tedavisi reçete edebilme, klinik bulguları doğru yorumlayarak tedavi sürecini ve multidisipliner vaka yönetimini başarıyla yürütme."
 slides_url: "../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html"
-slides_title: "BES 317: Obezite ve Tıbbi Beslenme Tedavisi (185 Slayt)"
+slides_title: "BES 317: Obezite ve Tıbbi Beslenme Tedavisi (193 Slayt)"
 slides_badge: "İlk 10 slayt açık önizleme • 🔒 AES-256 Korumalı • Şifre: COZYYHTBT2026_"
 draft: false
 lang: "tr"
@@ -26,7 +26,7 @@ order: 1
 ## 📊 İnteraktif Ders Sunumları & Öğrenci Kilit Ekranı
 Bu dersin canlı ve interaktif web sunumlarına aşağıdaki bağlantılardan erişebilirsiniz. **İlk 10 slayt açık önizleme** olarak sunulmakta; ileri modüller, vaka analizleri ve simülatörler **AES-256-GCM** öğrenci şifresiyle korunmaktadır.
 
-- 👉 [**1. Konu: Obezite ve Tıbbi Beslenme Tedavisi (185 Slayt - Canlı İzle)**](../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Korumalı)*
+- 👉 [**1. Konu: Obezite ve Tıbbi Beslenme Tedavisi (193 Slayt - Canlı İzle)**](../slides/01-obezite-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Korumalı)*
 - 👉 [**1. Hafta: Obezite ve Tıbbi Beslenme Tedavisine Giriş Uygulaması (59+ Slayt - Canlı İzle)**](../slides/02-obezite-uygulama.html) *(🔒 AES-256 Korumalı)*
-
-- 👉 [**2. Konu: Diyabet ve Tıbbi Beslenme Tedavisi (139 Slayt - Canlı İzle)**](../slides/03-diyabet-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Korumalı)*
+- 👉 [**2. Konu: Diyabet ve Tıbbi Beslenme Tedavisi (123 Slayt - Canlı İzle)**](../slides/03-diyabet-ve-tibbi-beslenme-tedavisi.html) *(🔒 AES-256 Korumalı)*
+- 👉 [**3. Konu: Kardiyovasküler Hastalıklar, Hipertansiyon ve Tıbbi Beslenme Tedavisi (135 Slayt - Canlı İzle)**](../slides/04-kardiyovaskuler-hastaliklar-ve-hipertansiyon.html) *(🔒 AES-256 Korumalı)*
