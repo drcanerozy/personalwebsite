@@ -449,6 +449,7 @@ def build_konu2():
     # Barrier slide at index 10
     barrier_slide = {
         "type": "prompt",
+        "sec": "00",
         "tag": "🛑 Önizleme Sınırı (Slayt 10)",
         "q": "10 slaytlık açık önizleme tamamlanmıştır.",
         "note": "Devamını görüntülemek ve ders notlarını indirmek için ders şifresi girilmesi gerekmektedir."
@@ -461,13 +462,17 @@ def build_konu2():
     new_public_slides_str = json.dumps(public_slides_with_barrier, indent=2, ensure_ascii=False)
     new_html = html[:pos + len('const SLIDES = ')] + new_public_slides_str + html[pos + len('const SLIDES = [') + end_pos + 1:]
 
-    # Patch topBar PDF button to trigger presentation engine
-    new_html = re.sub(
-        r'<button id="header-pdf-btn"[^>]*>.*?</button>',
-        """<button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" style="padding:6px 14px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:var(--surface); border:1px solid var(--border); color:var(--ink); cursor:pointer; border-radius:8px; transition:all 0.15s ease; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+    # Patch topBar to add PDF and Lock buttons
+    topbar_buttons = """<button id="header-pdf-btn" onclick="triggerPresentationPdfDownload()" title="Sunumu PDF Ders Notu Olarak İndir" style="padding:6px 14px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:var(--surface); border:1px solid var(--border); color:var(--ink); cursor:pointer; border-radius:8px; transition:all 0.15s ease; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
           <span class="hidden sm:inline">PDF İndir</span>
-        </button>""",
+        </button>
+        <button id="header-lock-btn" onclick="openLockModal()" title="Ders şifresini gir ve tüm sunumu aç" style="padding:6px 14px; font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:6px; background:linear-gradient(135deg, #1A73E8, #1557b0); border:none; color:#fff; cursor:pointer; border-radius:8px; transition:all 0.15s ease; box-shadow:0 2px 6px rgba(26,115,232,0.3);">
+          <span>🔒</span> <span class="hidden sm:inline">Ders Şifresi</span>
+        </button>"""
+    new_html = re.sub(
+        r'<button id="header-pdf-btn"[^>]*>.*?</button>',
+        topbar_buttons,
         new_html,
         flags=re.DOTALL
     )
@@ -495,27 +500,145 @@ def build_konu2():
         new_html
     )
 
-    # Patch go(idx) for lock
-    lock_globals = f"""/* ===== LOCK ENGINE GLOBALS ===== */
+    # Patch renderSlide to render preview barrier slide at index 10
+    prompt_slide_render = """  } else if (t === "prompt" || idx === PUBLIC_SLIDE_COUNT) {
+    innerHtml += `
+      <div style="text-align:center; padding:24px 10px;">
+        <span class="eyebrow" style="color:var(--danger); justify-content:center; display:flex; gap:6px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:12px;">🛑 ÖNİZLEME SINIRI (SLAYT 10)</span>
+        <h1 class="slide-title" style="font-size:clamp(26px, 3.2vw, 42px); margin-bottom:14px; color:var(--ink);">10 Slaytlık Açık Önizleme Tamamlanmıştır</h1>
+        <p class="slide-sub" style="margin:0 auto 28px auto; font-size:16px; color:var(--ink-soft); max-width:760px; line-height:1.6;">
+          Diyabet fizyopatolojisi, TBT ilkeleri, karbonhidrat sayımı, oral antidiyabetikler, insülin rejimleri, komplikasyon yönetimi ve interaktif simülasyonları içeren devam modülleri <b>AES-256</b> şifresiyle korunmaktadır.
+        </p>
+        <div class="card" style="max-width:820px; margin:0 auto; padding:36px 32px; text-align:center; border:2px dashed rgba(26,115,232,0.4); background:var(--surface); border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.04);">
+          <div style="font-size:52px; margin-bottom:14px;">🔒</div>
+          <h3 style="font-size:22px; font-weight:700; margin-bottom:10px; color:var(--ink);">Kalan 113 Slayt &amp; Simülasyon Kilitli</h3>
+          <p style="font-size:14.5px; color:var(--ink-soft); max-width:620px; margin:0 auto 26px auto; line-height:1.65;">
+            Bu ders sunumu <b>Dr. Caner Özyıldırım</b> tarafından <b>BES317 Yetişkin Hastalıklarında Tıbbi Beslenme Tedavisi</b> dersi için hazırlanmıştır.
+            Tüm slaytlara, klinik vaka çalışmalarına ve interaktif simülasyonlara erişmek için ders izlencesindeki şifrenizi giriniz.
+          </p>
+          <div style="display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap;">
+            <button type="button" onclick="openLockModal(10)" style="padding:14px 28px; font-size:15px; font-weight:700; border-radius:10px; background:linear-gradient(135deg, #1A73E8, #1557b0); color:#fff; border:none; cursor:pointer; box-shadow:0 4px 16px rgba(26,115,232,0.35); display:inline-flex; align-items:center; gap:8px;">
+              🔓 Ders Şifresini Gir &amp; Tüm Sunumu Aç
+            </button>
+            <button type="button" onclick="triggerPresentationPdfDownload('4lu')" style="padding:13px 22px; font-size:13.5px; font-weight:700; border-radius:10px; background:var(--surface); color:var(--ink); border:1px solid rgba(56,189,248,0.5); cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+              📑 Ders Notları (4\\'lü PDF)
+            </button>
+            <button type="button" onclick="triggerPresentationPdfDownload('6li')" style="padding:13px 22px; font-size:13.5px; font-weight:700; border-radius:10px; background:var(--surface); color:var(--ink); border:1px solid rgba(52,211,153,0.5); cursor:pointer; display:inline-flex; align-items:center; gap:8px;">
+              📚 Ders Notları (6\\'lı PDF)
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+"""
+    new_html = new_html.replace('  } else if (t === "toc") {', prompt_slide_render + '  } else if (t === "toc") {')
+
+    # Patch go(index) for lock guard and progress display
+    go_orig = """function go(index) {
+  if (index < 0) index = 0;
+  if (index >= SLIDES.length) index = SLIDES.length - 1;
+  current = index;
+  const slide = SLIDES[current];
+  stage.innerHTML = renderSlide(slide, current);
+  stage.scrollTop = 0;
+
+  // MathJax re-render
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise([stage]).catch(() => {});
+  }
+
+  // Update progress
+  const sec = slide.sec !== undefined ? slide.sec : slide.ch;
+  const secObj = TOC_SECTIONS.find(ts => parseInt(ts.num) === parseInt(sec)) || { num: sec || "00", title: "Bölüm" };
+  secProgress.textContent = `Slayt ${current + 1} / ${SLIDES.length} · BÖLÜM ${secObj.num}: ${secObj.title}`;
+  
+  if (secBar) {
+    const pct = ((current + 1) / SLIDES.length) * 100;
+    secBar.style.width = pct + '%';
+  }
+
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = current === SLIDES.length - 1;
+}"""
+
+    go_patched = f"""/* ===== LOCK ENGINE GLOBALS ===== */
 var PUBLIC_SLIDE_COUNT = {public_count};
 var isUnlocked = false;
 var pendingTargetSlide = null;
 var encryptedPayloadCiphertext = "";
 /* ================================ */
-"""
-    go_anchor = "function go(idx){"
-    if go_anchor in new_html:
-        new_html = new_html.replace(go_anchor, lock_globals + "\n" + go_anchor, 1)
 
-    go_orig = "function go(idx){\n  if(idx<0||idx>=total) return;\n  current = idx;"
-    go_patched = """function go(idx){
-  if(idx >= PUBLIC_SLIDE_COUNT && !isUnlocked){
-    openLockModal(idx);
+function go(index) {{
+  if (index >= PUBLIC_SLIDE_COUNT && !isUnlocked) {{
+    openLockModal(index);
+    if (current !== PUBLIC_SLIDE_COUNT) {{
+      index = PUBLIC_SLIDE_COUNT;
+    }} else {{
+      return;
+    }}
+  }}
+
+  if (index < 0) index = 0;
+  if (index >= SLIDES.length) index = SLIDES.length - 1;
+  current = index;
+  const slide = SLIDES[current];
+  stage.innerHTML = renderSlide(slide, current);
+  stage.scrollTop = 0;
+
+  // MathJax re-render
+  if (window.MathJax && window.MathJax.typesetPromise) {{
+    window.MathJax.typesetPromise([stage]).catch(() => {{}});
+  }}
+
+  // Update progress
+  const sec = slide.sec !== undefined ? slide.sec : slide.ch;
+  const secObj = TOC_SECTIONS.find(ts => parseInt(ts.num) === parseInt(sec)) || {{ num: sec || "00", title: "Bölüm" }};
+  const displayTotal = isUnlocked ? SLIDES.length : TOTAL_SLIDES_COUNT;
+  secProgress.textContent = `Slayt ${{current + 1}} / ${{displayTotal}} · BÖLÜM ${{secObj.num}}: ${{secObj.title}}`;
+  
+  if (secBar) {{
+    const pct = ((current + 1) / displayTotal) * 100;
+    secBar.style.width = pct + '%';
+  }}
+
+  prevBtn.disabled = current === 0;
+  nextBtn.disabled = isUnlocked ? (current === SLIDES.length - 1) : false;
+}}"""
+
+    if go_orig in new_html:
+        new_html = new_html.replace(go_orig, go_patched, 1)
+    else:
+        print("  ⚠️ Uyarı: go_orig tam eşleşmedi, alternatif arama yapılıyor...")
+        new_html = re.sub(
+            r'function go\(index\)\s*\{[\s\S]*?nextBtn\.disabled = current === SLIDES\.length - 1;\s*\}',
+            go_patched,
+            new_html
+        )
+
+    # Patch jumpToSec for lock guard
+    jump_orig = """function jumpToSec(secIndex) {
+  let target = 0;
+  for (let i = 0; i < secIndex; i++) {
+    target += TOC_SECTIONS[i].count;
+  }
+  closeToc();
+  go(target);
+}"""
+    jump_patched = """function jumpToSec(secIndex) {
+  let target = 0;
+  for (let i = 0; i < secIndex; i++) {
+    target += TOC_SECTIONS[i].count;
+  }
+  closeToc();
+  if (target >= PUBLIC_SLIDE_COUNT && !isUnlocked) {
+    openLockModal(target);
+    go(PUBLIC_SLIDE_COUNT);
     return;
   }
-  if(idx<0||idx>=total) return;
-  current = idx;"""
-    new_html = new_html.replace(go_orig, go_patched)
+  go(target);
+}"""
+    if jump_orig in new_html:
+        new_html = new_html.replace(jump_orig, jump_patched, 1)
 
     client_engine = f"""
 <!-- INLINED ZERO-DEPENDENCY CRYPTOJS ENGINE -->
@@ -545,6 +668,17 @@ document.addEventListener('DOMContentLoaded', () => {{
 }});
 
 {SHARED_CRYPTO_JS_METHODS}
+
+function updateGlobalLockUI() {{
+  const btn = document.getElementById('header-lock-btn');
+  if (btn) {{
+    btn.innerHTML = '<span>🔓</span> <span class="hidden sm:inline">Kilit Açık</span>';
+    btn.style.background = 'rgba(15,157,88,0.15)';
+    btn.style.color = '#0F9D58';
+    btn.style.border = '1px solid rgba(15,157,88,0.3)';
+    btn.onclick = () => alert('Sunum kilidi açılmıştır. Tüm slaytlara ve ders notlarına erişebilirsiniz.');
+  }}
+}}
 
 async function handleUnlockSubmit(e) {{
   e.preventDefault();
@@ -625,16 +759,14 @@ function applyDecryptedSlides(lockedList) {{
   window.isUnlocked = true;
 
   // 1. Remove preview barrier slide at index 10
-  if (SLIDES.length > 10 && SLIDES[10].type === 'prompt' && SLIDES[10].tag && SLIDES[10].tag.includes('Önizleme')) {{
+  if (SLIDES.length > 10 && SLIDES[10].type === 'prompt') {{
     SLIDES.splice(10, 1);
   }}
 
   // 2. Append locked slides
   lockedList.forEach(s => SLIDES.push(s));
-  total = SLIDES.length;
 
   // 3. Re-render
-  go(current >= 10 ? current : 10);
   if (typeof updateGlobalLockUI === 'function') updateGlobalLockUI();
 }}
 
