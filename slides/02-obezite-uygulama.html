@@ -2637,7 +2637,7 @@ function slideIntro(emoji, title, lead, extra){
 function renderCoverSlide(el){
   el.innerHTML = `<div style="text-align:center; padding:30px 0 10px; display:flex; flex-direction:column; align-items:center;">
     <div style="margin-bottom:24px; text-align:center;">
-      <img src="assets/Saglik-Bilimleri-Fakultesi-2.png" alt="Sağlık Bilimleri Fakültesi Logosu" style="height:105px; max-width:320px; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.08));">
+      <img src="assets/Saglik-Bilimleri-Fakultesi-2.png" alt="Sağlık Bilimleri Fakültesi Logosu" width="160" height="36" style="height:105px; max-width:320px; object-fit:contain; filter:drop-shadow(0 4px 12px rgba(0,0,0,0.08));">
     </div>
     <div class="eyebrow" style="text-align:center;">Beslenme ve Diyetetik Bölümü · Giriş Modülleri</div>
     <h1 style="max-width:18ch; margin:0 auto 14px; text-align:center;">Diyet Kompozisyonu &amp; Vücut Kompozisyonu</h1>
@@ -3092,7 +3092,7 @@ function buildSlideShell(s, idx){
   const section = document.createElement('section');
   section.className = 'slide';
   section.id = 'slide_'+idx;
-  section.innerHTML = `<div class="slide-inner"><div class="eyebrow">${esc(s.eyebrow||s.section)}</div><h1>${esc(s.title)}</h1><div class="slide-body" style="margin-top:26px;"></div></div>`;
+  section.innerHTML = `<div class="slide-inner"><div class="eyebrow">${esc(s.eyebrow||s.section)}</div><h2>${esc(s.title)}</h2><div class="slide-body" style="margin-top:26px;"></div></div>`;
   return section;
 }
 function renderAllSlideShells(){

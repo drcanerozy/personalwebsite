@@ -20,6 +20,33 @@ lang: "tr"
 order: 2
 ---
 
+## 🎯 Dersin Amacı ve Kanıta Dayalı Diyet Yaklaşımı
+Bu ders, insan beslenmesinin evrimsel temellerinden başlayarak günümüzün en çok tartışılan popüler diyet modellerini (Ketojenik diyet, Aralıklı oruç/Intermittent Fasting, Akdeniz diyeti, Paleo, Karnivor, Düşük FODMAP, Vegan/Vejetaryen modeller) moleküler metabolizma, enerji balansı ve klinik kanıt düzeyinde incelemeyi hedefler. Öğrenciler, her bir diyet protokolünün endokrin yanıtlarını, mikrobiyota üzerindeki etkilerini ve uzun vadeli kardiyometabolik güvenlik profilini analiz ederler.
+
+## 📚 Haftalık Konu Dağılımı ve Diyet Modelleri
+- **Hafta 1:** İnsan Beslenmesinin Evrimsel Yolculuğu: Avcı-Toplayıcı Atalarımızdan Ultra-İşlenmiş Gıda Çağına.
+- **Hafta 2:** Enerji Dengesi Modeli (CICO) ve Karbonhidrat-İnsülin Modeli (CIM): Büyük Tartışma.
+- **Hafta 3:** Akdeniz Diyeti (Mediterranean Diet): Biyoaktif Bileşenler, Polifenoller ve Kardiyometabolik Koruma.
+- **Hafta 4:** Aralıklı Oruç (Intermittent Fasting & TRE): Otofaji, İnsülin Duyarlılığı ve Sirkadiyen Ritim.
+- **Hafta 5:** Ketojenik Diyetler ve Çok Düşük Karbonhidratlı Protokoller: Ketogenez Mekanizması ve Klinik Kullanım.
+- **Hafta 6:** Bitki Temelli Beslenme: Vegan ve Vejetaryen Diyetlerin Mikrobiyota, Kardiyovasküler Sağlık ve Eksiklik Riskleri.
+- **Hafta 7:** Paleolitik ve Karnivor Diyetler: Antropolojik Temeller, Lif Yetersizliği ve Lipid Parametreleri.
+- **Hafta 8:** Eliminasyon Diyetleri: Düşük FODMAP, Otoimmün Protokol (AIP) ve Histamin İntoleransı.
+- **Hafta 9:** Düşük Sodyumlu ve Hipertansiyon Diyetleri (DASH Modeli): Elektrolit Dengesi ve Vasküler Etkiler.
+- **Hafta 10:** Diyet Sürdürülebilirliği, Yo-Yo Etkisi ve Bireye Özgü Diyet Modeli Belirleme İlkeleri.
+
+## 🏆 Kazanımlar ve Klinik Yetkinlikler
+- Popüler diyet modellerinin etki mekanizmalarını hücresel ve metabolik düzeyde açıklayabilme.
+- Farklı diyetlerin klinik randomize kontrollü çalışma ve meta-analiz sonuçlarını eleştirel biçimde karşılaştırabilme.
+- Danışanın klinik tablosuna, biyokimyasal parametrelerine ve yaşam tarzına en uygun kişiselleştirilmiş beslenme modelini kurgulayabilme.
+- Moda diyetlerin olası besin ögesi yetersizliklerini ve metabolik risklerini önceden saptayıp önlem alabilme.
+
+## 📖 Temel Başvuru Kaynakları
+- Lieberman, D. E. (2014). *The Story of the Human Body: Evolution, Health, and Disease*. Vintage.
+- Ross, A. C., et al. (2014). *Modern Nutrition in Health and Disease (11th ed.)*. Lippincott Williams & Wilkins.
+- Willett, W. (2012). *Nutritional Epidemiology (3rd ed.)*. Oxford University Press.
+- American Heart Association (AHA) & American Diabetes Association (ADA) Diyet Kılavuzları.
+
 ## 🥗 Bu Dersi Nasıl İşliyoruz? Sınıf İçi Deneyim & Uygulamalar
 - **🤖 Yapay Zeka Destekli Dijital Not Defteri (NotebookLM):** Dersin sorumlu öğretim elemanı tarafından hazırlanan ve öğrencilerin güncel kanıtlara interaktif eriştiği [Google NotebookLM Dijital Not Defteri](https://notebooklm.google.com/notebook/4a584344-d100-4e89-8273-7ebdac842a8b).
 - **🎙️ Eleştirel Beyin Fırtınası & Öğrenci Podcastleri (2024-2025 Güz):**

@@ -2172,7 +2172,7 @@ def render_article_markdown_body(text, asset_prefix="../"):
             clean_src = src.lstrip("/")
             final_src = f"{asset_prefix}{clean_src}" if not src.startswith("http") else src
             caption_html = f'<figcaption class="text-center text-xs text-slate-500 mt-2.5 italic font-sans">{alt}</figcaption>' if alt else ''
-            html.append(f'<figure class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white p-2 sm:p-4 text-center"><img src="{final_src}" alt="{alt}" loading="lazy" class="w-full max-w-2xl h-auto rounded-xl mx-auto shadow-xs">{caption_html}</figure>')
+            html.append(f'<figure class="my-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white p-2 sm:p-4 text-center"><img src="{final_src}" alt="{alt}" width="800" height="450" loading="lazy" class="w-full max-w-2xl h-auto rounded-xl mx-auto shadow-xs">{caption_html}</figure>')
         elif ls:
             if in_ul: html.append("</ul>"); in_ul = False
             if in_ol: html.append("</ol>"); in_ol = False

@@ -20,6 +20,33 @@ lang: "en"
 order: 2
 ---
 
+## 🎯 Course Aim & Evidence-Based Diet Evaluation
+This course explores human dietary patterns from evolutionary origins to modern commercial and clinical diet trends. Students systematically investigate popular dietary paradigms—including the Ketogenic diet, Intermittent Fasting / Time-Restricted Eating, Mediterranean Diet, Paleolithic diet, Carnivore diet, Low-FODMAP protocol, and plant-based models—evaluating their underlying metabolic mechanisms, endocrine impacts, microbiome alterations, and long-term cardiometabolic safety profiles.
+
+## 📚 Weekly Curriculum & Dietary Paradigms
+- **Week 1:** Human Dietary Evolution: From Ancestral Foraging to the Industrial Ultra-Processed Food Paradigm.
+- **Week 2:** Energy Balance Models (CICO) vs. The Carbohydrate-Insulin Model (CIM): Biochemical Perspectives.
+- **Week 3:** The Mediterranean Dietary Pattern: Polyphenols, Lipid Fractions, and Cardiovascular Longevity.
+- **Week 4:** Intermittent Fasting and Time-Restricted Eating: Autophagy, Insulin Sensitivity, and Circadian Rhythms.
+- **Week 5:** Ketogenic and Very-Low-Carbohydrate Diets: Hepatic Ketogenesis, Epilepsy, and Metabolic Flexibility.
+- **Week 6:** Plant-Based and Vegan Diets: Gut Microbiome Diversity, Nutrient Deficiencies, and Cardiovascular Outcomes.
+- **Week 7:** Paleolithic and Carnivore Diets: Anthropological Premises, Saturated Fat Intake, and Fiber Absence.
+- **Week 8:** Therapeutic Elimination Diets: Low-FODMAP Protocol, Autoimmune Protocol (AIP), and Histamine Intolerance.
+- **Week 9:** Dietary Approaches to Stop Hypertension (DASH Diet): Electrolyte Homeostasis and Vascular Dynamics.
+- **Week 10:** Long-Term Diet Adherence, Weight Cycling (Yo-Yo Effect), and Precision Dietary Personalization.
+
+## 🏆 Clinical Competencies & Learning Outcomes
+- Explain the precise biochemical and hormonal adaptations triggered by distinct dietary macronutrient splits.
+- Critically appraise clinical trial evidence and systematic reviews investigating popular dietary interventions.
+- Formulate personalized, sustainable, and nutritionally complete dietary plans tailored to patient clinical profiles.
+- Anticipate, monitor, and mitigate micronutrient deficiencies and metabolic risks associated with restrictive diets.
+
+## 📖 Key Reference Textbooks & Guidelines
+- Ross, A. C., et al. (2014). *Modern Nutrition in Health and Disease (11th ed.)*. Lippincott Williams & Wilkins.
+- Willett, W. (2012). *Nutritional Epidemiology (3rd ed.)*. Oxford University Press.
+- Lieberman, D. E. (2014). *The Story of the Human Body: Evolution, Health, and Disease*. Vintage.
+- Dietary Guidelines for Americans & European Guidelines on Cardiovascular Disease Prevention.
+
 ## 🎯 Course Objectives & Vision
 Examines popular diet trends through rigorous thermodynamic, metabolic, and physiological evidence to build sound clinical reasoning.
 
